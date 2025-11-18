@@ -20,10 +20,8 @@ namespace UILib {
          * Initializes a ScrollView.
          * </summary>
          * <param name="scrollType">The type(s) of scrolling this scroll view supports</param>
-         * <param name="width">The width of the scroll view</param>
-         * <param name="height">The height of the scroll view</param>
          */
-        public ScrollView(ScrollType scrollType, float width, float height) {
+        public ScrollView(ScrollType scrollType) {
             scrollRect = root.AddComponent<ScrollRect>();
 
             viewport = new GameObject("Viewport",
@@ -85,10 +83,7 @@ namespace UILib {
                 scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
             }
 
-            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-            rectTransform.anchoredPosition = Vector2.zero;
-            rectTransform.sizeDelta = new Vector2(width, height);
+            SetAnchor(AnchorType.Middle, FillType.Fill);
         }
 
         /**

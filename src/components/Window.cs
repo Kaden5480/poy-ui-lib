@@ -1,25 +1,22 @@
 using UnityEngine;
 
-using UECanvas = UnityEngine.Canvas;
-using UECanvasScaler = UnityEngine.UI.CanvasScaler;
-using UEGraphicRaycaster = UnityEngine.UI.GraphicRaycaster;
-
 namespace UILib {
     public class Window : BaseComponent {
-        private UECanvas canvas;
-        private UECanvasScaler scaler;
+        private Canvas canvas;
 
-        public Window() {
-            canvas = root.AddComponent<UECanvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 100;
+        public Window(float width, float height) {
+            canvas = new Canvas();
+            canvas.AddChild(this);
 
-            scaler = root.AddComponent<UECanvasScaler>();
-            scaler.uiScaleMode = UECanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.screenMatchMode = UECanvasScaler.ScreenMatchMode.Expand;
+            rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+            rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+            rectTransform.sizeDelta = new Vector2(width, height);
 
-            root.AddComponent<UEGraphicRaycaster>();
+            root.AddComponent<UnityEngine.UI.Image>();
+        }
+
+        public override void DontDestroyOnLoad() {
+            canvas.DontDestroyOnLoad();
         }
     }
 }

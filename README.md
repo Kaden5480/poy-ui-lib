@@ -12,6 +12,7 @@ A UI library for
     - [Dotnet](#dotnet-build)
     - [Visual Studio](#visual-studio-build)
     - [Build configuration](#build-configuration)
+- [Credits](#credits)
 
 # Installing
 ## BepInEx
@@ -63,3 +64,6 @@ The configuration file must be in the root of this repository and must be called
   </PropertyGroup>
 </Project>
 ```
+
+# Credits
+- Roman Antique font: https://www.dafont.com/roman-antique.font

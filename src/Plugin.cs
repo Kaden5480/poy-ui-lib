@@ -19,12 +19,10 @@ namespace UILib {
         private void Awake() {
             instance = this;
 
-            window = new Window();
+            window = new Window(600f, 800f);
             window.DontDestroyOnLoad();
 
-            scrollView = new ScrollView(
-                ScrollType.Vertical, 500f, 800f
-            );
+            scrollView = new ScrollView(ScrollType.Vertical);
             window.AddChild(scrollView);
 
             scrollView.AddChild(new Button("Cool button"));

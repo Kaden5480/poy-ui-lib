@@ -33,8 +33,8 @@ namespace UILib {
          * Set this canvas to be on top.
          * </summary>
          */
-        internal void BringToFront(Canvas canvas) {
-            SetOnTop(canvas.canvas);
+        internal void BringToFront() {
+            SetOnTop(canvas);
         }
 
         /**

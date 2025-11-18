@@ -8,9 +8,6 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
-        private Window window;
-        private ScrollView scrollView;
-
         /**
          * <summary>
          * Executes when the plugin is being loaded.
@@ -19,10 +16,22 @@ namespace UILib {
         private void Awake() {
             instance = this;
 
-            window = new Window(600f, 800f);
+            Window window1 = MakeWindow(600f, 800f);
+            Window window2 = MakeWindow(300f, 400f);
+            window2.SetAnchor(AnchorType.TopLeft);
+
+            // TODO: Initialize the scrollbar to the top somehow
+            // TODO: Add buttons
+            // TODO: Add checkboxes
+            // TODO: Add text input
+            // TODO: Add sliders
+        }
+
+        private Window MakeWindow(float width, float height) {
+            Window window = new Window(width, height);
             window.DontDestroyOnLoad();
 
-            scrollView = new ScrollView(ScrollType.Vertical);
+            ScrollView scrollView = new ScrollView(ScrollType.Vertical);
             window.AddChild(scrollView);
 
             scrollView.AddChild(new Button("Cool button"));
@@ -33,11 +42,7 @@ namespace UILib {
                 );
             }
 
-            // TODO: Initialize the scrollbar to the top somehow
-            // TODO: Add buttons
-            // TODO: Add checkboxes
-            // TODO: Add text input
-            // TODO: Add sliders
+            return window;
         }
 
         /**

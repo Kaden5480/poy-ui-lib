@@ -15,34 +15,6 @@ namespace UILib {
          */
         private void Awake() {
             instance = this;
-
-            Window window1 = MakeWindow(600f, 800f);
-            Window window2 = MakeWindow(300f, 400f);
-            window2.SetAnchor(AnchorType.TopLeft);
-
-            // TODO: Initialize the scrollbar to the top somehow
-            // TODO: Add buttons
-            // TODO: Add checkboxes
-            // TODO: Add text input
-            // TODO: Add sliders
-        }
-
-        private Window MakeWindow(float width, float height) {
-            Window window = new Window(width, height);
-            window.DontDestroyOnLoad();
-
-            ScrollView scrollView = new ScrollView(ScrollType.Vertical);
-            window.AddChild(scrollView);
-
-            scrollView.AddChild(new Button("Cool button"));
-
-            for (int i = 0; i < 20; i++) {
-                scrollView.AddChild(
-                    new Label($"Hello, world! {i}")
-                );
-            }
-
-            return window;
         }
 
         /**

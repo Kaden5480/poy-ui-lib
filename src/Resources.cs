@@ -20,7 +20,7 @@ namespace UILib {
          * <param name="name">The name of the file to load</param>
          * <returns>The file's bytes</returns>
          */
-        public static byte[] LoadBytes(string name) {
+        internal static byte[] LoadBytes(string name) {
             Assembly assembly = Assembly.GetExecutingAssembly();
             string assemblyName = assembly.GetName().Name;
 
@@ -40,7 +40,7 @@ namespace UILib {
          * <param name="name">The name of the font file to load</param>
          * <returns>The loaded font</returns>
          */
-        public static Font LoadFontFromBundle(string bundleName, string fontName) {
+        internal static Font LoadFontFromBundle(string bundleName, string fontName) {
             byte[] bundleData = LoadBytes(bundleName);
             AssetBundle assetBundle = AssetBundle.LoadFromMemory(bundleData);
             return assetBundle.LoadAsset<Font>(fontName);

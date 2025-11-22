@@ -15,6 +15,27 @@ namespace UILib {
          */
         private void Awake() {
             instance = this;
+
+            UIRoot.Init();
+
+            Window window1 = MakeWindow(800f, 600f);
+            window1.SetAnchor(AnchorType.TopLeft);
+
+            Window window2 = MakeWindow(900f, 500f);
+            window2.SetAnchor(AnchorType.MiddleLeft);
+        }
+
+        private Window MakeWindow(float width, float height) {
+            Window window = new Window(width, height);
+            ScrollView scrollView = new ScrollView(ScrollType.Vertical);
+
+            window.Add(scrollView);
+
+            for (int i = 0; i < 20; i++) {
+                scrollView.Add(new Label($"Hello, world! {i}"));
+            }
+
+            return window;
         }
 
         /**

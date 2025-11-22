@@ -159,7 +159,7 @@ namespace UILib {
          */
         internal virtual void HandleDrag(Vector2 position) {
             if (fullscreen == true) {
-                HandleWindowingChange();
+                return;
             }
 
             MoveBy(position - latestDragPosition);

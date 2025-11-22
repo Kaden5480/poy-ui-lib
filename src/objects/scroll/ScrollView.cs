@@ -5,6 +5,7 @@ using VerticalLayoutGroup = UnityEngine.UI.VerticalLayoutGroup;
 
 using UEImage = UnityEngine.UI.Image;
 using UEMask = UnityEngine.UI.Mask;
+using UEScrollRect = UnityEngine.UI.ScrollRect;
 
 namespace UILib {
     public class ScrollView : UIObject {
@@ -19,9 +20,8 @@ namespace UILib {
          * <summary>
          * Initializes a ScrollView.
          * </summary>
-         * <param name="scrollType">The type(s) of scrolling this scroll view supports</param>
          */
-        public ScrollView(ScrollType scrollType) {
+        public ScrollView() {
             scrollRect = gameObject.AddComponent<ScrollRect>();
 
             viewport = new GameObject("Viewport",
@@ -49,39 +49,37 @@ namespace UILib {
 
             ContentSizeFitter fitter = content.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
 
             // Viewport setup
             RectTransform viewportRect = viewport.GetComponent<RectTransform>();
             viewportRect.anchorMin = Vector2.zero;
             viewportRect.anchorMax = Vector2.one;
-            viewportRect.sizeDelta = new Vector2(-20f, 0f);
-            viewportRect.anchoredPosition = new Vector2(-10f, 0f);
+            viewportRect.sizeDelta = new Vector2(-20f, -20f);
+            viewportRect.anchoredPosition = new Vector2(-10f, 10f);
 
             viewport.GetComponent<UEImage>().color = Colors.black;
 
             // Scroll rect setup
             scrollRect.content = contentRect;
             scrollRect.viewport = viewportRect;
-            scrollRect.vertical = scrollType.HasFlag(ScrollType.Vertical);
-            scrollRect.horizontal = scrollType.HasFlag(ScrollType.Horizontal);
 
             scrollRect.elasticity = 0f;
             scrollRect.scrollSensitivity = 150f;
-            scrollRect.movementType = UnityEngine.UI.ScrollRect.MovementType.Clamped;
+            scrollRect.movementType = UEScrollRect.MovementType.Clamped;
 
             // Scroll bar setup
-            if (scrollRect.vertical == true) {
-                scrollBarV = new ScrollBar(ScrollType.Vertical);
-                Add(gameObject, scrollBarV);
-                scrollRect.verticalScrollbar = scrollBarV.scrollBar;
-            }
+            scrollRect.vertical = true;
+            scrollBarV = new ScrollBar(ScrollType.Vertical);
+            Add(gameObject, scrollBarV);
+            scrollRect.verticalScrollbar = scrollBarV.scrollBar;
 
             // TODO: Fix horizontal scrollbars
-            if (scrollRect.horizontal == true) {
-                scrollBarH = new ScrollBar(ScrollType.Horizontal);
-                Add(gameObject, scrollBarH);
-                scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
-            }
+            scrollRect.horizontal = true;
+            scrollBarH = new ScrollBar(ScrollType.Horizontal);
+            Add(gameObject, scrollBarH);
+            scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
+            scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
 
             SetAnchor(AnchorType.Middle, FillType.Fill);
         }

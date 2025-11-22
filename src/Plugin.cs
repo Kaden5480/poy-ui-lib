@@ -8,6 +8,9 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
+        private Window window1;
+        private Window window2;
+
         /**
          * <summary>
          * Executes when the plugin is being loaded.
@@ -18,16 +21,24 @@ namespace UILib {
 
             UIRoot.Init();
 
-            Window window1 = MakeWindow(800f, 600f);
+            window1 = MakeWindow(800f, 600f);
             window1.SetAnchor(AnchorType.TopLeft);
 
-            Window window2 = MakeWindow(900f, 500f);
+            window2 = MakeWindow(100f, 500f);
             window2.SetAnchor(AnchorType.MiddleLeft);
+
+            window1.Hide();
+            window2.Hide();
+        }
+
+        private void Start() {
+            window1.Show();
+            window2.Show();
         }
 
         private Window MakeWindow(float width, float height) {
             Window window = new Window(width, height);
-            ScrollView scrollView = new ScrollView(ScrollType.Vertical);
+            ScrollView scrollView = new ScrollView();
 
             window.Add(scrollView);
 

@@ -51,9 +51,15 @@ namespace UILib {
             switch (scrollType) {
                 case ScrollType.Vertical:
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
+                    SetAnchor(AnchorType.TopRight, FillType.FillVertical);
+                    rectTransform.sizeDelta        = new Vector2(20f, -20f);
+                    rectTransform.anchoredPosition = new Vector2(-20f, 10f);
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
+                    SetAnchor(AnchorType.BottomLeft, FillType.FillHorizontal);
+                    rectTransform.sizeDelta        = new Vector2(-40f, 20f);
+                    rectTransform.anchoredPosition = new Vector2(-20f, 20f);
                     break;
                 default:
                     logger.LogDebug($"Unexpected ScrollType: {scrollType}");
@@ -70,10 +76,10 @@ namespace UILib {
          */
         internal void InitLayout() {
             // Scrollbar
-            rectTransform.anchorMin = new Vector2(1f, 0f);
-            rectTransform.anchorMax = Vector2.one;
-            rectTransform.pivot     = Vector2.one;
-            rectTransform.sizeDelta = new Vector2(20f, 0f);
+            //rectTransform.anchorMin = new Vector2(1f, 0f);
+            //rectTransform.anchorMax = Vector2.one;
+            //rectTransform.pivot     = Vector2.one;
+            //rectTransform.sizeDelta = new Vector2(20f, 0f);
 
             // Sliding area
             RectTransform slideRect = slidingArea.GetComponent<RectTransform>();

@@ -10,12 +10,17 @@ namespace UILib {
         internal Logger logger { get; private set; }
 
         // The GameObject and RectTransform this UIObject handles
-        internal GameObject gameObject        { get; private set; }
+        internal GameObject gameObject       { get; private set; }
         internal RectTransform rectTransform { get; private set; }
+
+        // Click listener
+        internal ClickHandler clickHandler { get; private set; }
 
         // The parent and children of this object
         protected UIObject parent         { get; private set; }
         protected List<UIObject> children { get; private set; }
+
+        private LayoutElement layoutElement;
 
         /**
          * <summary>
@@ -32,7 +37,7 @@ namespace UILib {
 
             children = new List<UIObject>();
 
-            ClickHandler clickHandler = gameObject.AddComponent<ClickHandler>();
+            clickHandler = gameObject.AddComponent<ClickHandler>();
             clickHandler.AddListener(BringToFront);
 
             SetAnchor(AnchorType.Middle);
@@ -128,13 +133,29 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the size of this object.
+         * Adds a layout element to this UIObject
+         * to allow automatically managing layouts.
+         * </summary>
+         */
+        public virtual void AddLayoutElement() {
+            layoutElement = gameObject.AddComponent<LayoutElement>();
+        }
+
+        /**
+         * <summary>
+         * Sets the size of this UIObject.
          * </summary>
          * <param name="width">The width to set</param>
          * <param name="height">The height to set</param>
          */
         public virtual void SetSize(float width, float height) {
-            rectTransform.sizeDelta = new Vector2(width, height);
+            if (layoutElement != null) {
+                layoutElement.preferredWidth = width;
+                layoutElement.preferredHeight = height;
+            }
+            else {
+                rectTransform.sizeDelta = new Vector2(width, height);
+            }
         }
 
         /**

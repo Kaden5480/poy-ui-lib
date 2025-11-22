@@ -7,6 +7,8 @@ using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     public class Window : UIObject {
+        public string name { get; private set; }
+
         internal GameObject canvasObj;
         internal UECanvas canvas;
 
@@ -17,10 +19,13 @@ namespace UILib {
          * <summary>
          * Initializes a Window.
          * </summary>
+         * <param name="name">The name of this window</param>
          * <param name="width">The width of this Window</param>
          * <param name="height">The height of this Window</param>
          */
-        public Window(float width, float height) {
+        public Window(string name, float width, float height) {
+            this.name = name;
+
             // Get a canvas to draw this window on
             canvasObj = new GameObject("Canvas");
             canvas = canvasObj.AddComponent<UECanvas>();
@@ -39,7 +44,7 @@ namespace UILib {
 
 
             // The top bar
-            float topBarHeight = 20f;
+            float topBarHeight = 25f;
 
             topBar = new TopBar(this, topBarHeight);
             Add(gameObject, topBar);

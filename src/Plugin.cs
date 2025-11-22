@@ -39,15 +39,28 @@ namespace UILib {
         }
 
         private Window MakeWindow(float width, float height) {
-            Window window = new Window(width, height);
+            Window window = new Window("Some Window", width, height);
             ScrollView scrollView = new ScrollView();
             scrollView.SetLayout(LayoutType.Vertical);
 
             window.Add(scrollView);
 
             for (int i = 0; i < 20; i++) {
-                scrollView.Add(new Label($"Hello, world! {i}"));
+                Label label = new Label($"Hello, world! {i}", 40);
+                label.AddLayoutElement();
+                label.SetSize(250f, 80f);
+
+                scrollView.Add(label);
             }
+
+            Button button = new Button("Test Button", 40);
+            button.AddLayoutElement();
+            button.SetSize(250f, 50f);
+            button.AddListener(() => {
+                LogInfo("Button was clicked");
+            });
+
+            scrollView.Add(button);
 
             window.Hide();
 

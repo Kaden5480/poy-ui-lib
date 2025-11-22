@@ -19,6 +19,7 @@ namespace UILib {
             SetSize(NotificationArea.size, 100f);
 
             fadeDestroy = gameObject.AddComponent<FadeDestroy>();
+            fadeDestroy.StartFade(this);
         }
 
         /**
@@ -27,7 +28,8 @@ namespace UILib {
          * </summary>
          */
         public override void OnClick() {
-            fadeDestroy.StartFade(this);
+            fadeDestroy.StopAllCoroutines();
+            Destroy();
         }
 
         /**

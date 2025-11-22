@@ -21,6 +21,7 @@ namespace UILib {
         public List<UIObject> children { get; private set; }
 
         private LayoutElement layoutElement;
+        private HorizontalOrVerticalLayoutGroup layoutGroup;
 
         /**
          * <summary>
@@ -270,10 +271,11 @@ namespace UILib {
          * </summary>
          * <param name="obj">The object to set the layout for</param>
          * <param name="layoutType">The type of layout to use</param>
-         * <param name="spacing">The spacing between elements</param>
          */
-        internal static void SetLayout(GameObject obj, LayoutType layoutType, float spacing) {
-            HorizontalOrVerticalLayoutGroup layoutGroup;
+        internal void SetLayout(GameObject obj, LayoutType layoutType) {
+            if (layoutGroup != null) {
+                GameObject.DestroyImmediate(layoutGroup);
+            }
 
             switch (layoutType) {
                 case LayoutType.None:
@@ -294,7 +296,6 @@ namespace UILib {
 
             layoutGroup.childControlWidth = true;
             layoutGroup.childControlHeight = true;
-            layoutGroup.spacing = spacing;
 
             ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -306,10 +307,47 @@ namespace UILib {
          * Sets the layout to be used on this UIObject.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
-         * <param name="spacing">The spacing between elements</param>
          */
-        public virtual void SetLayout(LayoutType layoutType, float spacing=0) {
-            SetLayout(gameObject, layoutType, spacing);
+        public virtual void SetLayout(LayoutType layoutType) {
+            SetLayout(gameObject, layoutType);
+        }
+
+        /**
+         * <summary>
+         * Sets the spacing for the layout.
+         * </summary>
+         * <param name="spacing">The spacing to use</param>
+         */
+        public virtual void SetLayoutSpacing(float spacing) {
+            if (layoutGroup == null) {
+                logger.LogDebug("No layout group, can't apply spacing");
+                return;
+            }
+
+            layoutGroup.spacing = spacing;
+        }
+
+        /**
+         * <summary>
+         * Sets the padding for the layout.
+         * </summary>
+         * <param name="left">The left padding to use</param>
+         * <param name="right">The right padding to use</param>
+         * <param name="top">The top padding to use</param>
+         * <param name="bottom">The bottom padding to use</param>
+         */
+        public virtual void SetLayoutPadding(
+            int left = 0,
+            int right = 0,
+            int top = 0,
+            int bottom = 0
+        ) {
+            if (layoutGroup == null) {
+                logger.LogDebug("No layout group, can't apply padding");
+                return;
+            }
+
+            layoutGroup.padding = new RectOffset(left, right, top, bottom);
         }
     }
 }

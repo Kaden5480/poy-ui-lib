@@ -28,7 +28,8 @@ namespace UILib {
 
             area = new Area();
             area.SetAnchor(AnchorType.BottomMiddle);
-            area.SetLayout(LayoutType.Vertical, margin);
+            area.SetLayout(LayoutType.Vertical);
+            area.SetLayoutSpacing(margin);
 
             Add(gameObject, area);
 
@@ -51,10 +52,9 @@ namespace UILib {
          * Sets the layout to be used on this NotificationArea.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
-         * <param name="spacing">The spacing to use</param>
          */
-        public override void SetLayout(LayoutType layoutType, float spacing=0) {
-            area.SetLayout(layoutType, spacing);
+        public override void SetLayout(LayoutType layoutType) {
+            area.SetLayout(layoutType);
         }
     }
 }

@@ -66,12 +66,6 @@ namespace UILib {
          * </summary>
          */
         internal void InitLayout() {
-            // Scrollbar
-            //rectTransform.anchorMin = new Vector2(1f, 0f);
-            //rectTransform.anchorMax = Vector2.one;
-            //rectTransform.pivot     = Vector2.one;
-            //rectTransform.sizeDelta = new Vector2(20f, 0f);
-
             // Sliding area
             RectTransform slideRect = slidingArea.GetComponent<RectTransform>();
             slideRect.anchorMin = Vector2.zero;

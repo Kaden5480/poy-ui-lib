@@ -8,6 +8,8 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
+        private int buttonCount = 0;
+
         private Window window1;
         private Window window2;
         private Window window3;
@@ -33,19 +35,16 @@ namespace UILib {
         }
 
         private void Start() {
-            for (int i = 0; i < 10; i++) {
-                Notifier.Notify($"Notification: {i}");
-            }
-
-            //window1.Show();
-            //window2.Show();
-            //window3.Show();
+            window1.Show();
+            window2.Show();
+            window3.Show();
         }
 
         private Window MakeWindow(float width, float height) {
             Window window = new Window("Some Window", width, height);
             ScrollView scrollView = new ScrollView();
             scrollView.SetLayout(LayoutType.Vertical);
+            scrollView.SetLayoutPadding(bottom: 20);
 
             window.Add(scrollView);
 
@@ -61,7 +60,8 @@ namespace UILib {
             button.AddLayoutElement();
             button.SetSize(250f, 50f);
             button.AddListener(() => {
-                LogInfo("Button was clicked");
+                buttonCount++;
+                Notifier.Notify($"Button was clicked {buttonCount} time(s)");
             });
 
             scrollView.Add(button);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace UILib {
     public class FadeDestroy : MonoBehaviour {
+        private const float timeBeforeFade = 3f;
         private const float fadeTime = 1f;
         private IEnumerator coroutine;
 
@@ -17,8 +18,13 @@ namespace UILib {
         }
 
         private IEnumerator FadeToDestroy(Notification notification) {
-            float opacity = 1f;
+            float timer = 0f;
+            while (timer < timeBeforeFade) {
+                timer += Time.deltaTime;
+                yield return null;
+            }
 
+            float opacity = 1f;
             while (opacity > 0) {
                 opacity = Mathf.MoveTowards(opacity, 0f, Time.deltaTime / fadeTime);
                 notification.SetOpacity(opacity);

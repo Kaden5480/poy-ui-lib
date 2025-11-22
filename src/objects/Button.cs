@@ -9,7 +9,6 @@ using UEImage = UnityEngine.UI.Image;
 namespace UILib {
     public class Button : UIObject {
         private Background background;
-
         private UEButton button;
 
         public Button(string text, int fontSize) {

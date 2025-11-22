@@ -3,7 +3,7 @@ using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     internal class TopBar : UIObject {
-        private FixedWindow window;
+        internal FixedWindow window { get; private set; }
 
         internal TopBar(FixedWindow window, float height) {
             this.window = window;

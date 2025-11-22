@@ -6,7 +6,7 @@ namespace UILib {
 
         internal Canvas canvas;
 
-        private TopBar topBar;
+        internal TopBar topBar { get; private set; }
         private GameObject content;
 
         /**

@@ -20,8 +20,8 @@ namespace UILib {
         public UIObject parent         { get; private set; }
         public List<UIObject> children { get; private set; }
 
-        private LayoutElement layoutElement;
-        private HorizontalOrVerticalLayoutGroup layoutGroup;
+        public LayoutElement layoutElement                 { get; private set; }
+        public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
 
         /**
          * <summary>

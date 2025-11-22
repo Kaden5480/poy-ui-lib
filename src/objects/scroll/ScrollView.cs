@@ -12,9 +12,9 @@ namespace UILib {
         private GameObject viewport;
         private GameObject content;
 
-        private ScrollRect scrollRect;
-        private ScrollBar scrollBarH;
-        private ScrollBar scrollBarV;
+        internal ScrollRect scrollRect { get; private set; }
+        internal ScrollBar scrollBarH  { get; private set; }
+        internal ScrollBar scrollBarV  { get; private set; }
 
         /**
          * <summary>

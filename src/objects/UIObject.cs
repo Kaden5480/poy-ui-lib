@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UILib {
     public class UIObject {
@@ -233,6 +234,61 @@ namespace UILib {
                     logger.LogDebug($"Unexpected fill type: {fillType}");
                     return;
             }
+        }
+
+        /**
+         * <summary>
+         * Sets this component to fill all space.
+         * </summary>
+         */
+        public virtual void Fill() {
+            SetAnchor(AnchorType.TopLeft, FillType.Fill);
+        }
+
+        /**
+         * <summary>
+         * Sets the layout to be used on a given GameObject.
+         * </summary>
+         * <param name="obj">The object to set the layout for</param>
+         * <param name="layoutType">The type of layout to use</param>
+         */
+        internal static void SetLayout(GameObject obj, LayoutType layoutType) {
+            switch (layoutType) {
+                case LayoutType.None:
+                    return;
+                case LayoutType.Vertical:
+                    VerticalLayoutGroup vertical = obj.AddComponent<VerticalLayoutGroup>();
+                    vertical.childForceExpandWidth = true;
+                    vertical.childForceExpandHeight = false;
+                    vertical.childControlWidth = true;
+                    vertical.childControlHeight = true;
+                    vertical.padding = new RectOffset(20, 20, 20, 20);
+                    break;
+                case LayoutType.Horizontal:
+                    HorizontalLayoutGroup horizontal = obj.AddComponent<HorizontalLayoutGroup>();
+                    horizontal.childForceExpandWidth = false;
+                    horizontal.childForceExpandHeight = true;
+                    horizontal.childControlWidth = true;
+                    horizontal.childControlHeight = true;
+                    horizontal.padding = new RectOffset(20, 20, 20, 20);
+                    break;
+                default:
+                    return;
+            }
+
+            ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
+
+        /**
+         * <summary>
+         * Sets the layout to be used on this UIObject.
+         * </summary>
+         * <param name="layoutType">The type of layout to use</param>
+         */
+        public virtual void SetLayout(LayoutType layoutType) {
+            SetLayout(gameObject, layoutType);
         }
     }
 }

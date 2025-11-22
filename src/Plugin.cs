@@ -41,6 +41,7 @@ namespace UILib {
         private Window MakeWindow(float width, float height) {
             Window window = new Window(width, height);
             ScrollView scrollView = new ScrollView();
+            scrollView.SetLayout(LayoutType.Vertical);
 
             window.Add(scrollView);
 

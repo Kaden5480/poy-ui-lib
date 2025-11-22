@@ -40,17 +40,6 @@ namespace UILib {
             contentRect.anchorMax = Vector2.one;
             contentRect.sizeDelta = Vector2.zero;
 
-            VerticalLayoutGroup group = content.AddComponent<VerticalLayoutGroup>();
-            group.childControlWidth = true;
-            group.childControlHeight = true;
-            group.childForceExpandWidth = true;
-            group.childForceExpandHeight = false;
-            group.padding = new RectOffset(20, 20, 20, 20);
-
-            ContentSizeFitter fitter = content.AddComponent<ContentSizeFitter>();
-            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-
             // Viewport setup
             RectTransform viewportRect = viewport.GetComponent<RectTransform>();
             viewportRect.anchorMin = Vector2.zero;
@@ -92,6 +81,16 @@ namespace UILib {
          */
         public override void Add(UIObject child) {
             Add(content, child);
+        }
+
+        /**
+         * <summary>
+         * Sets the layout to be used on this ScrollView.
+         * </summary>
+         * <param name="layoutType">The type of layout to use</param>
+         */
+        public override void SetLayout(LayoutType layoutType) {
+            SetLayout(content, layoutType);
         }
     }
 }

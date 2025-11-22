@@ -37,8 +37,11 @@ namespace UILib {
 
             UIRoot.Register(this);
 
+
             // The top bar
-            topBar = new TopBar(this, 20f);
+            float topBarHeight = 20f;
+
+            topBar = new TopBar(this, topBarHeight);
             Add(gameObject, topBar);
 
             // The content
@@ -48,8 +51,8 @@ namespace UILib {
             RectTransform contentRect = content.AddComponent<RectTransform>();
             contentRect.anchorMin = Vector2.zero;
             contentRect.anchorMax = Vector2.one;
-            contentRect.anchoredPosition = new Vector2(0f, -10f);
-            contentRect.sizeDelta        = new Vector2(0f, -20f);
+            contentRect.anchoredPosition = new Vector2(0f, -(topBarHeight / 2));
+            contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight));
 
             SetSize(width, height);
         }
@@ -81,6 +84,16 @@ namespace UILib {
          */
         public override void Add(UIObject child) {
             Add(content, child);
+        }
+
+        /**
+         * <summary>
+         * Sets the layout to be used on this Window.
+         * </summary>
+         * <param name="layoutType">The type of layout to use</param>
+         */
+        public override void SetLayout(LayoutType layoutType) {
+            SetLayout(content, layoutType);
         }
 
         /**

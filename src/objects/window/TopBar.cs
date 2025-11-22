@@ -3,9 +3,9 @@ using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     internal class TopBar : UIObject {
-        private Window window;
+        private FixedWindow window;
 
-        internal TopBar(Window window, float height) {
+        internal TopBar(FixedWindow window, float height) {
             this.window = window;
 
             SetSize(0f, height);
@@ -30,11 +30,19 @@ namespace UILib {
         }
 
         public override void OnBeginDrag(Vector2 position) {
-            window.HandleBeginDrag(position);
+            switch (window) {
+                case Window w:
+                    w.HandleBeginDrag(position);
+                    break;
+            }
         }
 
         public override void OnDrag(Vector2 position) {
-            window.HandleDrag(position);
+            switch (window) {
+                case Window w:
+                    w.HandleDrag(position);
+                    break;
+            }
         }
     }
 }

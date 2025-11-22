@@ -336,6 +336,8 @@ namespace UILib {
             layoutGroup.childControlWidth = true;
             layoutGroup.childControlHeight = true;
 
+            SetLayoutAlignment(TextAnchor.MiddleCenter);
+
             ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -349,6 +351,21 @@ namespace UILib {
          */
         public virtual void SetLayout(LayoutType layoutType) {
             SetLayout(gameObject, layoutType);
+        }
+
+        /**
+         * <summary>
+         * Sets the alignment of the child elements for the layout.
+         * </summary>
+         * <param name="alignment">The alignment to use</param>
+         */
+        public virtual void SetLayoutAlignment(TextAnchor alignment) {
+            if (layoutGroup == null) {
+                logger.LogDebug("No layout group, can't apply spacing");
+                return;
+            }
+
+            layoutGroup.childAlignment = alignment;
         }
 
         /**

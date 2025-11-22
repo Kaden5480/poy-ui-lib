@@ -7,7 +7,7 @@ namespace UILib {
         private const int minSortingOrder = 1000;
 
         private static GameObject gameObject;
-        private static List<Window> windows;
+        private static List<FixedWindow> windows;
 
         internal static NotificationArea notificationArea;
 
@@ -20,7 +20,7 @@ namespace UILib {
             gameObject.layer = LayerMask.NameToLayer("UI");
             GameObject.DontDestroyOnLoad(gameObject);
 
-            windows = new List<Window>();
+            windows = new List<FixedWindow>();
 
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
@@ -32,7 +32,7 @@ namespace UILib {
          * </summary>
          * <param name="window">The window to register</param>
          */
-        internal static void Register(Window window) {
+        internal static void Register(FixedWindow window) {
             UIObject.SetParent(gameObject, window.canvas.gameObject);
             window.canvas.canvas.sortingOrder = minSortingOrder + windows.Count;
             windows.Add(window);
@@ -44,7 +44,7 @@ namespace UILib {
          * </summary>
          * <param name="window">The window to unregister</param>
          */
-        internal static void Unregister(Window window) {
+        internal static void Unregister(FixedWindow window) {
             BringToFront(window);
             windows.Remove(window);
         }
@@ -55,7 +55,7 @@ namespace UILib {
          * </summary>
          * <param name="window">The window to bring to the front</param>
          */
-        internal static void BringToFront(Window window) {
+        internal static void BringToFront(FixedWindow window) {
             // Try finding the window
             int index = windows.IndexOf(window);
 

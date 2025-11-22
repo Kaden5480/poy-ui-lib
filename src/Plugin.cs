@@ -10,6 +10,8 @@ namespace UILib {
 
         private int buttonCount = 0;
 
+        private FixedWindow fixedWindow;
+
         private Window window1;
         private Window window2;
         private Window window3;
@@ -24,6 +26,8 @@ namespace UILib {
 
             UIRoot.Init();
 
+            fixedWindow = MakeFixedWindow();
+
             window1 = MakeWindow(800f, 600f);
             window1.SetAnchor(AnchorType.TopLeft);
 
@@ -35,9 +39,53 @@ namespace UILib {
         }
 
         private void Start() {
+            fixedWindow.Show();
             window1.Show();
             window2.Show();
             window3.Show();
+        }
+
+        private FixedWindow MakeFixedWindow() {
+            FixedWindow window = new FixedWindow("Fixed Window", 0f, 0f);
+            window.Fill();
+
+            ScrollView scrollView = new ScrollView();
+            scrollView.SetLayout(LayoutType.Vertical);
+            scrollView.SetLayoutSpacing(20);
+            scrollView.SetLayoutPadding(bottom: 20);
+            window.Add(scrollView);
+
+            Label header = new Label("My Config Options", 40);
+            header.AddLayoutElement();
+            header.SetSize(300f, 100f);
+            scrollView.Add(header);
+
+            float width = 200f;
+            float height = 50f;
+
+            for (int i = 0; i < 30; i++) {
+                Area area = new Area();
+                area.AddLayoutElement();
+                area.SetSize(600f, height);
+                area.SetLayout(LayoutType.Horizontal);
+                area.SetLayoutSpacing(20f);
+
+                Label label = new Label($"Config option: {i}", 20);
+                label.AddLayoutElement();
+                label.SetSize(width, height);
+                area.Add(label);
+
+                Button button = new Button($"Button for option: {i}", 20);
+                button.AddLayoutElement();
+                button.SetSize(width, height);
+                area.Add(button);
+
+                scrollView.Add(area);
+            }
+
+            window.Hide();
+
+            return window;
         }
 
         private Window MakeWindow(float width, float height) {

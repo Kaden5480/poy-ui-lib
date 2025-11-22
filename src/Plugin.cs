@@ -10,6 +10,7 @@ namespace UILib {
 
         private Window window1;
         private Window window2;
+        private Window window3;
 
         /**
          * <summary>
@@ -24,16 +25,17 @@ namespace UILib {
             window1 = MakeWindow(800f, 600f);
             window1.SetAnchor(AnchorType.TopLeft);
 
-            window2 = MakeWindow(100f, 500f);
+            window2 = MakeWindow(300f, 500f);
             window2.SetAnchor(AnchorType.MiddleLeft);
 
-            window1.Hide();
-            window2.Hide();
+            window3 = MakeWindow(600f, 800f);
+            window3.SetAnchor(AnchorType.Middle);
         }
 
         private void Start() {
             window1.Show();
             window2.Show();
+            window3.Show();
         }
 
         private Window MakeWindow(float width, float height) {
@@ -45,6 +47,8 @@ namespace UILib {
             for (int i = 0; i < 20; i++) {
                 scrollView.Add(new Label($"Hello, world! {i}"));
             }
+
+            window.Hide();
 
             return window;
         }

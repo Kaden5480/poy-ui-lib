@@ -55,8 +55,8 @@ namespace UILib {
             RectTransform viewportRect = viewport.GetComponent<RectTransform>();
             viewportRect.anchorMin = Vector2.zero;
             viewportRect.anchorMax = Vector2.one;
-            viewportRect.sizeDelta = new Vector2(-20f, -20f);
-            viewportRect.anchoredPosition = new Vector2(-10f, 10f);
+            viewportRect.sizeDelta = Vector2.zero;
+            viewportRect.anchoredPosition = Vector2.zero;
 
             viewport.GetComponent<UEImage>().color = Colors.black;
 

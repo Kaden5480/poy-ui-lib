@@ -10,7 +10,7 @@ namespace UILib {
 
         // The GameObject and RectTransform this UIObject handles
         internal GameObject gameObject        { get; private set; }
-        protected RectTransform rectTransform { get; private set; }
+        internal RectTransform rectTransform { get; private set; }
 
         // The parent and children of this object
         protected UIObject parent         { get; private set; }

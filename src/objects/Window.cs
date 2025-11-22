@@ -1,13 +1,17 @@
 using UnityEngine;
 
 using UECanvas = UnityEngine.Canvas;
-using UEGraphicRaycaster = UnityEngine.UI.GraphicRaycaster;
 using UECanvasScaler = UnityEngine.UI.CanvasScaler;
+using UEGraphicRaycaster = UnityEngine.UI.GraphicRaycaster;
+using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     public class Window : UIObject {
         internal GameObject canvasObj;
         internal UECanvas canvas;
+
+        private TopBar topBar;
+        private GameObject content;
 
         /**
          * <summary>
@@ -33,6 +37,20 @@ namespace UILib {
 
             UIRoot.Register(this);
 
+            // The top bar
+            topBar = new TopBar(this, 20f);
+            Add(gameObject, topBar);
+
+            // The content
+            content = new GameObject("Content");
+            SetParent(gameObject, content);
+
+            RectTransform contentRect = content.AddComponent<RectTransform>();
+            contentRect.anchorMin = Vector2.zero;
+            contentRect.anchorMax = Vector2.one;
+            contentRect.anchoredPosition = new Vector2(0f, -10f);
+            contentRect.sizeDelta        = new Vector2(0f, -20f);
+
             SetSize(width, height);
         }
 
@@ -53,6 +71,25 @@ namespace UILib {
          */
         public override void BringToFront() {
             UIRoot.BringToFront(this);
+        }
+
+        /**
+         * <summary>
+         * Adds the provided component as a child to this one.
+         * </summary>
+         * <param name="child">The object which should be a child of this object</param>
+         */
+        public override void Add(UIObject child) {
+            Add(content, child);
+        }
+
+        /**
+         * <summary>
+         * Move this window by a given delta.
+         * </summary>
+         */
+        public void MoveBy(Vector3 delta) {
+            rectTransform.localPosition += delta;
         }
     }
 }

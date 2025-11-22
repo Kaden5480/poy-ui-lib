@@ -37,29 +37,20 @@ namespace UILib {
             scrollBar = gameObject.AddComponent<UEScrollbar>();
             scrollBar.handleRect = handle.GetComponent<RectTransform>();
             scrollBar.targetGraphic = handle.GetComponent<UEImage>();
-
-            scrollBar.colors = new UEColorBlock() {
-                fadeDuration     = 0.1f,
-                colorMultiplier  = 1f,
-                normalColor      = Colors.lightGrey,
-                selectedColor    = Colors.lightGrey,
-                disabledColor    = Colors.lightGrey,
-                highlightedColor = Colors.lighterGrey,
-                pressedColor     = Colors.lighterGrey,
-            };
+            scrollBar.colors = Colors.colorBlock;
 
             switch (scrollType) {
                 case ScrollType.Vertical:
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
                     SetAnchor(AnchorType.TopRight, FillType.FillVertical);
-                    rectTransform.sizeDelta        = new Vector2(20f, -20f);
-                    rectTransform.anchoredPosition = new Vector2(-20f, 10f);
+                    rectTransform.sizeDelta        = new Vector2(20f, 0f);
+                    rectTransform.anchoredPosition = Vector2.zero;
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
                     SetAnchor(AnchorType.BottomLeft, FillType.FillHorizontal);
-                    rectTransform.sizeDelta        = new Vector2(-40f, 20f);
-                    rectTransform.anchoredPosition = new Vector2(-20f, 20f);
+                    rectTransform.sizeDelta        = new Vector2(-20f, 20f);
+                    rectTransform.anchoredPosition = new Vector2(-10f, 0f);
                     break;
                 default:
                     logger.LogDebug($"Unexpected ScrollType: {scrollType}");

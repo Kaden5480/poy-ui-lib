@@ -78,6 +78,10 @@ namespace UILib {
                 Button button = new Button($"Button for option: {i}", 20);
                 button.AddLayoutElement();
                 button.SetSize(width, height);
+                string current = $"{i}";
+                button.AddListener(() => {
+                    Notifier.Notify($"Option {current} was clicked");
+                });
                 area.Add(button);
 
                 scrollView.Add(area);

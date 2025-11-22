@@ -42,7 +42,6 @@ namespace UILib {
             fullscreenButton.SetAnchor(AnchorType.TopRight);
             fullscreenButton.AddListener(() => {
                 ChangeWindowingMode();
-                Notifier.Notify("Change windowing mode");
             });
 
             closeButton = new Button("x", (int) height);

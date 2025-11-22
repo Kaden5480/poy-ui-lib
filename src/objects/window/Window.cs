@@ -1,45 +1,18 @@
 using UnityEngine;
 
-using UEText = UnityEngine.UI.Text;
-
 namespace UILib {
-    internal class WindowState {
-        private float width;
-        private float height;
+    public class Window : UIObject {
+        public string name { get; private set; }
 
-        private Vector2 anchorMin;
-        private Vector2 anchorMax;
-        private Vector2 pivot;
-        private Vector2 position;
-
-        internal WindowState(Window window) {
-            RectTransform rect = window.rectTransform;
-
-            width = rect.sizeDelta.x;
-            height = rect.sizeDelta.y;
-
-            anchorMin = rect.anchorMin;
-            anchorMax = rect.anchorMax;
-            pivot = rect.pivot;
-            position = rect.localPosition;
-        }
-
-        internal void Restore(Window window) {
-            RectTransform rect = window.rectTransform;
-
-            rect.sizeDelta = new Vector2(width, height);
-            rect.anchorMin = anchorMin;
-            rect.anchorMax = anchorMax;
-            rect.pivot = pivot;
-            rect.localPosition = position;
-        }
-    }
-
-    public class Window : FixedWindow {
-        private Vector2 latestPosition;
-
-        private bool fullscreen = false;
+        public bool fullscreen { get; private set; }
         private WindowState state;
+
+        private Vector2 latestDragPosition;
+
+        internal Canvas canvas;
+
+        internal TopBar topBar { get; private set; }
+        private GameObject content;
 
         /**
          * <summary>
@@ -49,29 +22,83 @@ namespace UILib {
          * <param name="width">The width of the window</param>
          * <param name="height">The height of the window</param>
          */
-        public Window(string name, float width, float height) : base(name, width, height, true) {}
+        public Window(string name, float width, float height) {
+            this.name = name;
+
+            // Get a canvas to draw this window on
+            canvas = new Canvas();
+            canvas.Add(this);
+
+            UIRoot.Register(this);
+
+            // The top bar
+            float topBarHeight = 20f;
+            int topBarPadding = 5;
+
+            topBar = new TopBar(this, topBarHeight, topBarPadding);
+            Add(gameObject, topBar);
+
+            // The content
+            content = new GameObject("Content");
+            SetParent(gameObject, content);
+
+            RectTransform contentRect = content.AddComponent<RectTransform>();
+            contentRect.anchorMin = Vector2.zero;
+            contentRect.anchorMax = Vector2.one;
+            contentRect.anchoredPosition = new Vector2(0f, -((topBarHeight + 2*topBarPadding) / 2));
+            contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight + 2*topBarPadding));
+
+            SetAnchor(AnchorType.Middle);
+            SetSize(width, height);
+        }
+
+        /**
+         * <summary>
+         * Destroy this Window and all children.
+         * </summary>
+         */
+        public override void Destroy() {
+            UIRoot.Unregister(this);
+            base.Destroy();
+        }
+
+        /**
+         * <summary>
+         * Sets the layout to be used on this Window.
+         * </summary>
+         * <param name="layoutType">The type of layout to use</param>
+         */
+        public override void SetLayout(LayoutType layoutType) {
+            SetLayout(content, layoutType);
+        }
+
+        /**
+         * <summary>
+         * Adds the provided component as a child to this one.
+         * </summary>
+         * <param name="child">The object which should be a child of this object</param>
+         */
+        public override void Add(UIObject child) {
+            Add(content, child);
+        }
 
         /**
          * <summary>
          * Handles changing windowing mode.
          * </summary>
          */
-        public void HandleWindowingChange() {
-            UEText text = topBar.fullscreenButton.label.text;
-
+        public virtual void HandleWindowingChange() {
             if (fullscreen == false) {
                 state = new WindowState(this);
                 SetAnchor(AnchorType.Middle, FillType.Fill);
                 rectTransform.anchoredPosition = Vector2.zero;
-                text.text = "-";
-                fullscreen = true;
             }
-            else {
+            else if (state != null) {
                 state.Restore(this);
                 state = null;
-                text.text = "+";
-                fullscreen = false;
             }
+
+            fullscreen = !fullscreen;
         }
 
         /**
@@ -119,9 +146,9 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragging started at</param>
          */
-        internal void HandleBeginDrag(Vector2 position) {
+        internal virtual void HandleBeginDrag(Vector2 position) {
             UIRoot.BringToFront(this);
-            latestPosition = position;
+            latestDragPosition = position;
         }
 
         /**
@@ -130,9 +157,13 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        internal void HandleDrag(Vector2 position) {
-            MoveBy(position - latestPosition);
-            latestPosition = position;
+        internal virtual void HandleDrag(Vector2 position) {
+            if (fullscreen == true) {
+                HandleWindowingChange();
+            }
+
+            MoveBy(position - latestDragPosition);
+            latestDragPosition = position;
         }
 
         /**

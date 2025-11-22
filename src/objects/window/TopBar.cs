@@ -10,9 +10,9 @@ namespace UILib {
 
         private float height;
 
-        internal FixedWindow window { get; private set; }
+        internal Window window { get; private set; }
 
-        internal TopBar(FixedWindow window, float height, int padding, bool allowWindowing) {
+        internal TopBar(Window window, float height, int padding) {
             this.window = window;
             this.height = height;
 
@@ -36,6 +36,15 @@ namespace UILib {
             buttonArea.SetLayoutPadding(padding, padding, padding, padding);
             buttonArea.SetLayoutSpacing(padding);
 
+            fullscreenButton = new Button("+", (int) height);
+            fullscreenButton.AddLayoutElement();
+            fullscreenButton.SetSize(height, height);
+            fullscreenButton.SetAnchor(AnchorType.TopRight);
+            fullscreenButton.AddListener(() => {
+                ChangeWindowingMode();
+                Notifier.Notify("Change windowing mode");
+            });
+
             closeButton = new Button("x", (int) height);
             closeButton.AddLayoutElement();
             closeButton.SetSize(height, height);
@@ -45,44 +54,27 @@ namespace UILib {
                 window.Hide();
             });
 
-            if (allowWindowing == true) {
-                fullscreenButton = new Button("+", (int) height);
-                fullscreenButton.AddLayoutElement();
-                fullscreenButton.SetSize(height, height);
-                fullscreenButton.SetAnchor(AnchorType.TopRight);
-                fullscreenButton.AddListener(() => {
-                    ChangeWindowingMode();
-                    Notifier.Notify("Change windowing mode");
-                });
-
-                buttonArea.Add(fullscreenButton);
-            }
-
+            buttonArea.Add(fullscreenButton);
             buttonArea.Add(closeButton);
         }
 
         public void ChangeWindowingMode() {
-            switch (window) {
-                case Window w:
-                    w.HandleWindowingChange();
-                    break;
+            window.HandleWindowingChange();
+
+            if (window.fullscreen == true) {
+                fullscreenButton.label.text.text = "-";
+            }
+            else {
+                fullscreenButton.label.text.text = "+";
             }
         }
 
         public override void OnBeginDrag(Vector2 position) {
-           switch (window) {
-                case Window w:
-                    w.HandleBeginDrag(position);
-                    break;
-            }
+            window.HandleBeginDrag(position);
         }
 
         public override void OnDrag(Vector2 position) {
-            switch (window) {
-                case Window w:
-                    w.HandleDrag(position);
-                    break;
-            }
+            window.HandleDrag(position);
         }
     }
 }

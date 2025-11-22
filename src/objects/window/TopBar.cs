@@ -36,7 +36,7 @@ namespace UILib {
         }
 
         private void SetDragOffset(Vector2 position) {
-            window.BringToFront();
+            UIRoot.BringToFront(window);
             latestPosition = position;
         }
 

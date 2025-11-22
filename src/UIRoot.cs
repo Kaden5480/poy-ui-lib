@@ -9,6 +9,8 @@ namespace UILib {
         private static GameObject gameObject;
         private static List<Window> windows;
 
+        internal static NotificationArea notificationArea;
+
         internal static void Init() {
             if (gameObject != null) {
                 return;
@@ -19,6 +21,9 @@ namespace UILib {
             GameObject.DontDestroyOnLoad(gameObject);
 
             windows = new List<Window>();
+
+            notificationArea = new NotificationArea();
+            UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
         }
 
         /**
@@ -28,10 +33,8 @@ namespace UILib {
          * <param name="window">The window to register</param>
          */
         internal static void Register(Window window) {
-            window.canvasObj.transform.SetParent(
-                gameObject.transform, false
-            );
-            window.canvas.sortingOrder = minSortingOrder + windows.Count;
+            UIObject.SetParent(gameObject, window.canvas.gameObject);
+            window.canvas.canvas.sortingOrder = minSortingOrder + windows.Count;
             windows.Add(window);
         }
 
@@ -63,13 +66,13 @@ namespace UILib {
             // Iterate the list in reverse, decrementing all sorting orders
             // until reaching the canvas to set on top
             for (int i = windows.Count - 1; i > index; i--) {
-                windows[i].canvas.sortingOrder--;
+                windows[i].canvas.canvas.sortingOrder--;
             }
 
             // Now remove the window from the list, and add it back
             // to the end, while also updating the sorting order
             windows.Remove(window);
-            window.canvas.sortingOrder = minSortingOrder + windows.Count;
+            window.canvas.canvas.sortingOrder = minSortingOrder + windows.Count;
             windows.Add(window);
         }
     }

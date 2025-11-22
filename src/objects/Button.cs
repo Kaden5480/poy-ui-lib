@@ -8,15 +8,17 @@ using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     public class Button : UIObject {
+        private Background background;
+
         private UEButton button;
-        private UEImage image;
 
         public Button(string text, int fontSize) {
-            button = gameObject.AddComponent<UEButton>();
-            image = gameObject.AddComponent<UEImage>();
+            background = new Background();
+            Add(background);
 
+            button = gameObject.AddComponent<UEButton>();
             button.colors = Colors.colorBlock;
-            button.targetGraphic = image;
+            button.targetGraphic = background.image;
 
             Label label = new Label(text, fontSize);
             GameObject.DestroyImmediate(label.clickHandler);

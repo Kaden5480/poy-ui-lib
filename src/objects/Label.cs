@@ -5,7 +5,7 @@ using UEText = UnityEngine.UI.Text;
 
 namespace UILib {
     public class Label : UIObject {
-        private UEText text;
+        public UEText text { get; private set; }
 
         public Label(string text, int fontSize) {
             this.text = gameObject.AddComponent<UEText>();

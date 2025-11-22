@@ -88,9 +88,10 @@ namespace UILib {
          * Sets the layout to be used on this ScrollView.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
+         * <param name="spacing">The spacing to use</param>
          */
-        public override void SetLayout(LayoutType layoutType) {
-            SetLayout(content, layoutType);
+        public override void SetLayout(LayoutType layoutType, float spacing=0) {
+            SetLayout(content, layoutType, spacing);
         }
     }
 }

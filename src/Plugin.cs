@@ -33,9 +33,13 @@ namespace UILib {
         }
 
         private void Start() {
-            window1.Show();
-            window2.Show();
-            window3.Show();
+            for (int i = 0; i < 10; i++) {
+                Notifier.Notify($"Notification: {i}");
+            }
+
+            //window1.Show();
+            //window2.Show();
+            //window3.Show();
         }
 
         private Window MakeWindow(float width, float height) {

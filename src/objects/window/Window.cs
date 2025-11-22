@@ -1,16 +1,12 @@
 using UnityEngine;
 
-using UECanvas = UnityEngine.Canvas;
-using UECanvasScaler = UnityEngine.UI.CanvasScaler;
-using UEGraphicRaycaster = UnityEngine.UI.GraphicRaycaster;
 using UEImage = UnityEngine.UI.Image;
 
 namespace UILib {
     public class Window : UIObject {
         public string name { get; private set; }
 
-        internal GameObject canvasObj;
-        internal UECanvas canvas;
+        internal Canvas canvas;
 
         private TopBar topBar;
         private GameObject content;
@@ -27,21 +23,10 @@ namespace UILib {
             this.name = name;
 
             // Get a canvas to draw this window on
-            canvasObj = new GameObject("Canvas");
-            canvas = canvasObj.AddComponent<UECanvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-
-            UECanvasScaler scaler = canvasObj.AddComponent<UECanvasScaler>();
-            scaler.uiScaleMode = UECanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.screenMatchMode = UECanvasScaler.ScreenMatchMode.Expand;
-
-            canvasObj.AddComponent<UEGraphicRaycaster>();
-
-            SetParent(canvasObj, gameObject);
+            canvas = new Canvas();
+            canvas.Add(this);
 
             UIRoot.Register(this);
-
 
             // The top bar
             float topBarHeight = 25f;
@@ -77,7 +62,7 @@ namespace UILib {
          * Bring this Window's canvas to the front
          * </summary>
          */
-        public override void BringToFront() {
+        public override void OnClick() {
             UIRoot.BringToFront(this);
         }
 
@@ -96,9 +81,10 @@ namespace UILib {
          * Sets the layout to be used on this Window.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
+         * <param name="spacing">The spacing to use</param>
          */
-        public override void SetLayout(LayoutType layoutType) {
-            SetLayout(content, layoutType);
+        public override void SetLayout(LayoutType layoutType, float spacing=0) {
+            SetLayout(content, layoutType, spacing);
         }
 
         /**

@@ -17,8 +17,8 @@ namespace UILib {
         internal ClickHandler clickHandler { get; private set; }
 
         // The parent and children of this object
-        protected UIObject parent         { get; private set; }
-        protected List<UIObject> children { get; private set; }
+        public UIObject parent         { get; private set; }
+        public List<UIObject> children { get; private set; }
 
         private LayoutElement layoutElement;
 
@@ -38,7 +38,7 @@ namespace UILib {
             children = new List<UIObject>();
 
             clickHandler = gameObject.AddComponent<ClickHandler>();
-            clickHandler.AddListener(BringToFront);
+            clickHandler.AddListener(OnClick);
 
             SetAnchor(AnchorType.Middle);
         }
@@ -57,18 +57,16 @@ namespace UILib {
 
         /**
          * <summary>
-         * Bring the canvas this UIObject is attached to, if any,
-         * to the front.
+         * Handles this UIObject being clicked.
          *
          * NOTE:
-         * This is implemented differently in Window to
-         * actually handle bringing the UI to the front.
-         * Otherwise, it will just do nothing.
+         * This is implemented differently in Window and Notification
+         * Otherwise, it will just keep forwarding to the parent.
          * </summary>
          */
-        public virtual void BringToFront() {
+        public virtual void OnClick() {
             if (parent != null) {
-                parent.BringToFront();
+                parent.OnClick();
             }
         }
 
@@ -97,7 +95,7 @@ namespace UILib {
          * <param name="parent">The GameObject which should be the parent</param>
          * <param name="child">The GameObject which should be the child</param>
          */
-        protected static void SetParent(GameObject parent, GameObject child) {
+        internal static void SetParent(GameObject parent, GameObject child) {
             child.transform.SetParent(
                 parent.transform, false
             );
@@ -272,30 +270,31 @@ namespace UILib {
          * </summary>
          * <param name="obj">The object to set the layout for</param>
          * <param name="layoutType">The type of layout to use</param>
+         * <param name="spacing">The spacing between elements</param>
          */
-        internal static void SetLayout(GameObject obj, LayoutType layoutType) {
+        internal static void SetLayout(GameObject obj, LayoutType layoutType, float spacing) {
+            HorizontalOrVerticalLayoutGroup layoutGroup;
+
             switch (layoutType) {
                 case LayoutType.None:
                     return;
                 case LayoutType.Vertical:
-                    VerticalLayoutGroup vertical = obj.AddComponent<VerticalLayoutGroup>();
-                    vertical.childForceExpandWidth = true;
-                    vertical.childForceExpandHeight = false;
-                    vertical.childControlWidth = true;
-                    vertical.childControlHeight = true;
-                    vertical.padding = new RectOffset(20, 20, 20, 20);
+                    layoutGroup = obj.AddComponent<VerticalLayoutGroup>();
+                    layoutGroup.childForceExpandWidth = true;
+                    layoutGroup.childForceExpandHeight = false;
                     break;
                 case LayoutType.Horizontal:
-                    HorizontalLayoutGroup horizontal = obj.AddComponent<HorizontalLayoutGroup>();
-                    horizontal.childForceExpandWidth = false;
-                    horizontal.childForceExpandHeight = true;
-                    horizontal.childControlWidth = true;
-                    horizontal.childControlHeight = true;
-                    horizontal.padding = new RectOffset(20, 20, 20, 20);
+                    layoutGroup = obj.AddComponent<HorizontalLayoutGroup>();
+                    layoutGroup.childForceExpandWidth = false;
+                    layoutGroup.childForceExpandHeight = true;
                     break;
                 default:
                     return;
             }
+
+            layoutGroup.childControlWidth = true;
+            layoutGroup.childControlHeight = true;
+            layoutGroup.spacing = spacing;
 
             ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -307,9 +306,10 @@ namespace UILib {
          * Sets the layout to be used on this UIObject.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
+         * <param name="spacing">The spacing between elements</param>
          */
-        public virtual void SetLayout(LayoutType layoutType) {
-            SetLayout(gameObject, layoutType);
+        public virtual void SetLayout(LayoutType layoutType, float spacing=0) {
+            SetLayout(gameObject, layoutType, spacing);
         }
     }
 }

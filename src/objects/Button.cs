@@ -21,7 +21,7 @@ namespace UILib {
             button.targetGraphic = background.image;
 
             Label label = new Label(text, fontSize);
-            GameObject.DestroyImmediate(label.clickHandler);
+            GameObject.DestroyImmediate(label.mouseHandler);
             label.Fill();
             Add(label);
         }

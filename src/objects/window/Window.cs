@@ -11,6 +11,8 @@ namespace UILib {
         private TopBar topBar;
         private GameObject content;
 
+        private Vector2 latestPosition;
+
         /**
          * <summary>
          * Initializes a Window.
@@ -68,6 +70,36 @@ namespace UILib {
 
         /**
          * <summary>
+         * Handles this Window being dragged from anywhere (not just the top bar).
+         * </summary>
+         * <param name="position">The position the drag started at</param>
+         */
+        public override void OnBeginDrag(Vector2 position) {
+            UIRoot.BringToFront(this);
+
+            if (Input.GetKey(KeyCode.LeftAlt) == false) {
+                return;
+            }
+
+            HandleBeginDrag(position);
+        }
+
+        /**
+         * <summary>
+         * Handles this Window being dragged from anywhere (not just the top bar).
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        public override void OnDrag(Vector2 position) {
+            if (Input.GetKey(KeyCode.LeftAlt) == false) {
+                return;
+            }
+
+            HandleDrag(position);
+        }
+
+        /**
+         * <summary>
          * Adds the provided component as a child to this one.
          * </summary>
          * <param name="child">The object which should be a child of this object</param>
@@ -84,6 +116,27 @@ namespace UILib {
          */
         public override void SetLayout(LayoutType layoutType) {
             SetLayout(content, layoutType);
+        }
+
+        /**
+         * <summary>
+         * Handles starting to drag this window.
+         * </summary>
+         * <param name="position">The position dragging started at</param>
+         */
+        internal void HandleBeginDrag(Vector2 position) {
+            latestPosition = position;
+        }
+
+        /**
+         * <summary>
+         * Handles dragging this window.
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        internal void HandleDrag(Vector2 position) {
+            MoveBy(position - latestPosition);
+            latestPosition = position;
         }
 
         /**

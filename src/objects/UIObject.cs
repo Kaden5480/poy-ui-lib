@@ -13,8 +13,8 @@ namespace UILib {
         internal GameObject gameObject       { get; private set; }
         internal RectTransform rectTransform { get; private set; }
 
-        // Click listener
-        internal ClickHandler clickHandler { get; private set; }
+        // Click and drag listeners
+        internal MouseHandler mouseHandler { get; private set; }
 
         // The parent and children of this object
         public UIObject parent         { get; private set; }
@@ -38,8 +38,11 @@ namespace UILib {
 
             children = new List<UIObject>();
 
-            clickHandler = gameObject.AddComponent<ClickHandler>();
-            clickHandler.AddListener(OnClick);
+            mouseHandler = gameObject.AddComponent<MouseHandler>();
+            mouseHandler.AddClickListener(OnClick);
+            mouseHandler.AddBeginDragListener(OnBeginDrag);
+            mouseHandler.AddDragListener(OnDrag);
+            mouseHandler.AddEndDragListener(OnEndDrag);
 
             SetAnchor(AnchorType.Middle);
         }
@@ -68,6 +71,42 @@ namespace UILib {
         public virtual void OnClick() {
             if (parent != null) {
                 parent.OnClick();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject being dragged.
+         * </summary>
+         * <param name="position">The position the drag started at</param>
+         */
+        public virtual void OnBeginDrag(Vector2 position) {
+            if (parent != null) {
+                parent.OnBeginDrag(position);
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject being dragged.
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        public virtual void OnDrag(Vector2 position) {
+            if (parent != null) {
+                parent.OnDrag(position);
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject being dragged.
+         * </summary>
+         * <param name="position">The position the drag started at</param>
+         */
+        public virtual void OnEndDrag(Vector2 position) {
+            if (parent != null) {
+                parent.OnEndDrag(position);
             }
         }
 

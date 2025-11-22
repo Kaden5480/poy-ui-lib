@@ -5,8 +5,6 @@ namespace UILib {
     internal class TopBar : UIObject {
         private Window window;
 
-        private Vector2 latestPosition = Vector2.zero;
-
         internal TopBar(Window window, float height) {
             this.window = window;
 
@@ -15,10 +13,6 @@ namespace UILib {
 
             UEImage image = gameObject.AddComponent<UEImage>();
             image.color = Colors.grey;
-
-            DragHandler dragHandler = gameObject.AddComponent<DragHandler>();
-            dragHandler.SetBeginListener(SetDragOffset);
-            dragHandler.SetDragListener(DragWindow);
 
             Label label = new Label(window.name, (int) height - 5);
             Add(label);
@@ -35,14 +29,12 @@ namespace UILib {
             });
         }
 
-        private void SetDragOffset(Vector2 position) {
-            UIRoot.BringToFront(window);
-            latestPosition = position;
+        public override void OnBeginDrag(Vector2 position) {
+            window.HandleBeginDrag(position);
         }
 
-        private void DragWindow(Vector2 position) {
-            window.MoveBy(position - latestPosition);
-            latestPosition = position;
+        public override void OnDrag(Vector2 position) {
+            window.HandleDrag(position);
         }
     }
 }

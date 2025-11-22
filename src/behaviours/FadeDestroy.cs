@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 namespace UILib {
-    public class FadeDestroy : MonoBehaviour {
+    internal class FadeDestroy : MonoBehaviour {
         private const float timeBeforeFade = 3f;
         private const float fadeTime = 1f;
         private IEnumerator coroutine;

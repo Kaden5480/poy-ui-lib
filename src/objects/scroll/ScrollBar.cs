@@ -86,5 +86,33 @@ namespace UILib {
         internal void ResetScroll() {
             scrollBar.value = 1f;
         }
+
+
+        // The scrollbar ignores drags from the MouseHandler,
+        // otherwise weird things will happen
+
+        /**
+         * <summary>
+         * Handles this ScrollBar being dragged.
+         * </summary>
+         * <param name="position">The position the drag started at</param>
+         */
+        public override void OnBeginDrag(Vector2 position) {}
+
+        /**
+         * <summary>
+         * Handles this ScrollBar being dragged.
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        public override void OnDrag(Vector2 position) {}
+
+        /**
+         * <summary>
+         * Handles this ScrollBar being dragged.
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        public override void OnEndDrag(Vector2 position) {}
     }
 }

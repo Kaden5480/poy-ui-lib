@@ -10,8 +10,8 @@ namespace UILib {
         internal Logger logger { get; private set; }
 
         // The GameObject and RectTransform this UIObject handles
-        internal GameObject gameObject       { get; private set; }
-        internal RectTransform rectTransform { get; private set; }
+        public GameObject gameObject       { get; private set; }
+        public RectTransform rectTransform { get; private set; }
 
         // Click and drag listeners
         internal MouseHandler mouseHandler { get; private set; }

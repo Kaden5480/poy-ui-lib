@@ -10,7 +10,7 @@ namespace UILib {
 
         private int buttonCount = 0;
 
-        private FixedWindow fixedWindow;
+        private FixedWindow configWindow;
 
         private Window window1;
         private Window window2;
@@ -26,7 +26,7 @@ namespace UILib {
 
             UIRoot.Init();
 
-            fixedWindow = MakeFixedWindow();
+            configWindow = MakeConfigWindow();
 
             window1 = MakeWindow(800f, 600f);
             window1.SetAnchor(AnchorType.TopLeft);
@@ -39,14 +39,14 @@ namespace UILib {
         }
 
         private void Start() {
-            fixedWindow.Show();
+            configWindow.Show();
             window1.Show();
             window2.Show();
             window3.Show();
         }
 
-        private FixedWindow MakeFixedWindow() {
-            FixedWindow window = new FixedWindow("Fixed Window", 0f, 0f);
+        private FixedWindow MakeConfigWindow() {
+            FixedWindow window = new FixedWindow("Config Window", 0f, 0f);
             window.Fill();
 
             ScrollView scrollView = new ScrollView();

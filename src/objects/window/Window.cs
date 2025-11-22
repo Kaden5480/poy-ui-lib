@@ -1,8 +1,45 @@
 using UnityEngine;
 
+using UEText = UnityEngine.UI.Text;
+
 namespace UILib {
+    internal class WindowState {
+        private float width;
+        private float height;
+
+        private Vector2 anchorMin;
+        private Vector2 anchorMax;
+        private Vector2 pivot;
+        private Vector2 position;
+
+        internal WindowState(Window window) {
+            RectTransform rect = window.rectTransform;
+
+            width = rect.sizeDelta.x;
+            height = rect.sizeDelta.y;
+
+            anchorMin = rect.anchorMin;
+            anchorMax = rect.anchorMax;
+            pivot = rect.pivot;
+            position = rect.localPosition;
+        }
+
+        internal void Restore(Window window) {
+            RectTransform rect = window.rectTransform;
+
+            rect.sizeDelta = new Vector2(width, height);
+            rect.anchorMin = anchorMin;
+            rect.anchorMax = anchorMax;
+            rect.pivot = pivot;
+            rect.localPosition = position;
+        }
+    }
+
     public class Window : FixedWindow {
         private Vector2 latestPosition;
+
+        private bool fullscreen = false;
+        private WindowState state;
 
         /**
          * <summary>
@@ -12,7 +49,30 @@ namespace UILib {
          * <param name="width">The width of the window</param>
          * <param name="height">The height of the window</param>
          */
-        public Window(string name, float width, float height) : base(name, width, height) {}
+        public Window(string name, float width, float height) : base(name, width, height, true) {}
+
+        /**
+         * <summary>
+         * Handles changing windowing mode.
+         * </summary>
+         */
+        public void HandleWindowingChange() {
+            UEText text = topBar.fullscreenButton.label.text;
+
+            if (fullscreen == false) {
+                state = new WindowState(this);
+                SetAnchor(AnchorType.Middle, FillType.Fill);
+                rectTransform.anchoredPosition = Vector2.zero;
+                text.text = "-";
+                fullscreen = true;
+            }
+            else {
+                state.Restore(this);
+                state = null;
+                text.text = "+";
+                fullscreen = false;
+            }
+        }
 
         /**
          * <summary>

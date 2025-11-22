@@ -11,6 +11,8 @@ namespace UILib {
         private Background background;
         private UEButton button;
 
+        public Label label { get; private set; }
+
         public Button(string text, int fontSize) {
             background = new Background();
             Add(background);
@@ -19,7 +21,7 @@ namespace UILib {
             button.colors = Colors.colorBlock;
             button.targetGraphic = background.image;
 
-            Label label = new Label(text, fontSize);
+            label = new Label(text, fontSize);
             GameObject.DestroyImmediate(label.mouseHandler);
             label.Fill();
             Add(label);

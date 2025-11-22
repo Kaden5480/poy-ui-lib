@@ -16,8 +16,9 @@ namespace UILib {
          * <param name="name">The name of the window</param>
          * <param name="width">The width of the window</param>
          * <param name="height">The height of the window</param>
+         * <param name="allowWindowing">Whether windowing behaviour is allowed</param>
          */
-        public FixedWindow(string name, float width, float height) {
+        internal FixedWindow(string name, float width, float height, bool allowWindowing) {
             this.name = name;
 
             // Get a canvas to draw this window on
@@ -27,9 +28,10 @@ namespace UILib {
             UIRoot.Register(this);
 
             // The top bar
-            float topBarHeight = 25f;
+            float topBarHeight = 20f;
+            int topBarPadding = 5;
 
-            topBar = new TopBar(this, topBarHeight);
+            topBar = new TopBar(this, topBarHeight, topBarPadding, allowWindowing);
             Add(gameObject, topBar);
 
             // The content
@@ -39,12 +41,22 @@ namespace UILib {
             RectTransform contentRect = content.AddComponent<RectTransform>();
             contentRect.anchorMin = Vector2.zero;
             contentRect.anchorMax = Vector2.one;
-            contentRect.anchoredPosition = new Vector2(0f, -(topBarHeight / 2));
-            contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight));
+            contentRect.anchoredPosition = new Vector2(0f, -((topBarHeight + 2*topBarPadding) / 2));
+            contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight + 2*topBarPadding));
 
             SetAnchor(AnchorType.Middle);
             SetSize(width, height);
         }
+
+        /**
+         * <summary>
+         * Initializes a FixedWindow.
+         * </summary>
+         * <param name="name">The name of the window</param>
+         * <param name="width">The width of the window</param>
+         * <param name="height">The height of the window</param>
+         */
+        public FixedWindow(string name, float width, float height) : this(name, width, height, false) {}
 
         /**
          * <summary>

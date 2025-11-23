@@ -20,8 +20,10 @@ namespace UILib {
          * </summary>
          */
         public override void OnClick() {}
+        public override void OnDoubleClick() {}
         public override void OnBeginDrag(Vector2 position) {}
         public override void OnDrag(Vector2 position) {}
+        public override void OnEndDrag(Vector2 position) {}
 
         internal override void HandleBeginDrag(Vector2 position) {}
         internal override void HandleMove(Vector2 position) {}

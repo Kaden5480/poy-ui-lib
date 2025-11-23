@@ -3,6 +3,9 @@
 ![Open issues](https://img.shields.io/github/issues/Kaden5480/poy-ui-lib?color=d65c5c)
 ![License](https://img.shields.io/github/license/Kaden5480/poy-ui-lib?color=a35cd6)
 
+> [!IMPORTANT]
+> This is still a WIP, so no releases are available yet.
+
 A UI library for
 [Peaks of Yore](https://store.steampowered.com/app/2236070/).
 

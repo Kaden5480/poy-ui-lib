@@ -28,13 +28,18 @@ namespace UILib {
 
             configWindow = MakeConfigWindow();
 
-            window1 = MakeWindow(800f, 600f);
-            window2 = MakeWindow(300f, 500f);
-            window3 = MakeWindow(600f, 800f);
+            window1 = MakeWindow("Top Left", 800f, 600f);
+            window1.SetAnchor(AnchorType.TopLeft);
+
+            window2 = MakeWindow("Bottom Right", 300f, 500f);
+            window2.SetAnchor(AnchorType.BottomRight);
+
+            window3 = MakeWindow("Middle", 600f, 800f);
+            window3.SetAnchor(AnchorType.Middle);
         }
 
         private void Start() {
-            configWindow.Show();
+            //configWindow.Show();
             window1.Show();
             window2.Show();
             window3.Show();
@@ -81,8 +86,8 @@ namespace UILib {
             return window;
         }
 
-        private Window MakeWindow(float width, float height) {
-            Window window = new Window("Some Window", width, height);
+        private Window MakeWindow(string name, float width, float height) {
+            Window window = new Window(name, width, height);
             window.SetLayout(LayoutType.Vertical);
             window.SetLayoutSpacing(20);
             window.SetLayoutPadding(bottom: 20, top: 20);

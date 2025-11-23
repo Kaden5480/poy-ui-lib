@@ -58,7 +58,7 @@ namespace UILib {
             scrollView.Fill();
             Add(content, scrollView);
 
-            base.SetAnchor(AnchorType.Middle);
+            SetAnchor(AnchorType.Middle);
             SetSize(width, height);
         }
 
@@ -190,27 +190,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the anchor type of this window.
-         * Windows ignore this method, otherwise it complicates a lot.
-         * </summary>
-         * <param name="anchorType">The type of anchor to use</param>
-         * <param name="fillType">The type of fill to use</param>
-         */
-        public override void SetAnchor(AnchorType anchorType, FillType fillType = FillType.None) {
-            return;
-        }
-
-        /**
-         * <summary>
-         * Sets this component to fill all space.
-         * </summary>
-         */
-        public override void Fill() {
-            base.SetAnchor(AnchorType.Middle, FillType.Fill);
-        }
-
-        /**
-         * <summary>
          * Handles starting to drag this window.
          * </summary>
          * <param name="position">The position dragging started at</param>
@@ -273,17 +252,18 @@ namespace UILib {
          * </summary>
          */
         public void ResizeBy(Vector3 delta) {
-            Vector2 oldDelta = rectTransform.sizeDelta;
+            Vector2 pivot = rectTransform.pivot;
+            Vector2 oldSize = rectTransform.sizeDelta;
 
-            float newX = Mathf.Clamp(oldDelta.x + delta.x, minWidth, 1920f);
-            float newY = Mathf.Clamp(oldDelta.y - delta.y, minHeight, 1080f);
+            float newX = Mathf.Clamp(oldSize.x + delta.x, minWidth, 1920f);
+            float newY = Mathf.Clamp(oldSize.y - delta.y, minHeight, 1080f);
 
             rectTransform.sizeDelta = new Vector2(newX, newY);
 
-            float realDeltaX = newX - oldDelta.x;
-            float realDeltaY = newY - oldDelta.y;
+            float realDeltaX = newX - oldSize.x;
+            float realDeltaY = newY - oldSize.y;
 
-            MoveBy(new Vector3(realDeltaX/2, -realDeltaY/2, 0f));
+            MoveBy(new Vector3(realDeltaX*pivot.x, -(realDeltaY*(1-pivot.y)), 0f));
         }
     }
 }

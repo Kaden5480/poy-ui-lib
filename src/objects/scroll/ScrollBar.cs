@@ -5,6 +5,11 @@ using UEImage = UnityEngine.UI.Image;
 using UEScrollbar = UnityEngine.UI.Scrollbar;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A scroll bar.
+     * </summary>
+     */
     internal class ScrollBar : UIObject {
         private GameObject slidingArea;
         private GameObject handle;
@@ -87,13 +92,9 @@ namespace UILib {
             scrollBar.value = 1f;
         }
 
-
-        // The scrollbar ignores drags from the MouseHandler,
-        // otherwise weird things will happen
-
         /**
          * <summary>
-         * Handles this ScrollBar being dragged.
+         * Ignore drags.
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
@@ -101,7 +102,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles this ScrollBar being dragged.
+         * Ignore drags.
          * </summary>
          * <param name="position">The position dragged to</param>
          */
@@ -109,7 +110,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles this ScrollBar being dragged.
+         * Ignore drags.
          * </summary>
          * <param name="position">The position dragged to</param>
          */

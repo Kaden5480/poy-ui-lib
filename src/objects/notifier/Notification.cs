@@ -1,12 +1,28 @@
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A Notification.
+     *
+     * This holds a background and label
+     * for displaying some text and will
+     * fade and then destroy itself after
+     * a certain period of time.
+     * </summary>
+     */
     internal class Notification : UIObject {
         private Image background;
         private Label label;
 
         private FadeDestroy fadeDestroy;
 
+        /**
+         * <summary>
+         * Initializes a Notification.
+         * </summary>
+         * <param name="text">The text to display</param>
+         */
         internal Notification(string text) {
             background = new Image(Colors.black);
             Add(background);
@@ -18,13 +34,14 @@ namespace UILib {
             AddLayoutElement();
             SetSize(NotificationArea.size, 100f);
 
+            // Start fading
             fadeDestroy = gameObject.AddComponent<FadeDestroy>();
             fadeDestroy.StartFade(this);
         }
 
         /**
          * <summary>
-         * Handles being clicked.
+         * Immediately destroy when clicked.
          * </summary>
          */
         protected override void OnClick() {

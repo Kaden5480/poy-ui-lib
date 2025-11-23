@@ -8,6 +8,17 @@ using UEMask = UnityEngine.UI.Mask;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A ScrollView.
+     *
+     * If content is larger than the ScrollView, ScrollBars
+     * will be enabled to allow scrolling through it.
+     *
+     * NOTE:
+     * Vertical ScrollBars are always on.
+     * </summary>
+     */
     public class ScrollView : UIObject {
         private GameObject viewport;
         private GameObject content;

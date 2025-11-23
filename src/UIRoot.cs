@@ -3,25 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * The root of UILib.
+     * This initializes notifications and handles window management.
+     * </summary>
+     */
     internal static class UIRoot {
+        // The minimum sorting order to apply to Window canvases
+        // All other sorting orders for Windows are
+        // based upon this
         private const int minSortingOrder = 1000;
 
         private static GameObject gameObject;
         private static List<Window> windows;
 
-        internal static NotificationArea notificationArea;
+        private static NotificationArea notificationArea;
 
+        /**
+         * <summary>
+         * Initializes the UIRoot class.
+         * </summary>
+         */
         internal static void Init() {
             if (gameObject != null) {
                 return;
             }
 
+            // Instantiate game object to attach all windows to
             gameObject = new GameObject("UILib Root");
             gameObject.layer = LayerMask.NameToLayer("UI");
             GameObject.DontDestroyOnLoad(gameObject);
 
             windows = new List<Window>();
 
+            // Initialize the notification area
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
         }

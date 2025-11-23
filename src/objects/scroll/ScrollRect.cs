@@ -2,6 +2,11 @@ using UnityEngine.EventSystems;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
 namespace UILib {
+    /**
+     * <summary>
+     * Overrides Unity's ScrollRect to ignore being dragged.
+     * </summary>
+     */
     internal class ScrollRect : UEScrollRect {
         public override void OnBeginDrag(PointerEventData eventData) {
             eventData.Use();

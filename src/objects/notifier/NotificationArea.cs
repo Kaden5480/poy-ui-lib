@@ -2,20 +2,21 @@ using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
 namespace UILib {
+    /**
+     * <summary>
+     * The area which holds all notifications.
+     * </summary>
+     */
     internal class NotificationArea : UIObject {
         internal const float size = 400f;
-
         internal Canvas canvas;
 
         private Area area;
 
         /**
          * <summary>
-         * Initializes a Window.
+         * Initializes a NotificationArea.
          * </summary>
-         * <param name="name">The name of this window</param>
-         * <param name="width">The width of this Window</param>
-         * <param name="height">The height of this Window</param>
          */
         internal NotificationArea() {
             float margin = 20;

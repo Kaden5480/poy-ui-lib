@@ -19,6 +19,7 @@ namespace UILib {
          * Prevent normal windowing functionality.
          * </summary>
          */
+        public override void AddResizeButton() {}
         public override void OnClick() {}
         public override void OnDoubleClick() {}
         public override void OnBeginDrag(Vector2 position) {}

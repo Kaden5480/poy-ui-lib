@@ -50,8 +50,12 @@ namespace UILib {
             RectTransform contentRect = content.AddComponent<RectTransform>();
             contentRect.anchorMin = Vector2.zero;
             contentRect.anchorMax = Vector2.one;
-            contentRect.anchoredPosition = new Vector2(0f, -((topBarHeight + 2*topBarPadding) / 2));
-            contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight + 2*topBarPadding));
+            contentRect.anchoredPosition = new Vector2(
+                0f, -((topBarHeight + 2*topBarPadding) / 2)
+            );
+            contentRect.sizeDelta = new Vector2(
+                0f, -(topBarHeight + 2*topBarPadding)
+            );
 
             // Add scroll view
             scrollView = new ScrollView();
@@ -60,6 +64,25 @@ namespace UILib {
 
             SetAnchor(AnchorType.Middle);
             SetSize(width, height);
+
+            AddResizeButton();
+        }
+
+        /**
+         * <summary>
+         * Adjusts the scrollbar and adds in a button
+         * to resize.
+         * </summary>
+         */
+        public virtual void AddResizeButton() {
+            RectTransform rect = scrollView.scrollBarV.rectTransform;
+            rect.anchoredPosition = new Vector2(0f, 10f);
+            rect.sizeDelta = new Vector2(20f, -20f);
+
+            scrollView.Add(
+                scrollView.gameObject,
+                new ResizeButton(this)
+            );
         }
 
         /**
@@ -137,7 +160,7 @@ namespace UILib {
          * </summary>
          * <returns>The local position</returns>
          */
-        public Vector2 ToCanvasLocal(Vector2 position) {
+        internal Vector2 ToCanvasLocal(Vector2 position) {
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 canvas.rectTransform, position, canvas.canvas.worldCamera,
                 out Vector2 canvasLocal
@@ -241,8 +264,12 @@ namespace UILib {
                 return;
             }
 
-            HandleMove(position);
-            HandleResize(position);
+            if (Input.GetMouseButton(0) == true) {
+                HandleMove(position);
+            }
+            else if (Input.GetMouseButton(1) == true) {
+                HandleResize(position);
+            }
         }
 
         /**
@@ -267,10 +294,6 @@ namespace UILib {
          * <param name="position">The position dragged to</param>
          */
         internal virtual void HandleMove(Vector2 position) {
-            if (Input.GetMouseButton(0) == false) {
-                return;
-            }
-
             position = ToCanvasLocal(position);
 
             MoveBy(position - latestDragPosition);
@@ -284,10 +307,6 @@ namespace UILib {
          * <param name="position">The position dragged to</param>
          */
         internal virtual void HandleResize(Vector2 position) {
-            if (Input.GetMouseButton(1) == false) {
-                return;
-            }
-
             position = ToCanvasLocal(position);
 
             ResizeBy(position - latestDragPosition);

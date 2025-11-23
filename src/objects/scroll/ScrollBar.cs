@@ -32,12 +32,12 @@ namespace UILib {
 
             // Scrollbar setup
             background = gameObject.AddComponent<UEImage>();
-            background.color = Colors.grey;
+            background.color = Colors.darkGrey;
 
             scrollBar = gameObject.AddComponent<UEScrollbar>();
             scrollBar.handleRect = handle.GetComponent<RectTransform>();
             scrollBar.targetGraphic = handle.GetComponent<UEImage>();
-            scrollBar.colors = Colors.colorBlock;
+            scrollBar.colors = Colors.lightColorBlock;
 
             switch (scrollType) {
                 case ScrollType.Vertical:

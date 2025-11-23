@@ -22,7 +22,7 @@ namespace UILib {
             SetAnchor(AnchorType.TopLeft, FillType.FillHorizontal);
 
             UEImage image = gameObject.AddComponent<UEImage>();
-            image.color = Colors.grey;
+            image.color = Colors.darkGrey;
 
             Label label = new Label(window.name, (int) totalHeight - 5);
             Add(label);
@@ -71,10 +71,18 @@ namespace UILib {
         }
 
         public override void OnBeginDrag(Vector2 position) {
+            if (Input.GetMouseButton(0) == false) {
+                return;
+            }
+
             window.HandleBeginDrag(position);
         }
 
         public override void OnDrag(Vector2 position) {
+            if (Input.GetMouseButton(0) == false) {
+                return;
+            }
+
             window.HandleMove(position);
         }
     }

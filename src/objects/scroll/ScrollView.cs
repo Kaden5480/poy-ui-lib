@@ -63,7 +63,6 @@ namespace UILib {
             Add(gameObject, scrollBarV);
             scrollRect.verticalScrollbar = scrollBarV.scrollBar;
 
-            // TODO: Fix horizontal scrollbars
             scrollRect.horizontal = true;
             scrollBarH = new ScrollBar(ScrollType.Horizontal);
             Add(gameObject, scrollBarH);

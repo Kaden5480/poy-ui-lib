@@ -164,7 +164,7 @@ namespace UILib {
          * <param name="parent">The GameObject to use as a parent instead</param>
          * <param name="child">The child to add</param>
          */
-        protected virtual void Add(GameObject parent, UIObject child) {
+        internal virtual void Add(GameObject parent, UIObject child) {
             if (layoutGroup != null) {
                 child.AddLayoutElement();
             }

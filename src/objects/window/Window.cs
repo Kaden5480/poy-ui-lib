@@ -245,10 +245,9 @@ namespace UILib {
          * <param name="position">The position the drag started at</param>
          */
         protected override void OnBeginDrag(Vector2 position) {
-            UIRoot.BringToFront(this);
-
             // Only listen to drag events when Alt is held
             if (Input.GetKey(KeyCode.LeftAlt) == false) {
+                UIRoot.BringToFront(this);
                 return;
             }
 
@@ -292,6 +291,7 @@ namespace UILib {
          * <param name="position">The position dragging started at</param>
          */
         internal virtual void HandleBeginDrag(Vector2 position) {
+            UIRoot.BringToFront(this);
             position = ToCanvasLocal(position);
 
             EndFullscreen(position);

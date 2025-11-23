@@ -132,6 +132,22 @@ namespace UILib {
 
         /**
          * <summary>
+         * Converts a position to be local to
+         * the Canvas of this Window.
+         * </summary>
+         * <returns>The local position</returns>
+         */
+        public Vector2 ToCanvasLocal(Vector2 position) {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.rectTransform, position, canvas.canvas.worldCamera,
+                out Vector2 canvasLocal
+            );
+
+            return canvasLocal;
+        }
+
+        /**
+         * <summary>
          * Makes this window fullscreen.
          * </summary>
          */
@@ -180,19 +196,13 @@ namespace UILib {
                 return;
             }
 
-            // Local relative to the canvas
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.rectTransform, position, canvas.canvas.worldCamera,
-                out Vector2 canvasLocal
-            );
-
             // Fix local position
             Vector2 sizeDelta = rectTransform.sizeDelta;
             Vector2 pivot = rectTransform.pivot;
 
             rectTransform.localPosition = new Vector2(
-                canvasLocal.x + sizeDelta.x*(pivot.x-0.5f),
-                canvasLocal.y - sizeDelta.y*(1f-pivot.y)
+                position.x + sizeDelta.x*(pivot.x-0.5f),
+                position.y - sizeDelta.y*(1f-pivot.y)
             );
         }
 
@@ -242,6 +252,8 @@ namespace UILib {
          * <param name="position">The position dragging started at</param>
          */
         internal virtual void HandleBeginDrag(Vector2 position) {
+            position = ToCanvasLocal(position);
+
             EndFullscreen(position);
             UIRoot.BringToFront(this);
             latestDragPosition = position;
@@ -259,6 +271,8 @@ namespace UILib {
                 return;
             }
 
+            position = ToCanvasLocal(position);
+
             MoveBy(position - latestDragPosition);
             latestDragPosition = position;
         }
@@ -273,6 +287,8 @@ namespace UILib {
             if (Input.GetMouseButton(1) == false) {
                 return;
             }
+
+            position = ToCanvasLocal(position);
 
             ResizeBy(position - latestDragPosition);
             latestDragPosition = position;

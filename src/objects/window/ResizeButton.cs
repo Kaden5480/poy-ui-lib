@@ -16,6 +16,7 @@ namespace UILib {
         }
 
         public override void OnBeginDrag(Vector2 position) {
+            // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true
                 || Input.GetMouseButton(0) == false
             ) {
@@ -26,6 +27,7 @@ namespace UILib {
         }
 
         public override void OnDrag(Vector2 position) {
+            // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true
                 || Input.GetMouseButton(0) == false
             ) {

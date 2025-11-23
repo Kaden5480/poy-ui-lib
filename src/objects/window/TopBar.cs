@@ -71,6 +71,7 @@ namespace UILib {
         }
 
         public override void OnBeginDrag(Vector2 position) {
+            // Only move when lmb is held
             if (Input.GetMouseButton(0) == false) {
                 return;
             }
@@ -79,6 +80,7 @@ namespace UILib {
         }
 
         public override void OnDrag(Vector2 position) {
+            // Only move when lmb is held
             if (Input.GetMouseButton(0) == false) {
                 return;
             }

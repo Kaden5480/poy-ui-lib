@@ -245,11 +245,19 @@ namespace UILib {
          * <param name="position">The position the drag started at</param>
          */
         public override void OnBeginDrag(Vector2 position) {
+            UIRoot.BringToFront(this);
+
+            // Only listen to drag events when Alt is held
             if (Input.GetKey(KeyCode.LeftAlt) == false) {
-                UIRoot.BringToFront(this);
                 return;
             }
 
+            // In fullscreen mode, only moving is allowed
+            if (fullscreen == true && Input.GetMouseButton(0) == false) {
+                return;
+            }
+
+            // Otherwise, dragging is allowed
             HandleBeginDrag(position);
         }
 
@@ -260,14 +268,19 @@ namespace UILib {
          * <param name="position">The position dragged to</param>
          */
         public override void OnDrag(Vector2 position) {
+            // Only listen to drag events when Alt is held
             if (Input.GetKey(KeyCode.LeftAlt) == false) {
                 return;
             }
 
+            // If dragging with lmb, move
             if (Input.GetMouseButton(0) == true) {
                 HandleMove(position);
             }
-            else if (Input.GetMouseButton(1) == true) {
+            // If dragging with rmb, resize (only in windowed mode)
+            else if (fullscreen == false
+                && Input.GetMouseButton(1) == true
+            ) {
                 HandleResize(position);
             }
         }
@@ -282,7 +295,6 @@ namespace UILib {
             position = ToCanvasLocal(position);
 
             EndFullscreen(position);
-            UIRoot.BringToFront(this);
             latestDragPosition = position;
 
         }

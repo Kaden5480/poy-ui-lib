@@ -138,7 +138,7 @@ namespace UILib {
         public virtual void HandleWindowingChange() {
             if (fullscreen == false) {
                 state = new WindowState(this);
-                base.SetAnchor(AnchorType.Middle, FillType.Fill);
+                Fill();
                 rectTransform.anchoredPosition = Vector2.zero;
             }
             else if (state != null) {

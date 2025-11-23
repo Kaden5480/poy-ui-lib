@@ -49,7 +49,6 @@ namespace UILib {
             window.SetLayoutPadding(bottom: 20);
 
             Label header = new Label("My Config Options", 40);
-            header.AddLayoutElement();
             header.SetSize(300f, 100f);
             window.Add(header);
 
@@ -58,18 +57,15 @@ namespace UILib {
 
             for (int i = 0; i < 30; i++) {
                 Area area = new Area();
-                area.AddLayoutElement();
                 area.SetSize(600f, height);
                 area.SetLayout(LayoutType.Horizontal);
                 area.SetLayoutSpacing(20f);
 
                 Label label = new Label($"Config option: {i}", 20);
-                label.AddLayoutElement();
                 label.SetSize(width, height);
                 area.Add(label);
 
                 Button button = new Button($"Button for option: {i}", 20);
-                button.AddLayoutElement();
                 button.SetSize(width, height);
                 string current = $"{i}";
                 button.AddListener(() => {
@@ -92,20 +88,17 @@ namespace UILib {
             window.SetLayoutPadding(bottom: 20, top: 20);
 
             Toggle toggle = new Toggle();
-            toggle.AddLayoutElement();
             toggle.SetSize(40f, 40f);
             window.Add(toggle);
 
             for (int i = 0; i < 20; i++) {
                 Label label = new Label($"Hello, world! {i}", 40);
-                label.AddLayoutElement();
                 label.SetSize(250f, 50f);
 
                 window.Add(label);
             }
 
             Button button = new Button("Test Button", 40);
-            button.AddLayoutElement();
             button.SetSize(250f, 50f);
             button.AddListener(() => {
                 buttonCount++;

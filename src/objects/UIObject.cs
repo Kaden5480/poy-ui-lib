@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace UILib {
     public class UIObject {
+        private float width;
+        private float height;
+
         // The logger for this UIObject
         internal Logger logger { get; private set; }
 
@@ -154,6 +157,10 @@ namespace UILib {
          * <param name="child">The child to add</param>
          */
         protected virtual void Add(GameObject parent, UIObject child) {
+            if (layoutGroup != null) {
+                child.AddLayoutElement();
+            }
+
             SetParent(parent, child.gameObject);
             child.parent = this;
             children.Add(child);
@@ -176,7 +183,12 @@ namespace UILib {
          * </summary>
          */
         public virtual void AddLayoutElement() {
+            if (layoutElement != null) {
+                return;
+            }
+
             layoutElement = gameObject.AddComponent<LayoutElement>();
+            SetSize(width, height);
         }
 
         /**
@@ -187,6 +199,9 @@ namespace UILib {
          * <param name="height">The height to set</param>
          */
         public virtual void SetSize(float width, float height) {
+            this.width = width;
+            this.height = height;
+
             if (layoutElement != null) {
                 layoutElement.preferredWidth = width;
                 layoutElement.preferredHeight = height;

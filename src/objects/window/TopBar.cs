@@ -57,7 +57,7 @@ namespace UILib {
             buttonArea.Add(closeButton);
         }
 
-        public void ToggleFullscreen() {
+        private void ToggleFullscreen() {
             if (window.fullscreen == false) {
                 window.BeginFullscreen();
             }
@@ -66,11 +66,11 @@ namespace UILib {
             }
         }
 
-        public override void OnDoubleClick() {
+        protected override void OnDoubleClick() {
             window.BeginFullscreen();
         }
 
-        public override void OnBeginDrag(Vector2 position) {
+        protected override void OnBeginDrag(Vector2 position) {
             // Only move when lmb is held
             if (Input.GetMouseButton(0) == false) {
                 return;
@@ -79,7 +79,7 @@ namespace UILib {
             window.HandleBeginDrag(position);
         }
 
-        public override void OnDrag(Vector2 position) {
+        protected override void OnDrag(Vector2 position) {
             // Only move when lmb is held
             if (Input.GetMouseButton(0) == false) {
                 return;

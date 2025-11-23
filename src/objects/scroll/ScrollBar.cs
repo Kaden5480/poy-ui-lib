@@ -97,7 +97,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
-        public override void OnBeginDrag(Vector2 position) {}
+        protected override void OnBeginDrag(Vector2 position) {}
 
         /**
          * <summary>
@@ -105,7 +105,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        public override void OnDrag(Vector2 position) {}
+        protected override void OnDrag(Vector2 position) {}
 
         /**
          * <summary>
@@ -113,6 +113,6 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        public override void OnEndDrag(Vector2 position) {}
+        protected override void OnEndDrag(Vector2 position) {}
     }
 }

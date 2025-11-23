@@ -74,7 +74,7 @@ namespace UILib {
          * to resize.
          * </summary>
          */
-        public virtual void AddResizeButton() {
+        internal virtual void AddResizeButton() {
             RectTransform rect = scrollView.scrollBarV.rectTransform;
             rect.anchoredPosition = new Vector2(0f, 10f);
             rect.sizeDelta = new Vector2(20f, -20f);
@@ -234,7 +234,7 @@ namespace UILib {
          * Bring this Window's canvas to the front
          * </summary>
          */
-        public override void OnClick() {
+        protected override void OnClick() {
             UIRoot.BringToFront(this);
         }
 
@@ -244,7 +244,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
-        public override void OnBeginDrag(Vector2 position) {
+        protected override void OnBeginDrag(Vector2 position) {
             UIRoot.BringToFront(this);
 
             // Only listen to drag events when Alt is held
@@ -267,7 +267,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        public override void OnDrag(Vector2 position) {
+        protected override void OnDrag(Vector2 position) {
             // Only listen to drag events when Alt is held
             if (Input.GetKey(KeyCode.LeftAlt) == false) {
                 return;
@@ -330,7 +330,7 @@ namespace UILib {
          * Move this window by a given delta.
          * </summary>
          */
-        public void MoveBy(Vector3 delta) {
+        private void MoveBy(Vector3 delta) {
             rectTransform.localPosition += delta;
         }
 
@@ -339,7 +339,7 @@ namespace UILib {
          * Resizes this window by a given delta.
          * </summary>
          */
-        public void ResizeBy(Vector3 delta) {
+        private void ResizeBy(Vector3 delta) {
             Vector2 pivot = rectTransform.pivot;
             Vector2 oldSize = rectTransform.sizeDelta;
 

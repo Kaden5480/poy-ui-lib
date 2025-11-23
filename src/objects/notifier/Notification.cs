@@ -27,7 +27,7 @@ namespace UILib {
          * Handles being clicked.
          * </summary>
          */
-        public override void OnClick() {
+        protected override void OnClick() {
             fadeDestroy.StopAllCoroutines();
             Destroy();
         }

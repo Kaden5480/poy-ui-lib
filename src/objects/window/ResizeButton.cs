@@ -15,7 +15,7 @@ namespace UILib {
             image.SetSize(-6f, -6f);
         }
 
-        public override void OnBeginDrag(Vector2 position) {
+        protected override void OnBeginDrag(Vector2 position) {
             // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true
                 || Input.GetMouseButton(0) == false
@@ -26,7 +26,7 @@ namespace UILib {
             window.HandleBeginDrag(position);
         }
 
-        public override void OnDrag(Vector2 position) {
+        protected override void OnDrag(Vector2 position) {
             // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true
                 || Input.GetMouseButton(0) == false

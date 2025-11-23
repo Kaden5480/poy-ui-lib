@@ -68,7 +68,7 @@ namespace UILib {
          * Handles this UIObject being clicked.
          * </summary>
          */
-        public virtual void OnClick() {
+        protected virtual void OnClick() {
             if (parent != null) {
                 parent.OnClick();
             }
@@ -79,7 +79,7 @@ namespace UILib {
          * Handles this UIObject being clicked.
          * </summary>
          */
-        public virtual void OnDoubleClick() {
+        protected virtual void OnDoubleClick() {
             if (parent != null) {
                 parent.OnDoubleClick();
             }
@@ -91,7 +91,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
-        public virtual void OnBeginDrag(Vector2 position) {
+        protected virtual void OnBeginDrag(Vector2 position) {
             if (parent != null) {
                 parent.OnBeginDrag(position);
             }
@@ -103,7 +103,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        public virtual void OnDrag(Vector2 position) {
+        protected virtual void OnDrag(Vector2 position) {
             if (parent != null) {
                 parent.OnDrag(position);
             }
@@ -115,7 +115,7 @@ namespace UILib {
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
-        public virtual void OnEndDrag(Vector2 position) {
+        protected virtual void OnEndDrag(Vector2 position) {
             if (parent != null) {
                 parent.OnEndDrag(position);
             }

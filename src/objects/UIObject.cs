@@ -321,18 +321,16 @@ namespace UILib {
                     return;
                 case LayoutType.Vertical:
                     layoutGroup = obj.AddComponent<VerticalLayoutGroup>();
-                    layoutGroup.childForceExpandWidth = true;
-                    layoutGroup.childForceExpandHeight = false;
                     break;
                 case LayoutType.Horizontal:
                     layoutGroup = obj.AddComponent<HorizontalLayoutGroup>();
-                    layoutGroup.childForceExpandWidth = false;
-                    layoutGroup.childForceExpandHeight = true;
                     break;
                 default:
                     return;
             }
 
+            layoutGroup.childForceExpandWidth = false;
+            layoutGroup.childForceExpandHeight = false;
             layoutGroup.childControlWidth = true;
             layoutGroup.childControlHeight = true;
 

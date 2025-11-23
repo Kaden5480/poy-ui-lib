@@ -39,9 +39,9 @@ namespace UILib {
         }
 
         private void Start() {
-            configWindow.Show();
-            window1.Show();
-            window2.Show();
+            //configWindow.Show();
+            //window1.Show();
+            //window2.Show();
             window3.Show();
         }
 
@@ -96,14 +96,20 @@ namespace UILib {
             Window window = new Window("Some Window", width, height);
             ScrollView scrollView = new ScrollView();
             scrollView.SetLayout(LayoutType.Vertical);
-            scrollView.SetLayoutPadding(bottom: 20);
+            scrollView.SetLayoutSpacing(20);
+            scrollView.SetLayoutPadding(bottom: 20, top: 20);
 
             window.Add(scrollView);
+
+            Toggle toggle = new Toggle();
+            toggle.AddLayoutElement();
+            toggle.SetSize(40f, 40f);
+            scrollView.Add(toggle);
 
             for (int i = 0; i < 20; i++) {
                 Label label = new Label($"Hello, world! {i}", 40);
                 label.AddLayoutElement();
-                label.SetSize(250f, 80f);
+                label.SetSize(250f, 50f);
 
                 scrollView.Add(label);
             }

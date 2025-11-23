@@ -7,7 +7,7 @@ namespace UILib {
 
         public Image() {
             image = gameObject.AddComponent<UEImage>();
-            SetAnchor(AnchorType.Middle, FillType.Fill);
+            Fill();
         }
 
         public Image(Color color) : this() {

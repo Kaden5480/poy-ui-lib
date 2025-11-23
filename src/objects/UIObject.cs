@@ -301,7 +301,7 @@ namespace UILib {
          * </summary>
          */
         public virtual void Fill() {
-            SetAnchor(AnchorType.TopLeft, FillType.Fill);
+            SetAnchor(AnchorType.Middle, FillType.Fill);
         }
 
         /**

@@ -69,8 +69,6 @@ namespace UILib {
             Add(gameObject, scrollBarH);
             scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
             scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
-
-            SetAnchor(AnchorType.Middle, FillType.Fill);
         }
 
         /**

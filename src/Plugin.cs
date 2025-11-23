@@ -29,19 +29,14 @@ namespace UILib {
             configWindow = MakeConfigWindow();
 
             window1 = MakeWindow(800f, 600f);
-            window1.SetAnchor(AnchorType.TopLeft);
-
             window2 = MakeWindow(300f, 500f);
-            window2.SetAnchor(AnchorType.MiddleLeft);
-
             window3 = MakeWindow(600f, 800f);
-            window3.SetAnchor(AnchorType.Middle);
         }
 
         private void Start() {
-            //configWindow.Show();
-            //window1.Show();
-            //window2.Show();
+            configWindow.Show();
+            window1.Show();
+            window2.Show();
             window3.Show();
         }
 
@@ -49,16 +44,14 @@ namespace UILib {
             FixedWindow window = new FixedWindow("Config Window", 0f, 0f);
             window.Fill();
 
-            ScrollView scrollView = new ScrollView();
-            scrollView.SetLayout(LayoutType.Vertical);
-            scrollView.SetLayoutSpacing(20);
-            scrollView.SetLayoutPadding(bottom: 20);
-            window.Add(scrollView);
+            window.SetLayout(LayoutType.Vertical);
+            window.SetLayoutSpacing(20);
+            window.SetLayoutPadding(bottom: 20);
 
             Label header = new Label("My Config Options", 40);
             header.AddLayoutElement();
             header.SetSize(300f, 100f);
-            scrollView.Add(header);
+            window.Add(header);
 
             float width = 200f;
             float height = 50f;
@@ -84,7 +77,7 @@ namespace UILib {
                 });
                 area.Add(button);
 
-                scrollView.Add(area);
+                window.Add(area);
             }
 
             window.Hide();
@@ -94,24 +87,21 @@ namespace UILib {
 
         private Window MakeWindow(float width, float height) {
             Window window = new Window("Some Window", width, height);
-            ScrollView scrollView = new ScrollView();
-            scrollView.SetLayout(LayoutType.Vertical);
-            scrollView.SetLayoutSpacing(20);
-            scrollView.SetLayoutPadding(bottom: 20, top: 20);
-
-            window.Add(scrollView);
+            window.SetLayout(LayoutType.Vertical);
+            window.SetLayoutSpacing(20);
+            window.SetLayoutPadding(bottom: 20, top: 20);
 
             Toggle toggle = new Toggle();
             toggle.AddLayoutElement();
             toggle.SetSize(40f, 40f);
-            scrollView.Add(toggle);
+            window.Add(toggle);
 
             for (int i = 0; i < 20; i++) {
                 Label label = new Label($"Hello, world! {i}", 40);
                 label.AddLayoutElement();
                 label.SetSize(250f, 50f);
 
-                scrollView.Add(label);
+                window.Add(label);
             }
 
             Button button = new Button("Test Button", 40);
@@ -122,7 +112,7 @@ namespace UILib {
                 Notifier.Notify($"Button was clicked {buttonCount} time(s)");
             });
 
-            scrollView.Add(button);
+            window.Add(button);
 
             window.Hide();
 

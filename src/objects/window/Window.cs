@@ -5,17 +5,16 @@ namespace UILib {
         private const float minWidth = 200f;
         private const float minHeight = 200f;
 
-        public string name { get; private set; }
-
         public bool fullscreen { get; private set; }
         private WindowState state;
-
         private Vector2 latestDragPosition;
 
-        internal Canvas canvas;
+        public string name { get; private set; }
 
+        internal Canvas canvas;
         internal TopBar topBar { get; private set; }
         private GameObject content;
+        public ScrollView scrollView { get; private set; }
 
         /**
          * <summary>
@@ -54,7 +53,12 @@ namespace UILib {
             contentRect.anchoredPosition = new Vector2(0f, -((topBarHeight + 2*topBarPadding) / 2));
             contentRect.sizeDelta        = new Vector2(0f, -(topBarHeight + 2*topBarPadding));
 
-            SetAnchor(AnchorType.Middle);
+            // Add scroll view
+            scrollView = new ScrollView();
+            scrollView.Fill();
+            Add(content, scrollView);
+
+            base.SetAnchor(AnchorType.Middle);
             SetSize(width, height);
         }
 
@@ -75,7 +79,45 @@ namespace UILib {
          * <param name="layoutType">The type of layout to use</param>
          */
         public override void SetLayout(LayoutType layoutType) {
-            SetLayout(content, layoutType);
+            scrollView.SetLayout(layoutType);
+        }
+
+        /**
+         * <summary>
+         * Sets the alignment of the child elements for the layout.
+         * </summary>
+         * <param name="alignment">The alignment to use</param>
+         */
+        public override void SetLayoutAlignment(TextAnchor alignment) {
+            scrollView.SetLayoutAlignment(alignment);
+        }
+
+        /**
+         * <summary>
+         * Sets the spacing for the layout.
+         * </summary>
+         * <param name="spacing">The spacing to use</param>
+         */
+        public override void SetLayoutSpacing(float spacing) {
+            scrollView.SetLayoutSpacing(spacing);
+        }
+
+        /**
+         * <summary>
+         * Sets the padding for the layout.
+         * </summary>
+         * <param name="left">The left padding to use</param>
+         * <param name="right">The right padding to use</param>
+         * <param name="top">The top padding to use</param>
+         * <param name="bottom">The bottom padding to use</param>
+         */
+        public override void SetLayoutPadding(
+            int left = 0,
+            int right = 0,
+            int top = 0,
+            int bottom = 0
+        ) {
+            scrollView.SetLayoutPadding(left, right, top, bottom);
         }
 
         /**
@@ -85,7 +127,7 @@ namespace UILib {
          * <param name="child">The object which should be a child of this object</param>
          */
         public override void Add(UIObject child) {
-            Add(content, child);
+            scrollView.Add(child);
         }
 
         /**
@@ -96,7 +138,7 @@ namespace UILib {
         public virtual void HandleWindowingChange() {
             if (fullscreen == false) {
                 state = new WindowState(this);
-                SetAnchor(AnchorType.Middle, FillType.Fill);
+                base.SetAnchor(AnchorType.Middle, FillType.Fill);
                 rectTransform.anchoredPosition = Vector2.zero;
             }
             else if (state != null) {
@@ -146,6 +188,26 @@ namespace UILib {
             HandleResize(position);
         }
 
+        /**
+         * <summary>
+         * Sets the anchor type of this window.
+         * Windows ignore this method, otherwise it complicates a lot.
+         * </summary>
+         * <param name="anchorType">The type of anchor to use</param>
+         * <param name="fillType">The type of fill to use</param>
+         */
+        public override void SetAnchor(AnchorType anchorType, FillType fillType = FillType.None) {
+            return;
+        }
+
+        /**
+         * <summary>
+         * Sets this component to fill all space.
+         * </summary>
+         */
+        public override void Fill() {
+            base.SetAnchor(AnchorType.Middle, FillType.Fill);
+        }
 
         /**
          * <summary>

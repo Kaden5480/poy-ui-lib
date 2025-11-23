@@ -34,6 +34,9 @@ The following configurations are supported:
 - Debug
 - Release
 
+Keep in mind, `res/uilib.bundle` is not pushed with the repo.
+So you would have to make your own.
+
 ## Dotnet build
 To build with dotnet, run the following command, replacing
 <configuration> with the desired value:

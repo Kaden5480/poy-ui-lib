@@ -5,8 +5,15 @@ using UnityEngine;
 
 namespace UILib {
     public static class Resources {
-        public static Font gameFont { get; private set; } = LoadFontFromBundle(
-            "romanantique.bundle", "RomanAntique"
+        private const string bundlePath = "uilib.bundle";
+        private static AssetBundle bundle;
+
+        public static Font gameFont { get; private set; } = LoadFromBundle<Font>(
+            "RomanAntique"
+        );
+
+        public static Texture2D checkMark { get; private set; } = LoadFromBundle<Texture2D>(
+            "CheckMark"
         );
 
         /**
@@ -35,15 +42,18 @@ namespace UILib {
 
         /**
          * <summary>
-         * Loads a font by file name.
+         * Loads an asset by name.
          * </summary>
-         * <param name="name">The name of the font file to load</param>
-         * <returns>The loaded font</returns>
+         * <param name="name">The name of the asset to load</param>
+         * <returns>The loaded asset</returns>
          */
-        internal static Font LoadFontFromBundle(string bundleName, string fontName) {
-            byte[] bundleData = LoadBytes(bundleName);
-            AssetBundle assetBundle = AssetBundle.LoadFromMemory(bundleData);
-            return assetBundle.LoadAsset<Font>(fontName);
+        internal static T LoadFromBundle<T>(string name) where T : UnityEngine.Object {
+            if (bundle == null) {
+                byte[] bundleData = LoadBytes(bundlePath);
+                bundle = AssetBundle.LoadFromMemory(bundleData);
+            }
+
+            return bundle.LoadAsset<T>(name);
         }
     }
 }

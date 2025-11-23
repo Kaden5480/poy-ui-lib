@@ -3,3 +3,4 @@ bin
 **/obj
 Config.props
 build/*.zip
+res/

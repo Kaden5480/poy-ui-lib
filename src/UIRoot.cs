@@ -18,7 +18,7 @@ namespace UILib {
         private static GameObject gameObject;
         private static List<Window> windows;
 
-        private static NotificationArea notificationArea;
+        internal static NotificationArea notificationArea;
 
         /**
          * <summary>

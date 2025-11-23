@@ -20,6 +20,9 @@ namespace UILib {
             button = gameObject.AddComponent<UEButton>();
             button.colors = Colors.colorBlock;
             button.targetGraphic = background.image;
+            button.onClick.AddListener(() => {
+                EventSystem.current.SetSelectedGameObject(null);
+            });
 
             label = new Label(text, fontSize);
             GameObject.DestroyImmediate(label.mouseHandler);

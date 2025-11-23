@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 
 using UEButton = UnityEngine.UI.Button;
 using UEImage = UnityEngine.UI.Image;
@@ -23,6 +24,9 @@ namespace UILib {
             button = gameObject.AddComponent<UEButton>();
             button.colors = Colors.colorBlock;
             button.targetGraphic = background;
+            button.onClick.AddListener(() => {
+                EventSystem.current.SetSelectedGameObject(null);
+            });
 
             check = new Background();
             Add(check);

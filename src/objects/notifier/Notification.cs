@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace UILib {
     internal class Notification : UIObject {
-        private Background background;
+        private Image background;
         private Label label;
 
         private FadeDestroy fadeDestroy;
 
         internal Notification(string text) {
-            background = new Background(Colors.black);
+            background = new Image(Colors.black);
             Add(background);
 
             label = new Label(text, 30);

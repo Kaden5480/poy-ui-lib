@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UILib {
+    /**
+     * <summary>
+     * The base class which most objects
+     * inherit from.
+     *
+     * Provides most of the necessary functionality.
+     * </summary>
+     */
     public class UIObject {
         private float width;
         private float height;

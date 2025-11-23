@@ -16,6 +16,10 @@ namespace UILib {
             "CheckMark"
         );
 
+        public static Texture2D triangle { get; private set; } = LoadFromBundle<Texture2D>(
+            "Triangle"
+        );
+
         /**
          * <summary>
          * Loads a file with the specified filename

@@ -43,6 +43,7 @@ namespace UILib {
 
             mouseHandler = gameObject.AddComponent<MouseHandler>();
             mouseHandler.AddClickListener(OnClick);
+            mouseHandler.AddDoubleClickListener(OnDoubleClick);
             mouseHandler.AddBeginDragListener(OnBeginDrag);
             mouseHandler.AddDragListener(OnDrag);
             mouseHandler.AddEndDragListener(OnEndDrag);
@@ -65,15 +66,22 @@ namespace UILib {
         /**
          * <summary>
          * Handles this UIObject being clicked.
-         *
-         * NOTE:
-         * This is implemented differently in Window and Notification
-         * Otherwise, it will just keep forwarding to the parent.
          * </summary>
          */
         public virtual void OnClick() {
             if (parent != null) {
                 parent.OnClick();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject being clicked.
+         * </summary>
+         */
+        public virtual void OnDoubleClick() {
+            if (parent != null) {
+                parent.OnDoubleClick();
             }
         }
 

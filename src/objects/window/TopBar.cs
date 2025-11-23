@@ -41,7 +41,7 @@ namespace UILib {
             fullscreenButton.SetSize(height, height);
             fullscreenButton.SetAnchor(AnchorType.TopRight);
             fullscreenButton.AddListener(() => {
-                ChangeWindowingMode();
+                ToggleFullscreen();
             });
 
             closeButton = new Button("x", (int) height);
@@ -57,15 +57,17 @@ namespace UILib {
             buttonArea.Add(closeButton);
         }
 
-        public void ChangeWindowingMode() {
-            window.HandleWindowingChange();
-
-            if (window.fullscreen == true) {
-                fullscreenButton.label.text.text = "-";
+        public void ToggleFullscreen() {
+            if (window.fullscreen == false) {
+                window.BeginFullscreen();
             }
             else {
-                fullscreenButton.label.text.text = "+";
+                window.EndFullscreen();
             }
+        }
+
+        public override void OnDoubleClick() {
+            window.BeginFullscreen();
         }
 
         public override void OnBeginDrag(Vector2 position) {

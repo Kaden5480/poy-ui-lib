@@ -11,13 +11,25 @@ namespace UILib {
 #region Click Events
 
         private UnityEvent clickEvent = new UnityEvent();
+        private UnityEvent doubleClickEvent = new UnityEvent();
 
         public void AddClickListener(UnityAction callback) {
             clickEvent.AddListener(callback);
         }
 
+        public void AddDoubleClickListener(UnityAction callback) {
+            doubleClickEvent.AddListener(callback);
+        }
+
         public void OnPointerClick(PointerEventData eventData) {
-            clickEvent.Invoke();
+            switch (eventData.clickCount) {
+                case 1:
+                    clickEvent.Invoke();
+                    break;
+                case 2:
+                    doubleClickEvent.Invoke();
+                    break;
+            }
         }
 
 #endregion

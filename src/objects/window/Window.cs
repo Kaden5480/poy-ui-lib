@@ -132,21 +132,68 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles changing windowing mode.
+         * Makes this window fullscreen.
          * </summary>
          */
-        public virtual void HandleWindowingChange() {
-            if (fullscreen == false) {
-                state = new WindowState(this);
-                Fill();
-                rectTransform.anchoredPosition = Vector2.zero;
+        public void BeginFullscreen() {
+            if (fullscreen == true) {
+                return;
             }
-            else if (state != null) {
+
+            state = new WindowState(this);
+            Fill();
+            rectTransform.anchoredPosition = Vector2.zero;
+            topBar.fullscreenButton.label.text.text = "-";
+            fullscreen = true;
+        }
+
+        /**
+         * <summary>
+         * Returns this window to a windowed state.
+         * </summary>
+         * <returns>Whether the fullscreen mode was even changed</returns>
+         */
+        public bool EndFullscreen() {
+            if (fullscreen == false) {
+                return false;
+            }
+
+            if (state != null) {
                 state.Restore(this);
                 state = null;
             }
 
-            fullscreen = !fullscreen;
+            topBar.fullscreenButton.label.text.text = "+";
+            fullscreen = false;
+            return true;
+        }
+
+        /**
+         * <summary>
+         * Returns this window to a windowed state
+         * and also to a given position.
+         * </summary>
+         * <param name="position">The world position to restore to</param>
+         */
+        public void EndFullscreen(Vector2 position) {
+            if (EndFullscreen() == false) {
+                return;
+            }
+
+            // Local relative to the canvas
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.rectTransform, position, canvas.canvas.worldCamera,
+                out Vector2 canvasLocal
+            );
+
+            // Fix local position
+            Vector2 sizeDelta = rectTransform.sizeDelta;
+            Vector2 pivot = rectTransform.pivot;
+
+            rectTransform.localPosition = new Vector2(
+                canvasLocal.x + sizeDelta.x*(pivot.x-0.5f),
+                canvasLocal.y - sizeDelta.y*(1f-pivot.y)
+            );
         }
 
         /**
@@ -195,8 +242,10 @@ namespace UILib {
          * <param name="position">The position dragging started at</param>
          */
         internal virtual void HandleBeginDrag(Vector2 position) {
+            EndFullscreen(position);
             UIRoot.BringToFront(this);
             latestDragPosition = position;
+
         }
 
         /**
@@ -206,10 +255,6 @@ namespace UILib {
          * <param name="position">The position dragged to</param>
          */
         internal virtual void HandleMove(Vector2 position) {
-            if (fullscreen == true) {
-                return;
-            }
-
             if (Input.GetMouseButton(0) == false) {
                 return;
             }
@@ -225,10 +270,6 @@ namespace UILib {
          * <param name="position">The position dragged to</param>
          */
         internal virtual void HandleResize(Vector2 position) {
-            if (fullscreen == true) {
-                return;
-            }
-
             if (Input.GetMouseButton(1) == false) {
                 return;
             }

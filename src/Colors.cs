@@ -2,6 +2,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UILib {
+    /**
+     * <summary>
+     * Colors used across UILib.
+     * </summary>
+     */
     public static class Colors {
         public static Color white        = new Color(1f, 1f, 1f);
         public static Color black        = new Color(0f, 0f, 0f);
@@ -19,6 +24,13 @@ namespace UILib {
         public static ColorBlock darkColorBlock  = MakeBlock(darkGrey, grey);
         public static ColorBlock redColorBlock   = MakeBlock(lightRed, red);
 
+        /**
+         * <summary>
+         * Makes a color block.
+         * </summary>
+         * <param name="normal">The normal color to use</param>
+         * <param name="selected">The color to use when an object is selected</param>
+         */
         private static ColorBlock MakeBlock(Color normal, Color selected) {
             return new ColorBlock() {
                     fadeDuration     = 0.1f,

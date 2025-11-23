@@ -1,9 +1,22 @@
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A button which is added to the bottom right
+     * of Windows to allow resizing them.
+     * </summary>
+     */
     internal class ResizeButton : Button {
+        // The Window this ResizeButton is attached to
         private Window window;
 
+        /**
+         * <summary>
+         * Initializes a ResizeButton.
+         * </summary>
+         * <param name="window">The window this ResizeButton is attached to</param>
+         */
         internal ResizeButton(Window window) : base(Resources.triangle) {
             this.window = window;
             SetAnchor(AnchorType.BottomRight);
@@ -15,6 +28,11 @@ namespace UILib {
             image.SetSize(-6f, -6f);
         }
 
+        /**
+         * <summary>
+         * Handles resizing the window when dragged.
+         * </summary>
+         */
         protected override void OnBeginDrag(Vector2 position) {
             // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true
@@ -26,6 +44,11 @@ namespace UILib {
             window.HandleBeginDrag(position);
         }
 
+        /**
+         * <summary>
+         * Handles resizing the window when dragged.
+         * </summary>
+         */
         protected override void OnDrag(Vector2 position) {
             // Only resize when in windowed mode and holding lmb
             if (window.fullscreen == true

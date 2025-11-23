@@ -7,6 +7,14 @@ using ColorBlock = UnityEngine.UI.ColorBlock;
 using UEButton = UnityEngine.UI.Button;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A button object.
+     *
+     * Buttons can have textures or text on them
+     * and handle click events.
+     * </summary>
+     */
     public class Button : UIObject {
         private Image background;
         private UEButton button;
@@ -14,6 +22,11 @@ namespace UILib {
         public Label label { get; private set; }
         public Image image { get; private set; }
 
+        /**
+         * <summary>
+         * Initializes a Button.
+         * </summary>
+         */
         public Button() {
             background = new Image();
             GameObject.DestroyImmediate(background.mouseHandler);
@@ -27,6 +40,13 @@ namespace UILib {
             });
         }
 
+        /**
+         * <summary>
+         * Initializes a Button with the specified text.
+         * </summary>
+         * <param name="text">The text to add to this button</param>
+         * <param name="fontSize">The font size for the text</param>
+         */
         public Button(string text, int fontSize) : this() {
             label = new Label(text, fontSize);
             GameObject.DestroyImmediate(label.mouseHandler);
@@ -34,6 +54,12 @@ namespace UILib {
             Add(label);
         }
 
+        /**
+         * <summary>
+         * Initializes a Button with a texture.
+         * </summary>
+         * <param name="texture">The texture to add to this button</param>
+         */
         public Button(Texture2D texture) : this() {
             image = new Image(texture);
             GameObject.DestroyImmediate(image.mouseHandler);
@@ -41,10 +67,23 @@ namespace UILib {
             Add(image);
         }
 
+        /**
+         * <summary>
+         * Sets the color block of this button.
+         * </summary>
+         * <param name="colorBlock">The color block to set</param>
+         */
         public void SetColorBlock(ColorBlock colorBlock) {
             button.colors = colorBlock;
         }
 
+        /**
+         * <summary>
+         * Adds a callback to this button.
+         * The callback will be called whenever the button is clicked.
+         * </summary>
+         * <param name="callback">The callback to add</param>
+         */
         public void AddListener(UnityAction callback) {
             button.onClick.AddListener(callback);
         }

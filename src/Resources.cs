@@ -4,18 +4,27 @@ using System.Reflection;
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A class holding resources used by UILib.
+     * These resources are loaded from an asset bundle.
+     * </summary>
+     */
     public static class Resources {
         private const string bundlePath = "uilib.bundle";
         private static AssetBundle bundle;
 
+        // The font the game uses (Roman Antique)
         public static Font gameFont { get; private set; } = LoadFromBundle<Font>(
             "RomanAntique"
         );
 
+        // A checkmark texture for toggles
         public static Texture2D checkMark { get; private set; } = LoadFromBundle<Texture2D>(
             "CheckMark"
         );
 
+        // A triangle texture (used by ResizeButton)
         public static Texture2D triangle { get; private set; } = LoadFromBundle<Texture2D>(
             "Triangle"
         );

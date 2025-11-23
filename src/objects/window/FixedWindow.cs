@@ -1,6 +1,15 @@
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * The same concept as a Window, but with
+     * a lot of the windowing functionality stripped out.
+     *
+     * Such as being unable to move or resize it.
+     * It also doesn't allow being sorted on top of other windows.
+     * </summary>
+     */
     public class FixedWindow: Window {
         /**
          * <summary>
@@ -11,7 +20,7 @@ namespace UILib {
          * <param name="height">The height of the window</param>
          */
         public FixedWindow(string name, float width, float height) : base(name, width, height) {
-            topBar.fullscreenButton.Destroy();
+            titleBar.fullscreenButton.Destroy();
         }
 
         /**

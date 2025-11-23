@@ -1,19 +1,43 @@
 using UnityEngine;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A Window object.
+     *
+     * This object is one of the fundamental building blocks of UILib.
+     *
+     * It supports being moved, resized, maximised, closed, moved
+     * on top of other windows.
+     *
+     * It also has a ScrollView built in.
+     * </summary>
+     */
     public class Window : UIObject {
+        // The minimum width and height of windows
         private const float minWidth = 200f;
         private const float minHeight = 200f;
 
+        // Whether this window is fullscreen
         public bool fullscreen { get; private set; }
+
+        // States stored for helping with moving/resizing/maximising/etc.
         private WindowState state;
         private Vector2 latestDragPosition;
 
+        // The name of this window
         public string name { get; private set; }
 
+        // The canvas this window is attached to
         internal Canvas canvas;
-        internal TopBar topBar { get; private set; }
+
+        // This window's title bar
+        internal TitleBar titleBar { get; private set; }
+
+        // This window's content
         private GameObject content;
+
+        // The ScrollView for the window
         public ScrollView scrollView { get; private set; }
 
         /**
@@ -36,12 +60,12 @@ namespace UILib {
 
             UIRoot.Register(this);
 
-            // The top bar
-            float topBarHeight = 20f;
-            int topBarPadding = 5;
+            // The title bar
+            float titleBarHeight = 20f;
+            int titleBarPadding = 5;
 
-            topBar = new TopBar(this, topBarHeight, topBarPadding);
-            Add(gameObject, topBar);
+            titleBar = new TitleBar(this, titleBarHeight, titleBarPadding);
+            Add(gameObject, titleBar);
 
             // The content
             content = new GameObject("Content");
@@ -51,10 +75,10 @@ namespace UILib {
             contentRect.anchorMin = Vector2.zero;
             contentRect.anchorMax = Vector2.one;
             contentRect.anchoredPosition = new Vector2(
-                0f, -((topBarHeight + 2*topBarPadding) / 2)
+                0f, -((titleBarHeight + 2*titleBarPadding) / 2)
             );
             contentRect.sizeDelta = new Vector2(
-                0f, -(topBarHeight + 2*topBarPadding)
+                0f, -(titleBarHeight + 2*titleBarPadding)
             );
 
             // Add scroll view
@@ -182,7 +206,7 @@ namespace UILib {
             state = new WindowState(this);
             Fill();
             rectTransform.anchoredPosition = Vector2.zero;
-            topBar.fullscreenButton.label.text.text = "-";
+            titleBar.fullscreenButton.label.text.text = "-";
             fullscreen = true;
         }
 
@@ -198,11 +222,11 @@ namespace UILib {
             }
 
             if (state != null) {
-                state.Restore(this);
+                state.Restore();
                 state = null;
             }
 
-            topBar.fullscreenButton.label.text.text = "+";
+            titleBar.fullscreenButton.label.text.text = "+";
             fullscreen = false;
             return true;
         }

@@ -73,7 +73,7 @@ namespace UILib {
         }
 
         public override void OnDrag(Vector2 position) {
-            window.HandleDrag(position);
+            window.HandleMove(position);
         }
     }
 }

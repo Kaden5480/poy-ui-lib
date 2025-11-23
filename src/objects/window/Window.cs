@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace UILib {
     public class Window : UIObject {
+        private const float minWidth = 200f;
+        private const float minHeight = 200f;
+
         public string name { get; private set; }
 
         public bool fullscreen { get; private set; }
@@ -24,6 +27,9 @@ namespace UILib {
          */
         public Window(string name, float width, float height) {
             this.name = name;
+
+            width = Mathf.Max(width, minWidth);
+            height = Mathf.Max(height, minHeight);
 
             // Get a canvas to draw this window on
             canvas = new Canvas();
@@ -136,7 +142,8 @@ namespace UILib {
                 return;
             }
 
-            HandleDrag(position);
+            HandleMove(position);
+            HandleResize(position);
         }
 
 
@@ -153,16 +160,39 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles dragging this window.
+         * Handles moving this window.
          * </summary>
          * <param name="position">The position dragged to</param>
          */
-        internal virtual void HandleDrag(Vector2 position) {
+        internal virtual void HandleMove(Vector2 position) {
             if (fullscreen == true) {
                 return;
             }
 
+            if (Input.GetMouseButton(0) == false) {
+                return;
+            }
+
             MoveBy(position - latestDragPosition);
+            latestDragPosition = position;
+        }
+
+        /**
+         * <summary>
+         * Handles resizing this window.
+         * </summary>
+         * <param name="position">The position dragged to</param>
+         */
+        internal virtual void HandleResize(Vector2 position) {
+            if (fullscreen == true) {
+                return;
+            }
+
+            if (Input.GetMouseButton(1) == false) {
+                return;
+            }
+
+            ResizeBy(position - latestDragPosition);
             latestDragPosition = position;
         }
 
@@ -173,6 +203,25 @@ namespace UILib {
          */
         public void MoveBy(Vector3 delta) {
             rectTransform.localPosition += delta;
+        }
+
+        /**
+         * <summary>
+         * Resizes this window by a given delta.
+         * </summary>
+         */
+        public void ResizeBy(Vector3 delta) {
+            Vector2 oldDelta = rectTransform.sizeDelta;
+
+            float newX = Mathf.Clamp(oldDelta.x + delta.x, minWidth, 1920f);
+            float newY = Mathf.Clamp(oldDelta.y - delta.y, minHeight, 1080f);
+
+            rectTransform.sizeDelta = new Vector2(newX, newY);
+
+            float realDeltaX = newX - oldDelta.x;
+            float realDeltaY = newY - oldDelta.y;
+
+            MoveBy(new Vector3(realDeltaX/2, -realDeltaY/2, 0f));
         }
     }
 }

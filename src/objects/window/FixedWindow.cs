@@ -24,6 +24,7 @@ namespace UILib {
         public override void OnDrag(Vector2 position) {}
 
         internal override void HandleBeginDrag(Vector2 position) {}
-        internal override void HandleDrag(Vector2 position) {}
+        internal override void HandleMove(Vector2 position) {}
+        internal override void HandleResize(Vector2 position) {}
     }
 }

@@ -160,8 +160,8 @@ namespace UILib {
 
             GameObject.DestroyImmediate(gameObject);
 
-            foreach (UIObject child in children) {
-                child.Destroy();
+            for (int i = 0; i < children.Count; i++) {
+                children[i].Destroy();
             }
         }
 

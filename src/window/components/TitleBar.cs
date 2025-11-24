@@ -65,7 +65,7 @@ namespace UILib {
             buttonArea.SetLayout(LayoutType.Horizontal);
             buttonArea.SetAnchor(AnchorType.TopRight);
             buttonArea.SetLayoutPadding(padding, padding, padding, padding);
-            buttonArea.SetLayoutSpacing(padding);
+            buttonArea.SetElementSpacing(padding);
 
             // The button for toggling fullscreen mode
             fullscreenButton = new UIButton("+", (int) barHeight);

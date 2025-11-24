@@ -455,7 +455,7 @@ namespace UILib {
             layoutGroup.childControlWidth = true;
             layoutGroup.childControlHeight = true;
 
-            SetLayoutAlignment(TextAnchor.MiddleCenter);
+            SetElementAlignment(TextAnchor.MiddleCenter);
 
             ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -483,9 +483,9 @@ namespace UILib {
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
-        public void SetLayoutAlignment(TextAnchor alignment) {
+        public void SetElementAlignment(TextAnchor alignment) {
             if (content != this) {
-                content.SetLayoutAlignment(alignment);
+                content.SetElementAlignment(alignment);
                 return;
             }
 
@@ -499,13 +499,13 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the spacing for the layout.
+         * Sets the spacing between elements for the layout.
          * </summary>
          * <param name="spacing">The spacing to use</param>
          */
-        public void SetLayoutSpacing(float spacing) {
+        public void SetElementSpacing(float spacing) {
             if (content != this) {
-                content.SetLayoutSpacing(spacing);
+                content.SetElementSpacing(spacing);
                 return;
             }
 

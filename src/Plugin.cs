@@ -15,6 +15,7 @@ namespace UILib {
         private int logCount = 0;
 
         private Window window;
+        private Window window2;
 
         /**
          * <summary>
@@ -28,36 +29,77 @@ namespace UILib {
 
             window = MakeLog();
             window.SetAnchor(AnchorType.TopLeft);
+
+            window2 = MakeWindow("Cool Window", 800f, 600f);
+            window2.SetAnchor(AnchorType.Middle);
         }
 
         private void Start() {
             window.Show();
+            window2.Show();
+        }
+
+        private Window MakeWindow(string name, float width, float height) {
+            Window window = new Window(name, width, height);
+            window.SetLayout(LayoutType.Vertical);
+            window.SetLayoutPadding(top: 20, bottom: 20);
+            window.SetElementSpacing(20);
+
+            Label titleLabel = new Label("Title", 40);
+            titleLabel.SetSize(200f, 100f);
+            window.Add(titleLabel);
+
+            for (int i = 0; i < 20; i++) {
+                Area area = new Area();
+                area.SetLayout(LayoutType.Horizontal);
+                area.SetFill(FillType.All);
+
+                Label label = new Label($"Some text: {i}", 20);
+                label.SetSize(200f, 50f);
+                area.Add(label);
+
+                UIButton button = new UIButton($"Button: {i}", 20);
+                button.SetSize(200f, 50f);
+                area.Add(button);
+
+                window.Add(area);
+            }
+
+            window.Hide();
+
+            return window;
         }
 
         private Window MakeLog() {
             Window window = new Window("Log Example", 800f, 600f);
-            window.SetLayout(LayoutType.Vertical);
 
-            QueueArea area = new QueueArea(5);
-            window.Add(area);
-
+            QueueArea area = new QueueArea(20);
             area.SetLayout(LayoutType.Vertical);
-            area.SetAnchor(AnchorType.BottomMiddle);
-            area.SetFill(FillType.Vertical);
+            area.SetFill(FillType.All);
+
+            area.rectTransform.anchoredPosition = new Vector2(0f, 50f);
+            area.SetSize(0f, -100f);
 
             UIButton button = new UIButton("Add some content", 40);
-            button.SetSize(200f, 50f);
+            button.SetSize(0f, 100f);
+            button.SetAnchor(AnchorType.BottomMiddle);
+            button.SetFill(FillType.Horizontal);
             button.AddListener(() => {
-                LogDebug("Button clicked");
-                Label label = new Label($"Content: {logCount}", 20);
+                logCount++;
+
+                Label label = new Label($"Log: {logCount}", 20);
                 label.SetSize(200f, 50f);
                 area.Add(label);
-                logCount++;
+
+                window.ScrollToBottom();
             });
 
+            window.Add(area);
             window.Add(button);
-            window.Hide();
 
+            window.SetContent(area);
+
+            window.Hide();
             return window;
         }
 

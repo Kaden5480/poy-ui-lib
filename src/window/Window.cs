@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using UILib.Components;
+using UILib.Layout;
+
 namespace UILib {
     /**
      * <summary>
@@ -34,8 +37,8 @@ namespace UILib {
         // This window's title bar
         internal TitleBar titleBar { get; private set; }
 
-        // This window's content
-        private GameObject content;
+        // This window's container
+        private GameObject container;
 
         // The ScrollView for the window
         public ScrollView scrollView { get; private set; }
@@ -67,29 +70,32 @@ namespace UILib {
             titleBar = new TitleBar(this, titleBarHeight, titleBarPadding);
             Add(gameObject, titleBar);
 
-            // The content
-            content = new GameObject("Content");
-            SetParent(gameObject, content);
+            // The container
+            container = new GameObject("Content");
+            SetParent(gameObject, container);
 
-            RectTransform contentRect = content.AddComponent<RectTransform>();
-            contentRect.anchorMin = Vector2.zero;
-            contentRect.anchorMax = Vector2.one;
-            contentRect.anchoredPosition = new Vector2(
+            RectTransform containerRect = container.AddComponent<RectTransform>();
+            containerRect.anchorMin = Vector2.zero;
+            containerRect.anchorMax = Vector2.one;
+            containerRect.anchoredPosition = new Vector2(
                 0f, -((titleBarHeight + 2*titleBarPadding) / 2)
             );
-            contentRect.sizeDelta = new Vector2(
+            containerRect.sizeDelta = new Vector2(
                 0f, -(titleBarHeight + 2*titleBarPadding)
             );
 
             // Add scroll view
             scrollView = new ScrollView();
             scrollView.Fill();
-            Add(content, scrollView);
+            Add(container, scrollView);
 
             SetAnchor(AnchorType.Middle);
             SetSize(width, height);
 
             AddResizeButton();
+
+            // The scroll view is the content
+            SetContent(scrollView);
         }
 
         /**
@@ -117,64 +123,6 @@ namespace UILib {
         public override void Destroy() {
             UIRoot.Unregister(this);
             base.Destroy();
-        }
-
-        /**
-         * <summary>
-         * Sets the layout to be used on this Window.
-         * </summary>
-         * <param name="layoutType">The type of layout to use</param>
-         */
-        public override void SetLayout(LayoutType layoutType) {
-            scrollView.SetLayout(layoutType);
-        }
-
-        /**
-         * <summary>
-         * Sets the alignment of the child elements for the layout.
-         * </summary>
-         * <param name="alignment">The alignment to use</param>
-         */
-        public override void SetLayoutAlignment(TextAnchor alignment) {
-            scrollView.SetLayoutAlignment(alignment);
-        }
-
-        /**
-         * <summary>
-         * Sets the spacing for the layout.
-         * </summary>
-         * <param name="spacing">The spacing to use</param>
-         */
-        public override void SetLayoutSpacing(float spacing) {
-            scrollView.SetLayoutSpacing(spacing);
-        }
-
-        /**
-         * <summary>
-         * Sets the padding for the layout.
-         * </summary>
-         * <param name="left">The left padding to use</param>
-         * <param name="right">The right padding to use</param>
-         * <param name="top">The top padding to use</param>
-         * <param name="bottom">The bottom padding to use</param>
-         */
-        public override void SetLayoutPadding(
-            int left = 0,
-            int right = 0,
-            int top = 0,
-            int bottom = 0
-        ) {
-            scrollView.SetLayoutPadding(left, right, top, bottom);
-        }
-
-        /**
-         * <summary>
-         * Adds the provided component as a child to this one.
-         * </summary>
-         * <param name="child">The object which should be a child of this object</param>
-         */
-        public override void Add(UIObject child) {
-            scrollView.Add(child);
         }
 
         /**

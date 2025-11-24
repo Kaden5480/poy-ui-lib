@@ -4,16 +4,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UILib.Behaviours;
+using UILib.Layout;
+
 namespace UILib {
     /**
      * <summary>
      * The base class which most objects
      * inherit from.
      *
+     * You'd rarely want to use this class directly though.
+     * Most of the time you'd want to use UIComponent.
+     *
      * Provides most of the necessary functionality.
      * </summary>
      */
-    public class UIObject {
+    public abstract class UIObject {
         protected float width  { get; private set; }
         protected float height { get; private set; }
 
@@ -30,6 +36,9 @@ namespace UILib {
         // The parent and children of this object
         public UIObject parent         { get; private set; }
         public List<UIObject> children { get; private set; }
+
+        // Where layouts should be handled and children should be added
+        private UIObject content;
 
         public LayoutElement layoutElement                 { get; private set; }
         public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
@@ -57,6 +66,82 @@ namespace UILib {
             mouseHandler.AddEndDragListener(OnEndDrag);
 
             SetAnchor(AnchorType.Middle);
+
+            // By default, just make this the content
+            content = this;
+        }
+
+        /**
+         * <summary>
+         * Sets a different component to be the content.
+         * </summary>
+         */
+        protected void SetContent(UIComponent content) {
+            this.content = content;
+        }
+
+        /**
+         * <summary>
+         * Sets a GameObject to be the parent of another.
+         * </summary>
+         * <param name="parent">The GameObject which should be the parent</param>
+         * <param name="child">The GameObject which should be the child</param>
+         */
+        internal static void SetParent(GameObject parent, GameObject child) {
+            child.transform.SetParent(
+                parent.transform, false
+            );
+        }
+
+        /**
+         * <summary>
+         * Adds a child to an object with a custom defined parent.
+         *
+         * NOTE:
+         * This UIObject will still be marked as the parent and have
+         * the child added as its child, this simply changes the GameObject
+         * that's used as the parent in the GameObject hierarchy.
+         * </summary>
+         * <param name="parent">The GameObject to use as a parent instead</param>
+         * <param name="child">The child to add</param>
+         */
+        internal void Add(GameObject parent, UIObject child) {
+            if (layoutGroup != null) {
+                child.AddLayoutElement();
+            }
+
+            if (child.parent != null) {
+                child.parent.RemoveChild(child);
+            }
+
+            SetParent(parent, child.gameObject);
+            child.parent = this;
+            children.Add(child);
+        }
+
+        /**
+         * <summary>
+         * Adds a component as a child.
+         * </summary>
+         * <param name="child">The child to add</param>
+         */
+        public virtual void Add(UIComponent child) {
+            if (content == this) {
+                Add(gameObject, child);
+                return;
+            }
+
+            content.Add(child);
+        }
+
+        /**
+         * <summary>
+         * Removes a child from this object.
+         * </summary>
+         * <param name="child">The child to remove</param>
+         */
+        private void RemoveChild(UIObject child) {
+            children.Remove(child);
         }
 
         /**
@@ -65,7 +150,12 @@ namespace UILib {
          * </summary>
          */
         public virtual void Destroy() {
+            if (parent != null) {
+                parent.RemoveChild(this);
+            }
+
             GameObject.DestroyImmediate(gameObject);
+
             foreach (UIObject child in children) {
                 child.Destroy();
             }
@@ -144,7 +234,7 @@ namespace UILib {
          * Shows this UIObject.
          * </summary>
          */
-        public virtual void Show() {
+        public void Show() {
             gameObject.SetActive(true);
         }
 
@@ -153,53 +243,8 @@ namespace UILib {
          * Hides this UIObject.
          * </summary>
          */
-        public virtual void Hide() {
+        public void Hide() {
             gameObject.SetActive(false);
-        }
-
-        /**
-         * <summary>
-         * Sets a GameObject to be the parent of another.
-         * </summary>
-         * <param name="parent">The GameObject which should be the parent</param>
-         * <param name="child">The GameObject which should be the child</param>
-         */
-        internal static void SetParent(GameObject parent, GameObject child) {
-            child.transform.SetParent(
-                parent.transform, false
-            );
-        }
-
-        /**
-         * <summary>
-         * Adds a child to an object with a custom defined parent.
-         *
-         * NOTE:
-         * This UIObject will still be marked as the parent and have
-         * the child added as its child, this simply changes the GameObject
-         * that's used as the parent in the GameObject hierarchy.
-         * </summary>
-         * <param name="parent">The GameObject to use as a parent instead</param>
-         * <param name="child">The child to add</param>
-         */
-        internal virtual void Add(GameObject parent, UIObject child) {
-            if (layoutGroup != null) {
-                child.AddLayoutElement();
-            }
-
-            SetParent(parent, child.gameObject);
-            child.parent = this;
-            children.Add(child);
-        }
-
-        /**
-         * <summary>
-         * Adds a child to this object.
-         * </summary>
-         * <param name="child">The child to add</param>
-         */
-        public virtual void Add(UIObject child) {
-            Add(gameObject, child);
         }
 
         /**
@@ -208,12 +253,12 @@ namespace UILib {
          * to allow automatically managing layouts.
          * </summary>
          */
-        public virtual void AddLayoutElement() {
+        public void AddLayoutElement() {
             if (layoutElement != null) {
                 return;
             }
 
-            layoutElement = gameObject.AddComponent<LayoutElement>();
+            layoutElement = content.gameObject.AddComponent<LayoutElement>();
             SetSize(width, height);
         }
 
@@ -224,7 +269,7 @@ namespace UILib {
          * <param name="width">The width to set</param>
          * <param name="height">The height to set</param>
          */
-        public virtual void SetSize(float width, float height) {
+        public void SetSize(float width, float height) {
             this.width = width;
             this.height = height;
 
@@ -244,7 +289,7 @@ namespace UILib {
          * <param name="anchorType">The type of anchor to use</param>
          * <param name="fillType">The type of fill to use</param>
          */
-        public virtual void SetAnchor(AnchorType anchorType, FillType fillType = FillType.None) {
+        public void SetAnchor(AnchorType anchorType, FillType fillType = FillType.None) {
             Vector2 vec = Vector2.zero;
 
             switch (anchorType) {
@@ -299,7 +344,7 @@ namespace UILib {
          * </summary>
          * <param name="fillType">The type of fill to use</param>
          */
-        internal virtual void SetFill(FillType fillType) {
+        internal void SetFill(FillType fillType) {
             Vector2 currAnchorMin = rectTransform.anchorMin;
             Vector2 currAnchorMax = rectTransform.anchorMax;
             Vector2 currPivot     = rectTransform.pivot;
@@ -341,7 +386,7 @@ namespace UILib {
          * Sets this component to fill all space.
          * </summary>
          */
-        public virtual void Fill() {
+        public void Fill() {
             SetAnchor(AnchorType.Middle, FillType.Fill);
         }
 
@@ -388,7 +433,12 @@ namespace UILib {
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
          */
-        public virtual void SetLayout(LayoutType layoutType) {
+        public void SetLayout(LayoutType layoutType) {
+            if (content != this) {
+                content.SetLayout(layoutType);
+                return;
+            }
+
             SetLayout(gameObject, layoutType);
         }
 
@@ -398,7 +448,12 @@ namespace UILib {
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
-        public virtual void SetLayoutAlignment(TextAnchor alignment) {
+        public void SetLayoutAlignment(TextAnchor alignment) {
+            if (content != this) {
+                content.SetLayoutAlignment(alignment);
+                return;
+            }
+
             if (layoutGroup == null) {
                 logger.LogDebug("No layout group, can't apply spacing");
                 return;
@@ -413,7 +468,12 @@ namespace UILib {
          * </summary>
          * <param name="spacing">The spacing to use</param>
          */
-        public virtual void SetLayoutSpacing(float spacing) {
+        public void SetLayoutSpacing(float spacing) {
+            if (content != this) {
+                content.SetLayoutSpacing(spacing);
+                return;
+            }
+
             if (layoutGroup == null) {
                 logger.LogDebug("No layout group, can't apply spacing");
                 return;
@@ -431,12 +491,17 @@ namespace UILib {
          * <param name="top">The top padding to use</param>
          * <param name="bottom">The bottom padding to use</param>
          */
-        public virtual void SetLayoutPadding(
+        public void SetLayoutPadding(
             int left = 0,
             int right = 0,
             int top = 0,
             int bottom = 0
         ) {
+            if (content != this) {
+                content.SetLayoutPadding(left, right, top, bottom);
+                return;
+            }
+
             if (layoutGroup == null) {
                 logger.LogDebug("No layout group, can't apply padding");
                 return;

@@ -32,5 +32,9 @@ namespace UILib {
 
             gameObject.AddComponent<UEGraphicRaycaster>();
         }
+
+        public void Add(UIObject child) {
+            Add(gameObject, child);
+        }
     }
 }

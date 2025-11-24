@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace UILib {
+namespace UILib.Behaviours {
     /**
      * <summary>
      * A class which handles mouse input events.

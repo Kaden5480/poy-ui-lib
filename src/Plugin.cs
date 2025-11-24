@@ -3,14 +3,16 @@ using System;
 using BepInEx;
 using UnityEngine;
 
+using UILib.Components;
+using UILib.Layout;
+using UIButton = UILib.Components.Button;
+
 namespace UILib {
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UI Lib", PluginInfo.PLUGIN_VERSION)]
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
         private int buttonCount = 0;
-
-        private FixedWindow configWindow;
 
         private Window window1;
         private Window window2;
@@ -26,8 +28,6 @@ namespace UILib {
 
             UIRoot.Init();
 
-            //configWindow = MakeConfigWindow();
-
             //window1 = MakeWindow("Top Left", 800f, 600f);
             //window1.SetAnchor(AnchorType.TopLeft);
 
@@ -39,51 +39,9 @@ namespace UILib {
         }
 
         private void Start() {
-            //configWindow.Show();
             //window1.Show();
             //window2.Show();
             window3.Show();
-        }
-
-        private FixedWindow MakeConfigWindow() {
-            FixedWindow window = new FixedWindow("Config Window", 0f, 0f);
-            window.Fill();
-
-            window.SetLayout(LayoutType.Vertical);
-            window.SetLayoutSpacing(20);
-            window.SetLayoutPadding(bottom: 20);
-
-            Label header = new Label("My Config Options", 40);
-            header.SetSize(300f, 100f);
-            window.Add(header);
-
-            float width = 200f;
-            float height = 50f;
-
-            for (int i = 0; i < 30; i++) {
-                Area area = new Area();
-                area.SetSize(600f, height);
-                area.SetLayout(LayoutType.Horizontal);
-                area.SetLayoutSpacing(20f);
-
-                Label label = new Label($"Config option: {i}", 20);
-                label.SetSize(width, height);
-                area.Add(label);
-
-                Button button = new Button($"Button for option: {i}", 20);
-                button.SetSize(width, height);
-                string current = $"{i}";
-                button.AddListener(() => {
-                    Notifier.Notify($"Option {current} was clicked");
-                });
-                area.Add(button);
-
-                window.Add(area);
-            }
-
-            window.Hide();
-
-            return window;
         }
 
         private Window MakeWindow(string name, float width, float height) {
@@ -100,7 +58,7 @@ namespace UILib {
             slider.SetSize(200f, 10f);
             window.Add(slider);
 
-            Button sliderChanger = new Button("Change the slider!", 30);
+            UIButton sliderChanger = new UIButton("Change the slider!", 30);
             sliderChanger.SetSize(250f, 50f);
             sliderChanger.AddListener(() => {
                 slider.SetDirection(UnityEngine.UI.Slider.Direction.BottomToTop);
@@ -118,11 +76,11 @@ namespace UILib {
                 window.Add(label);
             }
 
-            Button button = new Button("Test Button", 40);
+            UIButton button = new UIButton("Test UIButton", 40);
             button.SetSize(250f, 50f);
             button.AddListener(() => {
                 buttonCount++;
-                Notifier.Notify($"Button was clicked {buttonCount} time(s)");
+                Notifier.Notify($"UIButton was clicked {buttonCount} time(s)");
             });
 
             window.Add(button);

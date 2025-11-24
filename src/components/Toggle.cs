@@ -1,4 +1,6 @@
-namespace UILib {
+using UIButton = UILib.Components.Button;
+
+namespace UILib.Components {
     /**
      * <summary>
      * An object which is like a button,
@@ -7,7 +9,7 @@ namespace UILib {
      * Also displays a checkmark indicating its current state.
      * </summary>
      */
-    public class Toggle : Button {
+    public class Toggle :  UIButton {
         public bool value { get; private set; } = false;
 
         /**

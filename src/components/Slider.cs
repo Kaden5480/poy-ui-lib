@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
-namespace UILib {
-    public class Slider : UIObject {
+namespace UILib.Components {
+    public class Slider : UIComponent {
         private UESlider slider;
 
         public Image background { get; private set; }

@@ -3,13 +3,13 @@ using UnityEngine;
 using UELayoutElement = UnityEngine.UI.LayoutElement;
 using UEText = UnityEngine.UI.Text;
 
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * An object which just displays some text.
      * </summary>
      */
-    public class Label : UIObject {
+    public class Label : UIComponent {
         public UEText text { get; private set; }
 
         /**

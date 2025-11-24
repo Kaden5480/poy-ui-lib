@@ -1,6 +1,9 @@
 using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
+using UILib.Components;
+using UILib.Layout;
+
 namespace UILib {
     /**
      * <summary>
@@ -36,26 +39,9 @@ namespace UILib {
 
             rectTransform.anchoredPosition = new Vector2(-(margin), 0f);
             SetSize(size, -(2f * margin));
-        }
 
-        /**
-         * <summary>
-         * Adds the provided component as a child to this one.
-         * </summary>
-         * <param name="child">The object which should be a child of this object</param>
-         */
-        public override void Add(UIObject child) {
-            area.Add(child);
-        }
-
-        /**
-         * <summary>
-         * Sets the layout to be used on this NotificationArea.
-         * </summary>
-         * <param name="layoutType">The type of layout to use</param>
-         */
-        public override void SetLayout(LayoutType layoutType) {
-            area.SetLayout(layoutType);
+            // Use the area as the content instead
+            SetContent(area);
         }
     }
 }

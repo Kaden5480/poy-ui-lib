@@ -1,6 +1,10 @@
 using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
+using UILib.Components;
+using UILib.Layout;
+using UIButton = UILib.Components.Button;
+
 namespace UILib {
     /**
      * <summary>
@@ -13,13 +17,13 @@ namespace UILib {
         private Area buttonArea;
 
         // The button for entering/exiting fullscreen
-        internal Button fullscreenButton { get; private set; }
+        internal UIButton fullscreenButton { get; private set; }
 
         // The button for closing this Window
-        internal Button closeButton      { get; private set; }
+        internal UIButton closeButton      { get; private set; }
 
         // The height of this TitleBar
-        private float height;
+        private float barHeight;
 
         // The Window this TitleBar is attached to
         private Window window;
@@ -29,15 +33,15 @@ namespace UILib {
          * Initializes a TitleBar.
          * </summary>
          * <param name="window">The Window this TitleBar  is attached to</param>
-         * <param name="height">The height to use for this TitleBar</param>
+         * <param name="barHeight">The height to use for this TitleBar</param>
          * <param name="padding">The padding to use</param>
          */
-        internal TitleBar(Window window, float height, int padding) {
+        internal TitleBar(Window window, float barHeight, int padding) {
             this.window = window;
-            this.height = height;
+            this.barHeight = barHeight;
 
             // Total height of the container, including padding
-            float totalHeight = height + 2*padding;
+            float totalHeight = barHeight + 2*padding;
 
             // Fill up the entire top of the Window
             SetSize(0f, totalHeight);
@@ -62,18 +66,18 @@ namespace UILib {
             buttonArea.SetLayoutSpacing(padding);
 
             // The button for toggling fullscreen mode
-            fullscreenButton = new Button("+", (int) height);
+            fullscreenButton = new UIButton("+", (int) barHeight);
             fullscreenButton.AddLayoutElement();
-            fullscreenButton.SetSize(height, height);
+            fullscreenButton.SetSize(barHeight, barHeight);
             fullscreenButton.SetAnchor(AnchorType.TopRight);
             fullscreenButton.AddListener(() => {
                 ToggleFullscreen();
             });
 
             // The button to close the Window
-            closeButton = new Button("x", (int) height);
+            closeButton = new UIButton("x", (int) barHeight);
             closeButton.AddLayoutElement();
-            closeButton.SetSize(height, height);
+            closeButton.SetSize(barHeight, barHeight);
             closeButton.SetAnchor(AnchorType.TopRight);
             closeButton.SetColorBlock(Colors.redColorBlock);
             closeButton.AddListener(() => {

@@ -1,13 +1,13 @@
 using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * An object which just displays an image.
      * </summary>
      */
-    public class Image : UIObject {
+    public class Image : UIComponent {
         public UEImage image { get; private set; }
 
         /**

@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using ColorBlock = UnityEngine.UI.ColorBlock;
 using UEButton = UnityEngine.UI.Button;
 
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * A button object.
@@ -15,7 +15,7 @@ namespace UILib {
      * and handle click events.
      * </summary>
      */
-    public class Button : UIObject {
+    public class Button : UIComponent {
         private Image background;
         private UEButton button;
 

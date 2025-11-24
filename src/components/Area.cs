@@ -1,8 +1,8 @@
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * A blank area, does nothing special.
      * </summary>
      */
-    public class Area : UIObject {}
+    public class Area : UIComponent {}
 }

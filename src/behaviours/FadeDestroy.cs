@@ -2,7 +2,7 @@ using System.Collections;
 
 using UnityEngine;
 
-namespace UILib {
+namespace UILib.Behaviours {
     /**
      * <summary>
      * Handles destroying a Notification

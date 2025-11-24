@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using UILib.Layout;
+using UIButton = UILib.Components.Button;
+
 namespace UILib {
     /**
      * <summary>
@@ -7,7 +10,7 @@ namespace UILib {
      * of Windows to allow resizing them.
      * </summary>
      */
-    internal class ResizeButton : Button {
+    internal class ResizeButton : UIButton {
         // The Window this ResizeButton is attached to
         private Window window;
 

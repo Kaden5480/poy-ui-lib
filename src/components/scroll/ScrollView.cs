@@ -7,7 +7,9 @@ using UEImage = UnityEngine.UI.Image;
 using UEMask = UnityEngine.UI.Mask;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
-namespace UILib {
+using UILib.Layout;
+
+namespace UILib.Components {
     /**
      * <summary>
      * A ScrollView.
@@ -19,9 +21,9 @@ namespace UILib {
      * Vertical ScrollBars are always on.
      * </summary>
      */
-    public class ScrollView : UIObject {
+    public class ScrollView : UIComponent {
         private GameObject viewport;
-        private GameObject content;
+        private Area scrollContent;
 
         internal ScrollRect scrollRect { get; private set; }
         internal ScrollBar scrollBarH  { get; private set; }
@@ -40,13 +42,11 @@ namespace UILib {
             );
             SetParent(gameObject, viewport);
 
-            content = new GameObject("Content",
-                typeof(RectTransform)
-            );
-            SetParent(viewport, content);
+            scrollContent = new Area();
+            SetParent(viewport, scrollContent.gameObject);
 
             // Content setup
-            RectTransform contentRect = content.GetComponent<RectTransform>();
+            RectTransform contentRect = scrollContent.rectTransform;
             contentRect.anchorMin = Vector2.zero;
             contentRect.anchorMax = Vector2.one;
             contentRect.sizeDelta = Vector2.zero;
@@ -79,26 +79,9 @@ namespace UILib {
             Add(gameObject, scrollBarH);
             scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
             scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
-        }
 
-        /**
-         * <summary>
-         * Adds the provided component as a child to this one.
-         * </summary>
-         * <param name="child">The object which should be a child of this object</param>
-         */
-        public override void Add(UIObject child) {
-            Add(content, child);
-        }
-
-        /**
-         * <summary>
-         * Sets the layout to be used on this ScrollView.
-         * </summary>
-         * <param name="layoutType">The type of layout to use</param>
-         */
-        public override void SetLayout(LayoutType layoutType) {
-            SetLayout(content, layoutType);
+            // Use the scrollContent instead
+            SetContent(scrollContent);
         }
     }
 }

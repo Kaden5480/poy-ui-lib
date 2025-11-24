@@ -1,5 +1,8 @@
 using UnityEngine;
 
+using UILib.Behaviours;
+using UILib.Components;
+
 namespace UILib {
     /**
      * <summary>
@@ -11,7 +14,7 @@ namespace UILib {
      * a certain period of time.
      * </summary>
      */
-    internal class Notification : UIObject {
+    internal class Notification : UIComponent {
         private Image background;
         private Label label;
 

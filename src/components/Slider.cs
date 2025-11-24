@@ -17,6 +17,10 @@ namespace UILib.Components {
         public Image fillImage   { get; private set; }
         public Image handleImage { get; private set; }
 
+        // TODO: Update the asset bundle to include
+        // textures for the slider
+        // and fix issues relating to the scale of the handle.
+
         /**
          * <summary>
          * Initializes a Slider.

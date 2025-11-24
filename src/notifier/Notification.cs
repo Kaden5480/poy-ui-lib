@@ -25,6 +25,8 @@ namespace UILib {
         private CanvasGroup canvasGroup;
         private Timer timer;
 
+        // TODO: Add titles to notifications.
+
         /**
          * <summary>
          * Initializes a Notification.

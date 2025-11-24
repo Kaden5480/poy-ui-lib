@@ -92,6 +92,11 @@ namespace UILib {
             area.rectTransform.anchoredPosition = new Vector2(0f, 50f);
             area.SetSize(0f, -100f);
 
+            // TODO: When content is added, the layout resizes
+            // but the scrollbar stays fixed.
+            // Even moving the scrollbar after adding doesn't work
+            // because the layout gets shifted around.
+            // Find a way to actually handle this.
             UIButton button = new UIButton("Add some content", 40);
             button.SetSize(0f, 100f);
             button.SetAnchor(AnchorType.BottomMiddle);

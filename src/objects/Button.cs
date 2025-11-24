@@ -63,7 +63,6 @@ namespace UILib {
         public Button(Texture2D texture) : this() {
             image = new Image(texture);
             GameObject.DestroyImmediate(image.mouseHandler);
-            image.Fill();
             Add(image);
         }
 

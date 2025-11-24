@@ -63,14 +63,6 @@ namespace UILib {
             DestroyHandlers();
         }
 
-        protected override void OnClick() {
-            EventSystem.current.SetSelectedGameObject(null);
-        }
-
-        protected override void OnDrag(Vector2 position) {
-            EventSystem.current.SetSelectedGameObject(null);
-        }
-
         /**
          * <summary>
          * Sets the limits for this slider.

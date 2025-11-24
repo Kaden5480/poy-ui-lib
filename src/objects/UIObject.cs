@@ -95,7 +95,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles this UIObject being dragged.
+         * Handles the start of this UIObject being dragged.
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
@@ -119,9 +119,9 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles this UIObject being dragged.
+         * Handles the end of this UIObject being dragged.
          * </summary>
-         * <param name="position">The position the drag started at</param>
+         * <param name="position">The position the drag ended at</param>
          */
         protected virtual void OnEndDrag(Vector2 position) {
             if (parent != null) {

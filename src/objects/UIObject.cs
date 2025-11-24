@@ -84,7 +84,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Handles this UIObject being clicked.
+         * Handles this UIObject being double clicked.
          * </summary>
          */
         protected virtual void OnDoubleClick() {

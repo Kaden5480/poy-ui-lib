@@ -73,6 +73,16 @@ namespace UILib {
 
         /**
          * <summary>
+         * Destroys the mouse handler on this object.
+         * </summary>
+         */
+        internal void DestroyMouseHandler() {
+            GameObject.DestroyImmediate(mouseHandler);
+            mouseHandler = null;
+        }
+
+        /**
+         * <summary>
          * Handles this UIObject being clicked.
          * </summary>
          */

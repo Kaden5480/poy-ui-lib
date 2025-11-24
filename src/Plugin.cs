@@ -26,13 +26,13 @@ namespace UILib {
 
             UIRoot.Init();
 
-            configWindow = MakeConfigWindow();
+            //configWindow = MakeConfigWindow();
 
-            window1 = MakeWindow("Top Left", 800f, 600f);
-            window1.SetAnchor(AnchorType.TopLeft);
+            //window1 = MakeWindow("Top Left", 800f, 600f);
+            //window1.SetAnchor(AnchorType.TopLeft);
 
-            window2 = MakeWindow("Bottom Right", 300f, 500f);
-            window2.SetAnchor(AnchorType.BottomRight);
+            //window2 = MakeWindow("Bottom Right", 300f, 500f);
+            //window2.SetAnchor(AnchorType.BottomRight);
 
             window3 = MakeWindow("Middle", 600f, 800f);
             window3.SetAnchor(AnchorType.Middle);
@@ -40,8 +40,8 @@ namespace UILib {
 
         private void Start() {
             //configWindow.Show();
-            window1.Show();
-            window2.Show();
+            //window1.Show();
+            //window2.Show();
             window3.Show();
         }
 
@@ -95,6 +95,14 @@ namespace UILib {
             Toggle toggle = new Toggle();
             toggle.SetSize(40f, 40f);
             window.Add(toggle);
+
+            Slider slider = new Slider();
+            slider.SetSize(200f, 10f);
+            window.Add(slider);
+
+            Slider slider2 = new Slider(direction: UnityEngine.UI.Slider.Direction.BottomToTop);
+            slider2.SetSize(10f, 200f);
+            window.Add(slider2);
 
             for (int i = 0; i < 20; i++) {
                 Label label = new Label($"Hello, world! {i}", 40);

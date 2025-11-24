@@ -29,7 +29,7 @@ namespace UILib {
          */
         public Button() {
             background = new Image();
-            GameObject.DestroyImmediate(background.mouseHandler);
+            background.DestroyMouseHandler();
             Add(background);
 
             button = gameObject.AddComponent<UEButton>();
@@ -49,7 +49,7 @@ namespace UILib {
          */
         public Button(string text, int fontSize) : this() {
             label = new Label(text, fontSize);
-            GameObject.DestroyImmediate(label.mouseHandler);
+            label.DestroyMouseHandler();
             label.Fill();
             Add(label);
         }
@@ -62,7 +62,7 @@ namespace UILib {
          */
         public Button(Texture2D texture) : this() {
             image = new Image(texture);
-            GameObject.DestroyImmediate(image.mouseHandler);
+            image.DestroyMouseHandler();
             Add(image);
         }
 

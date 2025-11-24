@@ -19,10 +19,11 @@ namespace UILib {
         public static Color red          = new Color(204f/255f, 51f/255f, 51f/255f);
         public static Color lightRed     = new Color(166f/255f, 89f/255f, 89f/255f);
 
-        public static ColorBlock colorBlock      = MakeBlock(grey, lightGrey);
-        public static ColorBlock lightColorBlock = MakeBlock(lightGrey, lighterGrey);
-        public static ColorBlock darkColorBlock  = MakeBlock(darkGrey, grey);
-        public static ColorBlock redColorBlock   = MakeBlock(lightRed, red);
+        public static ColorBlock colorBlock        = MakeBlock(grey, lightGrey);
+        public static ColorBlock lightColorBlock   = MakeBlock(lightGrey, lighterGrey);
+        public static ColorBlock lighterColorBlock = MakeBlock(lighterGrey, lightestGrey);
+        public static ColorBlock darkColorBlock    = MakeBlock(darkGrey, grey);
+        public static ColorBlock redColorBlock     = MakeBlock(lightRed, red);
 
         /**
          * <summary>

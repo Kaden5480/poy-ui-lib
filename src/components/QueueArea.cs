@@ -29,16 +29,9 @@ namespace UILib.Components {
          * <param name="child">The child to add</param>
          */
         public override void Add(UIComponent child) {
-            logger.LogDebug($"Adding: {child}");
             base.Add(child);
 
-            logger.LogDebug($"Has {children.Count} children");
-            foreach (UIObject ch in children) {
-                logger.LogDebug($"Has child: {ch}");
-            }
-
             if (children.Count >= maxCount) {
-                logger.LogDebug($"Destroying: {children[0]}");
                 children[0].Destroy();
             }
         }

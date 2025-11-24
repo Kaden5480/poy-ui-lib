@@ -263,21 +263,8 @@ namespace UILib {
             }
 
             layoutElement = content.gameObject.AddComponent<LayoutElement>();
-
-            switch (fillType) {
-                case FillType.Vertical:
-                    SetSize(width, -1f);
-                    break;
-                case FillType.Horizontal:
-                    SetSize(-1f, height);
-                    break;
-                case FillType.All:
-                    SetSize(-1f, -1f);
-                    break;
-                default:
-                    SetSize(width, height);
-                    break;
-            }
+            SetSize(width, height);
+            SetFill(fillType);
         }
 
         /**
@@ -361,12 +348,43 @@ namespace UILib {
 
         /**
          * <summary>
+         * Sets the fill for layout elements.
+         * </summary>
+         * <param name="fillType">The type of fill to use</param>
+         */
+        private void SetElementFill(FillType fillType) {
+            switch (fillType) {
+                case FillType.None:
+                    SetSize(width, height);
+                    break;
+                case FillType.Vertical:
+                    SetSize(width, -1f);
+                    break;
+                case FillType.Horizontal:
+                    SetSize(-1f, height);
+                    break;
+                case FillType.All:
+                    SetSize(-1f, -1f);
+                    break;
+                default:
+                    logger.LogDebug($"Unexpected fill type: {fillType}");
+                    break;
+            }
+        }
+
+        /**
+         * <summary>
          * Sets the fill type of this object.
          * </summary>
          * <param name="fillType">The type of fill to use</param>
          */
         public void SetFill(FillType fillType) {
             this.fillType = fillType;
+
+            if (layoutElement != null) {
+                SetElementFill(fillType);
+                return;
+            }
 
             Vector2 currAnchorMin = rectTransform.anchorMin;
             Vector2 currAnchorMax = rectTransform.anchorMax;

@@ -27,7 +27,7 @@ namespace UILib {
          * <param name="color">The color to set on the image</param>
          */
         public Image(Color color) : this() {
-            image.color = color;
+            SetColor(color);
         }
 
         /**
@@ -37,6 +37,26 @@ namespace UILib {
          * <param name="texture">The texture to display</param>
          */
         public Image(Texture2D texture) : this() {
+            SetTexture(texture);
+        }
+
+        /**
+         * <summary>
+         * Changes the color of this image.
+         * </summary>
+         * <param name="color">The color to use</param>
+         */
+        public void SetColor(Color color) {
+            image.color = color;
+        }
+
+        /**
+         * <summary>
+         * Changes this image to use a different texture.
+         * </summary>
+         * <param name="texture">The texture to apply</param>
+         */
+        public void SetTexture(Texture2D texture) {
             image.sprite = Sprite.Create(
                 texture, new Rect(0, 0, texture.width, texture.height),
                 new Vector2(0.5f, 0.5f)

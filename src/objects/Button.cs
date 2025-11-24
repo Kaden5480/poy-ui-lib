@@ -69,6 +69,16 @@ namespace UILib {
 
         /**
          * <summary>
+         * Allows changing the background image of the button.
+         * </summary>
+         * <param name="texture">The texture to use instead</param>
+         */
+        public void SetBackground(Texture2D texture) {
+            background.SetTexture(texture);
+        }
+
+        /**
+         * <summary>
          * Sets the color block of this button.
          * </summary>
          * <param name="colorBlock">The color block to set</param>

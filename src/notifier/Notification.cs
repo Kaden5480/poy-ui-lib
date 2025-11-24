@@ -16,10 +16,14 @@ namespace UILib {
      * </summary>
      */
     internal class Notification : UIComponent {
+        private const float waitTime = 3f;
+        private const float fadeTime = 1f;
+
         private Image background;
         private Label label;
 
-        private FadeDestroy fadeDestroy;
+        private CanvasGroup canvasGroup;
+        private Timer timer;
 
         /**
          * <summary>
@@ -38,9 +42,25 @@ namespace UILib {
             AddLayoutElement();
             SetSize(NotificationArea.size, 100f);
 
-            // Start fading
-            fadeDestroy = gameObject.AddComponent<FadeDestroy>();
-            fadeDestroy.StartFade(this);
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+            timer = gameObject.AddComponent<Timer>();
+
+            timer.AddListener((float value) => {
+                // Do nothing if in wait time
+                if (value > fadeTime) {
+                    return;
+                }
+
+                // Scale opacity
+                canvasGroup.alpha = 1 - ((fadeTime - value) / fadeTime);
+            });
+
+            timer.AddEndListener(() => {
+                Destroy();
+            });
+
+            timer.StartTimer(waitTime + fadeTime);
         }
 
         /**
@@ -49,25 +69,8 @@ namespace UILib {
          * </summary>
          */
         protected override void OnClick() {
-            fadeDestroy.StopAllCoroutines();
+            timer.StopAllCoroutines();
             Destroy();
-        }
-
-        /**
-         * <summary>
-         * Sets the opacity of this notification.
-         * </summary>
-         * <param name="opacity">The opacity to set</param>
-         */
-        internal void SetOpacity(float opacity) {
-            Color backgroundColor = background.image.color;
-            Color labelColor = label.text.color;
-
-            backgroundColor.a = opacity;
-            labelColor.a = opacity;
-
-            background.image.color = backgroundColor;
-            label.text.color = labelColor;
         }
     }
 }

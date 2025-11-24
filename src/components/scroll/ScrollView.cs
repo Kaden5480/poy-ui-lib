@@ -43,7 +43,7 @@ namespace UILib.Components {
             SetParent(gameObject, viewport);
 
             scrollContent = new Area();
-            SetParent(viewport, scrollContent.gameObject);
+            Add(viewport, scrollContent);
 
             // Content setup
             RectTransform contentRect = scrollContent.rectTransform;

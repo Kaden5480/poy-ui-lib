@@ -21,7 +21,7 @@ namespace UILib.Components {
          * </summary>
          * <param name="min">The minimum value of this slider</param>
          * <param name="max">The maximum value of this slider</param>
-         * <param name="direction>The increasing direction for this slider</param>
+         * <param name="direction">The increasing direction for this slider</param>
          */
         public Slider(
             float min = 0f,

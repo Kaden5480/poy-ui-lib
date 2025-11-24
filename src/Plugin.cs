@@ -49,6 +49,14 @@ namespace UILib {
             titleLabel.SetSize(200f, 100f);
             window.Add(titleLabel);
 
+            Toggle toggle = new Toggle();
+            toggle.SetSize(40f, 40f);
+            window.Add(toggle);
+
+            Slider slider = new Slider();
+            slider.SetSize(200f, 10f);
+            window.Add(slider);
+
             for (int i = 0; i < 20; i++) {
                 Area area = new Area();
                 area.SetLayout(LayoutType.Horizontal);
@@ -60,6 +68,10 @@ namespace UILib {
 
                 UIButton button = new UIButton($"Button: {i}", 20);
                 button.SetSize(200f, 50f);
+                button.AddListener(() => {
+                    string current = $"{i}";
+                    Notifier.Notify($"Button {current} was pressed");
+                });
                 area.Add(button);
 
                 window.Add(area);

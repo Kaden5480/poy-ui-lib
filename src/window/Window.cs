@@ -115,9 +115,11 @@ namespace UILib {
          * </summary>
          */
         internal virtual void AddResizeButton() {
+            float scrollBarWidth = scrollView.scrollBarWidth;
+
             RectTransform rect = scrollView.scrollBarV.rectTransform;
-            rect.anchoredPosition = new Vector2(0f, 10f);
-            rect.sizeDelta = new Vector2(20f, -20f);
+            rect.anchoredPosition = new Vector2(0f, scrollBarWidth/2);
+            rect.sizeDelta = new Vector2(scrollBarWidth, -scrollBarWidth);
 
             scrollView.Add(
                 scrollView.gameObject,

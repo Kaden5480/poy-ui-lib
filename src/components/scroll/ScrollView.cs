@@ -22,6 +22,8 @@ namespace UILib.Components {
      * </summary>
      */
     public class ScrollView : UIComponent {
+        public float scrollBarWidth { get; private set; } = 20f;
+
         private GameObject viewport;
         private Area scrollContent;
 
@@ -55,8 +57,8 @@ namespace UILib.Components {
             RectTransform viewportRect = viewport.GetComponent<RectTransform>();
             viewportRect.anchorMin = Vector2.zero;
             viewportRect.anchorMax = Vector2.one;
-            viewportRect.sizeDelta = Vector2.zero;
-            viewportRect.anchoredPosition = Vector2.zero;
+            viewportRect.sizeDelta = new Vector2(-scrollBarWidth, 0f);
+            viewportRect.anchoredPosition = new Vector2(-scrollBarWidth/2, 0f);
 
             viewport.GetComponent<UEImage>().color = Colors.black;
 
@@ -69,12 +71,12 @@ namespace UILib.Components {
 
             // Scroll bar setup
             scrollRect.vertical = true;
-            scrollBarV = new ScrollBar(ScrollType.Vertical);
+            scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
             Add(gameObject, scrollBarV);
             scrollRect.verticalScrollbar = scrollBarV.scrollBar;
 
             scrollRect.horizontal = true;
-            scrollBarH = new ScrollBar(ScrollType.Horizontal);
+            scrollBarH = new ScrollBar(ScrollType.Horizontal, scrollBarWidth);
             Add(gameObject, scrollBarH);
             scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
             scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;

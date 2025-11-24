@@ -13,6 +13,8 @@ namespace UILib.Components {
      * </summary>
      */
     internal class ScrollBar : UIObject {
+        public float barWidth { get; private set; }
+
         private GameObject slidingArea;
         private GameObject handle;
 
@@ -24,8 +26,11 @@ namespace UILib.Components {
          * Initializes a ScrollBar.
          * </summary>
          * <param name="scrollType">The type of scrollbar to use</param>
+         * <param name="width">The width of the scrollbar</param>
          */
-        internal ScrollBar(ScrollType scrollType) {
+        internal ScrollBar(ScrollType scrollType, float width) {
+            this.barWidth = width;
+
             // Making the object hierarchy
             slidingArea = new GameObject("Sliding Area",
                 typeof(RectTransform)
@@ -51,15 +56,15 @@ namespace UILib.Components {
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
                     SetAnchor(AnchorType.TopRight);
                     SetFill(FillType.Vertical);
-                    rectTransform.sizeDelta        = new Vector2(20f, 0f);
+                    rectTransform.sizeDelta        = new Vector2(barWidth, 0f);
                     rectTransform.anchoredPosition = Vector2.zero;
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
                     SetAnchor(AnchorType.BottomLeft);
                     SetFill(FillType.Horizontal);
-                    rectTransform.sizeDelta        = new Vector2(-20f, 20f);
-                    rectTransform.anchoredPosition = new Vector2(-10f, 0f);
+                    rectTransform.sizeDelta        = new Vector2(-barWidth, 20f);
+                    rectTransform.anchoredPosition = new Vector2(-barWidth/2, 0f);
                     break;
                 default:
                     logger.LogDebug($"Unexpected ScrollType: {scrollType}");

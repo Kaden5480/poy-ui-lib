@@ -89,11 +89,15 @@ namespace UILib {
 
         /**
          * <summary>
-         * Resets the scroll.
+         * Sets the value of the scrollbar.
+         *
+         * NOTE:
+         * Should be between 0-1 (inclusive).
          * </summary>
+         * <param name="value">The value to set the scrollbar to</param>
          */
-        internal void ResetScroll() {
-            scrollBar.value = 1f;
+        internal void SetScroll(float value) {
+            scrollBar.value = value;
         }
 
         /**

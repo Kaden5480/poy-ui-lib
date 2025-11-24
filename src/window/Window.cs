@@ -95,7 +95,17 @@ namespace UILib {
             AddResizeButton();
 
             // The scroll view is the content
-            SetContent(scrollView);
+            base.SetContent(scrollView);
+        }
+
+        /**
+         * <summary>
+         * Sets a different component to be the content.
+         * </summary>
+         * <param name="content">The component which should be the content instead</param>
+         */
+        public override void SetContent(UIComponent content) {
+            scrollView.SetContent(content);
         }
 
         /**
@@ -139,6 +149,24 @@ namespace UILib {
             );
 
             return canvasLocal;
+        }
+
+        /**
+         * <summary>
+         * Scroll to the top of this window.
+         * </summary>
+         */
+        public void ScrollToTop() {
+            scrollView.scrollBarV.SetScroll(1f);
+        }
+
+        /**
+         * <summary>
+         * Scroll to the bottom of this window.
+         * </summary>
+         */
+        public void ScrollToBottom() {
+            scrollView.scrollBarV.SetScroll(0f);
         }
 
         /**

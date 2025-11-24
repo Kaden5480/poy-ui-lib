@@ -61,7 +61,6 @@ namespace UILib.Components {
             viewport.GetComponent<UEImage>().color = Colors.black;
 
             // Scroll rect setup
-            scrollRect.content = contentRect;
             scrollRect.viewport = viewportRect;
 
             scrollRect.elasticity = 0f;
@@ -82,6 +81,17 @@ namespace UILib.Components {
 
             // Use the scrollContent instead
             SetContent(scrollContent);
+        }
+
+        /**
+         * <summary>
+         * Sets a different component to be the content.
+         * </summary>
+         * <param name="content">The component which should be the content instead</param>
+         */
+        public override void SetContent(UIComponent content) {
+            base.SetContent(content);
+            scrollRect.content = content.rectTransform;
         }
     }
 }

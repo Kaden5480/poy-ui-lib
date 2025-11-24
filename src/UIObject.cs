@@ -79,8 +79,9 @@ namespace UILib {
          * <summary>
          * Sets a different component to be the content.
          * </summary>
+         * <param name="content">The component which should be the content instead</param>
          */
-        protected void SetContent(UIComponent content) {
+        public virtual void SetContent(UIComponent content) {
             this.content = content;
         }
 

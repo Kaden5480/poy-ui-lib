@@ -2,6 +2,7 @@ using UnityEngine;
 
 using UILib.Behaviours;
 using UILib.Components;
+using UILib.Layout;
 
 namespace UILib {
     /**
@@ -31,7 +32,7 @@ namespace UILib {
             Add(background);
 
             label = new Label(text, 30);
-            label.Fill();
+            label.SetFill(FillType.All);
             Add(label);
 
             AddLayoutElement();

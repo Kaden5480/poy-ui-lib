@@ -8,8 +8,8 @@ namespace UILib.Layout {
      */
     public enum FillType {
         None,
-        FillVertical,
-        FillHorizontal,
-        Fill,
+        Vertical,
+        Horizontal,
+        All,
     }
 }

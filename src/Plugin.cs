@@ -13,6 +13,7 @@ namespace UILib {
         internal static Plugin instance { get; private set; }
 
         private int buttonCount = 0;
+        private int logCount = 0;
 
         private Window window1;
         private Window window2;
@@ -34,14 +35,44 @@ namespace UILib {
             //window2 = MakeWindow("Bottom Right", 300f, 500f);
             //window2.SetAnchor(AnchorType.BottomRight);
 
+            window1 = MakeLog();
+            window1.SetAnchor(AnchorType.TopLeft);
+
             window3 = MakeWindow("Middle", 600f, 800f);
             window3.SetAnchor(AnchorType.Middle);
         }
 
         private void Start() {
-            //window1.Show();
+            window1.Show();
             //window2.Show();
             window3.Show();
+        }
+
+        private Window MakeLog() {
+            Window window = new Window("Log Example", 800f, 600f);
+            window.SetLayout(LayoutType.Vertical);
+
+            QueueArea area = new QueueArea(5);
+            window.Add(area);
+
+            area.SetLayout(LayoutType.Vertical);
+            area.SetAnchor(AnchorType.BottomMiddle);
+            area.SetFill(FillType.Vertical);
+
+            UIButton button = new UIButton("Add some content", 40);
+            button.SetSize(200f, 50f);
+            button.AddListener(() => {
+                LogDebug("Button clicked");
+                Label label = new Label($"Content: {logCount}", 20);
+                label.SetSize(200f, 50f);
+                area.Add(label);
+                logCount++;
+            });
+
+            window.Add(button);
+            window.Hide();
+
+            return window;
         }
 
         private Window MakeWindow(string name, float width, float height) {

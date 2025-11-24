@@ -1,6 +1,8 @@
 using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
+using UILib.Layout;
+
 namespace UILib.Components {
     /**
      * <summary>
@@ -17,7 +19,7 @@ namespace UILib.Components {
          */
         public Image() {
             image = gameObject.AddComponent<UEImage>();
-            Fill();
+            SetFill(FillType.All);
         }
 
         /**

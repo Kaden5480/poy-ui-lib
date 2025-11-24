@@ -86,7 +86,7 @@ namespace UILib {
 
             // Add scroll view
             scrollView = new ScrollView();
-            scrollView.Fill();
+            scrollView.SetFill(FillType.All);
             Add(container, scrollView);
 
             SetAnchor(AnchorType.Middle);
@@ -152,7 +152,7 @@ namespace UILib {
             }
 
             state = new WindowState(this);
-            Fill();
+            SetFill(FillType.All);
             rectTransform.anchoredPosition = Vector2.zero;
             titleBar.fullscreenButton.label.text.text = "-";
             fullscreen = true;

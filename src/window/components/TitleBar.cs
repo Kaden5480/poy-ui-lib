@@ -45,7 +45,8 @@ namespace UILib {
 
             // Fill up the entire top of the Window
             SetSize(0f, totalHeight);
-            SetAnchor(AnchorType.TopLeft, FillType.FillHorizontal);
+            SetAnchor(AnchorType.TopLeft);
+            SetFill(FillType.Horizontal);
 
             // Add a background
             UEImage image = gameObject.AddComponent<UEImage>();
@@ -55,7 +56,8 @@ namespace UILib {
             Label label = new Label(window.name, (int) totalHeight - 5);
             Add(label);
             label.SetSize(0f, totalHeight);
-            label.SetAnchor(AnchorType.TopLeft, FillType.FillHorizontal);
+            label.SetAnchor(AnchorType.TopLeft);
+            label.SetFill(FillType.Horizontal);
 
             // Create an area for holding the buttons
             buttonArea = new Area();

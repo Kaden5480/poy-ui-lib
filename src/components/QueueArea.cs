@@ -18,7 +18,7 @@ namespace UILib.Components {
          * <param name="maxCount">The maximum number of children in the queue</param>
          */
         public QueueArea(int maxCount) {
-            this.maxCount = Math.Min(0, maxCount);
+            this.maxCount = Math.Max(0, maxCount);
         }
 
         /**
@@ -29,9 +29,16 @@ namespace UILib.Components {
          * <param name="child">The child to add</param>
          */
         public override void Add(UIComponent child) {
+            logger.LogDebug($"Adding: {child}");
             base.Add(child);
 
+            logger.LogDebug($"Has {children.Count} children");
+            foreach (UIObject ch in children) {
+                logger.LogDebug($"Has child: {ch}");
+            }
+
             if (children.Count >= maxCount) {
+                logger.LogDebug($"Destroying: {children[0]}");
                 children[0].Destroy();
             }
         }

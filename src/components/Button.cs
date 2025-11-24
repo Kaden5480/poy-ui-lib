@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 using ColorBlock = UnityEngine.UI.ColorBlock;
 using UEButton = UnityEngine.UI.Button;
 
+using UILib.Layout;
+
 namespace UILib.Components {
     /**
      * <summary>
@@ -50,7 +52,7 @@ namespace UILib.Components {
         public Button(string text, int fontSize) : this() {
             label = new Label(text, fontSize);
             label.DestroyMouseHandler();
-            label.Fill();
+            label.SetFill(FillType.All);
             Add(label);
         }
 

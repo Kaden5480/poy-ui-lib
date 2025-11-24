@@ -4,6 +4,8 @@ using UnityEngine.EventSystems;
 using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
+using UILib.Layout;
+
 namespace UILib.Components {
     public class Slider : UIComponent {
         private UESlider slider;
@@ -31,10 +33,10 @@ namespace UILib.Components {
             background = new Image();
 
             fillArea = new Area();
-            fillArea.Fill();
+            fillArea.SetFill(FillType.All);
 
             handleArea = new Area();
-            handleArea.Fill();
+            handleArea.SetFill(FillType.All);
 
             fillImage = new Image();
             fillImage.image.type = UEImage.Type.Sliced;

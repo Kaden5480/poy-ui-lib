@@ -40,6 +40,10 @@ namespace UILib {
         // Where layouts should be handled and children should be added
         private UIObject content;
 
+        // Layout information
+        public AnchorType anchorType                       { get; private set; }
+        public FillType fillType                           { get; private set; }
+        public LayoutType layoutType                       { get; private set; }
         public LayoutElement layoutElement                 { get; private set; }
         public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
 
@@ -259,7 +263,21 @@ namespace UILib {
             }
 
             layoutElement = content.gameObject.AddComponent<LayoutElement>();
-            SetSize(width, height);
+
+            switch (fillType) {
+                case FillType.Vertical:
+                    SetSize(width, -1f);
+                    break;
+                case FillType.Horizontal:
+                    SetSize(-1f, height);
+                    break;
+                case FillType.All:
+                    SetSize(-1f, -1f);
+                    break;
+                default:
+                    SetSize(width, height);
+                    break;
+            }
         }
 
         /**
@@ -289,7 +307,9 @@ namespace UILib {
          * <param name="anchorType">The type of anchor to use</param>
          * <param name="fillType">The type of fill to use</param>
          */
-        public void SetAnchor(AnchorType anchorType, FillType fillType = FillType.None) {
+        public void SetAnchor(AnchorType anchorType) {
+            this.anchorType = anchorType;
+
             Vector2 vec = Vector2.zero;
 
             switch (anchorType) {
@@ -335,6 +355,7 @@ namespace UILib {
             rectTransform.anchorMax = vec;
             rectTransform.pivot     = vec;
 
+            // Reapply fill
             SetFill(fillType);
         }
 
@@ -344,7 +365,9 @@ namespace UILib {
          * </summary>
          * <param name="fillType">The type of fill to use</param>
          */
-        internal void SetFill(FillType fillType) {
+        public void SetFill(FillType fillType) {
+            this.fillType = fillType;
+
             Vector2 currAnchorMin = rectTransform.anchorMin;
             Vector2 currAnchorMax = rectTransform.anchorMax;
             Vector2 currPivot     = rectTransform.pivot;
@@ -354,21 +377,21 @@ namespace UILib {
                 case FillType.None:
                     break;
 
-                case FillType.FillVertical:
+                case FillType.Vertical:
                     rectTransform.anchorMin = new Vector2(currAnchorMin.x, 0f);
                     rectTransform.anchorMax = new Vector2(currAnchorMax.x, 1f);
                     rectTransform.pivot     = new Vector2(currPivot.x,     0.5f);
                     rectTransform.sizeDelta = new Vector2(currSizeDelta.x, 0f);
                     break;
 
-                case FillType.FillHorizontal:
+                case FillType.Horizontal:
                     rectTransform.anchorMin = new Vector2(0f,   currAnchorMin.y);
                     rectTransform.anchorMax = new Vector2(1f,   currAnchorMax.y);
                     rectTransform.pivot     = new Vector2(0.5f, currPivot.y);
                     rectTransform.sizeDelta = new Vector2(0f,   currSizeDelta.y);
                     break;
 
-                case FillType.Fill:
+                case FillType.All:
                     rectTransform.anchorMin = Vector2.zero;
                     rectTransform.anchorMax = Vector2.one;
                     rectTransform.pivot     = new Vector2(0.5f, 0.5f);
@@ -383,24 +406,17 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets this component to fill all space.
-         * </summary>
-         */
-        public void Fill() {
-            SetAnchor(AnchorType.Middle, FillType.Fill);
-        }
-
-        /**
-         * <summary>
          * Sets the layout to be used on a given GameObject.
          * </summary>
          * <param name="obj">The object to set the layout for</param>
          * <param name="layoutType">The type of layout to use</param>
          */
-        internal void SetLayout(GameObject obj, LayoutType layoutType) {
+        private void SetLayout(GameObject obj, LayoutType layoutType) {
             if (layoutGroup != null) {
                 GameObject.DestroyImmediate(layoutGroup);
             }
+
+            this.layoutType = layoutType;
 
             switch (layoutType) {
                 case LayoutType.None:

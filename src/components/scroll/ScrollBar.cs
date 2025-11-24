@@ -49,13 +49,15 @@ namespace UILib {
             switch (scrollType) {
                 case ScrollType.Vertical:
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
-                    SetAnchor(AnchorType.TopRight, FillType.FillVertical);
+                    SetAnchor(AnchorType.TopRight);
+                    SetFill(FillType.Vertical);
                     rectTransform.sizeDelta        = new Vector2(20f, 0f);
                     rectTransform.anchoredPosition = Vector2.zero;
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
-                    SetAnchor(AnchorType.BottomLeft, FillType.FillHorizontal);
+                    SetAnchor(AnchorType.BottomLeft);
+                    SetFill(FillType.Horizontal);
                     rectTransform.sizeDelta        = new Vector2(-20f, 20f);
                     rectTransform.anchoredPosition = new Vector2(-10f, 0f);
                     break;

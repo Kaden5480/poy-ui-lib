@@ -28,7 +28,8 @@ namespace UILib {
             canvas.Add(this);
             canvas.canvas.sortingOrder = 9999;
 
-            SetAnchor(AnchorType.TopRight, FillType.FillVertical);
+            SetAnchor(AnchorType.TopRight);
+            SetFill(FillType.Vertical);
 
             area = new Area();
             area.SetAnchor(AnchorType.BottomMiddle);

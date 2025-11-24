@@ -100,6 +100,13 @@ namespace UILib {
             slider.SetSize(200f, 10f);
             window.Add(slider);
 
+            Button sliderChanger = new Button("Change the slider!", 30);
+            sliderChanger.SetSize(250f, 50f);
+            sliderChanger.AddListener(() => {
+                slider.SetDirection(UnityEngine.UI.Slider.Direction.BottomToTop);
+            });
+            window.Add(sliderChanger);
+
             Slider slider2 = new Slider(direction: UnityEngine.UI.Slider.Direction.BottomToTop);
             slider2.SetSize(10f, 200f);
             window.Add(slider2);

@@ -14,8 +14,8 @@ namespace UILib {
      * </summary>
      */
     public class UIObject {
-        private float width;
-        private float height;
+        protected float width  { get; private set; }
+        protected float height { get; private set; }
 
         // The logger for this UIObject
         internal Logger logger { get; private set; }

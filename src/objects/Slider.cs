@@ -65,6 +65,17 @@ namespace UILib {
 
         /**
          * <summary>
+         * Checks if the provided direction is vertical.
+         * </summary>
+         * <param name="direction">The direction to check</param>
+         */
+        private bool IsVerticalDirection(UESlider.Direction direction) {
+            return direction == UESlider.Direction.BottomToTop
+                || direction == UESlider.Direction.TopToBottom;
+        }
+
+        /**
+         * <summary>
          * Sets the limits for this slider.
          * </summary>
          */
@@ -81,6 +92,23 @@ namespace UILib {
          */
         public void UseWholeNumbers(bool use = true) {
             slider.wholeNumbers = use;
+        }
+
+        /**
+         * <summary>
+         * Sets the direction of this scrollbar.
+         * </summary>
+         * <param name="direction">The direction to use</param>
+         */
+        public void SetDirection(UESlider.Direction direction) {
+            if (IsVerticalDirection(direction)
+                != IsVerticalDirection(slider.direction)
+            ) {
+                // Invert width and height
+                SetSize(height, width);
+            }
+
+            slider.direction = direction;
         }
 
         /**

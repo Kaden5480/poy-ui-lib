@@ -1,7 +1,7 @@
 using UnityEngine.EventSystems;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * Overrides Unity's ScrollRect to ignore being dragged.

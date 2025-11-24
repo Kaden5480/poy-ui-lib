@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using UILib.Behaviours;
+using UILib.Components;
 using UILib.Layout;
 
 namespace UILib {
@@ -45,6 +46,7 @@ namespace UILib {
         public FillType fillType                           { get; private set; }
         public LayoutType layoutType                       { get; private set; }
         public LayoutElement layoutElement                 { get; private set; }
+        public ContentSizeFitter fitter                    { get; private set; }
         public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
 
         /**
@@ -457,7 +459,7 @@ namespace UILib {
 
             SetElementAlignment(TextAnchor.MiddleCenter);
 
-            ContentSizeFitter fitter = obj.AddComponent<ContentSizeFitter>();
+            fitter = obj.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }

@@ -90,8 +90,6 @@ namespace UILib {
                 Label label = new Label($"Log: {logCount}", 20);
                 label.SetSize(200f, 50f);
                 area.Add(label);
-
-                window.ScrollToBottom();
             });
 
             window.Add(area);

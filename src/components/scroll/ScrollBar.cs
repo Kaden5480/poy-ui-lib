@@ -6,7 +6,7 @@ using UEScrollbar = UnityEngine.UI.Scrollbar;
 
 using UILib.Layout;
 
-namespace UILib {
+namespace UILib.Components {
     /**
      * <summary>
      * A scroll bar.

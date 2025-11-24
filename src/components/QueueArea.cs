@@ -3,9 +3,9 @@ using System;
 namespace UILib.Components {
     /**
      * <summary>
-     * Like an Area, but also adds
-     * functionality to remove the oldest children
-     * once a certain limit is reached.
+     * Like an Area, but also adds functionality to
+     * remove the oldest children once a certain
+     * limit is reached.
      * </summary>
      */
     public class QueueArea : Area {
@@ -23,9 +23,8 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Adds a child to this Area, but
-         * also removes the oldest one if
-         * there are too many.
+         * Adds a child to this Area, but also removes
+         * the oldest one if there are too many.
          * </summary>
          * <param name="child">The child to add</param>
          */

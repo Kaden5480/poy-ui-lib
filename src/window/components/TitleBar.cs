@@ -62,27 +62,25 @@ namespace UILib {
             // Create an area for holding the buttons
             buttonArea = new Area();
             Add(buttonArea);
-            buttonArea.SetLayout(LayoutType.Horizontal);
+            buttonArea.SetContentLayout(LayoutType.Horizontal);
             buttonArea.SetAnchor(AnchorType.TopRight);
-            buttonArea.SetLayoutPadding(padding, padding, padding, padding);
+            buttonArea.SetContentPadding(padding, padding, padding, padding);
             buttonArea.SetElementSpacing(padding);
 
             // The button for toggling fullscreen mode
             fullscreenButton = new UIButton("+", (int) barHeight);
-            fullscreenButton.AddLayoutElement();
             fullscreenButton.SetSize(barHeight, barHeight);
             fullscreenButton.SetAnchor(AnchorType.TopRight);
-            fullscreenButton.AddListener(() => {
+            fullscreenButton.onClick.AddListener(() => {
                 ToggleFullscreen();
             });
 
             // The button to close the Window
             closeButton = new UIButton("x", (int) barHeight);
-            closeButton.AddLayoutElement();
             closeButton.SetSize(barHeight, barHeight);
             closeButton.SetAnchor(AnchorType.TopRight);
             closeButton.SetColorBlock(Colors.redColorBlock);
-            closeButton.AddListener(() => {
+            closeButton.onClick.AddListener(() => {
                 window.Hide();
             });
 

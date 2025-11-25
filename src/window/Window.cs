@@ -95,17 +95,7 @@ namespace UILib {
             AddResizeButton();
 
             // The scroll view is the content
-            base.SetContent(scrollView);
-        }
-
-        /**
-         * <summary>
-         * Sets a different component to be the content.
-         * </summary>
-         * <param name="content">The component which should be the content instead</param>
-         */
-        public override void SetContent(UIComponent content) {
-            scrollView.SetContent(content);
+            SetContent(scrollView);
         }
 
         /**

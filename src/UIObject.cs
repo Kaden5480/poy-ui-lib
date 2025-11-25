@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 using UILib.Behaviours;
@@ -34,6 +35,13 @@ namespace UILib {
         // Click and drag listeners
         internal MouseHandler mouseHandler { get; private set; }
 
+        // Public access to events
+        public virtual UnityEvent onClick       { get => mouseHandler.onClick; }
+        public virtual UnityEvent onDoubleClick { get => mouseHandler.onDoubleClick; }
+        public virtual DragEvent onBeginDrag    { get => mouseHandler.onBeginDrag; }
+        public virtual DragEvent onDrag         { get => mouseHandler.onDrag; }
+        public virtual DragEvent onEndDrag      { get => mouseHandler.onEndDrag; }
+
         // The parent and children of this object
         public UIObject parent         { get; private set; }
         public List<UIObject> children { get; private set; }
@@ -65,11 +73,11 @@ namespace UILib {
             children = new List<UIObject>();
 
             mouseHandler = gameObject.AddComponent<MouseHandler>();
-            mouseHandler.AddClickListener(OnClick);
-            mouseHandler.AddDoubleClickListener(OnDoubleClick);
-            mouseHandler.AddBeginDragListener(OnBeginDrag);
-            mouseHandler.AddDragListener(OnDrag);
-            mouseHandler.AddEndDragListener(OnEndDrag);
+            onClick.AddListener(OnClick);
+            onDoubleClick.AddListener(OnDoubleClick);
+            onBeginDrag.AddListener(OnBeginDrag);
+            onDrag.AddListener(OnDrag);
+            onEndDrag.AddListener(OnEndDrag);
 
             SetAnchor(AnchorType.Middle);
 
@@ -79,13 +87,33 @@ namespace UILib {
 
         /**
          * <summary>
+         * Shows this UIObject.
+         * </summary>
+         */
+        public void Show() {
+            gameObject.SetActive(true);
+        }
+
+        /**
+         * <summary>
+         * Hides this UIObject.
+         * </summary>
+         */
+        public void Hide() {
+            gameObject.SetActive(false);
+        }
+
+        /**
+         * <summary>
          * Sets a different component to be the content.
          * </summary>
          * <param name="content">The component which should be the content instead</param>
          */
-        public virtual void SetContent(UIComponent content) {
+        protected virtual void SetContent(UIComponent content) {
             this.content = content;
         }
+
+#region Handling Parents/Children
 
         /**
          * <summary>
@@ -128,17 +156,38 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a component as a child.
+         * Adds a component directly to this object,
+         * ignoring the configured "content" component.
          * </summary>
          * <param name="child">The child to add</param>
          */
-        public virtual void Add(UIComponent child) {
+        public virtual void AddDirect(UIComponent child) {
+            Add(gameObject, child);
+        }
+
+        /**
+         * <summary>
+         * Adds a component to the content.
+         * </summary>
+         * <param name="child">The child to add</param>
+         */
+        public virtual void AddContent(UIComponent child) {
             if (content == this) {
-                Add(gameObject, child);
+                AddDirect(child);
                 return;
             }
 
             content.Add(child);
+        }
+
+        /**
+         * <summary>
+         * Shorthand for AddContent.
+         * </summary>
+         * <param name="child">The child to add</param>
+         */
+        public void Add(UIComponent child) {
+            AddContent(child);
         }
 
         /**
@@ -167,6 +216,10 @@ namespace UILib {
                 children[i].Destroy();
             }
         }
+
+#endregion
+
+#region Events
 
         /**
          * <summary>
@@ -236,28 +289,22 @@ namespace UILib {
             }
         }
 
-        /**
-         * <summary>
-         * Shows this UIObject.
-         * </summary>
-         */
-        public void Show() {
-            gameObject.SetActive(true);
-        }
+#endregion
+
+#region Layout for Self
 
         /**
          * <summary>
-         * Hides this UIObject.
-         * </summary>
-         */
-        public void Hide() {
-            gameObject.SetActive(false);
-        }
-
-        /**
-         * <summary>
-         * Adds a layout element to this UIObject
+         * Adds a LayoutElement to this UIObject
          * to allow automatically managing layouts.
+         *
+         * In general, you won't need to call this
+         * since whenever you add a UIObject to another, it
+         * will automatically get a LayoutElement if the
+         * parent being added to has a layout configured already.
+         *
+         * LayoutElements only do anything if the parent container has
+         * a layout set on it (vertical or horizontal).
          * </summary>
          */
         public void AddLayoutElement() {
@@ -292,7 +339,9 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the anchor type of this object.
+         * Sets the anchor type of this UIObject.
+         * This determines how it will be positioned within its
+         * parent container.
          * </summary>
          * <param name="anchorType">The type of anchor to use</param>
          * <param name="fillType">The type of fill to use</param>
@@ -351,7 +400,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the fill for layout elements.
+         * Sets the fill using a LayoutElement if this UIObject has one.
+         * This is handled specially as layout elements are a bit weird.
          * </summary>
          * <param name="fillType">The type of fill to use</param>
          */
@@ -377,7 +427,9 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the fill type of this object.
+         * Sets the fill type of this UIObject.
+         * This determines how this UIObject will fill its
+         * parent container.
          * </summary>
          * <param name="fillType">The type of fill to use</param>
          */
@@ -425,6 +477,10 @@ namespace UILib {
             }
         }
 
+#endregion
+
+#region Layout for Content
+
         /**
          * <summary>
          * Sets the layout to be used on a given GameObject.
@@ -469,13 +525,14 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the layout to be used on this UIObject.
+         * Sets the layout to be used on the configured content
+         * for this UIObject.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
          */
-        public void SetLayout(LayoutType layoutType) {
+        public void SetContentLayout(LayoutType layoutType) {
             if (content != this) {
-                content.SetLayout(layoutType);
+                content.SetContentLayout(layoutType);
                 return;
             }
 
@@ -484,7 +541,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the alignment of the child elements for the layout.
+         * Sets the alignment of the child elements
+         * of the content.
+         *
+         * This requires you to have already called SetContentLayout
+         * to configure a layout for the content.
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
@@ -495,7 +556,7 @@ namespace UILib {
             }
 
             if (layoutGroup == null) {
-                logger.LogDebug("No layout group, can't apply spacing");
+                logger.LogDebug("No layout group, can't apply element alignment");
                 return;
             }
 
@@ -504,7 +565,10 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the spacing between elements for the layout.
+         * Sets the spacing between child elements of the content.
+         *
+         * This requires you to have already called SetContentLayout
+         * to configure a layout for the content.
          * </summary>
          * <param name="spacing">The spacing to use</param>
          */
@@ -515,7 +579,7 @@ namespace UILib {
             }
 
             if (layoutGroup == null) {
-                logger.LogDebug("No layout group, can't apply spacing");
+                logger.LogDebug("No layout group, can't apply element spacing");
                 return;
             }
 
@@ -524,21 +588,24 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the padding for the layout.
+         * Sets the padding to apply to the content.
+         *
+         * This requires you to have already called SetContentLayout
+         * to configure a layout for the content.
          * </summary>
          * <param name="left">The left padding to use</param>
          * <param name="right">The right padding to use</param>
          * <param name="top">The top padding to use</param>
          * <param name="bottom">The bottom padding to use</param>
          */
-        public void SetLayoutPadding(
+        public void SetContentPadding(
             int left = 0,
             int right = 0,
             int top = 0,
             int bottom = 0
         ) {
             if (content != this) {
-                content.SetLayoutPadding(left, right, top, bottom);
+                content.SetContentPadding(left, right, top, bottom);
                 return;
             }
 
@@ -549,5 +616,8 @@ namespace UILib {
 
             layoutGroup.padding = new RectOffset(left, right, top, bottom);
         }
+
+#endregion
+
     }
 }

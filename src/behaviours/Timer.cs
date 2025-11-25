@@ -14,11 +14,9 @@ namespace UILib.Behaviours {
         // The timer coroutine
         private IEnumerator coroutine;
 
-        private class FloatEvent : UnityEvent<float> {}
-
-        private UnityEvent startEvent = new UnityEvent();
-        private FloatEvent iterEvent = new FloatEvent();
-        private UnityEvent endEvent = new UnityEvent();
+        public UnityEvent onStart { get; } = new UnityEvent();
+        public TimerEvent onIter  { get; } = new TimerEvent();
+        public UnityEvent onEnd   { get; } = new UnityEvent();
 
         /**
          * <summary>
@@ -47,53 +45,20 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Adds a listener for the start of the timer.
-         * </summary>
-         * <param name="callback">The callback to run</param>
-         */
-        public void AddStartListener(UnityAction callback) {
-            startEvent.AddListener(callback);
-        }
-
-        /**
-         * <summary>
-         * Adds a listener for each iteration of the timer.
-         *
-         * The argument provided to the callback is the
-         * amount of time left on the timer (in seconds).
-         * </summary>
-         * <param name="callback">The callback to run</param>
-         */
-        public void AddListener(UnityAction<float> callback) {
-            iterEvent.AddListener(callback);
-        }
-
-        /**
-         * <summary>
-         * Adds a listener for when the timer finishes.
-         * </summary>
-         * <param name="callback">The callback to run</param>
-         */
-        public void AddEndListener(UnityAction callback) {
-            endEvent.AddListener(callback);
-        }
-
-        /**
-         * <summary>
          * Runs the timer.
          * </summary>
          * <param name="time">How long the timer should run for</param>
          */
         private IEnumerator RunTimer(float time) {
-            startEvent.Invoke();
+            onStart.Invoke();
 
             while (time > 0) {
                 time -= Time.deltaTime;
-                iterEvent.Invoke(time);
+                onIter.Invoke(time);
                 yield return null;
             }
 
-            endEvent.Invoke();
+            onEnd.Invoke();
             yield break;
         }
     }

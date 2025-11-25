@@ -33,7 +33,7 @@ namespace UILib {
 
             area = new Area();
             area.SetAnchor(AnchorType.BottomMiddle);
-            area.SetLayout(LayoutType.Vertical);
+            area.SetContentLayout(LayoutType.Vertical);
             area.SetElementSpacing(margin);
 
             Add(gameObject, area);

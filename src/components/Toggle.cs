@@ -18,7 +18,7 @@ namespace UILib.Components {
          * </summary>
          */
         public Toggle() : base(Resources.checkMark) {
-            AddListener(() => {
+            onClick.AddListener(() => {
                 SetValue(!value);
             });
             SetValue(false);

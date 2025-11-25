@@ -54,8 +54,8 @@ namespace UILib {
 
         private Window MakeWindow(string name, float width, float height) {
             Window window = new Window(name, width, height);
-            window.SetLayout(LayoutType.Vertical);
-            window.SetLayoutPadding(top: 20, bottom: 20);
+            window.SetContentLayout(LayoutType.Vertical);
+            window.SetContentPadding(top: 20, bottom: 20);
             window.SetElementSpacing(20);
 
             Label titleLabel = new Label("Title", 40);
@@ -64,12 +64,12 @@ namespace UILib {
 
             UIButton notif = new UIButton("Notification", 20);
             notif.SetSize(200f, 40f);
-            notif.AddListener(() => { Audio.Play(Resources.notification, 0.8f); });
+            notif.onClick.AddListener(() => { Audio.Play(Resources.notification, 0.8f); });
             window.Add(notif);
 
             UIButton notifError = new UIButton("Error Notification", 20);
             notifError.SetSize(200f, 40f);
-            notifError.AddListener(() => { Audio.Play(Resources.notificationError, 0.6f); });
+            notifError.onClick.AddListener(() => { Audio.Play(Resources.notificationError, 0.6f); });
             window.Add(notifError);
 
             TextField textField = new TextField("Placeholder text", 24);
@@ -86,7 +86,7 @@ namespace UILib {
 
             UIButton sliderChanger = new UIButton("Change the slider!", 20);
             sliderChanger.SetSize(200f, 50f);
-            sliderChanger.AddListener(() => {
+            sliderChanger.onClick.AddListener(() => {
                 if (slider.slider.direction == Direction.LeftToRight) {
                     slider.SetDirection(Direction.BottomToTop);
                 }
@@ -98,7 +98,7 @@ namespace UILib {
 
             for (int i = 0; i < 20; i++) {
                 Area area = new Area();
-                area.SetLayout(LayoutType.Horizontal);
+                area.SetContentLayout(LayoutType.Horizontal);
                 area.SetFill(FillType.All);
 
                 Label label = new Label($"Some text: {i}", 20);
@@ -109,7 +109,7 @@ namespace UILib {
                 button.SetSize(200f, 50f);
 
                 string current = $"{i}";
-                button.AddListener(() => {
+                button.onClick.AddListener(() => {
                     Notifier.Notify($"Button {current} was pressed");
                 });
                 area.Add(button);
@@ -126,7 +126,7 @@ namespace UILib {
             Window window = new Window("Log Example", 800f, 600f);
 
             QueueArea area = new QueueArea(20);
-            area.SetLayout(LayoutType.Vertical);
+            area.SetContentLayout(LayoutType.Vertical);
             area.SetFill(FillType.All);
 
             area.rectTransform.anchoredPosition = new Vector2(0f, 50f);
@@ -141,7 +141,7 @@ namespace UILib {
             button.SetSize(0f, 100f);
             button.SetAnchor(AnchorType.BottomMiddle);
             button.SetFill(FillType.Horizontal);
-            button.AddListener(() => {
+            button.onClick.AddListener(() => {
                 logCount++;
 
                 Label label = new Label($"Log: {logCount}", 20);
@@ -151,8 +151,6 @@ namespace UILib {
 
             window.Add(area);
             window.Add(button);
-
-            window.SetContent(area);
 
             window.Hide();
             return window;

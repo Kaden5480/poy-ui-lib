@@ -41,14 +41,13 @@ namespace UILib {
             label.SetFill(FillType.All);
             Add(label);
 
-            AddLayoutElement();
             SetSize(NotificationArea.size, 100f);
 
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             timer = gameObject.AddComponent<Timer>();
 
-            timer.AddListener((float value) => {
+            timer.onIter.AddListener((float value) => {
                 // Do nothing if in wait time
                 if (value > fadeTime) {
                     return;
@@ -58,7 +57,7 @@ namespace UILib {
                 canvasGroup.alpha = 1 - ((fadeTime - value) / fadeTime);
             });
 
-            timer.AddEndListener(() => {
+            timer.onEnd.AddListener(() => {
                 Destroy();
             });
 

@@ -24,6 +24,8 @@ namespace UILib.Components {
         public Label label { get; private set; }
         public Image image { get; private set; }
 
+        public override UnityEvent onClick { get => button.onClick; }
+
         /**
          * <summary>
          * Initializes a Button.
@@ -37,7 +39,7 @@ namespace UILib.Components {
             button = gameObject.AddComponent<UEButton>();
             button.colors = Colors.colorBlock;
             button.targetGraphic = background.image;
-            AddListener(() => {
+            onClick.AddListener(() => {
                 EventSystem.current.SetSelectedGameObject(null);
             });
         }
@@ -86,17 +88,6 @@ namespace UILib.Components {
          */
         public void SetColorBlock(ColorBlock colorBlock) {
             button.colors = colorBlock;
-        }
-
-        /**
-         * <summary>
-         * Adds a callback to this button.
-         * The callback will be called whenever the button is clicked.
-         * </summary>
-         * <param name="callback">The callback to add</param>
-         */
-        public void AddListener(UnityAction callback) {
-            button.onClick.AddListener(callback);
         }
     }
 }

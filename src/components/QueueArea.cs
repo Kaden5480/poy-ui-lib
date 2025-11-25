@@ -28,8 +28,8 @@ namespace UILib.Components {
          * </summary>
          * <param name="child">The child to add</param>
          */
-        public override void Add(UIComponent child) {
-            base.Add(child);
+        public override void AddContent(UIComponent child) {
+            base.AddContent(child);
 
             if (children.Count >= maxCount) {
                 children[0].Destroy();

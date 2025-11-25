@@ -7,6 +7,8 @@ using Direction = UnityEngine.UI.Slider.Direction;
 
 using UILib.Components;
 using UILib.Layout;
+using UILib.Notifications;
+
 using UIButton = UILib.Components.Button;
 
 namespace UILib {

@@ -83,7 +83,7 @@ namespace UILib {
          * </summary>
          */
         public static void PlayError() {
-            Play(Resources.notificatonError, 0.6f;
+            Play(Resources.notificationError, 0.6f);
         }
     }
 }

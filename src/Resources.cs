@@ -19,9 +19,18 @@ namespace UILib {
             "RomanAntique"
         );
 
+        internal static Font gameFontScuffed { get; private set; } = LoadFromBundle<Font>(
+            "RomanAntiqueScuffed"
+        );
+
         // A checkmark texture for toggles
         public static Texture2D checkMark { get; private set; } = LoadFromBundle<Texture2D>(
             "CheckMark"
+        );
+
+        // A circle texture (used by Slider)
+        public static Texture2D circle { get; private set; } = LoadFromBundle<Texture2D>(
+            "Circle"
         );
 
         // A triangle texture (used by ResizeButton)

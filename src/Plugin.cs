@@ -49,6 +49,10 @@ namespace UILib {
             titleLabel.SetSize(200f, 100f);
             window.Add(titleLabel);
 
+            TextField textField = new TextField("Placeholder text", 24);
+            textField.SetSize(200f, 25f);
+            window.Add(textField);
+
             Toggle toggle = new Toggle();
             toggle.SetSize(40f, 40f);
             window.Add(toggle);

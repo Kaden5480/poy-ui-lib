@@ -40,7 +40,8 @@ namespace UILib.Behaviours {
          */
         public void StopTimer() {
             if (coroutine != null) {
-                StopCoroutine();
+                StopCoroutine(coroutine);
+                coroutine = null;
             }
         }
 

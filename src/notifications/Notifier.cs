@@ -12,14 +12,16 @@ namespace UILib.Notifications {
          * <summary>
          * Sends a notification.
          * </summary>
+         * <param name="title">The title (could just be the name of the mod)</param>
          * <param name="message">The message to display</param>
          * <param name="type">The type of notification to display</param>
          */
         public static void Notify(
+            string title,
             string message,
             NotificationType type = NotificationType.Normal
         ) {
-            Notification notification = new Notification(message);
+            Notification notification = new Notification(title, message);
 
             switch (type) {
                 case NotificationType.Silent:

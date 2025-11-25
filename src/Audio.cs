@@ -74,7 +74,7 @@ namespace UILib {
          * </summary>
          */
         public static void PlayNormal() {
-            Play(Resources.notification, 0.8f);
+            Play(Resources.notification, 0.6f);
         }
 
         /**
@@ -83,7 +83,7 @@ namespace UILib {
          * </summary>
          */
         public static void PlayError() {
-            Play(Resources.notificationError, 0.6f);
+            Play(Resources.notificationError, 0.4f);
         }
     }
 }

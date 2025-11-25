@@ -5,7 +5,7 @@ Config.props
 bin
 **/obj
 build/*.zip
-res/
+res/uilib.bundle
 docs/.config
 docs/_site
 docs/api

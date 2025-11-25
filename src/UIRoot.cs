@@ -37,6 +37,9 @@ namespace UILib {
 
             windows = new List<Window>();
 
+            // Initialize audio
+            Audio.Init();
+
             // Initialize the notification area
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);

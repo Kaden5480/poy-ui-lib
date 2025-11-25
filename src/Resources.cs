@@ -38,6 +38,17 @@ namespace UILib {
             "Triangle"
         );
 
+        // Notification sounds
+        // Best played with 0.8 volume
+        public static AudioClip notification { get; private set; } = LoadFromBundle<AudioClip>(
+            "Notification"
+        );
+
+        // Best played with 0.6 volume
+        public static AudioClip notificationError { get; private set; } = LoadFromBundle<AudioClip>(
+            "NotificationError"
+        );
+
         /**
          * <summary>
          * Loads a file with the specified filename

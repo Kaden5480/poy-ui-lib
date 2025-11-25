@@ -36,6 +36,17 @@ namespace UILib {
             window2.SetAnchor(AnchorType.Middle);
         }
 
+        private void Update() {
+            if (Input.GetKeyDown(KeyCode.Home) == true) {
+                Audio.Play(Resources.notificationError, 0.6f);
+                Notifier.Notify("One of your mods broke!");
+            }
+            else if (Input.GetKeyDown(KeyCode.End) == true) {
+                Audio.Play(Resources.notification, 0.8f);
+                Notifier.Notify("Informational notification");
+            }
+        }
+
         private void Start() {
             window.Show();
             window2.Show();
@@ -50,6 +61,16 @@ namespace UILib {
             Label titleLabel = new Label("Title", 40);
             titleLabel.SetSize(200f, 100f);
             window.Add(titleLabel);
+
+            UIButton notif = new UIButton("Notification", 20);
+            notif.SetSize(200f, 40f);
+            notif.AddListener(() => { Audio.Play(Resources.notification, 0.8f); });
+            window.Add(notif);
+
+            UIButton notifError = new UIButton("Error Notification", 20);
+            notifError.SetSize(200f, 40f);
+            notifError.AddListener(() => { Audio.Play(Resources.notificationError, 0.6f); });
+            window.Add(notifError);
 
             TextField textField = new TextField("Placeholder text", 24);
             textField.SetSize(200f, 40f);

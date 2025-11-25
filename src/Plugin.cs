@@ -38,11 +38,11 @@ namespace UILib {
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.Home) == true) {
-                Audio.Play(Resources.notificationError, 0.6f);
-                Notifier.Notify("One of your mods broke!");
+                Notifier.Notify(
+                    "One of your mods broke!", NotificationType.Error
+                );
             }
             else if (Input.GetKeyDown(KeyCode.End) == true) {
-                Audio.Play(Resources.notification, 0.8f);
                 Notifier.Notify("Informational notification");
             }
         }
@@ -62,14 +62,14 @@ namespace UILib {
             titleLabel.SetSize(200f, 100f);
             window.Add(titleLabel);
 
-            UIButton notif = new UIButton("Notification", 20);
+            UIButton notif = new UIButton("Normal sound", 20);
             notif.SetSize(200f, 40f);
-            notif.onClick.AddListener(() => { Audio.Play(Resources.notification, 0.8f); });
+            notif.onClick.AddListener(() => { Audio.PlayNormal(); });
             window.Add(notif);
 
-            UIButton notifError = new UIButton("Error Notification", 20);
+            UIButton notifError = new UIButton("Error Sound", 20);
             notifError.SetSize(200f, 40f);
-            notifError.onClick.AddListener(() => { Audio.Play(Resources.notificationError, 0.6f); });
+            notifError.onClick.AddListener(() => { Audio.PlayError(); });
             window.Add(notifError);
 
             TextField textField = new TextField("Placeholder text", 24);

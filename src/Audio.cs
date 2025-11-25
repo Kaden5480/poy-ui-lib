@@ -67,5 +67,23 @@ namespace UILib {
             source.volume = volume;
             source.Play();
         }
+
+        /**
+         * <summary>
+         * Plays the default normal notification sound.
+         * </summary>
+         */
+        public static void PlayNormal() {
+            Play(Resources.notification, 0.8f);
+        }
+
+        /**
+         * <summary>
+         * Plays the default error sound.
+         * </summary>
+         */
+        public static void PlayError() {
+            Play(Resources.notificatonError, 0.6f;
+        }
     }
 }

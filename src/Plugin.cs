@@ -151,8 +151,13 @@ namespace UILib {
             });
 
             window.Add(area);
+
+            // Add the button directly to the window
+            // instead of to the scrollview
             window.AddDirect(button);
 
+            // Tell the scrollview to scroll over the
+            // queue area instead
             window.scrollView.SetContent(area);
 
             window.Hide();

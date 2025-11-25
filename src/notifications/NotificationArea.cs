@@ -4,7 +4,7 @@ using Image = UnityEngine.UI.Image;
 using UILib.Components;
 using UILib.Layout;
 
-namespace UILib {
+namespace UILib.Notifications {
     /**
      * <summary>
      * The area which holds all notifications.
@@ -38,7 +38,7 @@ namespace UILib {
 
             Add(gameObject, area);
 
-            rectTransform.anchoredPosition = new Vector2(-(margin), 0f);
+            SetOffset(-margin, 0f);
             SetSize(size, -(2f * margin));
 
             // Use the area as the content instead

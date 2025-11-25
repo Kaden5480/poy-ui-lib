@@ -21,7 +21,7 @@ namespace UILib.Notifications {
             string message,
             NotificationType type = NotificationType.Normal
         ) {
-            Notification notification = new Notification(title, message);
+            Notification notification = new Notification(title, message, type);
 
             switch (type) {
                 case NotificationType.Silent:

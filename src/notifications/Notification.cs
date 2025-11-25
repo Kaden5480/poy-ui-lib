@@ -4,7 +4,7 @@ using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layout;
 
-namespace UILib {
+namespace UILib.Notifications {
     /**
      * <summary>
      * A Notification.
@@ -38,8 +38,15 @@ namespace UILib {
          * </summary>
          * <param name="title">The title of the notification</param>
          * <param name="message">The message to display</param>
+         * <param name="type">The type of this notification</param>
          */
-        internal Notification(string title, string message) {
+        internal Notification(
+            string title,
+            string message,
+            NotificationType type
+        ) {
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
             // If anything is too large, log it
             if (title.Length > maxTitle || message.Length > maxMessage) {
                 logger.LogInfo("Got a large notification");
@@ -50,10 +57,6 @@ namespace UILib {
             // Fix sizes
             title = ClampString(title, maxTitle);
             message = ClampString(message, maxMessage);
-
-            // Unity stuff
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-            timer = gameObject.AddComponent<Timer>();
 
             // Building UI
             SetSize(NotificationArea.size, 100f);
@@ -89,7 +92,13 @@ namespace UILib {
 
             Add(messageLabel);
 
+            // If this is an error notification, don't automatically hide
+            if (type == NotificationType.Error) {
+                return;
+            }
+
             // Add timer to scale opacity
+            timer = gameObject.AddComponent<Timer>();
             timer.onIter.AddListener((float value) => {
                 // Do nothing if in wait time
                 if (value > fadeTime) {
@@ -113,7 +122,10 @@ namespace UILib {
          * </summary>
          */
         protected override void OnClick() {
-            timer.StopAllCoroutines();
+            if (timer != null) {
+                timer.StopAllCoroutines();
+            }
+
             Destroy();
         }
     }

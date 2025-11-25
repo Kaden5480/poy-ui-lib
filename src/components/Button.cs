@@ -24,8 +24,6 @@ namespace UILib.Components {
         public Label label { get; private set; }
         public Image image { get; private set; }
 
-        public override UnityEvent onClick { get => button.onClick; }
-
         /**
          * <summary>
          * Initializes a Button.
@@ -39,7 +37,7 @@ namespace UILib.Components {
             button = gameObject.AddComponent<UEButton>();
             button.colors = Colors.colorBlock;
             button.targetGraphic = background.image;
-            onClick.AddListener(() => {
+            button.onClick.AddListener(() => {
                 EventSystem.current.SetSelectedGameObject(null);
             });
         }

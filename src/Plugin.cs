@@ -16,6 +16,18 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
+        private const string bigTitle = "Here's a really long title"
+            + " to test how notifications handle really large titles."
+            + " This doesn't need to be as large as the message though.";
+
+        private const string bigMessage = "Here's a giant string which"
+            + " eventually is going to have more than 256 characters."
+            + " This is to make sure that notifications can handle"
+            + " exceedingly large notification messages."
+            + " Currently the message is a bit over half of it's total"
+            + " intended length, so there's still some more to go."
+            + " But now the notificaton message should be fine";
+
         private int logCount = 0;
 
         private Window window;
@@ -41,11 +53,11 @@ namespace UILib {
         private void Update() {
             if (Input.GetKeyDown(KeyCode.Home) == true) {
                 Notifier.Notify(
-                    "One of your mods broke!", NotificationType.Error
+                    "UILib", "One of your mods broke!", NotificationType.Error
                 );
             }
             else if (Input.GetKeyDown(KeyCode.End) == true) {
-                Notifier.Notify("Informational notification");
+                Notifier.Notify("UILib", "Informational notification");
             }
         }
 
@@ -73,6 +85,11 @@ namespace UILib {
             notifError.SetSize(200f, 40f);
             notifError.onClick.AddListener(() => { Audio.PlayError(); });
             window.Add(notifError);
+
+            UIButton notifBig = new UIButton("Send a big notification", 20);
+            notifBig.SetSize(200f, 40f);
+            notifBig.onClick.AddListener(() => { Notifier.Notify(bigTitle, bigMessage); });
+            window.Add(notifBig);
 
             TextField textField = new TextField("Placeholder text", 24);
             textField.SetSize(200f, 40f);
@@ -112,7 +129,7 @@ namespace UILib {
 
                 string current = $"{i}";
                 button.onClick.AddListener(() => {
-                    Notifier.Notify($"Button {current} was pressed");
+                    Notifier.Notify($"UILib {name}", $"Button {current} was pressed");
                 });
                 area.Add(button);
 

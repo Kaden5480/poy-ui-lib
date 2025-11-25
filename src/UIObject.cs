@@ -277,7 +277,7 @@ namespace UILib {
          * <param name="width">The width to set</param>
          * <param name="height">The height to set</param>
          */
-        public void SetSize(float width, float height) {
+        public virtual void SetSize(float width, float height) {
             this.width = width;
             this.height = height;
 

@@ -8,7 +8,7 @@ using UILib.Layout;
 
 namespace UILib.Components {
     public class Slider : UIComponent {
-        private UESlider slider;
+        public UESlider slider { get; private set; }
 
         public Image background { get; private set; }
 
@@ -46,8 +46,7 @@ namespace UILib.Components {
             fillImage.image.type = UEImage.Type.Sliced;
             fillArea.Add(fillImage);
 
-            handleImage = new Image();
-            handleImage.SetSize(15f, 10f);
+            handleImage = new Image(Resources.circle);
             handleArea.Add(handleImage);
 
             Add(background);
@@ -67,6 +66,24 @@ namespace UILib.Components {
             fillImage.SetColor(Colors.lightGrey);
 
             DestroyHandlers();
+        }
+
+        /**
+         * <summary>
+         * Sets the size of this Slider.
+         * </summary>
+         * <param name="width">The width to set</param>
+         * <param name="height">The height to set</param>
+         */
+        public override void SetSize(float width, float height) {
+            base.SetSize(width, height);
+
+            if (IsVerticalDirection(slider.direction) == true) {
+                handleImage.SetSize(width, 2*width);
+            }
+            else {
+                handleImage.SetSize(2*height, height);
+            }
         }
 
         /**
@@ -107,14 +124,15 @@ namespace UILib.Components {
          * <param name="direction">The direction to use</param>
          */
         public void SetDirection(UESlider.Direction direction) {
+            UESlider.Direction oldDirection = slider.direction;
+            slider.direction = direction;
+
             if (IsVerticalDirection(direction)
-                != IsVerticalDirection(slider.direction)
+                != IsVerticalDirection(oldDirection)
             ) {
                 // Invert width and height
                 SetSize(height, width);
             }
-
-            slider.direction = direction;
         }
 
         /**

@@ -28,12 +28,20 @@ namespace UILib.Behaviours {
          * <param name="time">How long the timer should last for</param>
          */
         public void StartTimer(float time) {
-            if (coroutine != null) {
-                StopCoroutine(coroutine);
-            }
-
+            StopTimer();
             coroutine = RunTimer(time);
             StartCoroutine(coroutine);
+        }
+
+        /**
+         * <summary>
+         * Stops the timer immediately.
+         * </summary>
+         */
+        public void StopTimer() {
+            if (coroutine != null) {
+                StopCoroutine();
+            }
         }
 
         /**

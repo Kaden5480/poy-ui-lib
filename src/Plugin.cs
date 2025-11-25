@@ -3,6 +3,8 @@ using System;
 using BepInEx;
 using UnityEngine;
 
+using Direction = UnityEngine.UI.Slider.Direction;
+
 using UILib.Components;
 using UILib.Layout;
 using UIButton = UILib.Components.Button;
@@ -50,7 +52,7 @@ namespace UILib {
             window.Add(titleLabel);
 
             TextField textField = new TextField("Placeholder text", 24);
-            textField.SetSize(200f, 25f);
+            textField.SetSize(200f, 40f);
             window.Add(textField);
 
             Toggle toggle = new Toggle();
@@ -60,6 +62,18 @@ namespace UILib {
             Slider slider = new Slider();
             slider.SetSize(200f, 10f);
             window.Add(slider);
+
+            UIButton sliderChanger = new UIButton("Change the slider!", 20);
+            sliderChanger.SetSize(200f, 50f);
+            sliderChanger.AddListener(() => {
+                if (slider.slider.direction == Direction.LeftToRight) {
+                    slider.SetDirection(Direction.BottomToTop);
+                }
+                else {
+                    slider.SetDirection(Direction.LeftToRight);
+                }
+            });
+            window.Add(sliderChanger);
 
             for (int i = 0; i < 20; i++) {
                 Area area = new Area();
@@ -72,8 +86,9 @@ namespace UILib {
 
                 UIButton button = new UIButton($"Button: {i}", 20);
                 button.SetSize(200f, 50f);
+
+                string current = $"{i}";
                 button.AddListener(() => {
-                    string current = $"{i}";
                     Notifier.Notify($"Button {current} was pressed");
                 });
                 area.Add(button);

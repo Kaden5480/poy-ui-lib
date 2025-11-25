@@ -18,6 +18,10 @@ namespace UILib {
         private const float waitTime = 3f;
         private const float fadeTime = 1f;
 
+        // Maximum title and message lengths
+        private const int maxTitle = 48;
+        private const int maxMessage = 256;
+
         private Image background;
 
         private Image titleBackground;
@@ -36,9 +40,16 @@ namespace UILib {
          * <param name="message">The message to display</param>
          */
         internal Notification(string title, string message) {
+            // If anything is too large, log it
+            if (title.Length > maxTitle || message.Length > maxMessage) {
+                logger.LogInfo("Got a large notification");
+                logger.LogInfo($"Title: {title}");
+                logger.LogInfo($"Message: {message}");
+            }
+
             // Fix sizes
-            title = ClampString(title, 48);
-            message = ClampString(message, 256);
+            title = ClampString(title, maxTitle);
+            message = ClampString(message, maxMessage);
 
             // Unity stuff
             canvasGroup = gameObject.AddComponent<CanvasGroup>();

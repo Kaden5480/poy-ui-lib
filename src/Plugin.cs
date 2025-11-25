@@ -129,10 +129,8 @@ namespace UILib {
 
             QueueArea area = new QueueArea(20);
             area.SetContentLayout(LayoutType.Vertical);
+            area.SetContentPadding(bottom: 100);
             area.SetFill(FillType.All);
-
-            area.rectTransform.anchoredPosition = new Vector2(0f, 50f);
-            area.SetSize(0f, -100f);
 
             // TODO: When content is added, the layout resizes
             // but the scrollbar stays fixed.
@@ -140,9 +138,10 @@ namespace UILib {
             // because the layout gets shifted around.
             // Find a way to actually handle this.
             UIButton button = new UIButton("Add some content", 40);
-            button.SetSize(0f, 100f);
-            button.SetAnchor(AnchorType.BottomMiddle);
             button.SetFill(FillType.Horizontal);
+            button.SetAnchor(AnchorType.BottomLeft);
+            button.SetSize(-20f, 100f);
+            button.SetOffset(-10f, 0f);
             button.onClick.AddListener(() => {
                 logCount++;
 
@@ -152,7 +151,9 @@ namespace UILib {
             });
 
             window.Add(area);
-            window.Add(button);
+            window.AddDirect(button);
+
+            window.scrollView.SetContent(area);
 
             window.Hide();
             return window;

@@ -109,7 +109,7 @@ namespace UILib {
          * </summary>
          * <param name="content">The component which should be the content instead</param>
          */
-        protected virtual void SetContent(UIComponent content) {
+        public virtual void SetContent(UIComponent content) {
             this.content = content;
         }
 
@@ -320,6 +320,26 @@ namespace UILib {
         /**
          * <summary>
          * Sets the size of this UIObject.
+         *
+         * NOTE:
+         * If you use a certain fill, this size behaves differently.
+         * Instead of being the actual width and height of the UIObject, they
+         * will add/subtract from the width/height, depending on which fills are used.
+         *
+         * E.g.
+         * If you don't use a fill, both width and height will remain as the width and height.
+         * Their behaviour will be unchanged.
+         *
+         * If you use FillType.Horizontal, you could specify a width such as
+         * `-20f` to subtract 20 pixels from the full width.
+         *
+         * If you use FillType.Vertical, you could specify a height such as
+         * `100f` and it would add 100 pixels to the full height.
+         *
+         * Similarly, if you use FillType.All, any positive values will increase
+         * this UIObject beyond its normal fill. Any negative values will decrease
+         * it from its normal fill.
+         *
          * </summary>
          * <param name="width">The width to set</param>
          * <param name="height">The height to set</param>
@@ -335,6 +355,17 @@ namespace UILib {
             else {
                 rectTransform.sizeDelta = new Vector2(width, height);
             }
+        }
+
+        /**
+         * <summary>
+         * Sets an offset for this UIObject from its current anchor.
+         * </summary>
+         * <param name="x">The x offset to set</param>
+         * <param name="y">The y offset to set</param>
+         */
+        public void SetOffset(float x, float y) {
+            rectTransform.anchoredPosition = new Vector2(x, y);
         }
 
         /**

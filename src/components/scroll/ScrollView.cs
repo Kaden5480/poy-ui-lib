@@ -91,7 +91,7 @@ namespace UILib.Components {
          * </summary>
          * <param name="content">The component which should be the content instead</param>
          */
-        protected override void SetContent(UIComponent content) {
+        public override void SetContent(UIComponent content) {
             base.SetContent(content);
             scrollRect.content = content.rectTransform;
         }

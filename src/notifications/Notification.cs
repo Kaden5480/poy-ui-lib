@@ -104,7 +104,7 @@ namespace UILib {
                 Destroy();
             });
 
-            //timer.StartTimer(waitTime + fadeTime);
+            timer.StartTimer(waitTime + fadeTime);
         }
 
         /**

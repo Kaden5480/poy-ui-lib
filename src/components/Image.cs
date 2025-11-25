@@ -19,7 +19,6 @@ namespace UILib.Components {
          */
         public Image() {
             image = gameObject.AddComponent<UEImage>();
-            SetFill(FillType.All);
         }
 
         /**

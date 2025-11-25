@@ -35,6 +35,7 @@ namespace UILib.Components {
          */
         public Button() {
             background = new Image();
+            background.SetFill(FillType.All);
             background.DestroyMouseHandler();
             Add(background);
 
@@ -68,6 +69,7 @@ namespace UILib.Components {
          */
         public Button(Texture2D texture) : this() {
             image = new Image(texture);
+            image.SetFill(FillType.All);
             image.DestroyMouseHandler();
             Add(image);
         }

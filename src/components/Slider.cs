@@ -31,6 +31,7 @@ namespace UILib.Components {
             UESlider.Direction direction = UESlider.Direction.LeftToRight
         ) {
             background = new Image();
+            background.SetFill(FillType.All);
 
             fillArea = new Area();
             fillArea.SetFill(FillType.All);
@@ -39,10 +40,12 @@ namespace UILib.Components {
             handleArea.SetFill(FillType.All);
 
             fillImage = new Image();
+            fillImage.SetFill(FillType.All);
             fillImage.image.type = UEImage.Type.Sliced;
             fillArea.Add(fillImage);
 
             handleImage = new Image(Resources.circle);
+            handleImage.SetFill(FillType.All);
             handleArea.Add(handleImage);
 
             Add(background);

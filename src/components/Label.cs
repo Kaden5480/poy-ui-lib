@@ -24,6 +24,7 @@ namespace UILib.Components {
             this.text.font = Resources.gameFont;
             this.text.fontSize = fontSize;
             this.text.text = text;
+            this.text.lineSpacing = 3f;
             this.text.alignByGeometry = true;
 
             SetAlignment(TextAnchor.MiddleCenter);

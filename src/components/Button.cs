@@ -24,6 +24,10 @@ namespace UILib.Components {
         public Label label { get; private set; }
         public Image image { get; private set; }
 
+        public override UnityEvent onClick {
+            get => (button == null) ? base.onClick : button.onClick;
+        }
+
         /**
          * <summary>
          * Initializes a Button.

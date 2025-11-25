@@ -459,7 +459,10 @@ namespace UILib {
 
             SetElementAlignment(TextAnchor.MiddleCenter);
 
-            fitter = obj.AddComponent<ContentSizeFitter>();
+            if (fitter == null) {
+                fitter = obj.AddComponent<ContentSizeFitter>();
+            }
+
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
             fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
         }

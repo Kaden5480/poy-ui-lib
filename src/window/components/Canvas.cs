@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 using UECanvas = UnityEngine.Canvas;
 using UECanvasScaler = UnityEngine.UI.CanvasScaler;
@@ -21,7 +23,7 @@ namespace UILib {
          * Initializes a Canvas.
          * </summary>
          */
-        public Canvas() {
+        internal Canvas() {
             canvas = gameObject.AddComponent<UECanvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
 
@@ -33,7 +35,13 @@ namespace UILib {
             gameObject.AddComponent<UEGraphicRaycaster>();
         }
 
-        public void Add(UIObject child) {
+        /**
+         * <summary>
+         * Adds a child to this canvas.
+         * </summary>
+         * <param name="child">The child to add</param>
+         */
+        internal void Add(UIObject child) {
             Add(gameObject, child);
         }
     }

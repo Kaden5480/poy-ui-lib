@@ -14,6 +14,17 @@ namespace UILib.Behaviours {
         // The timer coroutine
         private IEnumerator coroutine;
 
+        /**
+         * <summary>
+         * Whether the timer should pause.
+         *
+         * If the timer is paused, the internal timer will no longer
+         * decrease, and any onIter listeners will no longer be invoked.
+         * Setting paused back to `false` will continue normal execution.
+         * </summary>
+         */
+        public bool paused = false;
+
         public UnityEvent onStart { get; } = new UnityEvent();
         public FloatEvent onIter  { get; } = new FloatEvent();
         public UnityEvent onEnd   { get; } = new UnityEvent();
@@ -53,6 +64,10 @@ namespace UILib.Behaviours {
             onStart.Invoke();
 
             while (time > 0) {
+                if (paused == true) {
+                    yield return null;
+                }
+
                 time -= Time.deltaTime;
                 onIter.Invoke(time);
                 yield return null;

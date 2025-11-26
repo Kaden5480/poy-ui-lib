@@ -9,7 +9,7 @@ using UILib.Patches;
 namespace UILib {
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UI Lib", PluginInfo.PLUGIN_VERSION)]
     internal class Plugin : BaseUnityPlugin {
-        internal static Plugin instance { get; private set; }
+        private static Plugin instance;
 
         /**
          * <summary>
@@ -55,7 +55,7 @@ namespace UILib {
          * <param name="scene">The scene which loaded</param>
          * <param name="mode">The mode the scene loaded with</param>
          */
-        public void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             Patcher.OnSceneLoaded(scene, mode);
         }
 
@@ -66,7 +66,7 @@ namespace UILib {
          * <param name="scene">The scene which unloaded</param>
          * <param name="mode">The mode the scene unloaded with</param>
          */
-        public void OnSceneUnloaded(Scene scene) {
+        private void OnSceneUnloaded(Scene scene) {
             Patcher.OnSceneUnloaded(scene);
         }
 

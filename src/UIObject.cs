@@ -23,43 +23,158 @@ namespace UILib {
      * </summary>
      */
     public abstract class UIObject {
-        protected float width  { get; private set; }
-        protected float height { get; private set; }
-
-        // Whether this UIObject is visible
-        public bool isVisible { get => gameObject.activeSelf; }
-
         // The logger for this UIObject
         internal Logger logger { get; private set; }
 
-        // The GameObject and RectTransform this UIObject handles
-        public GameObject gameObject       { get; private set; }
+        /**
+         * <summary>
+         * The underlying GameObject this UIObject attaches
+         * components to.
+         * </summary>
+         */
+        public GameObject gameObject { get; private set; }
+
+        /**
+         * <summary>
+         * The RectTransform attached to `gameObject`.
+         * </summary>
+         */
         public RectTransform rectTransform { get; private set; }
 
-        // Click and drag listeners
-        internal MouseHandler mouseHandler { get; private set; }
+        /**
+         * <summary>
+         * The currently configured width of this UIObject.
+         * </summary>
+         */
+        protected float width { get; private set; }
 
-        // Public access to events
-        public virtual UnityEvent onClick       { get => mouseHandler.onClick; }
-        public virtual UnityEvent onDoubleClick { get => mouseHandler.onDoubleClick; }
-        public virtual DragEvent onBeginDrag    { get => mouseHandler.onBeginDrag; }
-        public virtual DragEvent onDrag         { get => mouseHandler.onDrag; }
-        public virtual DragEvent onEndDrag      { get => mouseHandler.onEndDrag; }
+        /**
+         * <summary>
+         * The currently configured height of this UIObject.
+         * </summary>
+         */
+        protected float height { get; private set; }
 
-        // The parent and children of this object
-        public UIObject parent         { get; private set; }
+        /**
+         * <summary>
+         * Whether this UIObject is currently set to be visible.
+         * </summary>
+         */
+        public bool isVisible { get => gameObject.activeSelf; }
+
+        /**
+         * <summary>
+         * The parent of this UIObject.
+         * </summary>
+         */
+        public UIObject parent { get; private set; }
+
+        /**
+         * <summary>
+         * This UIObject's children.
+         * </summary>
+         */
         public List<UIObject> children { get; private set; }
 
         // Where layouts should be handled and children should be added
+        // by default
         private UIObject content;
 
-        // Layout information
-        public AnchorType anchorType                       { get; private set; }
-        public FillType fillType                           { get; private set; }
-        public LayoutType layoutType                       { get; private set; }
-        public LayoutElement layoutElement                 { get; private set; }
-        public ContentSizeFitter fitter                    { get; private set; }
+#region Click/Drag Events
+
+        internal MouseHandler mouseHandler { get; private set; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever this UIObject is clicked.
+         * </summary>
+         */
+        public virtual UnityEvent onClick { get => mouseHandler.onClick; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever this UIObject is double clicked.
+         * </summary>
+         */
+        public virtual UnityEvent onDoubleClick { get => mouseHandler.onDoubleClick; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever the cursor has started
+         * dragging on this UIObject.
+         * </summary>
+         */
+        public virtual DragEvent onBeginDrag { get => mouseHandler.onBeginDrag; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever the cursor is
+         * dragging on this UIObject.
+         * </summary>
+         */
+        public virtual DragEvent onDrag { get => mouseHandler.onDrag; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever the cursor has
+         * stopped dragging on this UIObject.
+         * </summary>
+         */
+        public virtual DragEvent onEndDrag { get => mouseHandler.onEndDrag; }
+
+#endregion
+
+#region Layout
+
+        /**
+         * <summary>
+         * The current anchor set on this UIObject.
+         * </summary>
+         */
+        public AnchorType anchorType { get; private set; }
+
+        /**
+         * <summary>
+         * The current fill set on this UIObject.
+         * </summary>
+         */
+        public FillType fillType { get; private set; }
+
+        /**
+         * <summary>
+         * The LayoutElement for this UIObject, if it has one.
+         * </summary>
+         */
+        public LayoutElement layoutElement { get; private set; }
+
+        /**
+         * <summary>
+         * The current layout set on this UIObject's content.
+         * It's important to note that this is added to the
+         * configured `content`, not necessarily on the `gameObject`.
+         * </summary>
+         */
+        public LayoutType layoutType { get; private set; }
+
+        /**
+         * <summary>
+         * The ContentSizeFitter for this UIObject's content, if it has one.
+         * It's important to note that this is added to the
+         * configured `content`, not necessarily on the `gameObject`.
+         * </summary>
+         */
+        public ContentSizeFitter fitter { get; private set; }
+
+        /**
+         * <summary>
+         * The LayoutGroup for this UIObject's content, if it has one.
+         * It's important to note that this is added to the
+         * configured `content`, not necessarily on the `gameObject`.
+         * </summary>
+         */
         public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
+
+#endregion
 
         /**
          * <summary>

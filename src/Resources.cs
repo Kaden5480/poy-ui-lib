@@ -14,37 +14,67 @@ namespace UILib {
         private const string bundlePath = "uilib.bundle";
         private static AssetBundle bundle;
 
-        // The font the game uses (Roman Antique)
+        /**
+         * <summary>
+         * The default Peaks of Yore font (Roman Antique).
+         * </summary>
+         */
         public static Font gameFont { get; private set; } = LoadFromBundle<Font>(
             "RomanAntique"
         );
 
+        /**
+         * <summary>
+         * The default Peaks of Yore font (Roman Antique).
+         * A scuffed variant which is used internally because input
+         * fields are a mess.
+         * </summary>
+         */
         internal static Font gameFontScuffed { get; private set; } = LoadFromBundle<Font>(
             "RomanAntiqueScuffed"
         );
 
-        // A checkmark texture for toggles
+        /**
+         * <summary>
+         * The default checkmark used by Peaks of Yore.
+         * </summary>
+         */
         public static Texture2D checkMark { get; private set; } = LoadFromBundle<Texture2D>(
             "CheckMark"
         );
 
-        // A circle texture (used by Slider)
+        /**
+         * <summary>
+         * A texture of a circle.
+         * </summary>
+         */
         public static Texture2D circle { get; private set; } = LoadFromBundle<Texture2D>(
             "Circle"
         );
 
-        // A triangle texture (used by ResizeButton)
+        /**
+         * <summary>
+         * A texture of a triangle.
+         * </summary>
+         */
         public static Texture2D triangle { get; private set; } = LoadFromBundle<Texture2D>(
             "Triangle"
         );
 
-        // Notification sounds
-        // Best played with 0.8 volume
+        /**
+         * <summary>
+         * The default notification sound used by UILib.
+         * </summary>
+         */
         public static AudioClip notification { get; private set; } = LoadFromBundle<AudioClip>(
             "Notification"
         );
 
-        // Best played with 0.6 volume
+        /**
+         * <summary>
+         * The default error notification sound used by UILib.
+         * </summary>
+         */
         public static AudioClip notificationError { get; private set; } = LoadFromBundle<AudioClip>(
             "NotificationError"
         );

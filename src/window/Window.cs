@@ -22,7 +22,11 @@ namespace UILib {
         private const float minWidth = 200f;
         private const float minHeight = 200f;
 
-        // Whether this window is fullscreen
+        /**
+         * <summary>
+         * Whether this window is currently in fullscreen mode.
+         * </summary>
+         */
         public bool fullscreen { get; private set; }
 
         // The current pause handle for this window
@@ -32,7 +36,11 @@ namespace UILib {
         private WindowState state;
         private Vector2 latestDragPosition;
 
-        // The name of this window
+        /**
+         * <summary>
+         * This window's name.
+         * </summary>
+         */
         public string name { get; private set; }
 
         // The canvas this window is attached to
@@ -44,7 +52,11 @@ namespace UILib {
         // This window's container
         private GameObject container;
 
-        // The ScrollView for the window
+        /**
+         * <summary>
+         * This window's underlying ScrollView.
+         * </summary>
+         */
         public ScrollView scrollView { get; private set; }
 
         /**

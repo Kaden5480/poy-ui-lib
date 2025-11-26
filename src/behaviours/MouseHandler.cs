@@ -15,8 +15,8 @@ namespace UILib.Behaviours {
 
 #region Click Events
 
-        public UnityEvent onClick       { get; } = new UnityEvent();
-        public UnityEvent onDoubleClick { get; } = new UnityEvent();
+        internal UnityEvent onClick       { get; } = new UnityEvent();
+        internal UnityEvent onDoubleClick { get; } = new UnityEvent();
 
         /**
          * <summary>
@@ -41,9 +41,9 @@ namespace UILib.Behaviours {
 
 #region Drag Events
 
-        public DragEvent onBeginDrag { get; } = new DragEvent();
-        public DragEvent onDrag      { get; } = new DragEvent();
-        public DragEvent onEndDrag   { get; } = new DragEvent();
+        internal DragEvent onBeginDrag { get; } = new DragEvent();
+        internal DragEvent onDrag      { get; } = new DragEvent();
+        internal DragEvent onEndDrag   { get; } = new DragEvent();
 
         /**
          * <summary>

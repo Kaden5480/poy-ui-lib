@@ -25,8 +25,26 @@ namespace UILib.Behaviours {
          */
         public bool paused = false;
 
+        /**
+         * <summary>
+         * Invokes listeners whenever the timer is started.
+         * </summary>
+         */
         public UnityEvent onStart { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners on each iteration of the timer.
+         * The value passed to listeners is the amount of time left on the timer.
+         * </summary>
+         */
         public FloatEvent onIter  { get; } = new FloatEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners when the timer finishes (reaches 0).
+         * </summary>
+         */
         public UnityEvent onEnd   { get; } = new UnityEvent();
 
         /**

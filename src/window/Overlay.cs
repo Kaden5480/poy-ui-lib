@@ -52,6 +52,9 @@ namespace UILib {
             // Pause by default
             SetPauseMode(true);
 
+            // Set size
+            SetSize(width, height);
+
             // Show by default
             Show();
         }

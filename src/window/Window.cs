@@ -2,6 +2,7 @@ using UnityEngine;
 
 using UILib.Components;
 using UILib.Layout;
+using UILib.Patches;
 
 namespace UILib {
     /**
@@ -23,6 +24,9 @@ namespace UILib {
 
         // Whether this window is fullscreen
         public bool fullscreen { get; private set; }
+
+        // The current pause handle for this window
+        private PauseHandle pauseHandle;
 
         // States stored for helping with moving/resizing/maximising/etc.
         private WindowState state;
@@ -96,6 +100,9 @@ namespace UILib {
 
             // The scroll view is the content
             SetContent(scrollView);
+
+            // Show by default
+            Show();
         }
 
         /**
@@ -119,6 +126,35 @@ namespace UILib {
 
         /**
          * <summary>
+         * When opening, get a PauseHandle.
+         * </summary>
+         */
+        public override void Show() {
+            base.Show();
+
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+            }
+
+            pauseHandle = new PauseHandle();
+        }
+
+        /**
+         * <summary>
+         * When closing, close the PauseHandle.
+         * </summary>
+         */
+        public override void Hide() {
+            base.Hide();
+
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+                pauseHandle = null;
+            }
+        }
+
+        /**
+         * <summary>
          * Destroy this Window and all children.
          * </summary>
          */
@@ -127,21 +163,7 @@ namespace UILib {
             base.Destroy();
         }
 
-        /**
-         * <summary>
-         * Converts a position to be local to
-         * the Canvas of this Window.
-         * </summary>
-         * <returns>The local position</returns>
-         */
-        internal Vector2 ToCanvasLocal(Vector2 position) {
-            RectTransformUtility.ScreenPointToLocalPointInRectangle(
-                canvas.rectTransform, position, canvas.canvas.worldCamera,
-                out Vector2 canvasLocal
-            );
-
-            return canvasLocal;
-        }
+#region Scrolling
 
         /**
          * <summary>
@@ -160,6 +182,11 @@ namespace UILib {
         public void ScrollToBottom() {
             scrollView.scrollBarV.SetScroll(0f);
         }
+
+#endregion
+
+
+#region Fullscreen
 
         /**
          * <summary>
@@ -219,6 +246,26 @@ namespace UILib {
                 position.x + sizeDelta.x*(pivot.x-0.5f),
                 position.y - sizeDelta.y*(1f-pivot.y)
             );
+        }
+
+#endregion
+
+#region Events
+
+        /**
+         * <summary>
+         * Converts a position to be local to
+         * the Canvas of this Window.
+         * </summary>
+         * <returns>The local position</returns>
+         */
+        internal Vector2 ToCanvasLocal(Vector2 position) {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.rectTransform, position, canvas.canvas.worldCamera,
+                out Vector2 canvasLocal
+            );
+
+            return canvasLocal;
         }
 
         /**
@@ -317,6 +364,10 @@ namespace UILib {
             latestDragPosition = position;
         }
 
+#endregion
+
+#region Moving/Resizing
+
         /**
          * <summary>
          * Move this window by a given delta.
@@ -345,5 +396,8 @@ namespace UILib {
 
             MoveBy(new Vector3(realDeltaX*pivot.x, -(realDeltaY*(1-pivot.y)), 0f));
         }
+
+#endregion
+
     }
 }

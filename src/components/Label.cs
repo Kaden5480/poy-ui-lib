@@ -6,7 +6,7 @@ using UEText = UnityEngine.UI.Text;
 namespace UILib.Components {
     /**
      * <summary>
-     * An object which just displays some text.
+     * A component which just displays some text.
      * </summary>
      */
     public class Label : UIComponent {

@@ -4,6 +4,11 @@ using UnityEngine.Audio;
 using UEResources = UnityEngine.Resources;
 
 namespace UILib {
+    /**
+     * <summary>
+     * A class for interacting with UILib's audio.
+     * </summary>
+     */
     public static class Audio {
         private static Logger logger = new Logger(typeof(Audio));
 

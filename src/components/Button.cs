@@ -11,7 +11,7 @@ using UILib.Layout;
 namespace UILib.Components {
     /**
      * <summary>
-     * A button object.
+     * A button component.
      *
      * Buttons can have textures or text on them
      * and handle click events.

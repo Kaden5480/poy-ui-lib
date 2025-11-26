@@ -3,7 +3,7 @@ using UIButton = UILib.Components.Button;
 namespace UILib.Components {
     /**
      * <summary>
-     * An object which is like a button,
+     * A component which is like a button,
      * but can be toggled on or off.
      *
      * Also displays a checkmark indicating its current state.

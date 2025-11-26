@@ -9,6 +9,12 @@ using UILib.Behaviours;
 using UILib.Layout;
 
 namespace UILib.Components {
+    /**
+     * <summary>
+     * A component which can be dragged between
+     * a lower and upper limit.
+     * </summary>
+     */
     public class Slider : UIComponent {
         public UESlider slider { get; private set; }
 

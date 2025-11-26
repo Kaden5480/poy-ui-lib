@@ -6,7 +6,7 @@ using UILib.Layout;
 namespace UILib.Components {
     /**
      * <summary>
-     * An object which just displays an image.
+     * A component which just displays an image.
      * </summary>
      */
     public class Image : UIComponent {

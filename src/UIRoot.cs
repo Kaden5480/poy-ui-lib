@@ -72,6 +72,18 @@ namespace UILib {
 
         /**
          * <summary>
+         * Iterates over all windows and ensures their canvases
+         * are enabled.
+         * </summary>
+         */
+        internal static void EnableCanvases() {
+            foreach (Window window in windows) {
+                window.canvas.Show();
+            }
+        }
+
+        /**
+         * <summary>
          * Sets a window to be in front of all others.
          * </summary>
          * <param name="window">The window to bring to the front</param>

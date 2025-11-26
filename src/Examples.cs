@@ -32,6 +32,7 @@ namespace UILib {
 
         private static Window window;
         private static Window window2;
+        private static Overlay overlay;
 
         internal static void Awake() {
             window = MakeLog();
@@ -39,11 +40,16 @@ namespace UILib {
 
             window2 = MakeWindow("Cool Window", 800f, 600f);
             window2.SetAnchor(AnchorType.Middle);
+
+            overlay = MakeOverlay(400f, 400f);
+            overlay.SetPauseMode(false);
+            overlay.SetAnchor(AnchorType.MiddleLeft);
         }
 
         internal static void Start() {
-            window.Show();
+            //window.Show();
             window2.Show();
+            overlay.Show();
         }
 
         internal static void Update() {
@@ -58,6 +64,28 @@ namespace UILib {
             else if (Input.GetKeyDown(KeyCode.PageUp) == true) {
                 window2.ToggleVisibility();
             }
+            else if (Input.GetKeyDown(KeyCode.PageDown) == true) {
+                overlay.ToggleVisibility();
+            }
+        }
+
+        private static Overlay MakeOverlay(float width, float height) {
+            Overlay overlay = new Overlay(width, height);
+            Image background = new Image(Colors.black);
+            background.SetFill(FillType.All);
+            overlay.Add(background);
+
+            Area area = new Area();
+            area.SetContentLayout(LayoutType.Vertical);
+            overlay.Add(area);
+
+            Label label = new Label("Cool Stuff", 40);
+            label.SetSize(200f, 100f);
+            area.Add(label);
+
+            overlay.Hide();
+
+            return overlay;
         }
 
         private static Window MakeWindow(string name, float width, float height) {

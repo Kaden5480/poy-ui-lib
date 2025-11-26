@@ -9,6 +9,7 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void Awake() {
+            Harmony.CreateAndPatchAll(typeof(InteractFixes));
             Harmony.CreateAndPatchAll(typeof(FadeFix));
             Harmony.CreateAndPatchAll(typeof(MenuFix));
         }

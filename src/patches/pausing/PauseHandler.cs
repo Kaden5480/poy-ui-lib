@@ -20,7 +20,8 @@ namespace UILib.Patches {
     public class PauseHandle {
         /**
          * <summary>
-         * Initializes a pause handle.
+         * Initializes a pause handle, telling the `PauseHandler`
+         * that the game should pause.
          * </summary>
          */
         public PauseHandle() {

@@ -33,5 +33,14 @@ namespace UILib.Patches {
         internal static void OnSceneUnloaded(Scene scene) {
             Cache.Clear();
         }
+
+        /**
+         * <summary>
+         * Forwards updates to patches that need it.
+         * </summary>
+         */
+        internal static void Update() {
+            InputFieldFix.Update();
+        }
     }
 }

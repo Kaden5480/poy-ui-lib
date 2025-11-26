@@ -83,9 +83,6 @@ namespace UILib {
             onDrag.AddListener(OnDrag);
             onEndDrag.AddListener(OnEndDrag);
 
-            // Fix input fields being stupid
-            onClick.AddListener(DeselectInputField);
-
             SetAnchor(AnchorType.Middle);
 
             // By default, just make this the content
@@ -243,30 +240,6 @@ namespace UILib {
 #endregion
 
 #region Events
-
-        /**
-         * <summary>
-         * Fixes input fields being stupid.
-         *
-         * If an input field is focused it will
-         * deslect it, unless an input field is
-         * being clicked on.
-         * </summary>
-         */
-        internal void DeselectInputField() {
-            GameObject clicked = EventSystem.current.currentSelectedGameObject;
-
-            if (clicked == null) {
-                return;
-            }
-
-            // If an input field was selected, deselect it
-            InputField field = clicked.GetComponent<InputField>();
-            if (field != null) {
-                EventSystem.current.SetSelectedGameObject(null);
-                field.DeactivateInputField();
-            }
-        }
 
         /**
          * <summary>

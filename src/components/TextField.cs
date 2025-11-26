@@ -1,8 +1,8 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using UEImage = UnityEngine.UI.Image;
-using UEInputField = UnityEngine.UI.InputField;
 
 using UILib.Behaviours;
 using UILib.Layout;
@@ -19,8 +19,10 @@ namespace UILib.Components {
         public Label input        { get; private set; }
 
         private UEImage background;
-        private UEInputField inputField;
+        private InputField inputField;
 
+        public UnityEvent onSelect { get => inputField.onSelect; }
+        public UnityEvent onDeselect { get => inputField.onDeselect; }
         public StringEvent onEndEdit { get; } = new StringEvent();
         public StringEvent onValueChanged { get; } = new StringEvent();
 
@@ -44,7 +46,7 @@ namespace UILib.Components {
             background = gameObject.AddComponent<UEImage>();
             background.color = Colors.grey;
 
-            inputField = gameObject.AddComponent<UEInputField>();
+            inputField = gameObject.AddComponent<InputField>();
 
             inputField.placeholder = placeholder.text;
             placeholder.text.alignByGeometry = false;
@@ -53,6 +55,10 @@ namespace UILib.Components {
             inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
             input.text.font = Resources.gameFontScuffed;
+
+            inputField.onSelect.AddListener(() => {
+                Patches.InputFieldFix.current = this;
+            });
 
             inputField.onEndEdit.AddListener((string value) => {
                 EventSystem.current.SetSelectedGameObject(null);

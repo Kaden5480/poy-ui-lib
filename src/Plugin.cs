@@ -76,6 +76,7 @@ namespace UILib {
          * </summary>
          */
         private void Update() {
+            Patcher.Update();
             Examples.Update();
         }
 

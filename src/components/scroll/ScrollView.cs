@@ -17,8 +17,7 @@ namespace UILib.Components {
      * If content is larger than the ScrollView, ScrollBars
      * will be enabled to allow scrolling through it.
      *
-     * > [!NOTE]
-     * > Vertical ScrollBars are always on by default.
+     * Vertical ScrollBars are always on by default.
      * </summary>
      */
     public class ScrollView : UIComponent {

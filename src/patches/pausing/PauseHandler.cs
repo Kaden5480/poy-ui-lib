@@ -6,6 +6,15 @@ namespace UILib.Patches {
     /**
      * <summary>
      * A pause handle.
+     *
+     * Whenever a PauseHandle is constructed it automatically
+     * pauses the game.
+     *
+     * Closing a PauseHandle will let the game unpause,
+     * but only once all PauseHandles have been closed.
+     * There could even be many PauseHandles across many mods,
+     * but as long as at least one exists
+     * (and hasn't closed yet), the game will be paused.
      * </summary>
      */
     public class PauseHandle {
@@ -20,16 +29,7 @@ namespace UILib.Patches {
 
         /**
          * <summary>
-         * Handles being cleaned up.
-         * </summary>
-         */
-        ~PauseHandle() {
-            Close();
-        }
-
-        /**
-         * <summary>
-         * Explicitly close this PauseHandle,
+         * Close this PauseHandle,
          * telling PauseHandler that the game
          * no longer needs to be paused.
          * </summary>

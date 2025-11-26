@@ -86,10 +86,6 @@ namespace UILib.Notifications {
             messageLabel.text.resizeTextMaxSize = 20;
             messageLabel.text.resizeTextMinSize = 15;
 
-            // Aligning top left
-            //messageLabel.SetOffset(0f, -6f);
-            //messageLabel.SetAlignment(TextAnchor.UpperLeft);
-
             Add(messageLabel);
 
             // If this is an error notification, don't automatically hide

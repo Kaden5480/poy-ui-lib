@@ -17,6 +17,9 @@ namespace UILib {
         // based upon this
         private const int minSortingOrder = 1000;
 
+        // Sorting order for the notification area
+        internal const int notificationSortingOrder = 9999;
+
         private static GameObject gameObject;
         private static List<Window> windows;
 

@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 using UEImage = UnityEngine.UI.Image;
 using UEInputField = UnityEngine.UI.InputField;
 
+using UILib.Behaviours;
 using UILib.Layout;
 
 namespace UILib.Components {
@@ -18,6 +20,9 @@ namespace UILib.Components {
 
         private UEImage background;
         private UEInputField inputField;
+
+        public StringEvent onEndEdit { get; } = new StringEvent();
+        public StringEvent onValueChanged { get; } = new StringEvent();
 
         /**
          * <summary>
@@ -48,6 +53,15 @@ namespace UILib.Components {
             inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
             input.text.font = Resources.gameFontScuffed;
+
+            inputField.onEndEdit.AddListener((string value) => {
+                EventSystem.current.SetSelectedGameObject(null);
+                onEndEdit.Invoke(value);
+            });
+
+            inputField.onValueChanged.AddListener((string value) => {
+                onValueChanged.Invoke(value);
+            });
         }
 
         /**

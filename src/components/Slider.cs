@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
+using UILib.Behaviours;
 using UILib.Layout;
 
 namespace UILib.Components {
@@ -16,6 +18,8 @@ namespace UILib.Components {
         public Area handleArea   { get; private set; }
         public Image fillImage   { get; private set; }
         public Image handleImage { get; private set; }
+
+        public FloatEvent onValueChanged { get; } = new FloatEvent();
 
         /**
          * <summary>
@@ -60,6 +64,10 @@ namespace UILib.Components {
             slider.direction = direction;
 
             SetLimits(min, max);
+
+            slider.onValueChanged.AddListener((float value) => {
+                onValueChanged.Invoke(value);
+            });
 
             background.SetColor(Colors.grey);
             fillImage.SetColor(Colors.lightGrey);

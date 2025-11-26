@@ -15,7 +15,7 @@ namespace UILib.Behaviours {
         private IEnumerator coroutine;
 
         public UnityEvent onStart { get; } = new UnityEvent();
-        public TimerEvent onIter  { get; } = new TimerEvent();
+        public FloatEvent onIter  { get; } = new FloatEvent();
         public UnityEvent onEnd   { get; } = new UnityEvent();
 
         /**

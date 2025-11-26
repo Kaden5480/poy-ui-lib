@@ -17,13 +17,9 @@ namespace UILib.Behaviours {
         /**
          * <summary>
          * Whether the timer should pause.
-         *
-         * If the timer is paused, the internal timer will no longer
-         * decrease, and any onIter listeners will no longer be invoked.
-         * Setting paused back to `false` will continue normal execution.
          * </summary>
          */
-        public bool paused = false;
+        private bool paused = false;
 
         /**
          * <summary>
@@ -58,6 +54,21 @@ namespace UILib.Behaviours {
             StopTimer();
             coroutine = RunTimer(time);
             StartCoroutine(coroutine);
+        }
+
+        /**
+         * <summary>
+         * Pauses the timer.
+         *
+         * If the timer is paused, the internal timer will no longer
+         * decrease, and any <see cref="onIter"/> listeners will no longer be invoked.
+         * Setting `pause` to `false` will allow the timer to continue
+         * normal execution.
+         * </summary>
+         * <param name="pause">Whether the timer should be paused</param>
+         */
+        public void PauseTimer(bool pause = true) {
+            paused = pause;
         }
 
         /**

@@ -21,6 +21,18 @@ namespace UILib.Components {
      * </summary>
      */
     public class ScrollView : UIComponent {
+        /**
+         * <summary>
+         * This scroll view's background.
+         * </summary>
+         */
+        public UEImage background { get; private set; }
+
+        /**
+         * <summary>
+         * The width of this scroll view's scroll bars.
+         * </summary>
+         */
         public float scrollBarWidth { get; private set; } = 20f;
 
         private GameObject viewport;
@@ -59,7 +71,8 @@ namespace UILib.Components {
             viewportRect.sizeDelta = new Vector2(-scrollBarWidth, 0f);
             viewportRect.anchoredPosition = new Vector2(-scrollBarWidth/2, 0f);
 
-            viewport.GetComponent<UEImage>().color = Colors.black;
+            background = viewport.GetComponent<UEImage>();
+            background.color = Colors.black;
 
             // Scroll rect setup
             scrollRect.viewport = viewportRect;

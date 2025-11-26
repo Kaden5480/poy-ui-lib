@@ -80,6 +80,8 @@ namespace UILib {
             foreach (Window window in windows) {
                 window.canvas.Show();
             }
+
+            notificationArea.canvas.Show();
         }
 
         /**

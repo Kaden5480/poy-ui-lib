@@ -26,6 +26,9 @@ namespace UILib {
         protected float width  { get; private set; }
         protected float height { get; private set; }
 
+        // Whether this UIObject is visible
+        public bool isVisible { get => gameObject.activeSelf; }
+
         // The logger for this UIObject
         internal Logger logger { get; private set; }
 
@@ -91,10 +94,26 @@ namespace UILib {
 
         /**
          * <summary>
+         * Toggles the visibility of this UIObject.
+         * </summary>
+         */
+        public void ToggleVisibility() {
+            // Write in terms of Hide and Show
+            // to make overriding a little easier
+            if (isVisible == true) {
+                Hide();
+            }
+            else {
+                Show();
+            }
+        }
+
+        /**
+         * <summary>
          * Shows this UIObject.
          * </summary>
          */
-        public void Show() {
+        public virtual void Show() {
             gameObject.SetActive(true);
         }
 
@@ -103,7 +122,7 @@ namespace UILib {
          * Hides this UIObject.
          * </summary>
          */
-        public void Hide() {
+        public virtual void Hide() {
             gameObject.SetActive(false);
         }
 

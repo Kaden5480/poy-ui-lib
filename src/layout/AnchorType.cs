@@ -2,8 +2,8 @@ namespace UILib.Layout {
     /**
      * <summary>
      * Types of anchors which can be
-     * applied to objects to determine
-     * how they are positioned in their parent container.
+     * applied to a <see cref="UIObject"/> to determine
+     * how it's positioned in its parent container.
      * </summary>
      */
     public enum AnchorType {

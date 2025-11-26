@@ -3,8 +3,8 @@ using HarmonyLib;
 namespace UILib.Patches {
     /**
      * <summary>
-     * Makes sure the PauseHandler runs after
-     * InGameMenu, to make sure the game actually
+     * Makes sure the <see cref="PauseHandler"/> runs after
+     * `InGameMenu`, to make sure the game actually
      * pauses correctly.
      * </summary>
      */

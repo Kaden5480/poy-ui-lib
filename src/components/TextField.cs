@@ -28,7 +28,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a TextField.
+         * Initializes a text field.
          * </summary>
          * <param name="text">The placeholder text</param>
          * <param name="fontSize">The font size to use</param>

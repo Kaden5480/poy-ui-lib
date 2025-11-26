@@ -30,7 +30,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Button.
+         * Initializes a button.
          * </summary>
          */
         public Button() {
@@ -49,7 +49,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Button with the specified text.
+         * Initializes a button with the specified text.
          * </summary>
          * <param name="text">The text to add to this button</param>
          * <param name="fontSize">The font size for the text</param>
@@ -63,7 +63,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Button with a texture.
+         * Initializes a button with a texture.
          * </summary>
          * <param name="texture">The texture to add to this button</param>
          */

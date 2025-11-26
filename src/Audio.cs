@@ -17,7 +17,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Initializes Audio.
+         * Initializes the audio.
          * </summary>
          */
         internal static void Init() {
@@ -75,7 +75,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Plays the default normal notification sound.
+         * Plays the <see cref="Resources.notification">default normal
+         * notification sound</see>.
          * </summary>
          */
         public static void PlayNormal() {
@@ -84,7 +85,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Plays the default error sound.
+         * Plays the <see cref="Resources.notificationError">default error
+         * notification sound</see>.
          * </summary>
          */
         public static void PlayError() {

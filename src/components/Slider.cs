@@ -29,7 +29,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Slider.
+         * Initializes a slider.
          * </summary>
          * <param name="min">The minimum value of this slider</param>
          * <param name="max">The maximum value of this slider</param>
@@ -83,7 +83,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Sets the size of this Slider.
+         * Sets the size of this slider.
          * </summary>
          * <param name="width">The width to set</param>
          * <param name="height">The height to set</param>
@@ -114,6 +114,8 @@ namespace UILib.Components {
          * <summary>
          * Sets the limits for this slider.
          * </summary>
+         * <param name="min">The minimum value</param>
+         * <param name="max">The maximum value</param>
          */
         public void SetLimits(float min, float max) {
             slider.minValue = min;
@@ -132,7 +134,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Sets the direction of this scrollbar.
+         * Sets the direction of this slider.
          * </summary>
          * <param name="direction">The direction to use</param>
          */

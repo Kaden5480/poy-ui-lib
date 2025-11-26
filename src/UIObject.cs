@@ -17,7 +17,7 @@ namespace UILib {
      * inherit from.
      *
      * You'd rarely want to use this class directly though.
-     * Most of the time you'd want to use UIComponent.
+     * Most of the time you'd want to use <see cref="UIComponent"/>.
      *
      * Provides most of the necessary functionality.
      * </summary>
@@ -36,7 +36,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The RectTransform attached to `gameObject`.
+         * The RectTransform attached to <see cref="gameObject"/>.
          * </summary>
          */
         public RectTransform rectTransform { get; private set; }
@@ -151,7 +151,7 @@ namespace UILib {
          * <summary>
          * The current layout set on this UIObject's content.
          * It's important to note that this is added to the
-         * configured `content`, not necessarily on the `gameObject`.
+         * configured <see cref="SetContent">content</see>.
          * </summary>
          */
         public LayoutType layoutType { get; private set; }
@@ -160,7 +160,7 @@ namespace UILib {
          * <summary>
          * The ContentSizeFitter for this UIObject's content, if it has one.
          * It's important to note that this is added to the
-         * configured `content`, not necessarily on the `gameObject`.
+         * configured <see cref="SetContent">content</see>.
          * </summary>
          */
         public ContentSizeFitter fitter { get; private set; }
@@ -169,7 +169,8 @@ namespace UILib {
          * <summary>
          * The LayoutGroup for this UIObject's content, if it has one.
          * It's important to note that this is added to the
-         * configured `content`, not necessarily on the `gameObject`.
+         * configured <see cref="SetContent">content</see>,
+         * not necessarily on the <see cref="gameObject"/>.
          * </summary>
          */
         public HorizontalOrVerticalLayoutGroup layoutGroup { get; private set; }
@@ -240,9 +241,31 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets a different component to be the content.
+         * Sets a different component to be the `content`.
+         *
+         * By default, the `content` will just be the <see cref="gameObject"/>
+         * of this UIObject. However, some components need to set custom
+         * content objects as in most cases the children should be
+         * added to a different UIObject.
+         *
+         * A good example of this would be
+         * <see cref="ScrollView">ScrollViews</see>,
+         * which are composed of a variety of GameObjects
+         * like so:
+         * <code>
+         * - ScrollView
+         *   - Viewport
+         *     - Content
+         *   - ScrollBar
+         *   - ScrollBar
+         * </code>
+         *
+         * In general adding to the ScrollView directly doesn't make much
+         * sense, you usually want to add to the Content GameObject instead.
+         * So, ScrollViews configure their content to be the "Content",
+         * rather than "ScrollView".
          * </summary>
-         * <param name="content">The component which should be the content instead</param>
+         * <param name="content">The component which should be the `content` instead</param>
          */
         public virtual void SetContent(UIComponent content) {
             this.content = content;
@@ -265,12 +288,13 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a child to an object with a custom defined parent.
+         * Adds a child to this UIObject but with a custom
+         * defined parent GameObject.
          *
-         * NOTE:
-         * This UIObject will still be marked as the parent and have
-         * the child added as its child, this simply changes the GameObject
-         * that's used as the parent in the GameObject hierarchy.
+         * > [!NOTE]
+         * > This UIObject will still be marked as the parent and have
+         * > the child added as its child, this simply changes the GameObject
+         * > that's used as the parent in the GameObject hierarchy.
          * </summary>
          * <param name="parent">The GameObject to use as a parent instead</param>
          * <param name="child">The child to add</param>
@@ -291,8 +315,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a component directly to this object,
-         * ignoring the configured "content" component.
+         * Adds a component directly to this UIObject,
+         * ignoring the configured <see cref="SetContent">content</see>.
          * </summary>
          * <param name="child">The child to add</param>
          */
@@ -302,7 +326,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a component to the content.
+         * Adds a component to the
+         * <see cref="SetContent">content</see>.
          * </summary>
          * <param name="child">The child to add</param>
          */
@@ -317,7 +342,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Shorthand for AddContent.
+         * Shorthand for <see cref="AddContent"/>.
          * </summary>
          * <param name="child">The child to add</param>
          */
@@ -327,7 +352,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Removes a child from this object.
+         * Removes a child from this UIObject.
          * </summary>
          * <param name="child">The child to remove</param>
          */
@@ -358,7 +383,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Destroys the mouse handler on this object.
+         * Destroys the <see cref="MouseHandler"/> on this object.
          * </summary>
          */
         internal void DestroyMouseHandler() {
@@ -431,7 +456,8 @@ namespace UILib {
         /**
          * <summary>
          * Adds a LayoutElement to this UIObject
-         * to allow automatically managing layouts.
+         * to allow automatically managing how
+         * it's layed out in its parent container.
          *
          * In general, you won't need to call this
          * since whenever you add a UIObject to another, it
@@ -456,23 +482,22 @@ namespace UILib {
          * <summary>
          * Sets the size of this UIObject.
          *
-         * NOTE:
          * If you use a certain fill, this size behaves differently.
          * Instead of being the actual width and height of the UIObject, they
          * will add/subtract from the width/height, depending on which fills are used.
          *
-         * E.g.
          * If you don't use a fill, both width and height will remain as the width and height.
          * Their behaviour will be unchanged.
          *
-         * If you use FillType.Horizontal, you could specify a width such as
+         * If you use a <see cref="FillType.Horizontal"/> fill, you could specify a width such as
          * `-20f` to subtract 20 pixels from the full width.
          *
-         * If you use FillType.Vertical, you could specify a height such as
+         * If you use a <see cref="FillType.Vertical"/> fill, you could specify a height such as
          * `100f` and it would add 100 pixels to the full height.
          *
-         * Similarly, if you use FillType.All, any positive values will increase
-         * this UIObject beyond its normal fill. Any negative values will decrease
+         * Similarly, if you use choose to fill <see cref="FillType.All"/> the space, any
+         * positive values will increase this UIObject beyond its normal fill. Any negative
+         * values will decrease
          * it from its normal fill.
          *
          * </summary>
@@ -649,7 +674,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the layout to be used on a given GameObject.
+         * Sets the layout to be used on a given `GameObject`.
          * </summary>
          * <param name="obj">The object to set the layout for</param>
          * <param name="layoutType">The type of layout to use</param>
@@ -691,8 +716,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the layout to be used on the configured content
-         * for this UIObject.
+         * Sets the layout to be used on the configured
+         * <see cref="SetContent">ontent</see> for this UIObject.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
          */
@@ -708,10 +733,10 @@ namespace UILib {
         /**
          * <summary>
          * Sets the alignment of the child elements
-         * of the content.
+         * of the <see cref="SetContent">content</see>.
          *
-         * This requires you to have already called SetContentLayout
-         * to configure a layout for the content.
+         * This requires you to have already called <see cref="SetContentLayout"/>
+         * to configure a layout for the <see cref="SetContent">content</see>.
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
@@ -731,10 +756,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the spacing between child elements of the content.
+         * Sets the spacing between child elements of the
+         * <see cref="SetContent">content</see>.
          *
-         * This requires you to have already called SetContentLayout
-         * to configure a layout for the content.
+         * This requires you to have already called <see cref="SetContentLayout"/>
+         * to configure a layout for the <see cref="SetContent">content</see>.
          * </summary>
          * <param name="spacing">The spacing to use</param>
          */
@@ -754,10 +780,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets the padding to apply to the content.
+         * Sets the padding to apply to the
+         * <see cref="SetContent">content</see>.
          *
-         * This requires you to have already called SetContentLayout
-         * to configure a layout for the content.
+         * This requires you to have already called <see cref="SetContentLayout"/>
+         * to configure a layout for the <see cref="SetContent">content</see>.
          * </summary>
          * <param name="left">The left padding to use</param>
          * <param name="right">The right padding to use</param>

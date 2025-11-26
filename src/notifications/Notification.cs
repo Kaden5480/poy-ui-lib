@@ -7,7 +7,7 @@ using UILib.Layout;
 namespace UILib.Notifications {
     /**
      * <summary>
-     * A Notification.
+     * A notification.
      *
      * The component which is displayed to the user
      * when a notification is sent.
@@ -34,7 +34,7 @@ namespace UILib.Notifications {
 
         /**
          * <summary>
-         * Initializes a Notification.
+         * Initializes a notification.
          * </summary>
          * <param name="title">The title of the notification</param>
          * <param name="message">The message to display</param>

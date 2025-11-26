@@ -3,7 +3,7 @@ using System;
 namespace UILib.Components {
     /**
      * <summary>
-     * Like an Area, but also adds functionality to
+     * Like an <see cref="Area"/>, but also adds functionality to
      * remove the oldest children once a certain
      * limit is reached.
      * </summary>
@@ -13,7 +13,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a QueueArea.
+         * Initializes a queue area.
          * </summary>
          * <param name="maxCount">The maximum number of children in the queue</param>
          */
@@ -23,7 +23,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Adds a child to this Area, but also removes
+         * Adds a child to this area, but also removes
          * the oldest one if there are too many.
          * </summary>
          * <param name="child">The child to add</param>

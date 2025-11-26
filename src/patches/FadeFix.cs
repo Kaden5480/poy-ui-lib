@@ -3,7 +3,7 @@ using HarmonyLib;
 namespace UILib.Patches {
     /**
      * <summary>
-     * The LevelLoader decides to disable all canvases, which
+     * The `LevelLoader` decides to disable all canvases, which
      * is a bit annoying. This patch fixes that by re-enabling
      * all UILib canvases.
      * </summary>

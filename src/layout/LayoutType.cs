@@ -2,7 +2,7 @@ namespace UILib.Layout {
     /**
      * <summary>
      * Supported layout types.
-     * These determine how an object will
+     * These determine how a <see cref="UIObject"/> will
      * position its children.
      * </summary>
      */

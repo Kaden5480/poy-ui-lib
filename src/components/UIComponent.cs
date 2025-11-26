@@ -12,7 +12,7 @@ namespace UILib {
          * <summary>
          * A helper method for cutting down the size of strings.
          *
-         * If ellipses are added, the text will be cut down even more
+         * If `addEllipses` is true, the text will be cut down even more
          * to ensure it doesn't exceed `max` characters, i.e. `max` characters
          * is the maximum possible size of the string.
          * </summary>

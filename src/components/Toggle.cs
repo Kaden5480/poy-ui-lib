@@ -3,7 +3,7 @@ using UIButton = UILib.Components.Button;
 namespace UILib.Components {
     /**
      * <summary>
-     * A component which is like a button,
+     * A component which is like a <see cref="Button"/>,
      * but can be toggled on or off.
      *
      * Also displays a checkmark indicating its current state.
@@ -14,7 +14,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Toggle.
+         * Initializes a toggle.
          * </summary>
          */
         public Toggle() : base(Resources.checkMark) {

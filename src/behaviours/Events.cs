@@ -12,7 +12,7 @@ namespace UILib.Behaviours {
 
     /**
      * <summary>
-     * An event type which passes a string value
+     * An event type which passes a <see cref="string"/> value
      * to its listeners.
      * </summary>
      */
@@ -20,7 +20,7 @@ namespace UILib.Behaviours {
 
     /**
      * <summary>
-     * An event type which passes a float value
+     * An event type which passes a <see cref="float"/> value
      * to its listeners.
      * </summary>
      */

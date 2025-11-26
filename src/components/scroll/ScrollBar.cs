@@ -95,8 +95,6 @@ namespace UILib.Components {
         /**
          * <summary>
          * Sets the value of the scrollbar.
-         *
-         * NOTE:
          * Should be between 0-1 (inclusive).
          * </summary>
          * <param name="value">The value to set the scrollbar to</param>

@@ -18,7 +18,7 @@ namespace UILib.Notifications {
 
         /**
          * <summary>
-         * Initializes a NotificationArea.
+         * Initializes an area to display notifications.
          * </summary>
          */
         internal NotificationArea() {

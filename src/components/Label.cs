@@ -14,7 +14,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Initializes a Label.
+         * Initializes a label.
          * </summary>
          * <param name="text">The text to display</param>
          * <param name="fontSize">The size of the font</param>

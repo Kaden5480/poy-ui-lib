@@ -19,7 +19,7 @@ namespace UILib.Patches {
         /**
          * <summary>
          * Runs each frame checking if the currently selected
-         * TextField, if any, was deselected.
+         * <see cref="TextField"/>, if any, was deselected.
          * </summary>
          */
         internal static void Update() {

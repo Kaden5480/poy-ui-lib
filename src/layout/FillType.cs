@@ -2,7 +2,7 @@ namespace UILib.Layout {
     /**
      * <summary>
      * Fill types which are supported.
-     * This determines how an object will fill
+     * This determines how a <see cref="UIObject"/> will fill
      * its parent container.
      * </summary>
      */

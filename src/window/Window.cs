@@ -2,12 +2,11 @@ using UnityEngine;
 
 using UILib.Components;
 using UILib.Layout;
-using UILib.Patches;
 
 namespace UILib {
     /**
      * <summary>
-     * A Window object.
+     * A Window object. Like an <see cref="Overlay"/> but more dynamic.
      *
      * This object is one of the fundamental building blocks of UILib.
      *
@@ -17,10 +16,27 @@ namespace UILib {
      * It also has a ScrollView built in.
      * </summary>
      */
-    public class Window : UIObject {
-        // The minimum width and height of windows
-        private const float minWidth = 200f;
-        private const float minHeight = 200f;
+    public class Window : Overlay {
+        /**
+         * <summary>
+         * This window's name.
+         * </summary>
+         */
+        public string name { get; private set; }
+
+        /**
+         * <summary>
+         * The minimum width of this window.
+         * </summary>
+         */
+        private float minWidth = 200f;
+
+        /**
+         * <summary>
+         * The minimum height of this window.
+         * </summary>
+         */
+        private float minHeight = 200f;
 
         /**
          * <summary>
@@ -29,35 +45,19 @@ namespace UILib {
          */
         public bool fullscreen { get; private set; }
 
-        // The current pause handle for this window
-        private PauseHandle pauseHandle;
-
-        // States stored for helping with moving/resizing/maximising/etc.
-        private WindowState state;
-        private Vector2 latestDragPosition;
-
-        /**
-         * <summary>
-         * This window's name.
-         * </summary>
-         */
-        public string name { get; private set; }
-
-        // The canvas this window is attached to
-        internal Canvas canvas;
-
-        // This window's title bar
-        internal TitleBar titleBar { get; private set; }
-
-        // This window's container
-        private GameObject container;
-
         /**
          * <summary>
          * This window's underlying ScrollView.
          * </summary>
          */
         public ScrollView scrollView { get; private set; }
+
+        // States stored for helping with moving/resizing/maximising/etc.
+        private WindowState state;
+        private Vector2 latestDragPosition;
+
+        // This window's title bar
+        internal TitleBar titleBar { get; private set; }
 
         /**
          * <summary>
@@ -67,43 +67,27 @@ namespace UILib {
          * <param name="width">The width of the window</param>
          * <param name="height">The height of the window</param>
          */
-        public Window(string name, float width, float height) {
+        public Window(string name, float width, float height) : base(width, height) {
             this.name = name;
 
             width = Mathf.Max(width, minWidth);
             height = Mathf.Max(height, minHeight);
-
-            // Get a canvas to draw this window on
-            canvas = new Canvas();
-            canvas.Add(this);
-
-            UIRoot.Register(this);
 
             // The title bar
             float titleBarHeight = 20f;
             int titleBarPadding = 5;
 
             titleBar = new TitleBar(this, titleBarHeight, titleBarPadding);
-            Add(gameObject, titleBar);
+            AddDirect(titleBar);
 
-            // The container
-            container = new GameObject("Content");
-            SetParent(gameObject, container);
-
-            RectTransform containerRect = container.AddComponent<RectTransform>();
-            containerRect.anchorMin = Vector2.zero;
-            containerRect.anchorMax = Vector2.one;
-            containerRect.anchoredPosition = new Vector2(
-                0f, -((titleBarHeight + 2*titleBarPadding) / 2)
-            );
-            containerRect.sizeDelta = new Vector2(
-                0f, -(titleBarHeight + 2*titleBarPadding)
-            );
+            // Modify container dimensions
+            container.SetSize(0f, -(titleBarHeight + 2*titleBarPadding));
+            container.SetOffset(0f, -(titleBarHeight + 2*titleBarPadding) / 2);
 
             // Add scroll view
             scrollView = new ScrollView();
             scrollView.SetFill(FillType.All);
-            Add(container, scrollView);
+            container.AddDirect(scrollView);
 
             SetAnchor(AnchorType.Middle);
             SetSize(width, height);
@@ -130,50 +114,9 @@ namespace UILib {
             rect.anchoredPosition = new Vector2(0f, scrollBarWidth/2);
             rect.sizeDelta = new Vector2(scrollBarWidth, -scrollBarWidth);
 
-            scrollView.Add(
-                scrollView.gameObject,
-                new ResizeButton(this)
-            );
+            scrollView.AddDirect(new ResizeButton(this));
         }
 
-        /**
-         * <summary>
-         * When opening, get a PauseHandle.
-         * </summary>
-         */
-        public override void Show() {
-            base.Show();
-
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-            }
-
-            pauseHandle = new PauseHandle();
-        }
-
-        /**
-         * <summary>
-         * When closing, close the PauseHandle.
-         * </summary>
-         */
-        public override void Hide() {
-            base.Hide();
-
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
-            }
-        }
-
-        /**
-         * <summary>
-         * Destroy this Window and all children.
-         * </summary>
-         */
-        public override void Destroy() {
-            UIRoot.Unregister(this);
-            base.Destroy();
-        }
 
 #region Scrolling
 
@@ -212,7 +155,7 @@ namespace UILib {
 
             state = new WindowState(this);
             SetFill(FillType.All);
-            rectTransform.anchoredPosition = Vector2.zero;
+            SetOffset(0f, 0f);
             titleBar.fullscreenButton.label.text.text = "-";
             fullscreen = true;
         }

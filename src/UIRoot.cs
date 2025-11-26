@@ -12,17 +12,15 @@ namespace UILib {
      * </summary>
      */
     internal static class UIRoot {
-        // The minimum sorting order to apply to Window canvases
-        // All other sorting orders for Windows are
-        // based upon this
+        // The minimum sorting order to apply to Overlay canvases
         private const int minSortingOrder = 1000;
 
         // Sorting order for the notification area
         internal const int notificationSortingOrder = 9999;
 
         private static GameObject gameObject;
-        private static List<Window> windows;
 
+        private static List<Overlay> overlays;
         internal static NotificationArea notificationArea;
 
         /**
@@ -35,12 +33,12 @@ namespace UILib {
                 return;
             }
 
-            // Instantiate game object to attach all windows to
+            // Instantiate game object to attach all overlays to
             gameObject = new GameObject("UILib Root");
             gameObject.layer = LayerMask.NameToLayer("UI");
             GameObject.DontDestroyOnLoad(gameObject);
 
-            windows = new List<Window>();
+            overlays = new List<Overlay>();
 
             // Initialize audio
             Audio.Init();
@@ -52,36 +50,36 @@ namespace UILib {
 
         /**
          * <summary>
-         * Registers a window for sorting.
+         * Registers an overlay for sorting.
          * </summary>
-         * <param name="window">The window to register</param>
+         * <param name="overlay">The overlay to register</param>
          */
-        internal static void Register(Window window) {
-            UIObject.SetParent(gameObject, window.canvas.gameObject);
-            window.canvas.canvas.sortingOrder = minSortingOrder + windows.Count;
-            windows.Add(window);
+        internal static void Register(Overlay overlay) {
+            UIObject.SetParent(gameObject, overlay.canvas.gameObject);
+            overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
+            overlays.Add(overlay);
         }
 
         /**
          * <summary>
-         * Unregisters a window for sorting.
+         * Unregisters an overlay for sorting.
          * </summary>
-         * <param name="window">The window to unregister</param>
+         * <param name="overlay">The overlay to unregister</param>
          */
-        internal static void Unregister(Window window) {
-            BringToFront(window);
-            windows.Remove(window);
+        internal static void Unregister(Overlay overlay) {
+            BringToFront(overlay);
+            overlays.Remove(overlay);
         }
 
         /**
          * <summary>
-         * Iterates over all windows and ensures their canvases
+         * Iterates over all overlays and ensures their canvases
          * are enabled.
          * </summary>
          */
         internal static void EnableCanvases() {
-            foreach (Window window in windows) {
-                window.canvas.Show();
+            foreach (Overlay overlay in overlays) {
+                overlay.canvas.Show();
             }
 
             notificationArea.canvas.Show();
@@ -89,13 +87,13 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets a window to be in front of all others.
+         * Sets a overlay to be in front of all others.
          * </summary>
-         * <param name="window">The window to bring to the front</param>
+         * <param name="overlay">The overlay to bring to the front</param>
          */
-        internal static void BringToFront(Window window) {
-            // Try finding the window
-            int index = windows.IndexOf(window);
+        internal static void BringToFront(Overlay overlay) {
+            // Try finding the overlay
+            int index = overlays.IndexOf(overlay);
 
             if (index < 0) {
                 return;
@@ -103,15 +101,15 @@ namespace UILib {
 
             // Iterate the list in reverse, decrementing all sorting orders
             // until reaching the canvas to set on top
-            for (int i = windows.Count - 1; i > index; i--) {
-                windows[i].canvas.canvas.sortingOrder--;
+            for (int i = overlays.Count - 1; i > index; i--) {
+                overlays[i].canvas.canvas.sortingOrder--;
             }
 
-            // Now remove the window from the list, and add it back
+            // Now remove the overlay from the list, and add it back
             // to the end, while also updating the sorting order
-            windows.Remove(window);
-            window.canvas.canvas.sortingOrder = minSortingOrder + windows.Count;
-            windows.Add(window);
+            overlays.Remove(overlay);
+            overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
+            overlays.Add(overlay);
         }
     }
 }

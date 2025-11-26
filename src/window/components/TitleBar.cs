@@ -12,7 +12,7 @@ namespace UILib {
      * the top of all windows.
      * </summary>
      */
-    internal class TitleBar : UIObject {
+    internal class TitleBar : UIComponent {
         // An area for holding the buttons
         private Area buttonArea;
 

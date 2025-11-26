@@ -49,7 +49,7 @@ namespace UILib.Patches {
      * wouldn't be able to.
      * </summary>
      */
-    public static class PauseHandler {
+    internal static class PauseHandler {
         private static Logger logger = new Logger(typeof(PauseHandler));
 
         // Currently active handles

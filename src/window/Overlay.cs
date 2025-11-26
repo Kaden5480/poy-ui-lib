@@ -71,8 +71,8 @@ namespace UILib {
          * Set whether this overlay should
          * automatically pause the game when it's shown.
          *
-         * If this overlay has a <see cref="PauseHandle"/>
-         * it will close it if you set `autoPause` to `false`.
+         * If this overlay has an active <see cref="PauseHandle"/>
+         * it will always close it whenever you call this method.
          * </summary>
          * <param name="autoPause">Whether to pause the game automatically</param>
          */

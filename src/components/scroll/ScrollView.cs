@@ -7,7 +7,7 @@ using UEImage = UnityEngine.UI.Image;
 using UEMask = UnityEngine.UI.Mask;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

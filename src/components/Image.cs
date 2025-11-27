@@ -1,7 +1,7 @@
 using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

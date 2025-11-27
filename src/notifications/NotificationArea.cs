@@ -2,7 +2,7 @@ using UnityEngine;
 using Image = UnityEngine.UI.Image;
 
 using UILib.Components;
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Notifications {
     /**

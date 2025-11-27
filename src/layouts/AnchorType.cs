@@ -1,4 +1,4 @@
-namespace UILib.Layout {
+namespace UILib.Layouts {
     /**
      * <summary>
      * Types of anchors which can be

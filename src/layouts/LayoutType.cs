@@ -1,4 +1,4 @@
-namespace UILib.Layout {
+namespace UILib.Layouts {
     /**
      * <summary>
      * Supported layout types.

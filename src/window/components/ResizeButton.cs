@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using UILib.Layout;
+using UILib.Layouts;
 using UIButton = UILib.Components.Button;
 
 namespace UILib {

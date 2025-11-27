@@ -2,7 +2,7 @@ using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
 using UILib.Components;
-using UILib.Layout;
+using UILib.Layouts;
 using UIButton = UILib.Components.Button;
 
 namespace UILib {

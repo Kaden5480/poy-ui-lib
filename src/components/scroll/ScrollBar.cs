@@ -4,7 +4,7 @@ using UEColorBlock = UnityEngine.UI.ColorBlock;
 using UEImage = UnityEngine.UI.Image;
 using UEScrollbar = UnityEngine.UI.Scrollbar;
 
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

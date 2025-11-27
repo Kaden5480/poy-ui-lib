@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using ColorBlock = UnityEngine.UI.ColorBlock;
 using UEButton = UnityEngine.UI.Button;
 
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

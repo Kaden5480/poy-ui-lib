@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

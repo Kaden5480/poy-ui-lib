@@ -6,7 +6,7 @@ using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
 using UILib.Behaviours;
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

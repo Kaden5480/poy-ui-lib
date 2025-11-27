@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 using UILib.Behaviours;
 using UILib.Components;
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib {
     /**

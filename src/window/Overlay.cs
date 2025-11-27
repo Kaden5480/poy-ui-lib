@@ -1,5 +1,5 @@
 using UILib.Components;
-using UILib.Layout;
+using UILib.Layouts;
 using UILib.Patches;
 
 namespace UILib {

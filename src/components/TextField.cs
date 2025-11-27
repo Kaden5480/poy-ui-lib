@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UEImage = UnityEngine.UI.Image;
 
 using UILib.Behaviours;
-using UILib.Layout;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**

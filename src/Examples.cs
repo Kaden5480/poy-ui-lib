@@ -2,6 +2,7 @@ using UnityEngine;
 
 using Direction = UnityEngine.UI.Slider.Direction;
 
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layout;
 using UILib.Patches;
@@ -34,6 +35,8 @@ namespace UILib {
         private static Window window2;
         private static Overlay overlay;
 
+        private static Timer timer;
+
         internal static void Awake() {
             window = MakeLog();
             window.SetAnchor(AnchorType.TopLeft);
@@ -43,7 +46,7 @@ namespace UILib {
 
             overlay = MakeOverlay(400f, 400f);
             overlay.SetPauseMode(false);
-            overlay.SetAnchor(AnchorType.MiddleLeft);
+            overlay.SetAnchor(AnchorType.Middle);
         }
 
         internal static void Start() {
@@ -70,18 +73,78 @@ namespace UILib {
         }
 
         private static Overlay MakeOverlay(float width, float height) {
+            float totalTime = 3f;
+
             Overlay overlay = new Overlay(width, height);
+            timer = overlay.gameObject.AddComponent<Timer>();
+
             Image background = new Image(Colors.black);
             background.SetFill(FillType.All);
             overlay.Add(background);
 
             Area area = new Area();
             area.SetContentLayout(LayoutType.Vertical);
+            area.SetElementSpacing(20);
             overlay.Add(area);
 
             Label label = new Label("Cool Stuff", 40);
-            label.SetSize(200f, 100f);
+            label.SetSize(200f, 40f);
             area.Add(label);
+
+            ProgressBar progress = new ProgressBar();
+            progress.SetSize(200f, 20f);
+            area.Add(progress);
+
+            Label passedProgress = new Label("0%", 20);
+            passedProgress.SetSize(200f, 20f);
+            area.Add(passedProgress);
+
+            timer.onIter.AddListener((float value) => {
+                float percent = 1f - (value / totalTime);
+                progress.SetProgress(percent);
+                passedProgress.SetText($"{(int) (100 * percent)}%");
+            });
+
+            // Done text to show when finished
+            Label done = new Label("Done!", 20);
+            done.SetSize(200f, 20f);
+            done.Hide();
+            area.Add(done);
+
+            timer.onStart.AddListener(() => {
+                done.Hide();
+            });
+            timer.onEnd.AddListener(() => {
+                done.Show();
+            });
+
+            // Button area for interacting
+            Area buttonArea = new Area();
+            buttonArea.SetContentLayout(LayoutType.Horizontal);
+            buttonArea.SetElementSpacing(20);
+            buttonArea.SetSize(300f, 40f);
+            area.Add(buttonArea);
+
+            UIButton runProgress = new UIButton("Start", 20);
+            runProgress.onClick.AddListener(() => {
+                timer.StartTimer(totalTime);
+            });
+            runProgress.SetSize(100f, 40f);
+            buttonArea.Add(runProgress);
+
+            UIButton pauseProgress = new UIButton("Pause", 20);
+            pauseProgress.SetSize(100f, 40f);
+            pauseProgress.onClick.AddListener(() => {
+                timer.PauseTimer(!timer.paused);
+
+                if (timer.paused == true) {
+                    pauseProgress.SetText("Unpause");
+                }
+                else {
+                    pauseProgress.SetText("Pause");
+                }
+            });
+            buttonArea.Add(pauseProgress);
 
             overlay.Hide();
 

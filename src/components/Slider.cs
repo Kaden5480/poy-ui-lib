@@ -16,7 +16,7 @@ namespace UILib.Components {
      * </summary>
      */
     public class Slider : UIComponent {
-        public UESlider slider { get; private set; }
+        public CustomSlider slider { get; private set; }
 
         public Image background { get; private set; }
 
@@ -25,6 +25,26 @@ namespace UILib.Components {
         public Image fillImage   { get; private set; }
         public Image handleImage { get; private set; }
 
+        /**
+         * <summary>
+         * Invokes listeners when this slider is selected.
+         * </summary>
+         */
+        public UnityEvent onSelect { get => slider.onSelect; }
+
+        /**
+         * <summary>
+         * Invokes listeners when this slider is deselected.
+         * </summary>
+         */
+        public UnityEvent onDeselect { get => slider.onDeselect; }
+
+        /**
+         * <summary>
+         * Invokes listeners when the value of this slider changes.
+         * Passes the current value of the slider to listeners.
+         * </summary>
+         */
         public FloatEvent onValueChanged { get; } = new FloatEvent();
 
         /**
@@ -62,7 +82,7 @@ namespace UILib.Components {
             Add(fillArea);
             Add(handleArea);
 
-            slider = gameObject.AddComponent<UESlider>();
+            slider = gameObject.AddComponent<CustomSlider>();
             slider.colors = Colors.lighterColorBlock;
             slider.fillRect = fillImage.rectTransform;
             slider.handleRect = handleImage.rectTransform;

@@ -37,6 +37,25 @@ namespace UILib {
 
         private static Timer timer;
 
+        private static Theme customTheme = new Theme() {
+            foreground              = Theme.RGB(240, 0,   0),
+            background              = Theme.RGB(0,   240, 0),
+            accent                  = Theme.RGB(0,   0,   240),
+            selectNormal            = Theme.RGB(0,   120, 120),
+            selectHighlight         = Theme.RGB(20,  20,  90),
+            selectAltNormal         = Theme.RGB(50,  60,  70),
+            selectAltHighlight      = Theme.RGB(60,  40,  30),
+            importantNormal         = Theme.RGB(20,  100, 90),
+            importantHighlight      = Theme.RGB(43,  1,   87),
+            selectFadeTime          = 3f,
+            notificationMaxTitle    = 10,
+            notificationMaxMessage  = 20,
+            notificationVolume      = 0.1f,
+            notificationErrorVolume = 0.1f,
+            notificationWaitTime    = 10f,
+            notificationFadeTime    = 2f,
+        };
+
         internal static void Awake() {
             window = MakeLog();
             window.SetAnchor(AnchorType.TopLeft);
@@ -48,19 +67,14 @@ namespace UILib {
             overlay.SetAutoPause(false);
             overlay.SetAnchor(AnchorType.Middle);
 
-            Theme custom = new Theme() {
-                foreground         = Theme.RGB(240, 0,   0),
-                background         = Theme.RGB(0,   240, 0),
-                accent             = Theme.RGB(0,   0,   240),
-                selectNormal       = Theme.RGB(0,   120, 120),
-                selectHighlight    = Theme.RGB(20,  20,  90),
-                selectAltNormal    = Theme.RGB(50,  60,  70),
-                selectAltHighlight = Theme.RGB(60,  40,  30),
-                importantNormal    = Theme.RGB(20,  100, 90),
-                importantHighlight = Theme.RGB(43,  1,   87),
-            };
+            UIButton customNotif = new UIButton("Send a custom notification", 20);
+            customNotif.SetSize(200f, 40f);
+            customNotif.onClick.AddListener(() => {
+                Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
+            });
 
-            window2.SetTheme(custom);
+            window2.SetTheme(customTheme);
+            window2.Add(customNotif);
         }
 
         internal static void Start() {

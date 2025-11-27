@@ -14,6 +14,24 @@ namespace UILib.Behaviours {
         // The timer coroutine
         private IEnumerator coroutine;
 
+        // The start and end times
+        private float startTime;
+        private float endTime;
+
+        /**
+         * <summary>
+         * The current value of the timer.
+         * </summary>
+         */
+        public float timer { get; private set; }
+
+        /**
+         * <summary>
+         * Whether the timer coroutine is currently running.
+         * </summary>
+         */
+        public bool running { get; private set; } = false;
+
         /**
          * <summary>
          * Whether the timer should pause.
@@ -31,28 +49,35 @@ namespace UILib.Behaviours {
         /**
          * <summary>
          * Invokes listeners on each iteration of the timer.
-         * The value passed to listeners is the amount of time left on the timer.
+         * The value passed to listeners is the current value of the timer.
          * </summary>
          */
-        public FloatEvent onIter  { get; } = new FloatEvent();
+        public FloatEvent onIter { get; } = new FloatEvent();
 
         /**
          * <summary>
-         * Invokes listeners when the timer finishes (reaches 0).
+         * Invokes listeners when the timer finishes.
          * </summary>
          */
-        public UnityEvent onEnd   { get; } = new UnityEvent();
+        public UnityEvent onEnd { get; } = new UnityEvent();
 
         /**
          * <summary>
          * Starts the timer.
          * If the timer is already running, this will restart it.
+         *
+         * Both the start and end time must be >= 0.
          * </summary>
-         * <param name="time">How long the timer should last for</param>
+         * <param name="startTime">What time the timer should start at</param>
+         * <param name="endTime">What time the timer should end at</param>
          */
-        public void StartTimer(float time) {
+        public void StartTimer(float startTime, float endTime = 0f) {
+            this.startTime = Mathf.Max(0f, startTime);
+            this.endTime = Mathf.Max(0f, endTime);
+
             StopTimer();
-            coroutine = RunTimer(time);
+            coroutine = RunTimer();
+            running = true;
             StartCoroutine(coroutine);
         }
 
@@ -73,35 +98,44 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Sets the timer to go in reverse of its current direction.
+         * </summary>
+         */
+        public void ReverseTimer() {
+            float oldStart = startTime;
+
+            startTime = endTime;
+            endTime = oldStart;
+        }
+
+        /**
+         * <summary>
          * Stops the timer immediately.
          * </summary>
          */
         public void StopTimer() {
-            if (coroutine != null) {
-                StopCoroutine(coroutine);
-                coroutine = null;
-            }
+            running = false;
         }
 
         /**
          * <summary>
          * Runs the timer.
          * </summary>
-         * <param name="time">How long the timer should run for</param>
          */
-        private IEnumerator RunTimer(float time) {
+        private IEnumerator RunTimer() {
+            timer = startTime;
             onStart.Invoke();
 
-            while (time > 0) {
-                if (paused == false) {
-                    time -= Time.deltaTime;
-                    onIter.Invoke(time);
-                }
-
+            while (running == true) {
+                timer = Mathf.MoveTowards(
+                    timer, endTime, Time.deltaTime
+                );
+                onIter.Invoke(timer);
                 yield return null;
             }
 
             onEnd.Invoke();
+            coroutine = null;
             yield break;
         }
     }

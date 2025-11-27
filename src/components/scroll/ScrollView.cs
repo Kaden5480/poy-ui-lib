@@ -82,19 +82,31 @@ namespace UILib.Components {
             scrollRect.movementType = UEScrollRect.MovementType.Clamped;
 
             // Scroll bar setup
-            scrollRect.vertical = true;
-            scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
-            Add(gameObject, scrollBarV);
-            scrollRect.verticalScrollbar = scrollBarV.scrollBar;
-
             scrollRect.horizontal = true;
             scrollBarH = new ScrollBar(ScrollType.Horizontal, scrollBarWidth);
             Add(gameObject, scrollBarH);
             scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
             scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
 
+            scrollRect.vertical = true;
+            scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
+            Add(gameObject, scrollBarV);
+            scrollRect.verticalScrollbar = scrollBarV.scrollBar;
+
             // Use the scrollContent instead
             SetContent(scrollContent);
+        }
+
+        /**
+         * <summary>
+         * Changes which types of scrolling are allowed.
+         * </summary>
+         * <param name="horizontal">Whether horizontal scrolling should be allowed</param>
+         * <param name="vertical">Whether vertical scrolling should be allowed</param>
+         */
+        public void SetAllowedScroll(bool horizontal = true, bool vertical = true) {
+            scrollRect.horizontal = false;
+            scrollRect.vertical = true;
         }
 
         /**

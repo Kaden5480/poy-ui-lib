@@ -93,5 +93,19 @@ namespace UILib.Components {
         public void SetColorBlock(ColorBlock colorBlock) {
             button.colors = colorBlock;
         }
+
+        /**
+         * <summary>
+         * Sets the text on this button.
+         * </summary>
+         * <param name="text">The text to set</param>
+         */
+        public void SetText(string text) {
+            if (label == null) {
+                return;
+            }
+
+            label.SetText(text);
+        }
     }
 }

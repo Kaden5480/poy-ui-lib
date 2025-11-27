@@ -39,5 +39,15 @@ namespace UILib.Components {
         public void SetAlignment(TextAnchor alignment) {
             this.text.alignment = alignment;
         }
+
+        /**
+         * <summary>
+         * Sets the text on this label.
+         * </summary>
+         * <param name="text">The text to set</param>
+         */
+        public void SetText(string text) {
+            this.text.text = text;
+        }
     }
 }

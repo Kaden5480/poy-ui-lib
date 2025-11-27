@@ -133,7 +133,7 @@ namespace UILib {
         /**
          * <summary>
          * The background color (such as the
-         * background for <see cref="Windows"/>).
+         * background for <see cref="Window">Windows</see>).
          * </summary>
          */
         public Color background = RGB(0, 0, 0);
@@ -141,7 +141,7 @@ namespace UILib {
         /**
          * <summary>
          * The accent color (such as the backgrounds
-         * of the scroll bars for <see cref="ScrollView">
+         * of the scroll bars for <see cref="Components.ScrollView">
          * ScrollViews</see> and the title bar for
          * <see cref="Window">Windows</see>.
          * </summary>
@@ -175,7 +175,7 @@ namespace UILib {
          * This will be the normal color
          * of the handles for <see cref="Slider">Sliders</see>
          * and the highlight color of scroll bars of
-         * <see cref="ScrollView">ScrollViews</see>.
+         * <see cref="Components.ScrollView">ScrollViews</see>.
          * </summary>
          */
         public Color selectAltNormal = RGB(134, 134, 134);
@@ -233,7 +233,7 @@ namespace UILib {
          * <summary>
          * The secondary font to be used.
          * This exists specifically to deal with
-         * <see cref="TextField">TextFields</see>
+         * <see cref="Components.TextField">TextFields</see>
          * as the underlying Unity InputFields
          * can process some fonts incorrectly.
          * </summary>

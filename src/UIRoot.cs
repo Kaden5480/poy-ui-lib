@@ -15,12 +15,16 @@ namespace UILib {
         // The minimum sorting order to apply to Overlay canvases
         private const int minSortingOrder = 1000;
 
+        // Sorting order for the input overlay
+        internal const int inputOverlaySortingOrder = 9998;
+
         // Sorting order for the notification area
         internal const int notificationSortingOrder = 9999;
 
         private static GameObject gameObject;
 
         private static List<Overlay> overlays;
+        internal static InputOverlay inputOverlay;
         internal static NotificationArea notificationArea;
 
         // The default theme used across UILib
@@ -46,7 +50,10 @@ namespace UILib {
             // Initialize audio
             Audio.Init();
 
-            // Initialize the notification area
+            // Initialize the input overlay and notification area
+            inputOverlay = new InputOverlay();
+            UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
+
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
         }
@@ -85,6 +92,7 @@ namespace UILib {
                 overlay.canvas.Show();
             }
 
+            inputOverlay.canvas.Show();
             notificationArea.canvas.Show();
         }
 

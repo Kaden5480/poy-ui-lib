@@ -9,6 +9,8 @@ namespace UILib {
      */
     public class Theme {
 
+#region Internal
+
         /**
          * <summary>
          * Provides an internal way of quickly
@@ -80,6 +82,45 @@ namespace UILib {
             get => MakeBlock(importantNormal, importantHighlight);
         }
 
+#endregion
+
+        /**
+         * <summary>
+         * Helper for more easily making a Color
+         * from RGBA values.
+         *
+         * `r`, `g`,`b` must be between 0-255 inclusive.
+         * `a` must be between 0-100 inclusive.
+         * </summary>
+         * <param name="r">The value of the red component</param>
+         * <param name="g">The value of the green component</param>
+         * <param name="b">The value of the blue component</param>
+         * <param name="a">The value of the alpha component</param>
+         */
+        public static Color RGBA(int r, int g, int b, int a) {
+            return new Color(
+                ((float) r)/255f,
+                ((float) g)/255f,
+                ((float) b)/255f,
+                ((float) a)/100f
+            );
+        }
+
+        /**
+         * <summary>
+         * Helper for more easily making a Color
+         * from RGB values.
+         *
+         * `r`, `g`,`b` must be between 0-255 inclusive.
+         * </summary>
+         * <param name="r">The value of the red component</param>
+         * <param name="g">The value of the green component</param>
+         * <param name="b">The value of the blue component</param>
+         */
+        public static Color RGB(int r, int g, int b) {
+            return RGBA(r, g, b, 100);
+        }
+
 #region Base Colors
 
         /**
@@ -87,7 +128,7 @@ namespace UILib {
          * The foreground color (like on text).
          * </summary>
          */
-        public Color foreground = new Color(1f, 1f, 1f);
+        public Color foreground = RGB(255, 255, 255);
 
         /**
          * <summary>
@@ -95,7 +136,7 @@ namespace UILib {
          * background for <see cref="Windows"/>).
          * </summary>
          */
-        public Color background = new Color(0f, 0f, 0f);
+        public Color background = RGB(0, 0, 0);
 
         /**
          * <summary>
@@ -105,7 +146,7 @@ namespace UILib {
          * <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color accent = new Color(22f/255f, 22f/255f, 22f/255f);
+        public Color accent = RGB(22, 22, 22);
 
 #endregion
 
@@ -117,7 +158,7 @@ namespace UILib {
          * the background of <see cref="Button">Buttons</see>).
          * </summary>
          */
-        public Color selectNormal = new Color(50f/255f, 50f/255f, 50f/255f);
+        public Color selectNormal = RGB(50, 50, 50);
 
         /**
          * <summary>
@@ -126,7 +167,7 @@ namespace UILib {
          * when hovered over).
          * </summary>
          */
-        public Color selectHighlight = new Color(80f/255f, 80f/255f, 80f/255f);
+        public Color selectHighlight = RGB(80, 80, 80);
 
         /**
          * <summary>
@@ -137,7 +178,7 @@ namespace UILib {
          * <see cref="ScrollView">ScrollViews</see>.
          * </summary>
          */
-        public Color selectAltNormal = new Color(134f/255f, 134f/255f, 134f/255f);
+        public Color selectAltNormal = RGB(134, 134, 134);
 
         /**
          * <summary>
@@ -146,7 +187,7 @@ namespace UILib {
          * of the handles for <see cref="Slider">Sliders</see>
          * </summary>
          */
-        public Color selectAltHighlight = new Color(164f/255f, 164f/255f, 164f/255f);
+        public Color selectAltHighlight = RGB(164, 164, 164);
 
         /**
          * <summary>
@@ -167,7 +208,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>
          * </summary>
          */
-        public Color importantNormal = new Color(166/255f, 89f/255f, 89f/255f);
+        public Color importantNormal = RGB(166, 89, 89);
         /**
          * <summary>
          * The secondary important color.
@@ -175,7 +216,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>
          * </summary>
          */
-        public Color importantHighlight = new Color(204f/255f, 51/255f, 51f/255f);
+        public Color importantHighlight = RGB(204, 51, 51);
 
 #endregion
 

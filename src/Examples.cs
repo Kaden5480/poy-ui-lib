@@ -47,10 +47,24 @@ namespace UILib {
             overlay = MakeOverlay(400f, 400f);
             overlay.SetAutoPause(false);
             overlay.SetAnchor(AnchorType.Middle);
+
+            Theme custom = new Theme() {
+                foreground         = Theme.RGB(240, 0,   0),
+                background         = Theme.RGB(0,   240, 0),
+                accent             = Theme.RGB(0,   0,   240),
+                selectNormal       = Theme.RGB(0,   120, 120),
+                selectHighlight    = Theme.RGB(20,  20,  90),
+                selectAltNormal    = Theme.RGB(50,  60,  70),
+                selectAltHighlight = Theme.RGB(60,  40,  30),
+                importantNormal    = Theme.RGB(20,  100, 90),
+                importantHighlight = Theme.RGB(43,  1,   87),
+            };
+
+            window2.SetTheme(custom);
         }
 
         internal static void Start() {
-            //window.Show();
+            window.Show();
             window2.Show();
             //overlay.Show();
         }

@@ -21,10 +21,44 @@ namespace UILib.Components {
         private UEImage background;
         private CustomInputField inputField;
 
+        /**
+         * <summary>
+         * The current value stored in this text field.
+         * </summary>
+         */
+        public string value {
+            get => input.text.text;
+        }
+
+        /**
+         * <summary>
+         * Invokes listeners when this text field is selected.
+         * </summary>
+         */
         public UnityEvent onSelect { get => inputField.onSelect; }
+
+        /**
+         * <summary>
+         * Invokes listeners when this text field is deselected.
+         * </summary>
+         */
         public UnityEvent onDeselect { get => inputField.onDeselect; }
-        public StringEvent onEndEdit { get; } = new StringEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners with the current value stored
+         * in the text field whenever it's updated.
+         * </summary>
+         */
         public StringEvent onValueChanged { get; } = new StringEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners with the current value stored
+         * in the text field when the user stops editing it.
+         * </summary>
+         */
+        public StringEvent onEndEdit { get; } = new StringEvent();
 
         /**
          * <summary>

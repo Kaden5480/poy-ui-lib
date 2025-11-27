@@ -268,6 +268,20 @@ namespace UILib {
 
         /**
          * <summary>
+         * The maximum length of a notification's message.
+         * </summary>
+         */
+        public int notificationMaxMessage = 256;
+
+        /**
+         * <summary>
+         * The maximum length of a notification's title.
+         * </summary>
+         */
+        public int notificationMaxTitle = 48;
+
+        /**
+         * <summary>
          * The default notification sound to use.
          * </summary>
          */

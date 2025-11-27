@@ -52,7 +52,7 @@ namespace UILib {
         internal static void Start() {
             //window.Show();
             window2.Show();
-            overlay.Show();
+            //overlay.Show();
         }
 
         internal static void Update() {
@@ -68,7 +68,7 @@ namespace UILib {
                 window2.ToggleVisibility();
             }
             else if (Input.GetKeyDown(KeyCode.PageDown) == true) {
-                overlay.ToggleVisibility();
+                window2.SetInteractable(!window2.canInteract);
             }
         }
 

@@ -25,6 +25,16 @@ namespace UILib {
 
         /**
          * <summary>
+         * Whether interacting with this overlay is allowed.
+         * </summary>
+         */
+        public bool canInteract {
+            get => canvas.raycaster.enabled;
+            private set => canvas.raycaster.enabled = value;
+        }
+
+        /**
+         * <summary>
          * Initializes an overlay.
          *
          * By default overlays will pause the game when shown.
@@ -67,6 +77,16 @@ namespace UILib {
         public override void Destroy() {
             UIRoot.Unregister(this);
             base.Destroy();
+        }
+
+        /**
+         * <summary>
+         * Sets whether this overlay can be interacted with.
+         * </summary>
+         * <param name="canInteract">Whether interactions should be allowed</param>
+         */
+        public virtual void SetInteractable(bool canInteract) {
+            this.canInteract = canInteract;
         }
 
         /**

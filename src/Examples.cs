@@ -73,8 +73,8 @@ namespace UILib {
                 Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
             });
 
-            window2.SetTheme(customTheme);
-            window2.Add(customNotif);
+            //window2.SetTheme(customTheme);
+            //window2.Add(customNotif);
         }
 
         internal static void Start() {

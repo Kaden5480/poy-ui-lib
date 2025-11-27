@@ -21,7 +21,7 @@ namespace UILib {
         private PauseHandle pauseHandle;
 
         // This overlay's container
-        protected Area container;
+        internal Area container;
 
         /**
          * <summary>

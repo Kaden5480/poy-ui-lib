@@ -138,8 +138,8 @@ namespace UILib {
 
 #region Interactions
 
-        // Timer for fading canvas groups
-        private Timer cgTimer;
+        // Fade for canvas groups
+        private Fade cgFade;
 
         // Fade time
         private float cgFadeTime = 0.5f;
@@ -177,53 +177,28 @@ namespace UILib {
         public override void SetInteractable(bool canInteract) {
             base.SetInteractable(canInteract);
 
-            if (cgTimer == null) {
-                cgTimer = gameObject.AddComponent<Timer>();
-                cgTimer.onIter.AddListener((float value) => {
-                    float opacity = value / cgFadeTime;
-
-                    cgTitleBar.alpha = opacity;
-                    cgScrollBarH.alpha = opacity;
-                    cgScrollBarV.alpha = opacity;
-                    cgResizeButton.alpha = opacity;
-                });
-
-                cgTimer.onEnd.AddListener(() => {
-                    if (this.canInteract == false) {
-                        titleBar.Hide();
-                        resizeButton.Hide();
-                    }
-                    else {
-                        titleBar.Show();
-                        resizeButton.Show();
-                    }
-
-                    scrollView.SetAllowedScroll(
-                        this.canInteract, this.canInteract
-                    );
-                });
-            }
-
             // Add canvas groups where necessary
             AddCanvasGroup(ref cgTitleBar, titleBar);
             AddCanvasGroup(ref cgScrollBarH, scrollView.scrollBarH);
             AddCanvasGroup(ref cgScrollBarV, scrollView.scrollBarV);
             AddCanvasGroup(ref cgResizeButton, resizeButton);
 
-            // If the timer is already running, just reverse it
-            if (cgTimer.running == true) {
-                cgTimer.ReverseTimer();
+            if (cgFade == null) {
+                cgFade = gameObject.AddComponent<Fade>();
+                cgFade.SetFadeTime(cgFadeTime);
+
+                cgFade.Add(cgTitleBar);
+                cgFade.Add(cgScrollBarH);
+                cgFade.Add(cgScrollBarV);
+                cgFade.Add(cgResizeButton);
             }
 
-            // Otherwise, fade out if can't interact
-            else if (canInteract == false) {
-                cgTimer.StartTimer(cgFadeTime, 0f);
+            if (canInteract == true) {
+                cgFade.FadeIn();
             }
-            // Or fade in
             else {
-                cgTimer.StartTimer(0f, cgFadeTime);
+                cgFade.FadeOut();
             }
-
         }
 
 #endregion

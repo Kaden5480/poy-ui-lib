@@ -17,6 +17,7 @@ namespace UILib {
      */
     internal class Canvas : UIObject {
         internal UECanvas canvas { get; private set; }
+        internal UEGraphicRaycaster raycaster { get; private set; }
 
         /**
          * <summary>
@@ -32,7 +33,7 @@ namespace UILib {
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.screenMatchMode = UECanvasScaler.ScreenMatchMode.Expand;
 
-            gameObject.AddComponent<UEGraphicRaycaster>();
+            raycaster = gameObject.AddComponent<UEGraphicRaycaster>();
         }
 
         /**

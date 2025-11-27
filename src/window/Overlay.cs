@@ -27,8 +27,8 @@ namespace UILib {
          * <summary>
          * Initializes an overlay.
          *
-         * By default overlays will pause the game when shown
-         * If you want to disable this behaviour see <see cref="SetAutoPause"/>
+         * By default overlays will pause the game when shown.
+         * If you want to disable this behaviour see <see cref="SetAutoPause"/>.
          * </summary>
          * <param name="width">The width of the overlay</param>
          * <param name="height">The height of the overlay</param>

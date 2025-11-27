@@ -10,18 +10,24 @@ namespace UILib.Components {
      * </summary>
      */
     public class Toggle :  UIButton {
+        /**
+         * <summary>
+         * The current value of the toggle.
+         * </summary>
+         */
         public bool value { get; private set; } = false;
 
         /**
          * <summary>
          * Initializes a toggle.
          * </summary>
+         * <param name="initial">The initial value of the toggle</param>
          */
-        public Toggle() : base(Resources.checkMark) {
+        public Toggle(bool initial = false) : base(Resources.checkMark) {
             onClick.AddListener(() => {
                 SetValue(!value);
             });
-            SetValue(false);
+            SetValue(initial);
         }
 
         /**

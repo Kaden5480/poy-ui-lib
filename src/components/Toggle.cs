@@ -27,7 +27,24 @@ namespace UILib.Components {
             onClick.AddListener(() => {
                 SetValue(!value);
             });
+
             SetValue(initial);
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this toggle
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            if (image != null) {
+                image.SetColor(theme.foreground);
+            }
         }
 
         /**

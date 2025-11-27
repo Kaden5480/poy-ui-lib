@@ -3,6 +3,12 @@ using UnityEngine;
 using UILib.Layout;
 
 namespace UILib.Components {
+    /**
+     * <summary>
+     * A simple progress bar.
+     * Provides a simple visual representation of progress.
+     * </summary>
+     */
     public class ProgressBar : UIComponent {
         /**
          * <summary>

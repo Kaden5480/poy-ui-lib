@@ -127,9 +127,16 @@ namespace UILib.Behaviours {
             onStart.Invoke();
 
             while (running == true) {
+                float prevTimer = timer;
+
                 timer = Mathf.MoveTowards(
                     timer, endTime, Time.deltaTime
                 );
+
+                if (timer == prevTimer) {
+                    running = false;
+                }
+
                 onIter.Invoke(timer);
                 yield return null;
             }

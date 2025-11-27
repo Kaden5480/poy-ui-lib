@@ -27,9 +27,10 @@ namespace UILib.Components {
          * the oldest one if there are too many.
          * </summary>
          * <param name="child">The child to add</param>
+         * <param name="setTheme">Whether the child should inherit this object's theme</param>
          */
-        public override void AddContent(UIComponent child) {
-            base.AddContent(child);
+        public override void AddContent(UIComponent child, bool setTheme = true) {
+            base.AddContent(child, setTheme);
 
             if (children.Count >= maxCount) {
                 children[0].Destroy();

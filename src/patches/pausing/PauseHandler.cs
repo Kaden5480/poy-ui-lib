@@ -7,6 +7,10 @@ namespace UILib.Patches {
      * <summary>
      * A pause handle.
      *
+     * You shouldn't usually need to construct your own `PauseHandles`
+     * as <see cref="Overlay">Overlays</see> already create them
+     * internally.
+     *
      * Whenever a `PauseHandle` is constructed it automatically
      * pauses the game.
      *

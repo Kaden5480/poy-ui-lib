@@ -62,7 +62,7 @@ namespace UILib.Behaviours {
          *
          * If the timer is paused, the internal timer will no longer
          * decrease, and any <see cref="onIter"/> listeners will no longer be invoked.
-         * Setting `pause` to `false` will allow the timer to continue
+         * Passing `false` will allow the timer to continue
          * normal execution.
          * </summary>
          * <param name="pause">Whether the timer should be paused</param>

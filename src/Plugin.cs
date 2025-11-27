@@ -9,7 +9,7 @@ using UILib.Patches;
 namespace UILib {
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UI Lib", PluginInfo.PLUGIN_VERSION)]
     internal class Plugin : BaseUnityPlugin {
-        private static Plugin instance;
+        internal static Plugin instance { get; private set; }
 
         /**
          * <summary>

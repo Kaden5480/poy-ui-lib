@@ -4,7 +4,7 @@ using Direction = UnityEngine.UI.Slider.Direction;
 
 using UILib.Behaviours;
 using UILib.Components;
-using UILib.Layout;
+using UILib.Layouts;
 using UILib.Patches;
 using UILib.Notifications;
 
@@ -73,12 +73,23 @@ namespace UILib {
                 Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
             });
 
-            //window2.SetTheme(customTheme);
-            //window2.Add(customNotif);
+            UIButton readInput = new UIButton("Read input", 20);
+            readInput.SetSize(200f, 40f);
+            readInput.onClick.AddListener(() => {
+                KeyCodeEvent ev = UIRoot.inputOverlay.Request();
+                if (ev != null) {
+                    ev.AddListener((KeyCode key) => {
+                        Notifier.Notify("Read Key", $"Got key: {key}");
+                    });
+                }
+            });
+
+            window2.Add(customNotif);
+            window2.Add(readInput);
         }
 
         internal static void Start() {
-            window.Show();
+            //window.Show();
             window2.Show();
             //overlay.Show();
         }

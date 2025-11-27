@@ -15,29 +15,43 @@ namespace UILib.Notifications {
          * <param name="title">The title (could just be the name of the mod)</param>
          * <param name="message">The message to display</param>
          * <param name="type">The type of notification to display</param>
+         * <param name="theme">The theme to apply to the notification</param>
          */
         public static void Notify(
             string title,
             string message,
-            NotificationType type = NotificationType.Normal
+            NotificationType type = NotificationType.Normal,
+            Theme theme = null
         ) {
-            Notification notification = new Notification(title, message, type);
+            if (theme == null) {
+                theme = UIRoot.defaultTheme;
+            }
+
+            Notification notification = new Notification(
+                title, message, type, theme
+            );
 
             switch (type) {
                 case NotificationType.Silent:
                     break;
                 case NotificationType.Normal:
-                    Audio.PlayNormal();
+                    Audio.Play(
+                        theme.notification,
+                        theme.notificationVolume
+                    );
                     break;
                 case NotificationType.Error:
-                    Audio.PlayError();
+                    Audio.Play(
+                        theme.notificationError,
+                        theme.notificationErrorVolume
+                    );
                     break;
                 default:
                     logger.LogDebug($"Unexpected notification type: {type}");
                     break;
             }
 
-            UIRoot.notificationArea.Add(notification);
+            UIRoot.notificationArea.Add(notification, false);
         }
     }
 }

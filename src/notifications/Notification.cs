@@ -15,13 +15,6 @@ namespace UILib.Notifications {
      * </summary>
      */
     internal class Notification : UIComponent {
-        private const float waitTime = 3f;
-        private const float fadeTime = 1f;
-
-        // Maximum title and message lengths
-        private const int maxTitle = 48;
-        private const int maxMessage = 256;
-
         private Image background;
 
         private Image titleBackground;
@@ -39,12 +32,20 @@ namespace UILib.Notifications {
          * <param name="title">The title of the notification</param>
          * <param name="message">The message to display</param>
          * <param name="type">The type of this notification</param>
+         * <param name="theme">The theme to use</param>
          */
         internal Notification(
             string title,
             string message,
-            NotificationType type
+            NotificationType type,
+            Theme theme
         ) {
+            int maxTitle = theme.notificationMaxTitle;
+            int maxMessage = theme.notificationMaxMessage;
+
+            float fadeTime = theme.notificationFadeTime;
+            float waitTime = theme.notificationWaitTime;
+
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             // If anything is too large, log it
@@ -61,11 +62,11 @@ namespace UILib.Notifications {
             // Building UI
             SetSize(NotificationArea.size, 100f);
 
-            background = new Image(UIRoot.defaultTheme.background);
+            background = new Image(theme.background);
             background.SetFill(FillType.All);
             Add(background);
 
-            titleBackground = new Image(UIRoot.defaultTheme.accent);
+            titleBackground = new Image(theme.accent);
             titleBackground.SetAnchor(AnchorType.TopMiddle);
             titleBackground.SetFill(FillType.Horizontal);
             titleBackground.SetSize(0f, 25f);
@@ -88,6 +89,9 @@ namespace UILib.Notifications {
 
             Add(messageLabel);
 
+            // Apply theme to children
+            SetTheme(theme);
+
             // If this is an error notification, don't automatically hide
             if (type == NotificationType.Error) {
                 return;
@@ -102,7 +106,9 @@ namespace UILib.Notifications {
                 }
 
                 // Scale opacity
-                canvasGroup.alpha = 1 - ((fadeTime - value) / fadeTime);
+                canvasGroup.alpha = 1 - (
+                    (fadeTime - value) / fadeTime
+                );
             });
 
             timer.onEnd.AddListener(() => {

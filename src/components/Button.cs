@@ -19,7 +19,7 @@ namespace UILib.Components {
      */
     public class Button : UIComponent {
         private Image background;
-        private UEButton button;
+        internal UEButton button { get; private set; }
 
         public Label label { get; private set; }
         public Image image { get; private set; }
@@ -40,11 +40,13 @@ namespace UILib.Components {
             Add(background);
 
             button = gameObject.AddComponent<UEButton>();
-            button.colors = Colors.colorBlock;
             button.targetGraphic = background.image;
             button.onClick.AddListener(() => {
                 EventSystem.current.SetSelectedGameObject(null);
             });
+
+            // Apply the theme
+            SetTheme(theme);
         }
 
         /**
@@ -76,22 +78,24 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Allows setting the theme of this button
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+            button.colors = theme.blockSelect;
+        }
+
+        /**
+         * <summary>
          * Allows changing the background image of the button.
          * </summary>
          * <param name="texture">The texture to use instead</param>
          */
         public void SetBackground(Texture2D texture) {
             background.SetTexture(texture);
-        }
-
-        /**
-         * <summary>
-         * Sets the color block of this button.
-         * </summary>
-         * <param name="colorBlock">The color block to set</param>
-         */
-        public void SetColorBlock(ColorBlock colorBlock) {
-            button.colors = colorBlock;
         }
 
         /**

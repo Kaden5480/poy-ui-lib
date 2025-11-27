@@ -61,11 +61,11 @@ namespace UILib.Notifications {
             // Building UI
             SetSize(NotificationArea.size, 100f);
 
-            background = new Image(Colors.black);
+            background = new Image(UIRoot.defaultTheme.background);
             background.SetFill(FillType.All);
             Add(background);
 
-            titleBackground = new Image(Colors.darkGrey);
+            titleBackground = new Image(UIRoot.defaultTheme.accent);
             titleBackground.SetAnchor(AnchorType.TopMiddle);
             titleBackground.SetFill(FillType.Horizontal);
             titleBackground.SetSize(0f, 25f);

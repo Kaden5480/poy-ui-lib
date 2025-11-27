@@ -84,7 +84,6 @@ namespace UILib.Components {
             Add(handleArea);
 
             _slider = gameObject.AddComponent<CustomSlider>();
-            slider.colors = Colors.lighterColorBlock;
             slider.fillRect = fillImage.rectTransform;
             slider.handleRect = handleImage.rectTransform;
             slider.targetGraphic = handleImage.image;
@@ -96,10 +95,29 @@ namespace UILib.Components {
                 onValueChanged.Invoke(value);
             });
 
-            background.SetColor(Colors.grey);
-            fillImage.SetColor(Colors.lightGrey);
+            _slider.onDeselect.AddListener(() => {
+                Notifications.Notifier.Notify("Deselect", "Deselected slider");
+            });
 
             DestroyHandlers();
+
+            // Set the theme
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this slider
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            slider.colors = theme.blockSelectLight;
+            background.SetColor(theme.selectNormal);
+            fillImage.SetColor(theme.selectHighlight);
         }
 
         /**

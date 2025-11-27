@@ -23,6 +23,9 @@ namespace UILib {
         private static List<Overlay> overlays;
         internal static NotificationArea notificationArea;
 
+        // The default theme used across UILib
+        internal static Theme defaultTheme { get; } = new Theme();
+
         /**
          * <summary>
          * Initializes the UIRoot class.

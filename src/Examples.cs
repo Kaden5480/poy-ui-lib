@@ -78,7 +78,7 @@ namespace UILib {
             Overlay overlay = new Overlay(width, height);
             timer = overlay.gameObject.AddComponent<Timer>();
 
-            Image background = new Image(Colors.black);
+            Image background = new Image(Color.black);
             background.SetFill(FillType.All);
             overlay.Add(background);
 

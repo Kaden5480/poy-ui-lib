@@ -44,12 +44,9 @@ namespace UILib.Components {
 
             // Scrollbar setup
             background = gameObject.AddComponent<UEImage>();
-            background.color = Colors.darkGrey;
-
             scrollBar = gameObject.AddComponent<UEScrollbar>();
             scrollBar.handleRect = handle.GetComponent<RectTransform>();
             scrollBar.targetGraphic = handle.GetComponent<UEImage>();
-            scrollBar.colors = Colors.lightColorBlock;
 
             switch (scrollType) {
                 case ScrollType.Vertical:
@@ -72,6 +69,21 @@ namespace UILib.Components {
             }
 
             InitLayout();
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this scroll bar
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            background.color = theme.accent;
+            scrollBar.colors = theme.blockSelectAlt;
         }
 
         /**

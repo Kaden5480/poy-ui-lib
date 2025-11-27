@@ -69,7 +69,6 @@ namespace UILib.Components {
          */
         public TextField(string text, int fontSize) {
             placeholder = new Label(text, 2 * fontSize);
-            placeholder.text.color = Colors.lighterGrey;
             placeholder.SetFill(FillType.All);
             Add(placeholder);
 
@@ -78,17 +77,13 @@ namespace UILib.Components {
             Add(input);
 
             background = gameObject.AddComponent<UEImage>();
-            background.color = Colors.grey;
-
             inputField = gameObject.AddComponent<CustomInputField>();
 
             inputField.placeholder = placeholder.text;
             placeholder.text.alignByGeometry = false;
-            placeholder.text.font = Resources.gameFontScuffed;
 
             inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
-            input.text.font = Resources.gameFontScuffed;
 
             inputField.onSelect.AddListener(() => {
                 Patches.InputFieldFix.current = this;
@@ -102,6 +97,25 @@ namespace UILib.Components {
             inputField.onValueChanged.AddListener((string value) => {
                 onValueChanged.Invoke(value);
             });
+
+            // Set the theme
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this text field
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            background.color = theme.selectNormal;
+            placeholder.text.color = theme.selectAltNormal;
+            placeholder.text.font = theme.fontAlt;
+            input.text.font = theme.fontAlt;
         }
 
         /**

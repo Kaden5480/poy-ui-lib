@@ -43,6 +43,13 @@ namespace UILib {
 
         /**
          * <summary>
+         * The theme currently applied to this UIObject.
+         * </summary>
+         */
+        public Theme theme { get; private set; }
+
+        /**
+         * <summary>
          * The currently configured width of this UIObject.
          * </summary>
          */
@@ -203,6 +210,9 @@ namespace UILib {
 
             // By default, just make this the content
             content = this;
+
+            // Set the default theme
+            theme = UIRoot.defaultTheme;
         }
 
         /**
@@ -271,6 +281,20 @@ namespace UILib {
             this.content = content;
         }
 
+        /**
+         * <summary>
+         * Allows setting the theme of this UIObject
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public virtual void SetTheme(Theme theme) {
+            this.theme = theme;
+            foreach (UIObject child in children) {
+                child.SetTheme(theme);
+            }
+        }
+
 #region Handling Parents/Children
 
         /**
@@ -308,6 +332,8 @@ namespace UILib {
                 child.parent.RemoveChild(child);
             }
 
+            child.SetTheme(theme);
+
             SetParent(parent, child.gameObject);
             child.parent = this;
             children.Add(child);
@@ -317,6 +343,9 @@ namespace UILib {
          * <summary>
          * Adds a component directly to this UIObject,
          * ignoring the configured <see cref="SetContent">content</see>.
+         *
+         * Keep in mind, the child will inherit the <see cref="Theme"/>
+         * of this UIObject.
          * </summary>
          * <param name="child">The child to add</param>
          */
@@ -328,6 +357,9 @@ namespace UILib {
          * <summary>
          * Adds a component to the
          * <see cref="SetContent">content</see>.
+         *
+         * Keep in mind, the child will inherit the <see cref="Theme"/>
+         * of the `content`.
          * </summary>
          * <param name="child">The child to add</param>
          */

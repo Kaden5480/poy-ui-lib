@@ -12,6 +12,9 @@ namespace UILib.Components {
     public class Label : UIComponent {
         public UEText text { get; private set; }
 
+        // The configured font size
+        private int fontSize;
+
         /**
          * <summary>
          * Initializes a label.
@@ -21,13 +24,30 @@ namespace UILib.Components {
          */
         public Label(string text, int fontSize) {
             this.text = gameObject.AddComponent<UEText>();
-            this.text.font = Resources.gameFont;
-            this.text.fontSize = fontSize;
+            this.fontSize = fontSize;
+
             this.text.text = text;
-            this.text.lineSpacing = 3f;
             this.text.alignByGeometry = true;
 
             SetAlignment(TextAnchor.MiddleCenter);
+
+            // Apply the theme
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this label
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            this.text.font = theme.font;
+            this.text.fontSize = (int) (theme.fontScaler * fontSize);
+            this.text.lineSpacing = theme.fontLineSpacing;
         }
 
         /**

@@ -72,11 +72,9 @@ namespace UILib.Components {
             viewportRect.anchoredPosition = new Vector2(-scrollBarWidth/2, 0f);
 
             background = viewport.GetComponent<UEImage>();
-            background.color = Colors.black;
 
             // Scroll rect setup
             scrollRect.viewport = viewportRect;
-
             scrollRect.elasticity = 0f;
             scrollRect.scrollSensitivity = 150f;
             scrollRect.movementType = UEScrollRect.MovementType.Clamped;
@@ -95,6 +93,22 @@ namespace UILib.Components {
 
             // Use the scrollContent instead
             SetContent(scrollContent);
+
+            // Set the theme
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this scroll view
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            background.color = theme.background;
         }
 
         /**

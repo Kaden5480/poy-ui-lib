@@ -13,6 +13,9 @@ namespace UILib {
      * </summary>
      */
     internal class TitleBar : UIComponent {
+        // The background
+        private UEImage background;
+
         // An area for holding the buttons
         private Area buttonArea;
 
@@ -49,8 +52,7 @@ namespace UILib {
             SetFill(FillType.Horizontal);
 
             // Add a background
-            UEImage image = gameObject.AddComponent<UEImage>();
-            image.color = Colors.darkGrey;
+            background = gameObject.AddComponent<UEImage>();
 
             // Add the name of the window
             Label label = new Label(window.name, (int) totalHeight - 5);
@@ -79,13 +81,28 @@ namespace UILib {
             closeButton = new UIButton("x", (int) barHeight);
             closeButton.SetSize(barHeight, barHeight);
             closeButton.SetAnchor(AnchorType.TopRight);
-            closeButton.SetColorBlock(Colors.redColorBlock);
             closeButton.onClick.AddListener(() => {
                 window.Hide();
             });
 
             buttonArea.Add(fullscreenButton);
             buttonArea.Add(closeButton);
+
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this title bar
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            background.color = theme.accent;
+            closeButton.button.colors = theme.blockImportant;
         }
 
         /**

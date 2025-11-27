@@ -26,16 +26,33 @@ namespace UILib.Components {
          * </summary>
          */
         public ProgressBar() {
-            background = new Image(Colors.grey);
+            background = new Image();
             background.SetFill(FillType.All);
 
-            fill = new Image(Colors.lightGrey);
+            fill = new Image();
             fill.SetAnchor(AnchorType.BottomLeft);
             fill.SetFill(FillType.Vertical);
             fill.SetSize(0f, 0f);
 
             Add(background);
             Add(fill);
+
+            // Set the theme
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this progress bar
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            background.SetColor(theme.selectNormal);
+            fill.SetColor(theme.selectHighlight);
         }
 
         /**

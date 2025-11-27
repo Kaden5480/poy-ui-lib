@@ -24,11 +24,29 @@ namespace UILib {
             this.window = window;
             SetAnchor(AnchorType.BottomRight);
             SetSize(20f, 20f);
-            SetColorBlock(Colors.darkColorBlock);
 
             image.image.type = UnityEngine.UI.Image.Type.Tiled;
-            image.image.color = Colors.lightGrey;
+            image.image.color = theme.selectHighlight;
             image.SetSize(-6f, -6f);
+
+            SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this resize button
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            button.colors = theme.blockSelectDark;
+
+            if (image != null) {
+                image.image.color = theme.selectHighlight;
+            }
         }
 
         /**

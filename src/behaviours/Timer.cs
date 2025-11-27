@@ -19,7 +19,7 @@ namespace UILib.Behaviours {
          * Whether the timer should pause.
          * </summary>
          */
-        private bool paused = false;
+        public bool paused { get; private set; } = false;
 
         /**
          * <summary>
@@ -93,12 +93,11 @@ namespace UILib.Behaviours {
             onStart.Invoke();
 
             while (time > 0) {
-                if (paused == true) {
-                    yield return null;
+                if (paused == false) {
+                    time -= Time.deltaTime;
+                    onIter.Invoke(time);
                 }
 
-                time -= Time.deltaTime;
-                onIter.Invoke(time);
                 yield return null;
             }
 

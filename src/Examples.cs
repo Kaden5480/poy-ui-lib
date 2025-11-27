@@ -45,7 +45,7 @@ namespace UILib {
             window2.SetAnchor(AnchorType.Middle);
 
             overlay = MakeOverlay(400f, 400f);
-            overlay.SetPauseMode(false);
+            overlay.SetAutoPause(false);
             overlay.SetAnchor(AnchorType.Middle);
         }
 

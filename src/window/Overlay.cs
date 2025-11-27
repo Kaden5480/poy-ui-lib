@@ -28,7 +28,7 @@ namespace UILib {
          * Initializes an overlay.
          *
          * By default overlays will pause the game when shown
-         * If you want to disable this behaviour see <see cref="SetPauseMode"/>
+         * If you want to disable this behaviour see <see cref="SetAutoPause"/>
          * </summary>
          * <param name="width">The width of the overlay</param>
          * <param name="height">The height of the overlay</param>
@@ -50,7 +50,7 @@ namespace UILib {
             SetAnchor(AnchorType.Middle);
 
             // Pause by default
-            SetPauseMode(true);
+            SetAutoPause(true);
 
             // Set size
             SetSize(width, height);
@@ -79,7 +79,7 @@ namespace UILib {
          * </summary>
          * <param name="autoPause">Whether to pause the game automatically</param>
          */
-        public void SetPauseMode(bool autoPause) {
+        public void SetAutoPause(bool autoPause) {
             this.autoPause = autoPause;
 
             if (pauseHandle != null) {

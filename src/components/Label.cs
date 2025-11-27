@@ -45,6 +45,7 @@ namespace UILib.Components {
         public override void SetTheme(Theme theme) {
             base.SetTheme(theme);
 
+            this.text.color = theme.foreground;
             this.text.font = theme.font;
             this.text.fontSize = (int) (theme.fontScaler * fontSize);
             this.text.lineSpacing = theme.fontLineSpacing;

@@ -328,7 +328,7 @@ namespace UILib {
          * <param name="child">The child to add</param>
          * <param name="setTheme">Whether the child should inherit this object's theme</param>
          */
-        internal void Add(GameObject parent, UIObject child, bool setTheme = true) {
+        internal void Add(GameObject parent, UIObject child, bool setTheme = false) {
             if (layoutGroup != null) {
                 child.AddLayoutElement();
             }
@@ -357,7 +357,7 @@ namespace UILib {
          * <param name="child">The child to add</param>
          * <param name="setTheme">Whether the child should inherit this object's theme</param>
          */
-        public virtual void AddDirect(UIComponent child, bool setTheme = true) {
+        public virtual void AddDirect(UIComponent child, bool setTheme = false) {
             Add(gameObject, child, setTheme);
         }
 
@@ -372,7 +372,7 @@ namespace UILib {
          * <param name="child">The child to add</param>
          * <param name="setTheme">Whether the child should inherit the content's theme</param>
          */
-        public virtual void AddContent(UIComponent child, bool setTheme = true) {
+        public virtual void AddContent(UIComponent child, bool setTheme = false) {
             if (content == this) {
                 AddDirect(child, setTheme);
                 return;
@@ -388,7 +388,7 @@ namespace UILib {
          * <param name="child">The child to add</param>
          * <param name="setTheme">Whether the child should inherit the content's theme</param>
          */
-        public void Add(UIComponent child, bool setTheme = true) {
+        public void Add(UIComponent child, bool setTheme = false) {
             AddContent(child, setTheme);
         }
 

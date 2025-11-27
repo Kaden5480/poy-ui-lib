@@ -7,7 +7,7 @@ namespace UILib.Components {
      * Overrides Unity's ScrollRect to ignore being dragged.
      * </summary>
      */
-    internal class ScrollRect : UEScrollRect {
+    internal class CustomScrollRect : UEScrollRect {
         public override void OnBeginDrag(PointerEventData eventData) {
             eventData.Use();
         }

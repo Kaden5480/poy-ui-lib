@@ -10,7 +10,7 @@ namespace UILib.Components {
      * that can invoke listeners on select and deselect.
      * </summary>
      */
-    internal class InputField : UEInputField {
+    internal class CustomInputField : UEInputField {
         internal UnityEvent onSelect { get; } = new UnityEvent();
         internal UnityEvent onDeselect { get; } = new UnityEvent();
 

@@ -19,7 +19,7 @@ namespace UILib.Components {
         public Label input        { get; private set; }
 
         private UEImage background;
-        private InputField inputField;
+        private CustomInputField inputField;
 
         public UnityEvent onSelect { get => inputField.onSelect; }
         public UnityEvent onDeselect { get => inputField.onDeselect; }
@@ -46,7 +46,7 @@ namespace UILib.Components {
             background = gameObject.AddComponent<UEImage>();
             background.color = Colors.grey;
 
-            inputField = gameObject.AddComponent<InputField>();
+            inputField = gameObject.AddComponent<CustomInputField>();
 
             inputField.placeholder = placeholder.text;
             placeholder.text.alignByGeometry = false;

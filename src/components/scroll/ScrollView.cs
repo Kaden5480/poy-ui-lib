@@ -38,7 +38,7 @@ namespace UILib.Components {
         private GameObject viewport;
         private Area scrollContent;
 
-        internal ScrollRect scrollRect { get; private set; }
+        internal CustomScrollRect scrollRect { get; private set; }
         internal ScrollBar scrollBarH  { get; private set; }
         internal ScrollBar scrollBarV  { get; private set; }
 
@@ -48,7 +48,7 @@ namespace UILib.Components {
          * </summary>
          */
         public ScrollView() {
-            scrollRect = gameObject.AddComponent<ScrollRect>();
+            scrollRect = gameObject.AddComponent<CustomScrollRect>();
 
             viewport = new GameObject("Viewport",
                 typeof(RectTransform), typeof(UEMask), typeof(UEImage)

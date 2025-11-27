@@ -16,7 +16,8 @@ namespace UILib.Components {
      * </summary>
      */
     public class Slider : UIComponent {
-        public CustomSlider slider { get; private set; }
+        private CustomSlider _slider;
+        public UESlider slider { get => (UESlider) _slider; }
 
         public Image background { get; private set; }
 
@@ -30,14 +31,14 @@ namespace UILib.Components {
          * Invokes listeners when this slider is selected.
          * </summary>
          */
-        public UnityEvent onSelect { get => slider.onSelect; }
+        public UnityEvent onSelect { get => _slider.onSelect; }
 
         /**
          * <summary>
          * Invokes listeners when this slider is deselected.
          * </summary>
          */
-        public UnityEvent onDeselect { get => slider.onDeselect; }
+        public UnityEvent onDeselect { get => _slider.onDeselect; }
 
         /**
          * <summary>
@@ -82,7 +83,7 @@ namespace UILib.Components {
             Add(fillArea);
             Add(handleArea);
 
-            slider = gameObject.AddComponent<CustomSlider>();
+            _slider = gameObject.AddComponent<CustomSlider>();
             slider.colors = Colors.lighterColorBlock;
             slider.fillRect = fillImage.rectTransform;
             slider.handleRect = handleImage.rectTransform;
@@ -91,7 +92,7 @@ namespace UILib.Components {
 
             SetLimits(min, max);
 
-            slider.onValueChanged.AddListener((float value) => {
+            _slider.onValueChanged.AddListener((float value) => {
                 onValueChanged.Invoke(value);
             });
 

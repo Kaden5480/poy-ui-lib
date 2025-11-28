@@ -73,16 +73,8 @@ namespace UILib {
                 Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
             });
 
-            UIButton readInput = new UIButton("Read input", 20);
+            KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
             readInput.SetSize(200f, 40f);
-            readInput.onClick.AddListener(() => {
-                KeyCodeEvent ev = UIRoot.inputOverlay.Request();
-                if (ev != null) {
-                    ev.AddListener((KeyCode key) => {
-                        Notifier.Notify("Read Key", $"Got key: {key}");
-                    });
-                }
-            });
 
             window2.Add(customNotif);
             window2.Add(readInput);

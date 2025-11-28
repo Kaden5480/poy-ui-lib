@@ -139,6 +139,9 @@ namespace UILib {
         private IEnumerator HandleRequest(KeyCodeEvent ev) {
             float cancelTimer = 0f;
 
+            // Only read escape as an input after a short press
+            float escReadTime = 0.2f;
+
             // Run until the cancel timer fills up
             while (cancelTimer < cancelDuration) {
                 // If the user is holding "esc", keep incrementing
@@ -149,7 +152,7 @@ namespace UILib {
                 // Otherwise, if the user has released esc
                 // but only pressed it for a short amount of time
                 // take "esc" as the input
-                else if (cancelTimer > 0 && cancelTimer < 0.06f){
+                else if (cancelTimer > 0 && cancelTimer < escReadTime){
                     ev.Invoke(KeyCode.Escape);
                     yield break;
                 }
@@ -164,8 +167,8 @@ namespace UILib {
                     }
                 }
 
-                // If the timer is > 0, show its progress
-                if (cancelTimer > 0) {
+                // If the timer is >= escReadTime, show its progress
+                if (cancelTimer >= escReadTime) {
                     cancelProgress.Show();
                     cancelProgress.SetProgress(cancelTimer / cancelDuration);
                 }

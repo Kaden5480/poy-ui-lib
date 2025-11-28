@@ -81,10 +81,10 @@ namespace UILib {
             KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
             readInput.SetSize(200f, 40f);
 
-            window2.SetTheme(customTheme);
-
             window2.Add(customNotif);
             window2.Add(readInput);
+
+            window2.SetTheme(customTheme);
         }
 
         internal static void Start() {

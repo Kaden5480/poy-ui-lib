@@ -10,7 +10,13 @@ namespace UILib.Behaviours {
      * </summary>
      */
     public class Fade : Timer {
+        // How long fading should take
         private float fadeTime = 0f;
+
+        // The minimum and maximum opacities
+        private float minOpacity = 0f;
+        private float maxOpacity = 1f;
+
         private List<CanvasGroup> groups = new List<CanvasGroup>();
 
         /**
@@ -20,8 +26,18 @@ namespace UILib.Behaviours {
          */
         private void Awake() {
             onIter.AddListener((float value) => {
+                // The proportion of the fade time
+                // which has passed (0-1)
+                float t = value / fadeTime;
+
+                // The total fade delta
+                float delta = maxOpacity - minOpacity;
+
+                // The actual opacity to set
+                float opacity = minOpacity + delta*t;
+
                 foreach (CanvasGroup group in groups) {
-                    group.alpha = value / fadeTime;
+                    group.alpha = opacity;
                 }
             });
         }
@@ -34,6 +50,35 @@ namespace UILib.Behaviours {
          */
         public void Add(CanvasGroup group) {
             groups.Add(group);
+        }
+
+        /**
+         * <summary>
+         * Sets the minimum and maximum opacities
+         * to fade between.
+         *
+         * Both `min` and `max` must be between 0-1 inclusive.
+         *
+         * If you enter a `min` > `max` they
+         * will be swapped around.
+         * </summary>
+         * <param name="min">The minimum opacity</param>
+         * <param name="max">The maximum opacity</param>
+         */
+        public void SetOpacities(float min = 0f, float max = 1f) {
+            min = Mathf.Clamp(min, 0f, 1f);
+            max = Mathf.Clamp(max, 0f, 1f);
+
+            if (min <= max) {
+                this.minOpacity = min;
+                this.maxOpacity = max;
+            }
+            else {
+                // Swap the order
+                this.minOpacity = max;
+                this.maxOpacity = min;
+            }
+
         }
 
         /**

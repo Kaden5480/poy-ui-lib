@@ -6,6 +6,7 @@ using UnityEngine;
 using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
+using UILib.Patches;
 
 namespace UILib {
     /**
@@ -21,9 +22,7 @@ namespace UILib {
      * is waiting for an input.
      * </summary>
      */
-    public class InputOverlay : UIObject {
-        internal Canvas canvas;
-
+    public class InputOverlay : Overlay {
         // The request coroutine
         private IEnumerator coroutine;
 
@@ -48,11 +47,8 @@ namespace UILib {
          * Initializes the input overlay.
          * </summary>
          */
-        internal InputOverlay() {
+        internal InputOverlay() : base(0f, 0f) {
             Theme theme = UIRoot.defaultTheme;
-
-            canvas = new Canvas();
-            canvas.Add(this);
             canvas.canvas.sortingOrder
                 = UIRoot.inputOverlaySortingOrder;
 

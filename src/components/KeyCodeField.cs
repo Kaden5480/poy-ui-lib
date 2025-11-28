@@ -8,6 +8,7 @@ namespace UILib.Components {
      * <summary>
      * A component which allows you to get
      * a `KeyCode` from the user.
+     * This could be a key or mouse button.
      * </summary>
      */
     public class KeyCodeField : UIButton {
@@ -20,8 +21,8 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * An event for listening to when
-         * the user actually inputs a key.
+         * An event for listening to when the user
+         * actually inputs a key or presses a mouse button.
          *
          * Passes the `KeyCode` that was read to listeners.
          * Will pass `KeyCode.None` if the user cancelled

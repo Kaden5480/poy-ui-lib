@@ -115,7 +115,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Gets the current key being pressed.
+         * Gets the current key or mouse button being pressed.
          * This is nasty, but at least it only runs once.
          * </summary>
          * <returns>The key that was pressed</returns>
@@ -124,6 +124,12 @@ namespace UILib {
             foreach (KeyCode key in Enum.GetValues(typeof(KeyCode))) {
                 if (Input.GetKeyDown(key) == true) {
                     return key;
+                }
+            }
+
+            for (int i = 0; i <= 6; i++) {
+                if (Input.GetMouseButton(i) == true) {
+                    return (KeyCode) Enum.Parse(typeof(KeyCode), $"Mouse{i}");
                 }
             }
 
@@ -161,7 +167,9 @@ namespace UILib {
                 else {
                     cancelTimer = 0f;
 
-                    if (Event.current.type == EventType.KeyDown) {
+                    if (Event.current.type == EventType.KeyDown
+                        || Event.current.type == EventType.MouseDown
+                    ) {
                         ev.Invoke(GetCurrentKey());
                         yield break;
                     }
@@ -188,7 +196,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Request a key from the user.
+         * Request a key or mouse button from the user.
          *
          * The event will invoke the listener with the KeyCode read.
          * If the request was cancelled by the user, KeyCode.None will

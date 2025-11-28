@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UILib.Behaviours {
     /**
@@ -13,11 +14,41 @@ namespace UILib.Behaviours {
         // How long fading should take
         private float fadeTime = 0f;
 
+        /**
+         * <summary>
+         * Whether this fade is currently fading in.
+         * </summary>
+         */
+        public bool fadingIn { get; private set; } = false;
+
+        /**
+         * <summary>
+         * Whether this fade is currently fading out.
+         * </summary>
+         */
+        public bool fadingOut { get; private set; } = false;
+
         // The minimum and maximum opacities
         private float minOpacity = 0f;
         private float maxOpacity = 1f;
 
         private List<CanvasGroup> groups = new List<CanvasGroup>();
+
+        /**
+         * <summary>
+         * An event which invokes listeners once
+         * fading in has completed entirely.
+         * </summary>
+         */
+        public UnityEvent onFadeIn { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * An event which invokes listeners once
+         * fading out has completed entirely.
+         * </summary>
+         */
+        public UnityEvent onFadeOut { get; } = new UnityEvent();
 
         /**
          * <summary>
@@ -39,6 +70,18 @@ namespace UILib.Behaviours {
                 foreach (CanvasGroup group in groups) {
                     group.alpha = opacity;
                 }
+            });
+
+            onEnd.AddListener(() => {
+                if (fadingIn == true) {
+                    onFadeIn.Invoke();
+                }
+                if (fadingOut == true) {
+                    onFadeOut.Invoke();
+                }
+
+                fadingIn = false;
+                fadingOut = false;
             });
         }
 
@@ -98,6 +141,9 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public void FadeIn() {
+            fadingIn = true;
+            fadingOut = false;
+
             // If the timer is already running, fade in
             // from its current value
             if (running == true) {
@@ -115,6 +161,9 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public void FadeOut() {
+            fadingIn = false;
+            fadingOut = true;
+
             // If the timer is already running, fade out
             // from its current value
             if (running == true) {

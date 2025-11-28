@@ -220,7 +220,7 @@ namespace UILib {
          * Toggles the visibility of this UIObject.
          * </summary>
          */
-        public void ToggleVisibility() {
+        public virtual void ToggleVisibility() {
             // Write in terms of Hide and Show
             // to make overriding a little easier
             if (isVisible == true) {

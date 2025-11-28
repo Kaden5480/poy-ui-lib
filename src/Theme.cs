@@ -150,6 +150,30 @@ namespace UILib {
 
 #endregion
 
+#region Overlays and Windows
+
+        /**
+         * <summary>
+         * The default/maximum opacity to apply to <see cref="Overlay">
+         * Overlays</see>.
+         * Must be between 0-1 inclusive.
+         * Note this does affect all content on the overlay as well,
+         * since this just uses a `CanvasGroup` applied to the overlay.
+         * </summary>
+         */
+        public float overlayOpacity = 1f;
+
+        /**
+         * <summary>
+         * How long it should take for <see cref="Overlay">
+         * Overlays</see> to fade in/out.
+         * This applies whenever the overlay is shown/hidden.
+         * </summary>
+         */
+        public float overlayFadeTime = 0f;
+
+#endregion
+
 #region Selectables
 
         /**

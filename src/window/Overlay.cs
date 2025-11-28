@@ -1,3 +1,6 @@
+using UnityEngine;
+
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 using UILib.Patches;
@@ -22,6 +25,12 @@ namespace UILib {
 
         // This overlay's container
         internal Area container;
+
+        // Canvas group for controlling opacity
+        private CanvasGroup canvasGroup;
+
+        // Fade for controlling this overlay's canvas group
+        private Fade fade;
 
         /**
          * <summary>
@@ -48,6 +57,20 @@ namespace UILib {
             canvas = new Canvas();
             canvas.Add(this);
 
+            // Add a canvas group for controlling opacity
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+
+            // Assign a Fade and give it the canvas group
+            fade = gameObject.AddComponent<Fade>();
+            fade.Add(canvasGroup);
+
+            // Only disable once fading out has finished
+            // Showing is handled in Show() as the gameObject
+            // has to be enabled immediately
+            fade.onFadeOut.AddListener(() => {
+                base.Hide();
+            });
+
             // Register this overlay
             UIRoot.Register(this);
 
@@ -65,8 +88,30 @@ namespace UILib {
             // Set size
             SetSize(width, height);
 
+            // Set the theme
+            SetTheme(theme);
+
             // Show by default
             Show();
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this overlay
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            // Tell the fade to use a different opacity
+            // and fade time
+            fade.SetOpacities(max: theme.overlayOpacity);
+            fade.SetFadeTime(theme.overlayFadeTime);
+
+            // Update the canvas group
+            canvasGroup.alpha = theme.overlayOpacity;
         }
 
         /**
@@ -110,12 +155,30 @@ namespace UILib {
 
         /**
          * <summary>
+         * Toggles the visibility of this overlay.
+         * </summary>
+         */
+        public override void ToggleVisibility() {
+            if (isVisible == false || fade.fadingOut == true) {
+                Show();
+            }
+            else {
+                Hide();
+            }
+        }
+
+        /**
+         * <summary>
          * When opening, get a PauseHandle
          * if this overlay should pause the game.
          * </summary>
          */
         public override void Show() {
+            // Make sure the game object is enabled first
             base.Show();
+
+            // Start fading in
+            fade.FadeIn();
 
             if (pauseHandle != null) {
                 pauseHandle.Close();
@@ -133,7 +196,8 @@ namespace UILib {
          * </summary>
          */
         public override void Hide() {
-            base.Hide();
+            // Start fading out
+            fade.FadeOut();
 
             if (pauseHandle != null) {
                 pauseHandle.Close();

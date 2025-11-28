@@ -27,7 +27,11 @@ namespace UILib {
         private IEnumerator coroutine;
 
         // The duration for the cancel timer
-        private float cancelDuration = 1f;
+        private const float cancelDuration = 1f;
+
+        // How long an escape press can be
+        // until it's detected as a cancel
+        private const float escReadTime = 0.2f;
 
         // Show cancel progress
         private ProgressBar cancelProgress;
@@ -134,9 +138,6 @@ namespace UILib {
          */
         private IEnumerator HandleRequest(KeyCodeEvent ev) {
             float cancelTimer = 0f;
-
-            // Only read escape as an input after a short press
-            float escReadTime = 0.2f;
 
             // Run until the cancel timer fills up
             while (cancelTimer < cancelDuration) {

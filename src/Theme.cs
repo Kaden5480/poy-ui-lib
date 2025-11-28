@@ -313,7 +313,7 @@ namespace UILib {
          * The opacity to apply to notifications.
          * </summary>
          */
-        public float notificationOpacity = 0.96f;
+        public float notificationOpacity = 1f;
 
         /**
          * <summary>

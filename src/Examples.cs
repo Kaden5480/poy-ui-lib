@@ -217,6 +217,10 @@ namespace UILib {
             notifBig.onClick.AddListener(() => { Notifier.Notify(bigTitle, bigMessage); });
             window.Add(notifBig);
 
+            Area blankSpace = new Area();
+            blankSpace.SetSize(200f, 200f);
+            window.Add(blankSpace);
+
             TextField textField = new TextField("Placeholder text", 24);
             textField.SetSize(200f, 40f);
             window.Add(textField);

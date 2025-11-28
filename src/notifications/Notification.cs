@@ -48,6 +48,9 @@ namespace UILib.Notifications {
 
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
+            // Default opacity
+            canvasGroup.alpha = theme.notificationOpacity;
+
             // If anything is too large, log it
             if (title.Length > maxTitle || message.Length > maxMessage) {
                 logger.LogInfo("Got a large notification");
@@ -105,10 +108,11 @@ namespace UILib.Notifications {
                     return;
                 }
 
+                // What proportion of fade time has passed
+                float fadeProportion = (fadeTime - value) / fadeTime;
+
                 // Scale opacity
-                canvasGroup.alpha = 1 - (
-                    (fadeTime - value) / fadeTime
-                );
+                canvasGroup.alpha = theme.notificationOpacity * (1 - fadeProportion);
             });
 
             timer.onEnd.AddListener(() => {

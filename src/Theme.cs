@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,7 +9,7 @@ namespace UILib {
      * Provides a way of modifying how UIs are themed.
      * </summary>
      */
-    public class Theme {
+    public class Theme : ICloneable {
 
 #region Internal
 
@@ -119,6 +121,28 @@ namespace UILib {
          */
         public static Color RGB(int r, int g, int b) {
             return RGBA(r, g, b, 100);
+        }
+
+        /**
+         * <summary>
+         * Supports making a clone of this theme.
+         * </summary>
+         * <returns>The clone</returns>
+         */
+        public object Clone() {
+            return MemberwiseClone();
+        }
+
+        /**
+         * <summary>
+         * Takes a copy of this theme.
+         * Uses <see cref="Clone"/> but handles
+         * converting to a Theme type.
+         * </summary>
+         * <returns>The copy</returns>
+         */
+        public Theme Copy() {
+            return (Theme) Clone();
         }
 
 #region Base Colors

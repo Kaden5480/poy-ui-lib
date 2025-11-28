@@ -54,11 +54,11 @@ namespace UILib.Components {
                 // update text if a valid key was
                 // received
                 ev.AddListener((KeyCode key) => {
-                    onValueChanged.Invoke(key);
                     if (key != KeyCode.None) {
                         this.value = key;
                         SetText(KeyAsString(key));
                     }
+                    onValueChanged.Invoke(key);
                 });
             });
         }

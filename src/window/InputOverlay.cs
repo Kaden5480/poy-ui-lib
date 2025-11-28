@@ -115,6 +115,23 @@ namespace UILib {
 
         /**
          * <summary>
+         * Checks whether the provided KeyCode should be ignored.
+         * </summary>
+         * <param name="key">The key to check</param>
+         * <returns>Whether it should be ignored</returns>
+         */
+        private bool ShouldIgnore(KeyCode key) {
+            switch (key) {
+                case KeyCode.LeftCommand:
+                case KeyCode.RightCommand:
+                    return true;
+            }
+
+            return false;
+        }
+
+        /**
+         * <summary>
          * Gets the current key or mouse button being pressed.
          * This is nasty, but at least it only runs once.
          * </summary>
@@ -170,8 +187,11 @@ namespace UILib {
                     if (Event.current.type == EventType.KeyDown
                         || Event.current.type == EventType.MouseDown
                     ) {
-                        ev.Invoke(GetCurrentKey());
-                        yield break;
+                        KeyCode current = GetCurrentKey();
+                        if (ShouldIgnore(current) == false) {
+                            ev.Invoke(current);
+                            yield break;
+                        }
                     }
                 }
 
@@ -211,7 +231,7 @@ namespace UILib {
             }
 
             KeyCodeEvent ev = new KeyCodeEvent();
-            ev.AddListener((KeyCode key) => {
+            ev.AddListener(delegate {
                 coroutine = null;
                 Hide();
             });

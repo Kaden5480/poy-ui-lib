@@ -52,8 +52,9 @@ namespace UILib {
             notificationMaxMessage  = 20,
             notificationVolume      = 0.1f,
             notificationErrorVolume = 0.1f,
-            notificationWaitTime    = 10f,
+            notificationWaitTime    = 1f,
             notificationFadeTime    = 2f,
+            notificationOpacity     = 0.6f,
         };
 
         internal static void Awake() {

@@ -59,7 +59,11 @@ namespace UILib.Behaviours {
             onIter.AddListener((float value) => {
                 // The proportion of the fade time
                 // which has passed (0-1)
-                float t = value / fadeTime;
+                float t = 1f;
+
+                if (fadeTime != 0) {
+                    t = value / fadeTime;
+                }
 
                 // The total fade delta
                 float delta = maxOpacity - minOpacity;

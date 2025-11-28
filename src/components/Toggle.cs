@@ -1,4 +1,10 @@
-using UIButton = UILib.Components.Button;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+using UEToggle = UnityEngine.UI.Toggle;
+
+using UILib.Behaviours;
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**
@@ -9,26 +15,61 @@ namespace UILib.Components {
      * Also displays a checkmark indicating its current state.
      * </summary>
      */
-    public class Toggle :  UIButton {
+    public class Toggle :  UIComponent {
+        private UEToggle toggle;
+
+        private Image background;
+        private Image checkMark;
+
         /**
          * <summary>
          * The current value of the toggle.
          * </summary>
          */
-        public bool value { get; private set; } = false;
+        public bool value { get => toggle.isOn; }
 
         /**
          * <summary>
-         * Initializes a toggle.
+         * Invokes listeners with the current value stored
+         * in the toggle whenever it's updated.
          * </summary>
-         * <param name="initial">The initial value of the toggle</param>
          */
-        public Toggle(bool initial = false) : base(Resources.checkMark) {
+        public BoolEvent onValueChanged { get; } = new BoolEvent();
+
+        /**
+         * <summary>
+         * Initializes this toggle.
+         * </summary>
+         * <param name="value">The default value</param>
+         */
+        public Toggle(bool value = false) {
+            toggle = gameObject.AddComponent<UEToggle>();
+            toggle.isOn = value;
+
+            background = new Image();
+            background.SetFill(FillType.All);
+            Add(background);
+
+            checkMark = new Image(Resources.checkMark);
+            checkMark.SetFill(FillType.All);
+            Add(checkMark);
+
+            toggle.targetGraphic = background.image;
+            toggle.graphic = checkMark.image;
+
+            // Destroy mouse handlers
+            background.DestroyMouseHandler();
+            checkMark.DestroyMouseHandler();
+
+            // Add listeners
             onClick.AddListener(() => {
-                SetValue(!value);
+                EventSystem.current.SetSelectedGameObject(null);
             });
 
-            SetValue(initial);
+            toggle.onValueChanged.AddListener((bool v) => {
+                onValueChanged.Invoke(this.value);
+            });
+
             SetTheme(theme);
         }
 
@@ -42,26 +83,8 @@ namespace UILib.Components {
         public override void SetTheme(Theme theme) {
             base.SetTheme(theme);
 
-            if (image != null) {
-                image.SetColor(theme.foreground);
-            }
-        }
-
-        /**
-         * <summary>
-         * Sets the value of the toggle.
-         * </summary>
-         * <param name="value">The value to set the toggle to</param>
-         */
-        public void SetValue(bool value) {
-            if (value == true) {
-                image.Show();
-            }
-            else {
-                image.Hide();
-            }
-
-            this.value = value;
+            toggle.colors = theme.blockSelect;
+            checkMark.SetColor(theme.foreground);
         }
     }
 }

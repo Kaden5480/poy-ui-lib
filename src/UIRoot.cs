@@ -47,15 +47,16 @@ namespace UILib {
 
             overlays = new List<Overlay>();
 
-            // Initialize the notification area and input overlay
+            // Initialize the notification area
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
 
-            inputOverlay = new InputOverlay();
-            UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
-
             // Initialize audio
             Audio.Init();
+
+            // Initialize input overlay
+            inputOverlay = new InputOverlay();
+            UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
         }
 
         /**

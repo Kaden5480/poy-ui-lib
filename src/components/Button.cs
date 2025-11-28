@@ -57,10 +57,7 @@ namespace UILib.Components {
          * <param name="fontSize">The font size for the text</param>
          */
         public Button(string text, int fontSize) : this() {
-            label = new Label(text, fontSize);
-            label.DestroyMouseHandler();
-            label.SetFill(FillType.All);
-            Add(label);
+            AddLabel(text, fontSize);
         }
 
         /**
@@ -70,6 +67,30 @@ namespace UILib.Components {
          * <param name="texture">The texture to add to this button</param>
          */
         public Button(Texture2D texture) : this() {
+            AddImage(texture);
+        }
+
+        /**
+         * <summary>
+         * Adds a label to this button with the given text.
+         * </summary>
+         * <param name="text">The text to add</param>
+         * <param name="fontSize">The size of the font to use</param>
+         */
+        internal void AddLabel(string text, int fontSize) {
+            label = new Label(text, fontSize);
+            label.DestroyMouseHandler();
+            label.SetFill(FillType.All);
+            Add(label);
+        }
+
+        /**
+         * <summary>
+         * Adds an image to this button.
+         * </summary>
+         * <param name="texture">The texture to add</param>
+         */
+        internal void AddImage(Texture2D texture) {
             image = new Image(texture);
             image.SetFill(FillType.All);
             image.DestroyMouseHandler();
@@ -96,6 +117,19 @@ namespace UILib.Components {
          */
         public void SetBackground(Texture2D texture) {
             background.SetTexture(texture);
+        }
+
+        /**
+         * <summary>
+         * Sets the texture on this button.
+         * </summary>
+         */
+        public void SetTexture(Texture2D texture) {
+            if (image == null) {
+                return;
+            }
+
+            image.SetTexture(texture);
         }
 
         /**

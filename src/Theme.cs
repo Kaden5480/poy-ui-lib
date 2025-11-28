@@ -210,11 +210,37 @@ namespace UILib {
         /**
          * <summary>
          * How long it should take for the
-         * <see cref="InputOverlay"> to fade in/out.
+         * <see cref="InputOverlay"/> to fade in/out.
          * This applies whenever the overlay is shown/hidden.
          * </summary>
          */
         public float inputOverlayFadeTime = 0f;
+
+        /**
+         * <summary>
+         * The default opacity to set on a <see cref="Window">
+         * Window's</see> background.
+         * Must be between 0-1 inclusive.
+         * </summary>
+         */
+        public float windowOpacity = 1f;
+
+        /**
+         * The default opacity to set on a <see cref="Window">
+         * Window's</see> decoratons (title bar, scroll bar, etc.)
+         * Must be between 0-1 inclusive.
+         */
+        public float windowDecorationOpacity = 1f;
+
+        /**
+         * <summary>
+         * How long it should take for the
+         * <see cref="Window">Window's</see> decorations to fade in/out.
+         * This applies whenever <see cref="Window.SetInteractable">
+         * is called.
+         * </summary>
+         */
+        public float windowDecorationFadeTime = 0.5f;
 
 #endregion
 

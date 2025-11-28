@@ -77,6 +77,15 @@ namespace UILib {
         // The resize button
         private ResizeButton resizeButton;
 
+        // Fade for canvas groups
+        private Fade decorationFade;
+
+        // Canvas groups for fading in/out components
+        private CanvasGroup cgTitleBar;
+        private CanvasGroup cgScrollBarH;
+        private CanvasGroup cgScrollBarV;
+        private CanvasGroup cgResizeButton;
+
         /**
          * <summary>
          * Initializes a Window.
@@ -115,8 +124,87 @@ namespace UILib {
             // The scroll view is the content
             SetContent(scrollView);
 
+            // The group for fading window decorations
+            decorationFade = gameObject.AddComponent<Fade>();
+
+            // The groups themselves
+            AddCanvasGroup(ref cgTitleBar, titleBar);
+            AddCanvasGroup(ref cgScrollBarH, scrollView.scrollBarH);
+            AddCanvasGroup(ref cgScrollBarV, scrollView.scrollBarV);
+            AddCanvasGroup(ref cgResizeButton, resizeButton);
+
+            decorationFade.Add(cgTitleBar);
+            decorationFade.Add(cgScrollBarH);
+            decorationFade.Add(cgScrollBarV);
+            decorationFade.Add(cgResizeButton);
+
+            // Set the theme
+            SetTheme(theme);
+
             // Show by default
             Show();
+        }
+
+        /**
+         * <summary>
+         * Updates opacities for canvas groups.
+         * </summary>
+         * <param name="group">The group to update the opacity of</param>
+         * <param name="opacity">The opacity to set on it</param>
+         */
+        private void SetCanvasGroupOpacity(CanvasGroup group, float opacity) {
+            if (group != null) {
+                group.alpha = opacity;
+            }
+        }
+
+        /**
+         * <summary>
+         * Assigns canvas groups if they don't exist
+         * </summary>
+         * <param name="group">Where to save the group to</param>
+         * <param name="uiObject">The object to add a group to</param>
+         */
+        private void AddCanvasGroup(ref CanvasGroup group, UIObject uiObject) {
+            if (group != null) {
+                return;
+            }
+
+            group = uiObject.gameObject.GetComponent<CanvasGroup>();
+
+            if (group == null) {
+                group = uiObject.gameObject.AddComponent<CanvasGroup>();
+            }
+
+            group.alpha = theme.windowDecorationOpacity;
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this UIObject
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            if (scrollView == null) {
+                return;
+            }
+
+            // Set the background opacity
+            Color bg = scrollView.background.color;
+            bg.a = theme.windowOpacity;
+            scrollView.background.color = bg;
+
+            // Set fade times and opacities on decorations
+            decorationFade.SetFadeTime(theme.windowDecorationFadeTime);
+            decorationFade.SetOpacities(max: theme.windowDecorationOpacity);
+            SetCanvasGroupOpacity(cgTitleBar, theme.windowDecorationOpacity);
+            SetCanvasGroupOpacity(cgScrollBarH, theme.windowDecorationOpacity);
+            SetCanvasGroupOpacity(cgScrollBarV, theme.windowDecorationOpacity);
+            SetCanvasGroupOpacity(cgResizeButton, theme.windowDecorationOpacity);
         }
 
         /**
@@ -138,36 +226,6 @@ namespace UILib {
 
 #region Interactions
 
-        // Fade for canvas groups
-        private Fade cgFade;
-
-        // Fade time
-        private float cgFadeTime = 0.5f;
-
-        // Canvas groups for fading in/out components
-        private CanvasGroup cgTitleBar;
-        private CanvasGroup cgScrollBarH;
-        private CanvasGroup cgScrollBarV;
-        private CanvasGroup cgResizeButton;
-
-        /**
-         * <summary>
-         * Assigns canvas groups if they don't exist
-         * </summary>
-         * <param name="group">Where to save the group to</param>
-         * <param name="uiObject">The object to add a group to</param>
-         */
-        private void AddCanvasGroup(ref CanvasGroup group, UIObject uiObject) {
-            if (group != null) {
-                return;
-            }
-
-            group = uiObject.gameObject.GetComponent<CanvasGroup>();
-            if (group == null) {
-                group = uiObject.gameObject.AddComponent<CanvasGroup>();
-            }
-        }
-
         /**
          * <summary>
          * Sets whether this window can be interacted with.
@@ -177,27 +235,11 @@ namespace UILib {
         public override void SetInteractable(bool canInteract) {
             base.SetInteractable(canInteract);
 
-            // Add canvas groups where necessary
-            AddCanvasGroup(ref cgTitleBar, titleBar);
-            AddCanvasGroup(ref cgScrollBarH, scrollView.scrollBarH);
-            AddCanvasGroup(ref cgScrollBarV, scrollView.scrollBarV);
-            AddCanvasGroup(ref cgResizeButton, resizeButton);
-
-            if (cgFade == null) {
-                cgFade = gameObject.AddComponent<Fade>();
-                cgFade.SetFadeTime(cgFadeTime);
-
-                cgFade.Add(cgTitleBar);
-                cgFade.Add(cgScrollBarH);
-                cgFade.Add(cgScrollBarV);
-                cgFade.Add(cgResizeButton);
-            }
-
             if (canInteract == true) {
-                cgFade.FadeIn();
+                decorationFade.FadeIn();
             }
             else {
-                cgFade.FadeOut();
+                decorationFade.FadeOut();
             }
         }
 

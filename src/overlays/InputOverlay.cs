@@ -188,6 +188,24 @@ namespace UILib {
 
         /**
          * <summary>
+         * Unity's event system is stupid and doesn't handle
+         * other mouse buttons properly, so check all
+         * of them here.
+         * </summary>
+         * <returns>Whether a mouse button was pressed</returns>
+         */
+        public bool IsMouseDown() {
+            for (int i = 0; i <= 6; i++) {
+                if (Input.GetMouseButton(i) == true) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * <summary>
          * The coroutine which handles an input request.
          * </summary>
          * <param name="ev">The event to invoke when a keycode is read</param>
@@ -218,8 +236,9 @@ namespace UILib {
                     cancelTimer = 0f;
 
                     if (Event.current.type == EventType.KeyDown
-                        || Event.current.type == EventType.MouseDown
+                        || IsMouseDown() == true
                     ) {
+
                         KeyCode current = GetCurrentKey();
                         if (ShouldIgnore(current) == false) {
                             ev.Invoke(current);

@@ -23,6 +23,12 @@ namespace UILib {
      * </summary>
      */
     public class InputOverlay : Overlay {
+        // The large background
+        private Image background;
+
+        // Smaller background
+        private Image inputBackground;
+
         // The request coroutine
         private IEnumerator coroutine;
 
@@ -52,22 +58,18 @@ namespace UILib {
          * </summary>
          */
         internal InputOverlay() : base(0f, 0f) {
-            Theme theme = UIRoot.defaultTheme;
             canvas.canvas.sortingOrder
                 = UIRoot.inputOverlaySortingOrder;
 
             SetFill(FillType.All);
 
-            Color bgColor = theme.background;
-            bgColor.a = 0.97f;
-
             // The huge translucent background
-            Image background = new Image(bgColor);
+            background = new Image(theme.background);
             background.SetFill(FillType.All);
-            Add(background, false);
+            Add(background);
 
             // Smaller background
-            Image inputBackground = new Image(theme.background);
+            inputBackground = new Image(theme.background);
             inputBackground.SetAnchor(AnchorType.Middle);
             inputBackground.SetSize(400f, 260f);
             Add(inputBackground);
@@ -111,6 +113,34 @@ namespace UILib {
 
             // Hide by default
             Hide();
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of the input overlay
+         * and all children.
+         *
+         * This handles themes a little differently to normal
+         * overlays.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            if (background == null) {
+                return;
+            }
+
+            inputBackground.SetColor(theme.background);
+
+            // Only apply opacity to background
+            fade.SetOpacities(max: 1f);
+            canvasGroup.alpha = 1f;
+
+            Color bg = theme.background;
+            bg.a = theme.overlayOpacity;
+            background.SetColor(bg);
         }
 
         /**
@@ -222,9 +252,10 @@ namespace UILib {
          * If the request was cancelled by the user, KeyCode.None will
          * be used instead.
          * </summary>
+         * <param name="theme">The theme to use</param>
          * <returns>An event to listen for when the request has finished</returns>
          */
-        internal KeyCodeEvent Request() {
+        internal KeyCodeEvent Request(Theme theme) {
             // Can't request when the coroutine is already running
             if (coroutine != null) {
                 return null;
@@ -235,6 +266,8 @@ namespace UILib {
                 coroutine = null;
                 Hide();
             });
+
+            SetTheme(theme);
 
             Show();
 

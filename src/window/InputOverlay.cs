@@ -138,8 +138,11 @@ namespace UILib {
             fade.SetOpacities(max: 1f);
             canvasGroup.alpha = 1f;
 
+            // Use a different fade time
+            fade.SetFadeTime(theme.inputOverlayFadeTime);
+
             Color bg = theme.background;
-            bg.a = theme.overlayOpacity;
+            bg.a = theme.inputOverlayOpacity;
             background.SetColor(bg);
         }
 

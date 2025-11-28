@@ -196,6 +196,26 @@ namespace UILib {
          */
         public float overlayFadeTime = 0f;
 
+        /**
+         * <summary>
+         * The default/maximum opacity to apply to
+         * the <see cref="InputOverlay"/>.
+         * This will only affect the background of the
+         * overlay, not all content on it.
+         * Must be between 0-1 inclusive.
+         * </summary>
+         */
+        public float inputOverlayOpacity = 0.96f;
+
+        /**
+         * <summary>
+         * How long it should take for the
+         * <see cref="InputOverlay"> to fade in/out.
+         * This applies whenever the overlay is shown/hidden.
+         * </summary>
+         */
+        public float inputOverlayFadeTime = 0f;
+
 #endregion
 
 #region Selectables

@@ -57,6 +57,8 @@ namespace UILib {
             notificationOpacity     = 0.6f,
             overlayOpacity          = 0.96f,
             overlayFadeTime         = 0.5f,
+            inputOverlayOpacity     = 0.5f,
+            inputOverlayFadeTime    = 2f,
         };
 
         internal static void Awake() {
@@ -78,14 +80,6 @@ namespace UILib {
 
             KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
             readInput.SetSize(200f, 40f);
-
-            Theme separate = customTheme.Copy();
-            separate.foreground = Color.white;
-            separate.background = Color.black;
-            separate.overlayOpacity = 0.5f;
-            separate.overlayFadeTime = 2f;
-
-            readInput.SetOverlayTheme(separate);
 
             window2.SetTheme(customTheme);
 

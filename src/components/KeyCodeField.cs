@@ -12,9 +12,6 @@ namespace UILib.Components {
      * </summary>
      */
     public class KeyCodeField : UIButton {
-        // Theme to send to input overlay
-        private Theme overlayTheme;
-
         /**
          * <summary>
          * The current value stored in this field.
@@ -46,16 +43,9 @@ namespace UILib.Components {
         {
             this.value = value;
 
-            // By default, use the default theme
-            // with some modifications
-            overlayTheme = new Theme() {
-                overlayOpacity = 0.96f,
-                overlayFadeTime = 0f,
-            };
-
             // When clicked, request an input
             onClick.AddListener(() => {
-                KeyCodeEvent ev = UIRoot.inputOverlay.Request(overlayTheme);
+                KeyCodeEvent ev = UIRoot.inputOverlay.Request(theme);
                 if (ev == null) {
                     return;
                 }
@@ -71,16 +61,6 @@ namespace UILib.Components {
                     onValueChanged.Invoke(key);
                 });
             });
-        }
-
-        /**
-         * <summary>
-         * Sets a custom input overlay theme to use.
-         * </summary>
-         * <param name="theme">The theme to apply to the input overlay</param>
-         */
-        public void SetOverlayTheme(Theme theme) {
-            overlayTheme = theme;
         }
 
         /**

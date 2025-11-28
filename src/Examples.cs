@@ -55,18 +55,20 @@ namespace UILib {
             notificationWaitTime    = 1f,
             notificationFadeTime    = 2f,
             notificationOpacity     = 0.6f,
+            overlayOpacity          = 0.96f,
+            overlayFadeTime         = 0.5f,
         };
 
         internal static void Awake() {
-            window = MakeLog();
-            window.SetAnchor(AnchorType.TopLeft);
+            //window = MakeLog();
+            //window.SetAnchor(AnchorType.TopLeft);
 
             window2 = MakeWindow("Cool Window", 800f, 600f);
             window2.SetAnchor(AnchorType.Middle);
 
-            overlay = MakeOverlay(400f, 400f);
-            overlay.SetAutoPause(false);
-            overlay.SetAnchor(AnchorType.Middle);
+            //overlay = MakeOverlay(400f, 400f);
+            //overlay.SetAutoPause(false);
+            //overlay.SetAnchor(AnchorType.Middle);
 
             UIButton customNotif = new UIButton("Send a custom notification", 20);
             customNotif.SetSize(200f, 40f);
@@ -76,6 +78,16 @@ namespace UILib {
 
             KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
             readInput.SetSize(200f, 40f);
+
+            Theme separate = customTheme.Copy();
+            separate.foreground = Color.white;
+            separate.background = Color.black;
+            separate.overlayOpacity = 0.5f;
+            separate.overlayFadeTime = 2f;
+
+            readInput.SetOverlayTheme(separate);
+
+            window2.SetTheme(customTheme);
 
             window2.Add(customNotif);
             window2.Add(readInput);

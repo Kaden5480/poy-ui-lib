@@ -86,7 +86,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Helper for more easily making a Color
+         * Helper for more easily making a `Color`
          * from RGBA values.
          *
          * `r`, `g`,`b` must be between 0-255 inclusive.
@@ -108,7 +108,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Helper for more easily making a Color
+         * Helper for more easily making a `Color`
          * from RGB values.
          *
          * `r`, `g`,`b` must be between 0-255 inclusive.
@@ -205,7 +205,7 @@ namespace UILib {
          * <summary>
          * The primary important color.
          * This is used as the initial background of
-         * the close button on <see cref="Window">Windows</see>
+         * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
         public Color importantNormal = RGB(166, 89, 89);
@@ -213,7 +213,7 @@ namespace UILib {
          * <summary>
          * The secondary important color.
          * This is used as the highlighted background of
-         * the close button on <see cref="Window">Windows</see>
+         * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
         public Color importantHighlight = RGB(204, 51, 51);
@@ -234,7 +234,7 @@ namespace UILib {
          * The secondary font to be used.
          * This exists specifically to deal with
          * <see cref="Components.TextField">TextFields</see>
-         * as the underlying Unity InputFields
+         * as the underlying Unity `InputFields`
          * can process some fonts incorrectly.
          * </summary>
          */

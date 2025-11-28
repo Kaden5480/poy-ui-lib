@@ -6,8 +6,8 @@ using UIButton = UILib.Components.Button;
 namespace UILib.Components {
     /**
      * <summary>
-     * A class which allows you to get
-     * a KeyCode from the user.
+     * A component which allows you to get
+     * a `KeyCode` from the user.
      * </summary>
      */
     public class KeyCodeField : UIButton {

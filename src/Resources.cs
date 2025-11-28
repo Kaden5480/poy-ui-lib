@@ -7,7 +7,7 @@ namespace UILib {
     /**
      * <summary>
      * A class holding resources used by UILib.
-     * These resources are loaded from an asset bundle.
+     * These resources are loaded from an `AssetBundle`.
      * </summary>
      */
     public static class Resources {

@@ -4,8 +4,9 @@ using UnityEngine.Events;
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * An event type which passes a Vector2 position
+     * An event type which passes a `Vector2` position
      * to listeners when the mouse is dragged.
+     * This will be the current position of the mouse.
      * </summary>
      */
     public class DragEvent : UnityEvent<Vector2> {}
@@ -20,7 +21,7 @@ namespace UILib.Behaviours {
 
     /**
      * <summary>
-     * An event type which passes a KeyCode to its listeners.
+     * An event type which passes a `KeyCode` to its listeners.
      * </summary>
      */
     public class KeyCodeEvent : UnityEvent<KeyCode> {}

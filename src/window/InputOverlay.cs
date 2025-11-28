@@ -137,6 +137,9 @@ namespace UILib {
          * <param name="ev">The event to invoke when a keycode is read</param>
          */
         private IEnumerator HandleRequest(KeyCodeEvent ev) {
+            // Wait a little bit before reading inputs
+            yield return new WaitForSeconds(0.02f);
+
             float cancelTimer = 0f;
 
             // Run until the cancel timer fills up

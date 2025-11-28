@@ -27,10 +27,10 @@ namespace UILib {
         internal Area container;
 
         // Canvas group for controlling opacity
-        private CanvasGroup canvasGroup;
+        protected CanvasGroup canvasGroup;
 
         // Fade for controlling this overlay's canvas group
-        private Fade fade;
+        protected Fade fade;
 
         /**
          * <summary>

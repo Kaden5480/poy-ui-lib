@@ -18,7 +18,7 @@ namespace UILibExamples {
 
         public BasicWindow() {
             // Create the window, make it 400x300
-            // and give it a name
+            // and give it a name (it will be hidden by default)
             window = new Window("Basic", 400f, 300f);
 
             // Create a button with the text "Click me!"
@@ -39,9 +39,6 @@ namespace UILibExamples {
             // By default, all components are anchored
             // to the middle of the container
             window.Add(button);
-
-            // Hide the window, show it later on
-            window.Hide();
         }
 
         public void Show() {

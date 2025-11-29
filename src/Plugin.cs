@@ -25,8 +25,6 @@ namespace UILib {
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             UIRoot.Init();
-
-            Examples.Awake();
         }
 
         /**
@@ -37,15 +35,6 @@ namespace UILib {
         private void OnDestroy() {
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.sceneUnloaded -= OnSceneUnloaded;
-        }
-
-        /**
-         * <summary>
-         * Executes once the plugin has been loaded.
-         * </summary>
-         */
-        private void Start() {
-            Examples.Start();
         }
 
         /**
@@ -77,7 +66,6 @@ namespace UILib {
          */
         private void Update() {
             Patcher.Update();
-            Examples.Update();
         }
 
 

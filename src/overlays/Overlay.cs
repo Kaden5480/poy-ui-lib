@@ -122,6 +122,11 @@ namespace UILib {
         public override void Destroy() {
             UIRoot.Unregister(this);
             base.Destroy();
+
+            // If an active pause handle exists, remove it
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+            }
         }
 
         /**

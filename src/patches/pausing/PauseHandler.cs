@@ -24,7 +24,7 @@ namespace UILib.Patches {
     public class PauseHandle {
         /**
          * <summary>
-         * Initializes a pause handle, telling the `PauseHandler`
+         * Initializes a pause handle, telling the <see cref="PauseHandler"/>
          * that the game should pause.
          * </summary>
          */
@@ -35,7 +35,7 @@ namespace UILib.Patches {
         /**
          * <summary>
          * Close this pause handle,
-         * telling the `PauseHandler` that the game
+         * telling the <see cref="PauseHandler"/> that the game
          * no longer needs to be paused.
          * </summary>
          */
@@ -46,8 +46,8 @@ namespace UILib.Patches {
 
     /**
      * <summary>
-     * A class which helps deal with the spaghetti
-     * of pausing/resuming in Peaks of Yore.
+     * A class which helps deal with
+     * pausing/resuming in Peaks of Yore.
      *
      * This also takes away focus from the game
      * allowing users to interact with UI when they otherwise

@@ -16,6 +16,11 @@ namespace UILib.Components {
      * </summary>
      */
     public class TextField : UIComponent {
+        // Some fixes
+        internal bool wasDeselected = false;
+        private bool setValue = false;
+        private string previousValue = "";
+
         private Label placeholder;
         private Label input;
 
@@ -70,6 +75,14 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Invokes listeners with the current value stored
+         * when the user submits it.
+         * </summary>
+         */
+        public ValueEvent<string> onSubmit { get; } = new ValueEvent<string>();
+
+        /**
+         * <summary>
          * Initializes a text field.
          * </summary>
          * <param name="text">The placeholder text</param>
@@ -100,10 +113,25 @@ namespace UILib.Components {
             _inputField.onEndEdit.AddListener((string value) => {
                 EventSystem.current.SetSelectedGameObject(null);
                 onEndEdit.Invoke(value);
+
+                // Check if submitted
+                if (setValue == false
+                    && wasDeselected == false
+                    && _inputField.wasCanceled == false
+                ) {
+                    onSubmit.Invoke(value);
+                }
+
+                setValue = false;
+                wasDeselected = false;
             });
 
             _inputField.onValueChanged.AddListener((string value) => {
-                onValueChanged.Invoke(value);
+                if (value.Equals(previousValue) == false) {
+                    onValueChanged.Invoke(value);
+                }
+
+                previousValue = value;
             });
 
             // Set the theme
@@ -117,6 +145,7 @@ namespace UILib.Components {
          * </summary>
          */
         public void SetValue(string value) {
+            setValue = true;
             _inputField.text = value;
         }
 

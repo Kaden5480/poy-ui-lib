@@ -55,6 +55,7 @@ namespace UILib.Patches {
             if (EventSystem.current.currentSelectedGameObject
                 == current.gameObject
             ) {
+                current.wasDeselected = true;
                 EventSystem.current.SetSelectedGameObject(null);
             }
 

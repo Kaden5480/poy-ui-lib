@@ -79,7 +79,7 @@ namespace UILibExamples {
             verticalSlider.SetSize(10f, 200f);
             // Update the label whenever the value changes
             verticalSlider.onValueChanged.AddListener((float value) => {
-                sliderVLabel.SetText($"Slider: {value}");
+                sliderVLabel.SetText($"Vertical Slider: {value}");
             });
             window.Add(verticalSlider);
 

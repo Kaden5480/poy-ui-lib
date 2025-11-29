@@ -20,7 +20,11 @@ namespace UILibExamples {
             // By default, Overlays/Windows will be set
             // to auto pause the game when they're visible,
             // but sometimes you don't want this behaviour
-            overlay = new Overlay(100f, 100f);
+            overlay = new Overlay(200f, 200f);
+
+            // Anchor this overlay so it appears on the left
+            // of the screen, but in the middle vertically
+            overlay.SetAnchor(AnchorType.MiddleLeft);
 
             // So you can disable it
             overlay.SetAutoPause(false);
@@ -30,7 +34,7 @@ namespace UILibExamples {
             background.SetFill(FillType.All);
             overlay.Add(background);
 
-            Label label = new Label("Random label", 20);
+            Label label = new Label("This overlay won't pause the game", 20);
             label.SetSize(200f, 40f);
             overlay.Add(label);
         }

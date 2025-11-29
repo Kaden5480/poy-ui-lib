@@ -46,8 +46,10 @@ namespace UILib.Components {
          * <summary>
          * Initializes a ScrollView.
          * </summary>
+         * <param name="scrollBarWidth">The width of the scrollbars</param>
          */
-        public ScrollView() {
+        public ScrollView(float scrollBarWidth = 20) {
+            this.scrollBarWidth = scrollBarWidth;
             scrollRect = gameObject.AddComponent<CustomScrollRect>();
 
             viewport = new GameObject("Viewport",

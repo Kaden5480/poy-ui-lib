@@ -1,12 +1,15 @@
-namespace UILib {
+using System;
+
+namespace UILib.Components {
     /**
      * <summary>
      * Scroll types which can be applied to ScrollBars.
      * </summary>
      */
-    internal enum ScrollType {
-        None,
-        Vertical,
-        Horizontal,
+    [Flags]
+    public enum ScrollType {
+        None        = 1 << 0,
+        Vertical    = 1 << 1,
+        Horizontal  = 1 << 2,
     }
 }

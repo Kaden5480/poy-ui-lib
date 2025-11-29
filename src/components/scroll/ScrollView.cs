@@ -46,9 +46,13 @@ namespace UILib.Components {
          * <summary>
          * Initializes a ScrollView.
          * </summary>
+         * <param name="scrollType">The types of scrolling to support</param>
          * <param name="scrollBarWidth">The width of the scrollbars</param>
          */
-        public ScrollView(float scrollBarWidth = 20) {
+        public ScrollView(
+            ScrollType scrollType = ScrollType.Horizontal | ScrollType.Vertical,
+            float scrollBarWidth = 20
+        ) {
             this.scrollBarWidth = scrollBarWidth;
             scrollRect = gameObject.AddComponent<CustomScrollRect>();
 
@@ -82,16 +86,20 @@ namespace UILib.Components {
             scrollRect.movementType = UEScrollRect.MovementType.Clamped;
 
             // Scroll bar setup
-            scrollRect.horizontal = true;
-            scrollBarH = new ScrollBar(ScrollType.Horizontal, scrollBarWidth);
-            Add(gameObject, scrollBarH);
-            scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
-            scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
+            if (scrollType.HasFlag(ScrollType.Horizontal) == true) {
+                scrollRect.horizontal = true;
+                scrollBarH = new ScrollBar(ScrollType.Horizontal, scrollBarWidth);
+                Add(gameObject, scrollBarH);
+                scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
+                scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
+            }
 
-            scrollRect.vertical = true;
-            scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
-            Add(gameObject, scrollBarV);
-            scrollRect.verticalScrollbar = scrollBarV.scrollBar;
+            if (scrollType.HasFlag(ScrollType.Vertical) == true) {
+                scrollRect.vertical = true;
+                scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
+                Add(gameObject, scrollBarV);
+                scrollRect.verticalScrollbar = scrollBarV.scrollBar;
+            }
 
             // Use the scrollContent instead
             SetContent(scrollContent);

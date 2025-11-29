@@ -256,7 +256,7 @@ namespace UILib {
          * </summary>
          */
         public void ScrollToTop() {
-            scrollView.scrollBarV.SetScroll(1f);
+            scrollView.ScrollToTop();
         }
 
         /**
@@ -265,7 +265,7 @@ namespace UILib {
          * </summary>
          */
         public void ScrollToBottom() {
-            scrollView.scrollBarV.SetScroll(0f);
+            scrollView.ScrollToBottom();
         }
 
 #endregion

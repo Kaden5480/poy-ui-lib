@@ -4,6 +4,7 @@ using UEColorBlock = UnityEngine.UI.ColorBlock;
 using UEImage = UnityEngine.UI.Image;
 using UEScrollbar = UnityEngine.UI.Scrollbar;
 
+using UILib.Behaviours;
 using UILib.Layouts;
 
 namespace UILib.Components {
@@ -13,6 +14,8 @@ namespace UILib.Components {
      * </summary>
      */
     internal class ScrollBar : UIObject {
+        private ScrollSetter scrollSetter;
+
         public float barWidth { get; private set; }
 
         private GameObject slidingArea;
@@ -30,6 +33,8 @@ namespace UILib.Components {
          */
         internal ScrollBar(ScrollType scrollType, float width) {
             this.barWidth = width;
+
+            scrollSetter = gameObject.AddComponent<ScrollSetter>();
 
             // Making the object hierarchy
             slidingArea = new GameObject("Sliding Area",
@@ -112,7 +117,7 @@ namespace UILib.Components {
          * <param name="value">The value to set the scrollbar to</param>
          */
         internal void SetScroll(float value) {
-            scrollBar.value = value;
+            scrollSetter.SetScroll(scrollBar, value);
         }
 
         /**

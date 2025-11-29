@@ -143,5 +143,24 @@ namespace UILib.Components {
             base.SetContent(content);
             scrollRect.content = content.rectTransform;
         }
+
+        /**
+         * <summary>
+         * Scroll to the top of this scroll view.
+         * </summary>
+         */
+        public void ScrollToTop() {
+            scrollBarV.SetScroll(1f);
+        }
+
+        /**
+         * <summary>
+         * Scroll to the bottom of this scroll view.
+         * </summary>
+         */
+        public void ScrollToBottom() {
+            scrollBarV.SetScroll(0f);
+        }
+
     }
 }

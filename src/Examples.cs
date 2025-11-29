@@ -106,7 +106,7 @@ namespace UILib {
         }
 
         internal static void Start() {
-            //window.Show();
+            window.Show();
             window2.Show();
             //overlay.Show();
         }
@@ -310,6 +310,7 @@ namespace UILib {
                 Label label = new Label($"Log: {logCount}", 20);
                 label.SetSize(200f, 50f);
                 area.Add(label);
+                window.ScrollToBottom();
             });
 
             window.Add(area);

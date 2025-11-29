@@ -68,6 +68,16 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Set the color of the text on this label.
+         * </summary>
+         * <param name="color">The color to set</param>
+         */
+        public void SetColor(Color color) {
+            this.text.color = color;
+        }
+
+        /**
+         * <summary>
          * Sets the text on this label.
          * </summary>
          * <param name="text">The text to set</param>

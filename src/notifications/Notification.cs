@@ -15,14 +15,6 @@ namespace UILib.Notifications {
      * </summary>
      */
     internal class Notification : UIComponent {
-        private Image background;
-
-        private Image titleBackground;
-        private Label titleLabel;
-
-        private Label messageLabel;
-
-        private CanvasGroup canvasGroup;
         private Timer timer;
 
         /**
@@ -46,7 +38,7 @@ namespace UILib.Notifications {
             float fadeTime = theme.notificationFadeTime;
             float waitTime = theme.notificationWaitTime;
 
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            CanvasGroup canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             // Default opacity
             canvasGroup.alpha = theme.notificationOpacity;
@@ -65,25 +57,25 @@ namespace UILib.Notifications {
             // Building UI
             SetSize(NotificationArea.size, 100f);
 
-            background = new Image(theme.background);
+            Image background = new Image(theme.background);
             background.SetFill(FillType.All);
             Add(background);
 
-            titleBackground = new Image(theme.accent);
+            Image titleBackground = new Image(theme.accent);
             titleBackground.SetAnchor(AnchorType.TopMiddle);
             titleBackground.SetFill(FillType.Horizontal);
             titleBackground.SetSize(0f, 25f);
 
-            titleLabel = new Label(title, 20);
+            Label titleLabel = new Label(title, 20);
             titleLabel.SetFill(FillType.All);
             titleBackground.Add(titleLabel);
 
             Add(titleBackground);
 
-            messageLabel = new Label(message, 20);
+            Label messageLabel = new Label(message, 20);
             messageLabel.SetAnchor(AnchorType.BottomLeft);
             messageLabel.SetFill(FillType.All);
-            messageLabel.SetOffset(0f, -12f);
+            messageLabel.SetOffset(0f, -8f);
             messageLabel.SetSize(-10f, -50f);
 
             messageLabel.text.resizeTextForBestFit = true;
@@ -92,8 +84,17 @@ namespace UILib.Notifications {
 
             Add(messageLabel);
 
+            Label dismissLabel = new Label("Click anywhere to dismiss", 12);
+            dismissLabel.SetAnchor(AnchorType.BottomMiddle);
+            dismissLabel.SetFill(FillType.Horizontal);
+            dismissLabel.SetSize(0f, 15f);
+            Add(dismissLabel);
+
             // Apply theme to children
             SetTheme(theme);
+
+            // Customise small text
+            dismissLabel.SetColor(theme.selectAltNormal);
 
             // If this is an error notification, don't automatically hide
             if (type == NotificationType.Error) {

@@ -31,6 +31,7 @@ namespace UILib {
 
         private static int logCount = 0;
 
+        private static Window simple;
         private static Window window;
         private static Window window2;
         private static Overlay overlay;
@@ -65,35 +66,58 @@ namespace UILib {
         };
 
         internal static void Awake() {
+            simple = new Window("Simple", 800f, 600f);
+
+            Theme theme = new Theme() {
+                windowOpacity = 0.5f,
+            };
+
+            simple.SetTheme(theme);
+
+            Dropdown<string> dropdown = new Dropdown<string>("Option A", 20);
+            dropdown.SetSize(200f, 50f);
+            dropdown.AddOptions(new[] {
+                "Option A", "Option B", "Option C", "Option D"
+            });
+
+            dropdown.onValueChanged.AddListener((string str) => {
+                Notifier.Notify("Dropdown", $"{str} is the new value");
+            });
+
+            simple.Add(dropdown);
+
+            simple.Hide();
+
             //window = MakeLog();
             //window.SetAnchor(AnchorType.TopLeft);
 
-            window2 = MakeWindow("Cool Window", 800f, 600f);
-            window2.SetAnchor(AnchorType.Middle);
+            //window2 = MakeWindow("Cool Window", 800f, 600f);
+            //window2.SetAnchor(AnchorType.Middle);
 
             //overlay = MakeOverlay(400f, 400f);
             //overlay.SetAutoPause(false);
             //overlay.SetAnchor(AnchorType.Middle);
 
-            UIButton customNotif = new UIButton("Send a custom notification", 20);
-            customNotif.SetSize(200f, 40f);
-            customNotif.onClick.AddListener(() => {
-                Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
-            });
+            //UIButton customNotif = new UIButton("Send a custom notification", 20);
+            //customNotif.SetSize(200f, 40f);
+            //customNotif.onClick.AddListener(() => {
+            //    Notifier.Notify(bigTitle, bigMessage, theme: customTheme);
+            //});
 
-            KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
-            readInput.SetSize(200f, 40f);
+            //KeyCodeField readInput = new KeyCodeField(KeyCode.A, 20);
+            //readInput.SetSize(200f, 40f);
 
-            window2.Add(customNotif);
-            window2.Add(readInput);
+            //window2.Add(customNotif);
+            //window2.Add(readInput);
 
-            window2.SetTheme(customTheme);
+            //window2.SetTheme(customTheme);
         }
 
         internal static void Start() {
             //window.Show();
-            window2.Show();
+            //window2.Show();
             //overlay.Show();
+            simple.Show();
         }
 
         internal static void Update() {

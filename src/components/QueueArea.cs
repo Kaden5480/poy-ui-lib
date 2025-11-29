@@ -25,6 +25,9 @@ namespace UILib.Components {
          * <summary>
          * Adds a child to this area, but also removes
          * the oldest one if there are too many.
+         *
+         * See <see cref="UIObject.Add(UIComponent, bool)"/> as this
+         * would probably be the method you'd want to call instead.
          * </summary>
          * <param name="child">The child to add</param>
          * <param name="setTheme">Whether the child should inherit this object's theme</param>

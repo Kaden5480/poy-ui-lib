@@ -10,6 +10,11 @@ namespace UILib.Components {
      * </summary>
      */
     public class Label : UIComponent {
+        /**
+         * <summary>
+         * The underlying Unity `Text`.
+         * </summary>
+         */
         public UEText text { get; private set; }
 
         // The configured font size

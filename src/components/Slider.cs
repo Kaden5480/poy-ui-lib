@@ -17,14 +17,20 @@ namespace UILib.Components {
      */
     public class Slider : UIComponent {
         private CustomSlider _slider;
+
+        /**
+         * <summary>
+         * The underlying Unity `Slider`.
+         * </summary>
+         */
         public UESlider slider { get => (UESlider) _slider; }
 
-        public Image background { get; private set; }
+        private Image background;
 
-        public Area fillArea     { get; private set; }
-        public Area handleArea   { get; private set; }
-        public Image fillImage   { get; private set; }
-        public Image handleImage { get; private set; }
+        private Area fillArea;
+        private Area handleArea;
+        private Image fillImage;
+        private Image handleImage;
 
         /**
          * <summary>

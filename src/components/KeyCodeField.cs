@@ -26,7 +26,7 @@ namespace UILib.Components {
          *
          * Passes the `KeyCode` that was read to listeners.
          * Will pass `KeyCode.None` if the user cancelled
-         * the input
+         * the input.
          * </summary>
          */
         public KeyCodeEvent onValueChanged { get; } = new KeyCodeEvent();
@@ -67,6 +67,10 @@ namespace UILib.Components {
          * <summary>
          * Translates a `KeyCode` into a more user
          * friendly string.
+         *
+         * This is used internally to update the key
+         * being displayed, but it's public because
+         * it's a useful method.
          * </summary>
          * <param name="key">The `KeyCode` to translate</param>
          * <returns>The key as a user friendly value</returns>

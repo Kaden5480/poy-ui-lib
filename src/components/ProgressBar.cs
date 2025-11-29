@@ -12,7 +12,7 @@ namespace UILib.Components {
     public class ProgressBar : UIComponent {
         /**
          * <summary>
-         * The amount of progress (between 0 and 1).
+         * The current amount of progress (between 0 and 1).
          * </summary>
          */
         public float progress { get; private set; } = 0f;

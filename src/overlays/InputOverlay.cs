@@ -194,7 +194,7 @@ namespace UILib {
          * </summary>
          * <returns>Whether a mouse button was pressed</returns>
          */
-        public bool IsMouseDown() {
+        private bool IsMouseDown() {
             for (int i = 0; i <= 6; i++) {
                 if (Input.GetMouseButton(i) == true) {
                     return true;

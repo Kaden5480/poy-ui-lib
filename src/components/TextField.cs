@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using UEImage = UnityEngine.UI.Image;
+using UEInputField = UnityEngine.UI.InputField;
 
 using UILib.Behaviours;
 using UILib.Layouts;
@@ -15,11 +16,18 @@ namespace UILib.Components {
      * </summary>
      */
     public class TextField : UIComponent {
-        public Label placeholder { get; private set; }
-        public Label input        { get; private set; }
+        private Label placeholder;
+        private Label input;
 
         private UEImage background;
-        private CustomInputField inputField;
+        private CustomInputField _inputField;
+
+        /**
+         * <summary>
+         * The underlying Unity `InputField`.
+         * </summary>
+         */
+        public UEInputField inputField { get => _inputField; }
 
         /**
          * <summary>
@@ -35,14 +43,14 @@ namespace UILib.Components {
          * Invokes listeners when this text field is selected.
          * </summary>
          */
-        public UnityEvent onSelect { get => inputField.onSelect; }
+        public UnityEvent onSelect { get => _inputField.onSelect; }
 
         /**
          * <summary>
          * Invokes listeners when this text field is deselected.
          * </summary>
          */
-        public UnityEvent onDeselect { get => inputField.onDeselect; }
+        public UnityEvent onDeselect { get => _inputField.onDeselect; }
 
         /**
          * <summary>
@@ -77,24 +85,24 @@ namespace UILib.Components {
             Add(input);
 
             background = gameObject.AddComponent<UEImage>();
-            inputField = gameObject.AddComponent<CustomInputField>();
+            _inputField = gameObject.AddComponent<CustomInputField>();
 
-            inputField.placeholder = placeholder.text;
+            _inputField.placeholder = placeholder.text;
             placeholder.text.alignByGeometry = false;
 
-            inputField.textComponent = input.text;
+            _inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
 
-            inputField.onSelect.AddListener(() => {
+            _inputField.onSelect.AddListener(() => {
                 Patches.InputFieldFix.current = this;
             });
 
-            inputField.onEndEdit.AddListener((string value) => {
+            _inputField.onEndEdit.AddListener((string value) => {
                 EventSystem.current.SetSelectedGameObject(null);
                 onEndEdit.Invoke(value);
             });
 
-            inputField.onValueChanged.AddListener((string value) => {
+            _inputField.onValueChanged.AddListener((string value) => {
                 onValueChanged.Invoke(value);
             });
 

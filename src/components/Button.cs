@@ -18,11 +18,17 @@ namespace UILib.Components {
      * </summary>
      */
     public class Button : UIComponent {
-        private Image background;
-        internal UEButton button { get; private set; }
+        /**
+         * <summary>
+         * The underlying Unity `Button`.
+         * </summary>
+         */
+        public UEButton button { get; private set; }
 
-        public Label label { get; private set; }
-        public Image image { get; private set; }
+        private Image background;
+
+        internal Label label;
+        internal Image image;
 
         public override UnityEvent onClick {
             get => (button == null) ? base.onClick : button.onClick;

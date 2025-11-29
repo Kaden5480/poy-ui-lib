@@ -14,7 +14,7 @@ namespace UILib {
      * It supports being moved, resized, maximised, closed, moved
      * on top of other windows.
      *
-     * It also has a ScrollView built in.
+     * It also has a specially configured <see cref="ScrollView"/> built in.
      * </summary>
      */
     public class Window : Overlay {
@@ -181,7 +181,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this UIObject
+         * Allows setting the theme of this window
          * and all children.
          * </summary>
          * <param name="theme">The theme to apply</param>
@@ -229,6 +229,9 @@ namespace UILib {
         /**
          * <summary>
          * Sets whether this window can be interacted with.
+         *
+         * Note that this also toggles the visibility of the
+         * window decorations (title bar, scroll bar, resize button).
          * </summary>
          * <param name="canInteract">Whether interactions should be allowed</param>
          */
@@ -272,6 +275,9 @@ namespace UILib {
         /**
          * <summary>
          * Makes this window fullscreen.
+         *
+         * You shouldn't normally need to call this method
+         * as it's automatically used internally.
          * </summary>
          */
         public void BeginFullscreen() {
@@ -289,6 +295,9 @@ namespace UILib {
         /**
          * <summary>
          * Returns this window to a windowed state.
+         *
+         * You shouldn't normally need to call this method
+         * as it's automatically used internally.
          * </summary>
          * <returns>Whether the fullscreen mode was even changed</returns>
          */
@@ -311,6 +320,9 @@ namespace UILib {
          * <summary>
          * Returns this window to a windowed state
          * and also to a given position.
+         *
+         * You shouldn't normally need to call this method
+         * as it's automatically used internally.
          * </summary>
          * <param name="position">The world position to restore to</param>
          */

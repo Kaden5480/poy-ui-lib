@@ -126,6 +126,9 @@ namespace UILib {
         /**
          * <summary>
          * Supports making a clone of this theme.
+         * You probably want to use <see cref="Copy"/>
+         * instead though, since it also handles
+         * converting to a <see cref="Theme"/>.
          * </summary>
          * <returns>The clone</returns>
          */
@@ -136,8 +139,8 @@ namespace UILib {
         /**
          * <summary>
          * Takes a copy of this theme.
-         * Uses <see cref="Clone"/> but handles
-         * converting to a Theme type.
+         * Like <see cref="Clone"/> but also handles
+         * converting to a <see cref="Theme"/> type.
          * </summary>
          * <returns>The copy</returns>
          */
@@ -181,7 +184,7 @@ namespace UILib {
          * The default/maximum opacity to apply to <see cref="Overlay">
          * Overlays</see>.
          * Must be between 0-1 inclusive.
-         * Note this does affect all content on the overlay as well,
+         * Note this affects all content on the overlay as well,
          * since this just uses a `CanvasGroup` applied to the overlay.
          * </summary>
          */
@@ -191,7 +194,7 @@ namespace UILib {
          * <summary>
          * How long it should take for <see cref="Overlay">
          * Overlays</see> to fade in/out.
-         * This applies whenever the overlay is shown/hidden.
+         * This applies whenever an overlay is shown/hidden.
          * </summary>
          */
         public float overlayFadeTime = 0f;
@@ -226,9 +229,11 @@ namespace UILib {
         public float windowOpacity = 1f;
 
         /**
+         * <summary>
          * The default opacity to set on a <see cref="Window">
          * Window's</see> decoratons (title bar, scroll bar, etc.)
          * Must be between 0-1 inclusive.
+         * </summary>
          */
         public float windowDecorationOpacity = 1f;
 
@@ -249,7 +254,7 @@ namespace UILib {
         /**
          * <summary>
          * The normal color for selectables (such as
-         * the background of <see cref="Button">Buttons</see>).
+         * the background of <see cref="Components.Button">Buttons</see>).
          * </summary>
          */
         public Color selectNormal = RGB(50, 50, 50);
@@ -257,7 +262,7 @@ namespace UILib {
         /**
          * <summary>
          * The highlighted color for selectables (such
-         * as the background of <see cref="Button">Buttons</see>
+         * as the background of <see cref="Components.Button">Buttons</see>
          * when hovered over).
          * </summary>
          */
@@ -267,7 +272,7 @@ namespace UILib {
          * <summary>
          * A secondary normal color for selectables.
          * This will be the normal color
-         * of the handles for <see cref="Slider">Sliders</see>
+         * of the handles for <see cref="Components.Slider">Sliders</see>
          * and the highlight color of scroll bars of
          * <see cref="Components.ScrollView">ScrollViews</see>.
          * </summary>
@@ -278,7 +283,7 @@ namespace UILib {
          * <summary>
          * A secondary highlight color for selectables.
          * This will be the highlight color
-         * of the handles for <see cref="Slider">Sliders</see>
+         * of the handles for <see cref="Components.Slider">Sliders</see>..
          * </summary>
          */
         public Color selectAltHighlight = RGB(164, 164, 164);
@@ -412,7 +417,8 @@ namespace UILib {
         /**
          * <summary>
          * How long the notification should stay on screen before fading.
-         * Note this only affects the normal notifications.
+         * Note that error notifications ignore this and will
+         * always stay on the screen until dismissed by the user.
          * </summary>
          */
         public float notificationWaitTime = 3f;

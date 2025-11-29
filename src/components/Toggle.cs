@@ -16,7 +16,12 @@ namespace UILib.Components {
      * </summary>
      */
     public class Toggle :  UIComponent {
-        private UEToggle toggle;
+        /**
+         * <summary>
+         * The underlying Unity `Toggle`.
+         * </summary>
+         */
+        public UEToggle toggle { get; private set; }
 
         private Image background;
         private Image checkMark;

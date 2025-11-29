@@ -27,14 +27,14 @@ namespace UILib {
         internal Area container;
 
         // Canvas group for controlling opacity
-        protected CanvasGroup canvasGroup;
+        internal CanvasGroup canvasGroup;
 
         // Fade for controlling this overlay's canvas group
-        protected Fade fade;
+        internal Fade fade;
 
         /**
          * <summary>
-         * Whether interacting with this overlay is allowed.
+         * Whether the user can interact with this overlay.
          * </summary>
          */
         public bool canInteract {
@@ -174,8 +174,9 @@ namespace UILib {
 
         /**
          * <summary>
-         * When opening, get a PauseHandle
-         * if this overlay should pause the game.
+         * Makes this overlay visible and
+         * creates a new <see cref="PauseHandle"/>
+         * if auto-pausing is enabled.
          * </summary>
          */
         public override void Show() {
@@ -196,8 +197,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * When closing, close the PauseHandle
-         * if one was requested.
+         * Hides this overlay and closes
+         * the internal <see cref="PauseHandle"/>.
          * </summary>
          */
         public override void Hide() {

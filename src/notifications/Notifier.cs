@@ -11,6 +11,11 @@ namespace UILib.Notifications {
         /**
          * <summary>
          * Sends a notification.
+         *
+         * This will also play whichever notification sounds
+         * are configured in the theme.
+         *
+         * A `theme` of null just means to use UILib's default.
          * </summary>
          * <param name="title">The title (could just be the name of the mod)</param>
          * <param name="message">The message to display</param>

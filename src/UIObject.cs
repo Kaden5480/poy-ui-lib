@@ -255,7 +255,7 @@ namespace UILib {
          *
          * By default, the `content` will just be the <see cref="gameObject"/>
          * of this UIObject. However, some components need to set custom
-         * content objects as in most cases the children should be
+         * content objects as in some cases the children should be
          * added to a different UIObject.
          *
          * A good example of this would be
@@ -759,7 +759,7 @@ namespace UILib {
         /**
          * <summary>
          * Sets the layout to be used on the configured
-         * <see cref="SetContent">ontent</see> for this UIObject.
+         * <see cref="SetContent">content</see> for this UIObject.
          * </summary>
          * <param name="layoutType">The type of layout to use</param>
          */

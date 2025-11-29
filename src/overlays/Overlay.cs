@@ -183,6 +183,9 @@ namespace UILib {
             // Make sure the game object is enabled first
             base.Show();
 
+            // Bring to the front
+            UIRoot.BringToFront(this);
+
             // Start fading in
             fade.FadeIn();
 

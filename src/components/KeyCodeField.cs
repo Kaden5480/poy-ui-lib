@@ -25,8 +25,6 @@ namespace UILib.Components {
          * actually inputs a key or presses a mouse button.
          *
          * Passes the `KeyCode` that was read to listeners.
-         * Will pass `KeyCode.None` if the user cancelled
-         * the input.
          * </summary>
          */
         public ValueEvent<KeyCode> onValueChanged { get; } = new ValueEvent<KeyCode>();

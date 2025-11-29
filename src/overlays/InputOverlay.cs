@@ -110,9 +110,6 @@ namespace UILib {
 
             cancelProgress.Hide();
             inputArea.Add(cancelProgress);
-
-            // Hide by default
-            Hide();
         }
 
         /**

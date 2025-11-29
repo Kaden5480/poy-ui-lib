@@ -140,9 +140,6 @@ namespace UILib {
 
             // Set the theme
             SetTheme(theme);
-
-            // Show by default
-            Show();
         }
 
         /**

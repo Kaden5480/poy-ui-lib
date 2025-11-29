@@ -108,10 +108,6 @@ namespace UILib.Components {
                 onValueChanged.Invoke(value);
             });
 
-            _slider.onDeselect.AddListener(() => {
-                Notifications.Notifier.Notify("Deselect", "Deselected slider");
-            });
-
             DestroyHandlers();
 
             // Set the theme

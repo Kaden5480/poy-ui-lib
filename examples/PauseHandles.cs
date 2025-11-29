@@ -12,7 +12,7 @@ namespace UILibExamples {
      * A simple example explaining pause handles.
      * </summary>
      */
-    public class PauseHandles {
+    public class PauseHandles : Example {
         private PauseHandle pauseHandle;
         private Overlay overlay;
 
@@ -65,8 +65,8 @@ namespace UILibExamples {
             }
         }
 
-        public void Show() {
-            overlay.Show();
+        public override void Toggle() {
+            overlay.ToggleVisibility();
         }
     }
 }

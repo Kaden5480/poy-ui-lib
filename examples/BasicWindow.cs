@@ -13,7 +13,7 @@ namespace UILibExamples {
      * with a single button in the middle.
      * </summary>
      */
-    public class BasicWindow {
+    public class BasicWindow : Example {
         private Window window;
 
         public BasicWindow() {
@@ -41,8 +41,8 @@ namespace UILibExamples {
             window.Add(button);
         }
 
-        public void Show() {
-            window.Show();
+        public override void Toggle() {
+            window.ToggleVisibility();
         }
     }
 }

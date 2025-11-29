@@ -95,12 +95,19 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Updates the currently selected option.
+         * Sets the current option of the dropdown.
+         *
+         * If `displayName` is `null`, the option's
+         * `ToString` method will be called instead.
          * </summary>
          * <param name="option">The option to set</param>
          * <param name="displayName">The display name of this option</param>
          */
-        private void SetOption(T option, string displayName) {
+        public void SetOption(T option, string displayName = null) {
+            if (displayName == null) {
+                displayName = option.ToString();
+            }
+
             // Hide the scroll view
             scrollView.Hide();
             ResizeArea();

@@ -112,6 +112,16 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Sets the current value stored in this
+         * text field.
+         * </summary>
+         */
+        public void SetValue(string value) {
+            _inputField.text = value;
+        }
+
+        /**
+         * <summary>
          * Allows setting the theme of this text field
          * and all children.
          * </summary>

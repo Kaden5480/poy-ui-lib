@@ -48,6 +48,13 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * The current value of this slider.
+         * </summary>
+         */
+        public float value { get => _slider.value; }
+
+        /**
+         * <summary>
          * Invokes listeners when the value of this slider changes.
          * Passes the current value of the slider to listeners.
          * </summary>
@@ -153,6 +160,16 @@ namespace UILib.Components {
         private bool IsVerticalDirection(UESlider.Direction direction) {
             return direction == UESlider.Direction.BottomToTop
                 || direction == UESlider.Direction.TopToBottom;
+        }
+
+        /**
+         * <summary>
+         * Sets the current value of this slider.
+         * </summary>
+         * <param name="value">The value to set</param>
+         */
+        public void SetValue(float value) {
+            _slider.value = value;
         }
 
         /**

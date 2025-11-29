@@ -80,6 +80,15 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Sets the current value of this toggle.
+         * </summary>
+         */
+        public void SetValue(bool value) {
+            toggle.isOn = value;
+        }
+
+        /**
+         * <summary>
          * Allows setting the theme of this toggle
          * and all children.
          * </summary>

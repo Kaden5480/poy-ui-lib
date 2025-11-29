@@ -53,14 +53,27 @@ namespace UILib.Components {
                 // Forward to listeners and
                 // update text if a valid key was
                 // received
-                ev.AddListener((KeyCode key) => {
-                    if (key != KeyCode.None) {
-                        this.value = key;
-                        SetText(KeyAsString(key));
-                    }
-                    onValueChanged.Invoke(key);
-                });
+                ev.AddListener(SetValue);
             });
+        }
+
+        /**
+         * <summary>
+         * Sets the current value stored in this field.
+         *
+         * If `KeyCode.None` is passed, this method
+         * will do nothing.
+         * </summary>
+         * <param name="value">The value to set</param>
+         */
+        public void SetValue(KeyCode value) {
+            if (value == KeyCode.None) {
+                return;
+            }
+
+            this.value = value;
+            SetText(KeyAsString(value));
+            onValueChanged.Invoke(value);
         }
 
         /**

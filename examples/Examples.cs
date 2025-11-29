@@ -18,12 +18,14 @@ namespace UILibExamples {
         private Area area;
 
         private BasicWindow basic;
+        private Inputs inputs;
         private UILibExamples.Layouts layouts;
         private PauseHandles pauseHandles;
         private Themes themes;
 
         public Examples() {
             basic = new BasicWindow();
+            inputs = new Inputs();
             layouts = new UILibExamples.Layouts();
             pauseHandles = new PauseHandles();
             themes = new Themes();
@@ -41,6 +43,7 @@ namespace UILibExamples {
 
             // Add examples
             AddExample(basic);
+            AddExample(inputs);
             AddExample(layouts);
             AddExample(pauseHandles);
             AddExample(themes);

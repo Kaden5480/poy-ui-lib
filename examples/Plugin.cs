@@ -16,15 +16,6 @@ namespace UILibExamples {
 
         /**
          * <summary>
-         * Executes when the plugin has started.
-         * </summary>
-         */
-        private void Start() {
-            examples.Show();
-        }
-
-        /**
-         * <summary>
          * Executes each frame.
          * </summary>
          */

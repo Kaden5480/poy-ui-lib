@@ -51,12 +51,9 @@
     <Reference Include="UnityEngine.UI.dll">
       <HintPath>$(GameLibPath)/UnityEngine.UI.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="../UILib.csproj">
-      <Name>UILib</Name>
-    </ProjectReference>
+    <Reference Include="UILib.dll">
+      <HintPath>$(PluginOutputPath)/UILib.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <Target Name="CopyPackageAssembliesToSubFolder" AfterTargets="ResolveReferences">

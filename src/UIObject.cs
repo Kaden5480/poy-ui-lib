@@ -515,7 +515,7 @@ namespace UILib {
                 return;
             }
 
-            layoutElement = content.gameObject.AddComponent<LayoutElement>();
+            layoutElement = gameObject.AddComponent<LayoutElement>();
             SetSize(width, height);
             SetFill(fillType);
         }

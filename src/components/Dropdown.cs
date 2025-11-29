@@ -12,7 +12,10 @@ namespace UILib.Components {
      * </summary>
      */
     public class Dropdown<T> : UIComponent {
+        private float defaultHeight;
+
         private int fontSize;
+        private int optionCount = 3;
 
         private Button caption;
         private ScrollView scrollView;
@@ -52,6 +55,8 @@ namespace UILib.Components {
                 defaultDisplayName = defaultValue.ToString();
             }
 
+            SetContentLayout(LayoutType.Vertical);
+
             // The initial option to display
             caption = new Button(defaultDisplayName, 20);
             Add(caption);
@@ -66,10 +71,26 @@ namespace UILib.Components {
 
             caption.onClick.AddListener(() => {
                 scrollView.ToggleVisibility();
+                ResizeArea();
             });
 
             // Update the theme
             SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Resizes the area depending on whether the
+         * dropdown is active or not.
+         * </summary>
+         */
+        private void ResizeArea() {
+            if (scrollView.isVisible == false) {
+                base.SetSize(width, defaultHeight);
+            }
+            else {
+                base.SetSize(width, (defaultHeight*(optionCount+1)));
+            }
         }
 
         /**
@@ -82,6 +103,7 @@ namespace UILib.Components {
         private void SetOption(T option, string displayName) {
             // Hide the scroll view
             scrollView.Hide();
+            ResizeArea();
 
             this.value = option;
             caption.SetText(displayName);
@@ -100,10 +122,22 @@ namespace UILib.Components {
         public override void SetSize(float width, float height) {
             base.SetSize(width, height);
 
-            caption.SetSize(width, height);
+            defaultHeight = height;
 
-            scrollView.SetSize(0f, (height*2f));
-            scrollView.SetOffset(0f, -(height*2f));
+            caption.SetSize(width, height);
+            caption.layoutElement.minHeight = height;
+            scrollView.SetSize(width, (height*(optionCount+2)));
+        }
+
+        /**
+         * <summary>
+         * Set how many options you want to display
+         * in the dropdown (without needing to scroll).
+         * </summary>
+         * <param name="optionCount">The number of options to display</param>
+         */
+        public void SetOptionCount(int optionCount) {
+            this.optionCount = optionCount;
         }
 
         /**

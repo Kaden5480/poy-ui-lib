@@ -54,14 +54,25 @@ namespace UILib.Patches {
      * wouldn't be able to.
      * </summary>
      */
-    internal static class PauseHandler {
+    public static class PauseHandler {
         private static Logger logger = new Logger(typeof(PauseHandler));
 
         // Currently active handles
         private static List<PauseHandle> handles = new List<PauseHandle>();
 
-        // Whether the game should be paused
-        internal static bool shouldPause { get => handles.Count > 0; }
+        /**
+         * <summary>
+         * Indicates whether the game is currently paused
+         * by the `PauseHandler`.
+         *
+         * This doesn't necessarily indicate if other things
+         * which are vanilla to the game are pausing it though,
+         * such as the InGameMenu, cutscenes, and other events.
+         *
+         * It only tells you whether `PauseHandler` is doing anything.
+         * </summary>
+         */
+        public static bool isPaused { get => handles.Count > 0; }
 
         /**
          * <summary>
@@ -141,7 +152,7 @@ namespace UILib.Patches {
             }
 
             // Disabling movement has to be done every frame, yes
-            if (shouldPause == true) {
+            if (isPaused == true) {
                 AllowMovement(false);
                 InGameMenu.isCurrentlyNavigationMenu = true;
                 Cursor.visible = true;
@@ -150,7 +161,7 @@ namespace UILib.Patches {
             }
 
             // Otherwise, only disable pausing once
-            else if (shouldPause == false
+            else if (isPaused == false
                 && allowingMovement == false
                 && IsInMenu() == false
             ) {

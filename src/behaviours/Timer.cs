@@ -52,7 +52,7 @@ namespace UILib.Behaviours {
          * The value passed to listeners is the current value of the timer.
          * </summary>
          */
-        public FloatEvent onIter { get; } = new FloatEvent();
+        public ValueEvent<float> onIter { get; } = new ValueEvent<float>();
 
         /**
          * <summary>

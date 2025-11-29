@@ -58,7 +58,7 @@ namespace UILib.Components {
          * in the text field whenever it's updated.
          * </summary>
          */
-        public StringEvent onValueChanged { get; } = new StringEvent();
+        public ValueEvent<string> onValueChanged { get; } = new ValueEvent<string>();
 
         /**
          * <summary>
@@ -66,7 +66,7 @@ namespace UILib.Components {
          * in the text field when the user stops editing it.
          * </summary>
          */
-        public StringEvent onEndEdit { get; } = new StringEvent();
+        public ValueEvent<string> onEndEdit { get; } = new ValueEvent<string>();
 
         /**
          * <summary>

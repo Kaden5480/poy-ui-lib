@@ -4,11 +4,11 @@ using UnityEngine.Events;
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * An event type which passes a <see cref="bool"/> value
+     * An event type which passes a value
      * to its listeners.
      * </summary>
      */
-    public class BoolEvent : UnityEvent<bool> {}
+    public class ValueEvent<T> : UnityEvent<T> {}
 
     /**
      * <summary>
@@ -18,27 +18,4 @@ namespace UILib.Behaviours {
      * </summary>
      */
     public class DragEvent : UnityEvent<Vector2> {}
-
-    /**
-     * <summary>
-     * An event type which passes a <see cref="float"/> value
-     * to its listeners.
-     * </summary>
-     */
-    public class FloatEvent : UnityEvent<float> {}
-
-    /**
-     * <summary>
-     * An event type which passes a `KeyCode` to its listeners.
-     * </summary>
-     */
-    public class KeyCodeEvent : UnityEvent<KeyCode> {}
-
-    /**
-     * <summary>
-     * An event type which passes a <see cref="string"/> value
-     * to its listeners.
-     * </summary>
-     */
-    public class StringEvent : UnityEvent<string> {}
 }

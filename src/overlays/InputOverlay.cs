@@ -210,7 +210,7 @@ namespace UILib {
          * </summary>
          * <param name="ev">The event to invoke when a keycode is read</param>
          */
-        private IEnumerator HandleRequest(KeyCodeEvent ev) {
+        private IEnumerator HandleRequest(ValueEvent<KeyCode> ev) {
             // Wait a little bit before reading inputs
             yield return new WaitForSeconds(0.02f);
 
@@ -277,13 +277,13 @@ namespace UILib {
          * <param name="theme">The theme to use</param>
          * <returns>An event to listen for when the request has finished</returns>
          */
-        internal KeyCodeEvent Request(Theme theme) {
+        internal ValueEvent<KeyCode> Request(Theme theme) {
             // Can't request when the coroutine is already running
             if (coroutine != null) {
                 return null;
             }
 
-            KeyCodeEvent ev = new KeyCodeEvent();
+            ValueEvent<KeyCode> ev = new ValueEvent<KeyCode>();
             ev.AddListener(delegate {
                 coroutine = null;
                 Hide();

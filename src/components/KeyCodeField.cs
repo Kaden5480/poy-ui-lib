@@ -29,7 +29,7 @@ namespace UILib.Components {
          * the input.
          * </summary>
          */
-        public KeyCodeEvent onValueChanged { get; } = new KeyCodeEvent();
+        public ValueEvent<KeyCode> onValueChanged { get; } = new ValueEvent<KeyCode>();
 
         /**
          * <summary>
@@ -45,7 +45,7 @@ namespace UILib.Components {
 
             // When clicked, request an input
             onClick.AddListener(() => {
-                KeyCodeEvent ev = UIRoot.inputOverlay.Request(theme);
+                ValueEvent<KeyCode> ev = UIRoot.inputOverlay.Request(theme);
                 if (ev == null) {
                     return;
                 }

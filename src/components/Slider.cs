@@ -52,7 +52,7 @@ namespace UILib.Components {
          * Passes the current value of the slider to listeners.
          * </summary>
          */
-        public FloatEvent onValueChanged { get; } = new FloatEvent();
+        public ValueEvent<float> onValueChanged { get; } = new ValueEvent<float>();
 
         /**
          * <summary>

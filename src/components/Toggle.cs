@@ -39,7 +39,7 @@ namespace UILib.Components {
          * in the toggle whenever it's updated.
          * </summary>
          */
-        public BoolEvent onValueChanged { get; } = new BoolEvent();
+        public ValueEvent<bool> onValueChanged { get; } = new ValueEvent<bool>();
 
         /**
          * <summary>

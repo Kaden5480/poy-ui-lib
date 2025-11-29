@@ -2,6 +2,9 @@
 A few examples giving a bit of insight into
 how UILib works.
 
+Pressing `Tab` with this installed will bring up a UI to select
+from the different examples.
+
 # Overview
 - [Building](#building)
     - [Dotnet](#dotnet-build)

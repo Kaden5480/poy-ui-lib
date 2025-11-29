@@ -26,7 +26,7 @@ namespace UILib {
          * </summary>
          * <param name="message">The message to log</param>
          */
-        internal virtual void LogDebug(string message) {
+        internal void LogDebug(string message) {
             Plugin.LogDebug($"[{type}] {message}");
         }
 
@@ -36,7 +36,7 @@ namespace UILib {
          * </summary>
          * <param name="message">The message to log</param>
          */
-        internal virtual void LogInfo(string message) {
+        internal void LogInfo(string message) {
             Plugin.LogInfo($"[{type}] {message}");
         }
 
@@ -46,7 +46,7 @@ namespace UILib {
          * </summary>
          * <param name="message">The message to log</param>
          */
-        internal virtual void LogError(string message) {
+        internal void LogError(string message) {
             Plugin.LogError($"[{type}] {message}");
         }
     }

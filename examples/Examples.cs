@@ -18,6 +18,7 @@ namespace UILibExamples {
         private Area area;
 
         private BasicWindow basic;
+        private Chat chat;
         private Inputs inputs;
         private UILibExamples.Layouts layouts;
         private PauseHandles pauseHandles;
@@ -25,6 +26,7 @@ namespace UILibExamples {
 
         public Examples() {
             basic = new BasicWindow();
+            chat = new Chat();
             inputs = new Inputs();
             layouts = new UILibExamples.Layouts();
             pauseHandles = new PauseHandles();
@@ -43,6 +45,7 @@ namespace UILibExamples {
 
             // Add examples
             AddExample(basic);
+            AddExample(chat);
             AddExample(inputs);
             AddExample(layouts);
             AddExample(pauseHandles);

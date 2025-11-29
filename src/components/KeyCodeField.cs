@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 using UILib.Behaviours;
 using UIButton = UILib.Components.Button;
@@ -18,6 +19,14 @@ namespace UILib.Components {
          * </summary>
          */
         public KeyCode value { get; private set; }
+
+        /**
+         * <summary>
+         * An event for listening to when the user
+         * cancels inputting a key/mouse button.
+         * </summary>
+         */
+        public UnityEvent onCancel { get; } = new UnityEvent();
 
         /**
          * <summary>
@@ -60,12 +69,13 @@ namespace UILib.Components {
          * Sets the current value stored in this field.
          *
          * If `KeyCode.None` is passed, this method
-         * will do nothing.
+         * will invoke the <see cref="onCancel"/> listeners.
          * </summary>
          * <param name="value">The value to set</param>
          */
         public void SetValue(KeyCode value) {
             if (value == KeyCode.None) {
+                onCancel.Invoke();
                 return;
             }
 

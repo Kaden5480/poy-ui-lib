@@ -72,7 +72,7 @@ namespace UILib.Patches {
          * It only tells you whether `PauseHandler` is doing anything.
          * </summary>
          */
-        public static bool isPaused { get => handles.Count > 0; }
+        public static bool shouldPause { get => handles.Count > 0; }
 
         /**
          * <summary>
@@ -152,7 +152,7 @@ namespace UILib.Patches {
             }
 
             // Disabling movement has to be done every frame, yes
-            if (isPaused == true) {
+            if (shouldPause == true) {
                 AllowMovement(false);
                 InGameMenu.isCurrentlyNavigationMenu = true;
                 Cursor.visible = true;
@@ -161,7 +161,7 @@ namespace UILib.Patches {
             }
 
             // Otherwise, only disable pausing once
-            else if (isPaused == false
+            else if (shouldPause == false
                 && allowingMovement == false
                 && IsInMenu() == false
             ) {

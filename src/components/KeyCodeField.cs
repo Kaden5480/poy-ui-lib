@@ -60,7 +60,14 @@ namespace UILib.Components {
                 // Forward to listeners and
                 // update text if a valid key was
                 // received
-                ev.AddListener(SetValue);
+                ev.AddListener((KeyCode key) => {
+                    if (key == KeyCode.None) {
+                        onCancel.Invoke();
+                    }
+                    else {
+                        SetValue(key);
+                    }
+                });
             });
         }
 
@@ -74,11 +81,6 @@ namespace UILib.Components {
          * <param name="value">The value to set</param>
          */
         public void SetValue(KeyCode value) {
-            if (value == KeyCode.None) {
-                onCancel.Invoke();
-                return;
-            }
-
             this.value = value;
             SetText(KeyAsString(value));
             onValueChanged.Invoke(value);
@@ -98,6 +100,7 @@ namespace UILib.Components {
          */
         public static string KeyAsString(KeyCode key) {
             switch (key) {
+                case KeyCode.None:   return "";
                 case KeyCode.Alpha0: return "0";
                 case KeyCode.Alpha1: return "1";
                 case KeyCode.Alpha2: return "2";

@@ -7,7 +7,7 @@ namespace UILib {
     /**
      * <summary>
      * A button which is added to the bottom right
-     * of <see cref="Windows"/> to allow resizing them.
+     * of <see cref="Window">Windows</see> to allow resizing them.
      * </summary>
      */
     public class ResizeButton : UIButton {

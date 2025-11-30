@@ -9,27 +9,38 @@ namespace UILib {
     /**
      * <summary>
      * The title bar which is placed at
-     * the top of all windows.
+     * the top of all <see cref="Window">Windows</see>.
      * </summary>
      */
-    internal class TitleBar : UIComponent {
+    public class TitleBar : UIComponent {
         // The background
         private UEImage background;
 
         // An area for holding the buttons
         private Area buttonArea;
 
-        // The button for entering/exiting fullscreen
-        internal UIButton fullscreenButton { get; private set; }
+        /**
+         * <summary>
+         * This title bar's fullscreen button.
+         * </summary>
+         */
+        public UIButton fullscreenButton { get; private set; }
 
-        // The button for closing this Window
-        internal UIButton closeButton      { get; private set; }
+        /**
+         * <summary>
+         * This title bar's close button.
+         * </summary>
+         */
+        public UIButton closeButton { get; private set; }
 
         // The height of this TitleBar
         private float barHeight;
 
         // The Window this TitleBar is attached to
         private Window window;
+
+        // The title bar name
+        private Label windowName;
 
         /**
          * <summary>
@@ -55,11 +66,11 @@ namespace UILib {
             background = gameObject.AddComponent<UEImage>();
 
             // Add the name of the window
-            Label label = new Label(window.name, (int) totalHeight - 5);
-            Add(label);
-            label.SetSize(0f, totalHeight);
-            label.SetAnchor(AnchorType.TopLeft);
-            label.SetFill(FillType.Horizontal);
+            windowName = new Label(window.name, (int) totalHeight - 5);
+            Add(windowName);
+            windowName.SetSize(0f, totalHeight);
+            windowName.SetAnchor(AnchorType.TopLeft);
+            windowName.SetFill(FillType.Horizontal);
 
             // Create an area for holding the buttons
             buttonArea = new Area();
@@ -89,6 +100,16 @@ namespace UILib {
             buttonArea.Add(closeButton);
 
             SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Sets the name displayed in the title bar.
+         * </summary>
+         * <param name="name">The name to display</param>
+         */
+        internal void SetName(string name) {
+            windowName.SetText(name);
         }
 
         /**

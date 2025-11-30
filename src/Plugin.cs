@@ -1,6 +1,7 @@
 using System;
 
 using BepInEx;
+using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,6 +12,9 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
+        private ConfigEntry<bool> showIntro;
+        private Intro intro;
+
         /**
          * <summary>
          * Executes when the plugin is being loaded.
@@ -19,12 +23,32 @@ namespace UILib {
         private void Awake() {
             instance = this;
 
+            showIntro = Config.Bind(
+                "General", "showIntro", true,
+                "Whether to show the intro on startup"
+            );
+
             Patcher.Awake();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
             UIRoot.Init();
+
+            if (showIntro.Value == true) {
+                intro = new Intro(showIntro);
+            }
+        }
+
+        /**
+         * <summary>
+         * Executes when the plugin has started.
+         * </summary>
+         */
+        private void Start() {
+            if (intro != null) {
+                intro.Show();
+            }
         }
 
         /**

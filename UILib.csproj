@@ -77,7 +77,7 @@
     BeforeTargets="BeforeCompile">
     <WriteLinesToFile
       File="$(IntermediateOutputPath)/PluginInfo.cs"
-      Lines="public static class PluginInfo { public const string PLUGIN_VERSION=&quot;$(Version)&quot;%3B }"
+      Lines="namespace $(RootNamespace) { internal static class PluginInfo { internal const string PLUGIN_VERSION=&quot;$(Version)&quot;%3B } }"
       Overwrite="true"/>
     <ItemGroup>
       <Compile Include="$(IntermediateOutputPath)/PluginInfo.cs"/>

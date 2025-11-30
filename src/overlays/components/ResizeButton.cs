@@ -7,10 +7,10 @@ namespace UILib {
     /**
      * <summary>
      * A button which is added to the bottom right
-     * of Windows to allow resizing them.
+     * of <see cref="Windows"/> to allow resizing them.
      * </summary>
      */
-    internal class ResizeButton : UIButton {
+    public class ResizeButton : UIButton {
         // The Window this ResizeButton is attached to
         private Window window;
 

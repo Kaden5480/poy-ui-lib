@@ -214,6 +214,8 @@ namespace UILib {
             children = new List<UIObject>();
 
             mouseHandler = gameObject.AddComponent<MouseHandler>();
+            onPointerEnter.AddListener(OnPointerEnter);
+            onPointerExit.AddListener(OnPointerExit);
             onClick.AddListener(OnClick);
             onDoubleClick.AddListener(OnDoubleClick);
             onBeginDrag.AddListener(OnBeginDrag);
@@ -445,6 +447,28 @@ namespace UILib {
         internal void DestroyMouseHandler() {
             GameObject.DestroyImmediate(mouseHandler);
             mouseHandler = null;
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject being hovered over.
+         * </summary>
+         */
+        protected virtual void OnPointerEnter() {
+            if (parent != null) {
+                parent.OnPointerEnter();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this UIObject no longer being hovered over.
+         * </summary>
+         */
+        protected virtual void OnPointerExit() {
+            if (parent != null) {
+                parent.OnPointerExit();
+            }
         }
 
         /**

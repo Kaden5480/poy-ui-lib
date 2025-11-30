@@ -87,9 +87,23 @@ namespace UILib {
         // by default
         private UIObject content;
 
-#region Click/Drag Events
+#region Hover/Click/Drag Events
 
         internal MouseHandler mouseHandler { get; private set; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever this UIObject is hovered over.
+         * </summary>
+         */
+        public virtual UnityEvent onPointerEnter { get => mouseHandler.onPointerEnter; }
+
+        /**
+         * <summary>
+         * Invokes listeners whenever this UIObject is no longer hovered over.
+         * </summary>
+         */
+        public virtual UnityEvent onPointerExit { get => mouseHandler.onPointerExit; }
 
         /**
          * <summary>

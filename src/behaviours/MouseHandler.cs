@@ -9,9 +9,35 @@ namespace UILib.Behaviours {
      * </summary>
      */
     internal class MouseHandler: MonoBehaviour,
+        IPointerEnterHandler, IPointerExitHandler,
         IPointerClickHandler,
         IBeginDragHandler, IDragHandler
     {
+
+#region Hover Events
+
+        internal UnityEvent onPointerEnter { get; } = new UnityEvent();
+        internal UnityEvent onPointerExit { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Executes when the pointer enters this object.
+         * </summary>
+         */
+        public void OnPointerEnter(PointerEventData eventData) {
+            onPointerEnter.Invoke();
+        }
+
+        /**
+         * <summary>
+         * Executes when the pointer exits this object.
+         * </summary>
+         */
+        public void OnPointerExit(PointerEventData eventData) {
+            onPointerExit.Invoke();
+        }
+
+#endregion
 
 #region Click Events
 

@@ -16,13 +16,28 @@ namespace UILib.Patches {
 
         /**
          * <summary>
+         * Finds an object even if it's inactive.
+         * </summary>
+         * <returns>The object if found, null otherwise</returns>
+         */
+        private static T Find<T>() where T : UnityEngine.Object {
+            T[] all = UnityEngine.Resources.FindObjectsOfTypeAll<T>();
+            if (all.Length < 1) {
+                return null;
+            }
+
+            return all[0];
+        }
+
+        /**
+         * <summary>
          * Finds objects in the current scene.
          * </summary>
          */
         internal static void FindObjects() {
-            inGameMenu = GameObject.FindObjectOfType<InGameMenu>();
-            peakSummited = GameObject.FindObjectOfType<PeakSummited>();
-            playerManager = GameObject.FindObjectOfType<PlayerManager>();
+            inGameMenu = Find<InGameMenu>();
+            peakSummited = Find<PeakSummited>();
+            playerManager = Find<PlayerManager>();
 
             logger.LogDebug("Cached objects");
         }

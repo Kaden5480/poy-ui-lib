@@ -364,7 +364,7 @@ namespace UILib {
          * </summary>
          */
         protected override void OnClick() {
-            UIRoot.BringToFront(this);
+            BringToFront();
         }
 
         /**
@@ -376,7 +376,7 @@ namespace UILib {
         protected override void OnBeginDrag(Vector2 position) {
             // Only listen to drag events when Alt is held
             if (Input.GetKey(KeyCode.LeftAlt) == false) {
-                UIRoot.BringToFront(this);
+                BringToFront();
                 return;
             }
 
@@ -420,7 +420,7 @@ namespace UILib {
          * <param name="position">The position dragging started at</param>
          */
         internal virtual void HandleBeginDrag(Vector2 position) {
-            UIRoot.BringToFront(this);
+            BringToFront();
             position = ToCanvasLocal(position);
 
             EndFullscreen(position);

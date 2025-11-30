@@ -160,6 +160,16 @@ namespace UILib {
 
         /**
          * <summary>
+         * Brings this overlay to the front
+         * so that it displays above all others.
+         * </summary>
+         */
+        public void BringToFront() {
+            UIRoot.BringToFront(this);
+        }
+
+        /**
+         * <summary>
          * Toggles the visibility of this overlay.
          * </summary>
          */
@@ -184,7 +194,7 @@ namespace UILib {
             base.Show();
 
             // Bring to the front
-            UIRoot.BringToFront(this);
+            BringToFront();
 
             // Start fading in
             fade.FadeIn();

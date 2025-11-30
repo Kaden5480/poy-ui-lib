@@ -30,17 +30,22 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * The width of this scroll view's scroll bars.
+         * This scroll view's horizontal <see cref="ScrollBar"/>.
          * </summary>
          */
-        public float scrollBarWidth { get; private set; } = 20f;
+        public ScrollBar scrollBarH  { get; private set; }
+
+        /**
+         * <summary>
+         * This scroll view's vertical <see cref="ScrollBar"/>.
+         * </summary>
+         */
+        public ScrollBar scrollBarV  { get; private set; }
 
         private GameObject viewport;
         private Area scrollContent;
 
         internal CustomScrollRect scrollRect { get; private set; }
-        internal ScrollBar scrollBarH  { get; private set; }
-        internal ScrollBar scrollBarV  { get; private set; }
 
         /**
          * <summary>
@@ -129,8 +134,8 @@ namespace UILib.Components {
          * <param name="vertical">Whether vertical scrolling should be allowed</param>
          */
         public void SetAllowedScroll(bool horizontal = true, bool vertical = true) {
-            scrollRect.horizontal = false;
-            scrollRect.vertical = true;
+            scrollRect.horizontal = horizontal;
+            scrollRect.vertical = vertical;
         }
 
         /**

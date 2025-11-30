@@ -58,7 +58,6 @@ namespace UILib.Components {
             ScrollType scrollType = ScrollType.Horizontal | ScrollType.Vertical,
             float scrollBarWidth = 20
         ) {
-            this.scrollBarWidth = scrollBarWidth;
             scrollRect = gameObject.AddComponent<CustomScrollRect>();
 
             viewport = new GameObject("Viewport",

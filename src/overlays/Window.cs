@@ -231,7 +231,7 @@ namespace UILib {
          * </summary>
          */
         internal virtual void AddResizeButton() {
-            float scrollBarWidth = scrollView.scrollBarWidth;
+            float scrollBarWidth = scrollView.scrollBarV.barWidth;
 
             RectTransform rect = scrollView.scrollBarV.rectTransform;
             rect.anchoredPosition = new Vector2(0f, scrollBarWidth/2);

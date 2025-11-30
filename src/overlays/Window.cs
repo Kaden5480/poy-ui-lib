@@ -71,11 +71,20 @@ namespace UILib {
         private WindowState state;
         private Vector2 latestDragPosition;
 
-        // This window's title bar
-        internal TitleBar titleBar { get; private set; }
+        /**
+         * <summary>
+         * This window's <see cref="TitleBar"/>.
+         * Contains the name and close and fullscreen buttons.
+         * </summary>
+         */
+        public TitleBar titleBar { get; private set; }
 
-        // The resize button
-        private ResizeButton resizeButton;
+        /**
+         * <summary>
+         * This window's <see cref="ResizeButton"/>.
+         * </summary>
+         */
+        public ResizeButton resizeButton { get; private set; }
 
         // Fade for canvas groups
         private Fade decorationFade;
@@ -140,6 +149,17 @@ namespace UILib {
 
             // Set the theme
             SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Sets the name of this window.
+         * </summary>
+         * <param name="name">The window's new name</param>
+         */
+        public void SetName(string name) {
+            this.name = name;
+            titleBar.SetName(name);
         }
 
         /**

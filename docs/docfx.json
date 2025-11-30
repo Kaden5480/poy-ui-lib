@@ -7,6 +7,9 @@
           "src": "../",
           "files": [
             "**/*.csproj"
+          ],
+          "exclude": [
+            "examples/**"
           ]
         }
       ],
@@ -20,7 +23,7 @@
           "**/*.{md,yml}"
         ],
         "exclude": [
-          "_site/**"
+          "_site/**",
         ]
       }
     ],

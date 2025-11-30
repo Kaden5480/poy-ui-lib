@@ -14,5 +14,6 @@ in
         fi
 
         dotnet docfx
+        exit
         '';
     }

@@ -13,9 +13,14 @@ namespace UILib.Components {
      * A scroll bar.
      * </summary>
      */
-    internal class ScrollBar : UIObject {
+    public class ScrollBar : UIObject {
         private ScrollSetter scrollSetter;
 
+        /**
+         * <summary>
+         * The width of this scroll bar.
+         * </summary>
+         */
         public float barWidth { get; private set; }
 
         private GameObject slidingArea;
@@ -32,8 +37,6 @@ namespace UILib.Components {
          * <param name="width">The width of the scrollbar</param>
          */
         internal ScrollBar(ScrollType scrollType, float width) {
-            this.barWidth = width;
-
             scrollSetter = gameObject.AddComponent<ScrollSetter>();
 
             // Making the object hierarchy
@@ -58,15 +61,13 @@ namespace UILib.Components {
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
                     SetAnchor(AnchorType.TopRight);
                     SetFill(FillType.Vertical);
-                    rectTransform.sizeDelta        = new Vector2(barWidth, 0f);
-                    rectTransform.anchoredPosition = Vector2.zero;
+                    SetWidth(width);
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
                     SetAnchor(AnchorType.BottomLeft);
                     SetFill(FillType.Horizontal);
-                    rectTransform.sizeDelta        = new Vector2(-barWidth, 20f);
-                    rectTransform.anchoredPosition = new Vector2(-barWidth/2, 0f);
+                    SetWidth(width);
                     break;
                 default:
                     logger.LogDebug($"Unexpected ScrollType: {scrollType}");
@@ -75,6 +76,29 @@ namespace UILib.Components {
 
             InitLayout();
             SetTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Sets the width of this scrollbar.
+         * </summary>
+         * <param name="width">The width to set</param>
+         */
+        public void SetWidth(float width) {
+            this.barWidth = width;
+
+            switch (scrollBar.direction) {
+                case UEScrollbar.Direction.TopToBottom:
+                case UEScrollbar.Direction.BottomToTop:
+                    rectTransform.sizeDelta = new Vector2(barWidth, 0f);
+                    rectTransform.anchoredPosition = Vector2.zero;
+                    break;
+                case UEScrollbar.Direction.RightToLeft:
+                case UEScrollbar.Direction.LeftToRight:
+                    rectTransform.sizeDelta = new Vector2(-barWidth, 20f);
+                    rectTransform.anchoredPosition = new Vector2(-barWidth/2, 0f);
+                    break;
+            }
         }
 
         /**
@@ -122,7 +146,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Ignore drags.
+         * This override ignores drags.
          * </summary>
          * <param name="position">The position the drag started at</param>
          */
@@ -130,7 +154,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Ignore drags.
+         * This override ignores drags.
          * </summary>
          * <param name="position">The position dragged to</param>
          */
@@ -138,7 +162,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Ignore drags.
+         * This override ignores drags.
          * </summary>
          * <param name="position">The position dragged to</param>
          */

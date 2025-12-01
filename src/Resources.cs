@@ -81,6 +81,15 @@ namespace UILib {
 
         /**
          * <summary>
+         * A material which renders an HSL rectangle.
+         * </summary>
+         */
+        public static Material hslRect { get; private set; } = LoadFromBundle<Material>(
+            "HSLRect"
+        );
+
+        /**
+         * <summary>
          * Loads a file with the specified filename
          * into a byte array.
          *

@@ -144,17 +144,32 @@ namespace UILib {
          * Set whether this overlay should
          * automatically pause the game when it's shown.
          *
-         * If this overlay has an active <see cref="PauseHandle"/>
-         * it will always close it whenever you call this method.
+         * Calling with autoPause being `false`:
+         * - If the overlay has an active <see cref="PauseHandle"/>,
+         *   it will be closed immediately regardless of its visibility.
+         *
+         * Calling with autoPause being `true`:
+         * - If the overlay is visible, a new <see cref="PauseHandle"/> will
+         *   be allocated.
+         * - If the overlay is hidden, no <see cref="PauseHandle"/> will
+         *   be allocated.
+         *
          * </summary>
          * <param name="autoPause">Whether to pause the game automatically</param>
          */
         public void SetAutoPause(bool autoPause) {
             this.autoPause = autoPause;
 
-            if (pauseHandle != null) {
+            // Remove pause handle, since auto pausing is disabled
+            if (autoPause == false && pauseHandle != null) {
                 pauseHandle.Close();
                 pauseHandle = null;
+                return;
+            }
+
+            // Allocate pause handle only if visible
+            if (isVisible == true && pauseHandle == null) {
+                pauseHandle = new PauseHandle();
             }
         }
 

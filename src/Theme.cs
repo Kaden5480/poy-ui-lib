@@ -88,92 +88,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Function for helping with hsl conversions.
-         *
-         * See:
-         * https://en.wikipedia.org/wiki/HSL_and_HSV#Color_conversion_formulae
-         * </summary>
-         */
-        private static float HSLF(float h, float s, float l, int n) {
-            float a = s * Math.Min(l, 1 - l);
-            float k = (n + h/30) % 12;
-
-            return l - a * Math.Max(-1,
-                Math.Min(Math.Min(k-3, 9-k), 1)
-            );
-        }
-
-        /**
-         * <summary>
-         * Creates a `Color` from hue, saturation, lightness, and alpha.
-         * </summary>
-         * <param name="h">The hue (0-360)</param>
-         * <param name="s">The saturation (0-100)</param>
-         * <param name="l">The lightness (0-100)</param>
-         * <param name="a">The alpha (0-100)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color HSLA(float h, float s, float l, float a) {
-            s /= 100f;
-            l /= 100f;
-            a /= 100f;
-
-            float r = HSLF(h, s, l, 0);
-            float g = HSLF(h, s, l, 8);
-            float b = HSLF(h, s, l, 4);
-
-            return new Color(r, g, b, a);
-        }
-
-        /**
-         * <summary>
-         * Creates a `Color` from hue, saturation, and lightness.
-         * </summary>
-         * <param name="h">The hue (0-360)</param>
-         * <param name="s">The saturation (0-100)</param>
-         * <param name="l">The lightness (0-100)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color HSL(float h, float s, float l) {
-            return HSLA(h, s, l, 100f);
-        }
-
-        /**
-         * <summary>
-         * Creates a `Color` from red, green, blue, and alpha
-         * components.
-         * </summary>
-         * <param name="r">The red value (0-255)</param>
-         * <param name="g">The green value (0-255)</param>
-         * <param name="b">The blue value (0-255)</param>
-         * <param name="a">The alpha value (0-100)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color RGBA(int r, int g, int b, int a) {
-            return new Color(
-                ((float) r)/255f,
-                ((float) g)/255f,
-                ((float) b)/255f,
-                ((float) a)/100f
-            );
-        }
-
-        /**
-         * <summary>
-         * Creates a Color from red, green, blue, and alpha
-         * components.
-         * </summary>
-         * <param name="r">The red value (0-255)</param>
-         * <param name="g">The green value (0-255)</param>
-         * <param name="b">The blue value (0-255)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color RGB(int r, int g, int b) {
-            return RGBA(r, g, b, 100);
-        }
-
-        /**
-         * <summary>
          * Supports making a clone of this theme.
          * You probably want to use <see cref="Copy"/>
          * instead though, since it also handles
@@ -204,7 +118,7 @@ namespace UILib {
          * The foreground color (like on text).
          * </summary>
          */
-        public Color foreground = RGB(255, 255, 255);
+        public Color foreground = Colors.RGB(255, 255, 255);
 
         /**
          * <summary>
@@ -212,7 +126,7 @@ namespace UILib {
          * background for <see cref="Window">Windows</see>).
          * </summary>
          */
-        public Color background = RGB(0, 0, 0);
+        public Color background = Colors.RGB(0, 0, 0);
 
         /**
          * <summary>
@@ -222,7 +136,7 @@ namespace UILib {
          * <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color accent = RGB(22, 22, 22);
+        public Color accent = Colors.RGB(22, 22, 22);
 
 #endregion
 
@@ -306,7 +220,7 @@ namespace UILib {
          * the background of <see cref="Components.Button">Buttons</see>).
          * </summary>
          */
-        public Color selectNormal = RGB(50, 50, 50);
+        public Color selectNormal = Colors.RGB(50, 50, 50);
 
         /**
          * <summary>
@@ -315,7 +229,7 @@ namespace UILib {
          * when hovered over).
          * </summary>
          */
-        public Color selectHighlight = RGB(80, 80, 80);
+        public Color selectHighlight = Colors.RGB(80, 80, 80);
 
         /**
          * <summary>
@@ -326,7 +240,7 @@ namespace UILib {
          * <see cref="Components.ScrollView">ScrollViews</see>.
          * </summary>
          */
-        public Color selectAltNormal = RGB(134, 134, 134);
+        public Color selectAltNormal = Colors.RGB(134, 134, 134);
 
         /**
          * <summary>
@@ -335,7 +249,7 @@ namespace UILib {
          * of the handles for <see cref="Components.Slider">Sliders</see>..
          * </summary>
          */
-        public Color selectAltHighlight = RGB(164, 164, 164);
+        public Color selectAltHighlight = Colors.RGB(164, 164, 164);
 
         /**
          * <summary>
@@ -356,7 +270,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color importantNormal = RGB(166, 89, 89);
+        public Color importantNormal = Colors.RGB(166, 89, 89);
         /**
          * <summary>
          * The secondary important color.
@@ -364,7 +278,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color importantHighlight = RGB(204, 51, 51);
+        public Color importantHighlight = Colors.RGB(204, 51, 51);
 
 #endregion
 

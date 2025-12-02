@@ -9,6 +9,77 @@ namespace UILib {
      */
     public static class Colors {
 
+#region RGB
+
+        /**
+         * <summary>
+         * Creates a `Color` from red, green, blue, and alpha
+         * components.
+         * </summary>
+         * <param name="r">The red value (0-255)</param>
+         * <param name="g">The green value (0-255)</param>
+         * <param name="b">The blue value (0-255)</param>
+         * <param name="a">The alpha value (0-100)</param>
+         * <returns>The `Color`</returns>
+         */
+        public static Color RGBA(int r, int g, int b, int a) {
+            return new Color(
+                ((float) r)/255f,
+                ((float) g)/255f,
+                ((float) b)/255f,
+                ((float) a)/100f
+            );
+        }
+
+        /**
+         * <summary>
+         * Creates a `Color` from red, green, blue, and alpha
+         * components.
+         * </summary>
+         * <param name="r">The red value (0-255)</param>
+         * <param name="g">The green value (0-255)</param>
+         * <param name="b">The blue value (0-255)</param>
+         * <returns>The `Color`</returns>
+         */
+        public static Color RGB(int r, int g, int b) {
+            return RGBA(r, g, b, 100);
+        }
+
+#endregion
+
+#region Hex
+
+        /**
+         * <summary>
+         * Creates a `Color` from a hex value of the form
+         * 0xRRGGBBAA.
+         * </summary>
+         * <param name="hexA">The hex value (including the alpha component)</param>
+         * <returns>The `Color</returns>
+         */
+        public static Color HexA(int hexA) {
+            int r = 0xff & (hexA >> 24);
+            int g = 0xff & (hexA >> 16);
+            int b = 0xff & (hexA >> 8);
+            int a = 0xff & (hexA >> 0);
+
+            return RGBA(r, g, b, a);
+        }
+
+        /**
+         * <summary>
+         * Creates a `Color` from a hex value of the form
+         * 0xRRGGBB.
+         * </summary>
+         * <param name="hex">The hex value</param>
+         * <returns>The `Color</returns>
+         */
+        public static Color Hex(int hex) {
+            return HexA((hex << 8) | 0xff);
+        }
+
+#endregion
+
 #region HSL
 
         /**
@@ -117,44 +188,6 @@ namespace UILib {
          */
         public static Color HSV(float h, float s, float v) {
             return HSVA(h, s, v, 100f);
-        }
-
-#endregion
-
-#region RGB
-
-        /**
-         * <summary>
-         * Creates a `Color` from red, green, blue, and alpha
-         * components.
-         * </summary>
-         * <param name="r">The red value (0-255)</param>
-         * <param name="g">The green value (0-255)</param>
-         * <param name="b">The blue value (0-255)</param>
-         * <param name="a">The alpha value (0-100)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color RGBA(int r, int g, int b, int a) {
-            return new Color(
-                ((float) r)/255f,
-                ((float) g)/255f,
-                ((float) b)/255f,
-                ((float) a)/100f
-            );
-        }
-
-        /**
-         * <summary>
-         * Creates a Color from red, green, blue, and alpha
-         * components.
-         * </summary>
-         * <param name="r">The red value (0-255)</param>
-         * <param name="g">The green value (0-255)</param>
-         * <param name="b">The blue value (0-255)</param>
-         * <returns>The `Color`</returns>
-         */
-        public static Color RGB(int r, int g, int b) {
-            return RGBA(r, g, b, 100);
         }
 
 #endregion

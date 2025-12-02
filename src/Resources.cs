@@ -81,11 +81,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * A material which renders an HSL rectangle.
+         * A material which renders an HSV rectangle.
          * </summary>
          */
-        public static Material hslRect { get; private set; } = LoadFromBundle<Material>(
-            "HSLRect"
+        public static Material hsvRect { get; private set; } = LoadFromBundle<Material>(
+            "HSVRect"
         );
 
         /**

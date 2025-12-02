@@ -9,22 +9,52 @@ namespace UILib.Components {
      * </summary>
      */
     public class QueueArea : Area {
-        private int maxCount;
+        private int limit;
 
         /**
          * <summary>
          * Initializes a queue area.
          * </summary>
-         * <param name="maxCount">The maximum number of children in the queue</param>
+         * <param name="limit">The maximum number of children in the queue</param>
          */
-        public QueueArea(int maxCount) {
-            this.maxCount = Math.Max(0, maxCount);
+        public QueueArea(int limit) {
+            SetLimit(limit);
         }
 
         /**
          * <summary>
-         * Adds a child to this area, but also removes
-         * the oldest one if there are too many.
+         * Checks the current child count, removing
+         * children where they exceed the set `limit`.
+         *
+         * The oldest child will be removed first.
+         * </summary>
+         */
+        private void Prune() {
+            while (children.Count > limit && children.Count > 0) {
+                children[0].Destroy();
+            }
+        }
+
+        /**
+         * <summary>
+         * Sets this queue area to use a new `limit`.
+         *
+         * If the number of children exceeds the newly set limit,
+         * they will be pruned (oldest removed first).
+         * </summary>
+         * <param name="limit">The new limit to use</param>
+         */
+        public void SetLimit(int limit) {
+            this.limit = Math.Max(0, limit);
+            Prune();
+        }
+
+        /**
+         * <summary>
+         * Adds a child to this area.
+         *
+         * If the number of children exceeds the set `limit`,
+         * they will be pruned (oldest removed first).
          *
          * See <see cref="UIObject.Add(UIComponent, bool)"/> as this
          * would probably be the method you'd want to call instead.
@@ -34,10 +64,7 @@ namespace UILib.Components {
          */
         public override void AddContent(UIComponent child, bool setTheme = true) {
             base.AddContent(child, setTheme);
-
-            if (children.Count >= maxCount) {
-                children[0].Destroy();
-            }
+            Prune();
         }
     }
 }

@@ -30,28 +30,28 @@ namespace UILib {
          * The minimum width of this window.
          * </summary>
          */
-        private float minWidth = 200f;
+        public float minWidth { get; private set; } = 200f;
 
         /**
          * <summary>
          * The minimum height of this window.
          * </summary>
          */
-        private float minHeight = 200f;
+        public float minHeight { get; private set; } = 200f;
 
         /**
          * <summary>
          * The maximum width of this window.
          * </summary>
          */
-        private float maxWidth = 1920f;
+        public float maxWidth { get; private set; } = 1920f;
 
         /**
          * <summary>
          * The maximum height of this window.
          * </summary>
          */
-        private float maxHeight = 1080f;
+        public float maxHeight { get; private set; } = 1080f;
 
         /**
          * <summary>
@@ -67,10 +67,6 @@ namespace UILib {
          */
         public ScrollView scrollView { get; private set; }
 
-        // States stored for helping with moving/resizing/maximising/etc.
-        private WindowState state;
-        private Vector2 latestDragPosition;
-
         /**
          * <summary>
          * This window's <see cref="TitleBar"/>.
@@ -85,6 +81,10 @@ namespace UILib {
          * </summary>
          */
         public ResizeButton resizeButton { get; private set; }
+
+        // States stored for helping with moving/resizing/maximising/etc.
+        private WindowState state;
+        private Vector2 latestDragPosition;
 
         // Fade for canvas groups
         private Fade decorationFade;
@@ -488,6 +488,7 @@ namespace UILib {
         public void SetMinSize(float width, float height) {
             minWidth = width;
             minHeight = height;
+            ResizeBy(Vector3.zero);
         }
 
         /**
@@ -500,6 +501,7 @@ namespace UILib {
         public void SetMaxSize(float width, float height) {
             maxWidth = width;
             maxHeight = height;
+            ResizeBy(Vector3.zero);
         }
 
         /**

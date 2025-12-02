@@ -25,11 +25,11 @@ namespace UILibExamples {
             // all settings will be UILib's defaults
             Theme theme = new Theme() {
                 // Override some of the theme
-                // Theme also has some nice methods for making Colors
-                background         = Theme.RGB(100, 40, 40),
-                foreground         = Theme.RGB(180, 140, 160),
-                selectNormal       = Theme.RGB(130, 40, 80),
-                selectHighlight    = Theme.RGB(200, 80, 120),
+                // There are also some nice methods for making Colors
+                background         = Colors.RGB(100, 40, 40),
+                foreground         = Colors.HSL(180, 50, 70),
+                selectNormal       = Colors.HSV(240, 30, 50),
+                selectHighlight    = Colors.Hex(0xffaaee),
                 selectFadeTime     = 2f,
                 overlayFadeTime    = 0.5f,
                 windowOpacity      = 0.9f,

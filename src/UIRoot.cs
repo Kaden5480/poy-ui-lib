@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 using UILib.Notifications;
 
@@ -8,10 +9,18 @@ namespace UILib {
     /**
      * <summary>
      * The root of UILib.
-     * This initializes notifications and handles window management.
+     * This initializes audio, notifications, the input overlay, and
+     * handles window management.
      * </summary>
      */
-    internal static class UIRoot {
+    public static class UIRoot {
+        /**
+         * <summary>
+         * Invokes listeners once UILib has been initialized.
+         * </summary>
+         */
+        public static UnityEvent onInit { get; } = new UnityEvent();
+
         // The minimum sorting order to apply to Overlay canvases
         private const int minSortingOrder = 1000;
 
@@ -57,6 +66,8 @@ namespace UILib {
             // Initialize input overlay
             inputOverlay = new InputOverlay();
             UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
+
+            onInit.Invoke();
         }
 
         /**

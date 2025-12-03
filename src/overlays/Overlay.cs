@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using UnityEngine;
 
 using UILib.Behaviours;
@@ -31,6 +33,10 @@ namespace UILib {
 
         // Fade for controlling this overlay's canvas group
         internal Fade fade;
+
+        // The behaviour for managing this overlay's
+        // local shortcuts
+        private LocalShortcuts localShortcuts;
 
         /**
          * <summary>
@@ -108,6 +114,42 @@ namespace UILib {
 
         /**
          * <summary>
+         * Destroy this overlay and all children.
+         * </summary>
+         */
+        public override void Destroy() {
+            UIRoot.Unregister(this);
+            base.Destroy();
+
+            // If an active pause handle exists, remove it
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+            }
+        }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this overlay
+         * and all children.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        public override void SetTheme(Theme theme) {
+            base.SetTheme(theme);
+
+            // Tell the fade to use a different opacity
+            // and fade time
+            fade.SetOpacities(max: theme.overlayOpacity);
+            fade.SetFadeTime(theme.overlayFadeTime);
+
+            // Update the canvas group
+            canvasGroup.alpha = theme.overlayOpacity;
+        }
+
+#region Hovering/Focusing
+
+        /**
+         * <summary>
          * Handles this overlay being hovered over.
          * </summary>
          */
@@ -141,40 +183,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this overlay
-         * and all children.
-         * </summary>
-         * <param name="theme">The theme to apply</param>
-         */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
-            // Tell the fade to use a different opacity
-            // and fade time
-            fade.SetOpacities(max: theme.overlayOpacity);
-            fade.SetFadeTime(theme.overlayFadeTime);
-
-            // Update the canvas group
-            canvasGroup.alpha = theme.overlayOpacity;
-        }
-
-        /**
-         * <summary>
-         * Destroy this overlay and all children.
-         * </summary>
-         */
-        public override void Destroy() {
-            UIRoot.Unregister(this);
-            base.Destroy();
-
-            // If an active pause handle exists, remove it
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-            }
-        }
-
-        /**
-         * <summary>
          * Sets whether this overlay can be interacted with.
          * </summary>
          * <param name="canInteract">Whether interactions should be allowed</param>
@@ -182,6 +190,44 @@ namespace UILib {
         public virtual void SetInteractable(bool canInteract) {
             this.canInteract = canInteract;
         }
+
+        /**
+         * <summary>
+         * Brings this overlay to the front
+         * so that it displays above all others.
+         * </summary>
+         */
+        public void BringToFront() {
+            UIRoot.BringToFront(this);
+        }
+
+#endregion
+
+#region Local Shortcuts
+
+        /**
+         * <summary>
+         * Adds a local <see cref="Behaviours.Shortcut"/> to this overlay.
+         *
+         * Local shortcuts are triggered whenever
+         * all keys configured in the shortcut are pressed.
+         * </summary>
+         * <param name="keys">The keybind for this shortcut</param>
+         * <returns>The <see cref="Shortcut"/> which was created</returns>
+         */
+        public Shortcut AddShortcut(IList<KeyCode> keys) {
+            if (localShortcuts == null) {
+                localShortcuts = gameObject.AddComponent<LocalShortcuts>();
+                localShortcuts.overlay = this;
+            }
+
+            Shortcut shortcut = new Shortcut(keys);
+            localShortcuts.Add(shortcut);
+
+            return shortcut;
+        }
+
+#endregion
 
         /**
          * <summary>
@@ -215,16 +261,6 @@ namespace UILib {
             if (isVisible == true && pauseHandle == null) {
                 pauseHandle = new PauseHandle();
             }
-        }
-
-        /**
-         * <summary>
-         * Brings this overlay to the front
-         * so that it displays above all others.
-         * </summary>
-         */
-        public void BringToFront() {
-            UIRoot.BringToFront(this);
         }
 
         /**

@@ -132,7 +132,7 @@ namespace UILib {
          * This is the recommended way of handling global shortcuts
          * when working with UILib.
          * </summary>
-         * <param name="keys">The keybinds for this shortcut</param>
+         * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
          * <returns>The <see cref="Behaviours.Shortcut"/> which was created</returns>
          */
         public static Shortcut AddShortcut(IList<KeyCode> keys) {

@@ -212,8 +212,8 @@ namespace UILib {
          * Local shortcuts are triggered whenever
          * all keys configured in the shortcut are pressed.
          * </summary>
-         * <param name="keys">The keybind for this shortcut</param>
-         * <returns>The <see cref="Shortcut"/> which was created</returns>
+         * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
+         * <returns>The <see cref="Behaviours.Shortcut"/> which was created</returns>
          */
         public Shortcut AddShortcut(IList<KeyCode> keys) {
             if (localShortcuts == null) {

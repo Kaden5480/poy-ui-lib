@@ -79,19 +79,7 @@ namespace UILib.Behaviours {
          */
         private void Awake() {
             onIter.AddListener((float value) => {
-                // The proportion of the fade time
-                // which has passed (0-1)
-                float t = 1f;
-
-                if (fadeTime != 0) {
-                    t = value / fadeTime;
-                }
-
-                // The total fade delta
-                float delta = maxOpacity - minOpacity;
-
-                // The actual opacity to set
-                opacity = minOpacity + delta*t;
+                opacity = value;
 
                 foreach (CanvasGroup group in groups) {
                     group.alpha = opacity;
@@ -123,6 +111,15 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Recalculates the appropriate time scale.
+         * </summary>
+         */
+        private void CalcTimeScale() {
+            SetTimeScale((maxOpacity - minOpacity) / fadeTime);
+        }
+
+        /**
+         * <summary>
          * Sets the minimum and maximum opacities
          * to fade between.
          *
@@ -147,6 +144,8 @@ namespace UILib.Behaviours {
                 this.minOpacity = max;
                 this.maxOpacity = min;
             }
+
+            CalcTimeScale();
         }
 
         /**
@@ -158,6 +157,7 @@ namespace UILib.Behaviours {
          */
         public void SetFadeTime(float time) {
             this.fadeTime = time;
+            CalcTimeScale();
         }
 
         /**
@@ -169,15 +169,8 @@ namespace UILib.Behaviours {
             fadingIn = true;
             fadingOut = false;
 
-            // If the timer is already running, fade in
-            // from its current value
-            if (running == true) {
-                StartTimer(timer, fadeTime);
-            }
-            // Otherwise, fade in from 0
-            else {
-                StartTimer(0f, fadeTime);
-            }
+            // Fade in from current opacity
+            StartTimer(opacity, maxOpacity);
         }
 
         /**
@@ -189,15 +182,8 @@ namespace UILib.Behaviours {
             fadingIn = false;
             fadingOut = true;
 
-            // If the timer is already running, fade out
-            // from its current value
-            if (running == true) {
-                StartTimer(timer, 0f);
-            }
-            // Otherwise, fade out from the max
-            else {
-                StartTimer(fadeTime, 0f);
-            }
+            // Fade out from current opacity
+            StartTimer(opacity, minOpacity);
         }
     }
 }

@@ -20,6 +20,17 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * The time scale. By default this is `1`.
+         * Scales how quickly the timer should run.
+         *
+         * The higher this value, the faster the timer runs.
+         * The lower this value, the slower the timer runs.
+         * </summary>
+         */
+        public float timeScale { get; private set; } = 1f;
+
+        /**
+         * <summary>
          * The current value of the timer.
          * </summary>
          */
@@ -60,6 +71,16 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public UnityEvent onEnd { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Sets the <see cref="timeScale"/>.
+         * </summary>
+         * <param name="timeScaler">The new value for the time scaler</param>
+         */
+        public void SetTimeScale(float timeScale) {
+            this.timeScale = timeScale;
+        }
 
         /**
          * <summary>
@@ -130,7 +151,7 @@ namespace UILib.Behaviours {
                 float prevTimer = timer;
 
                 timer = Mathf.MoveTowards(
-                    timer, endTime, Time.deltaTime
+                    timer, endTime, timeScale * Time.deltaTime
                 );
 
                 if (timer == prevTimer) {

@@ -100,7 +100,7 @@ namespace UILib {
             overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
 
             // Don't control InputOverlay
-            if (overlay.GetType == typeof(InputOverlay)) {
+            if (overlay.GetType() == typeof(InputOverlay)) {
                 return;
             }
 

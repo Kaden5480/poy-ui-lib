@@ -234,7 +234,6 @@ namespace UILib {
                     if (Event.current.type == EventType.KeyDown
                         || IsMouseDown() == true
                     ) {
-
                         KeyCode current = GetCurrentKey();
                         if (ShouldIgnore(current) == false) {
                             ev.Invoke(current);

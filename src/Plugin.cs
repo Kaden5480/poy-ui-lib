@@ -20,6 +20,8 @@ namespace UILib {
          * </summary>
          */
         private void Awake() {
+            instance = this;
+
             UILib.Config.Init(Config);
             Patcher.Awake();
 

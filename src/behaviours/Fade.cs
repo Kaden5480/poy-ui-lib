@@ -11,8 +11,33 @@ namespace UILib.Behaviours {
      * </summary>
      */
     public class Fade : Timer {
-        // How long fading should take
-        private float fadeTime = 0f;
+        /**
+         * <summary>
+         * The currently set length of time fading should take.
+         * </summary>
+         */
+        public float fadeTime { get; private set; } = 0f;
+
+        /**
+         * <summary>
+         * The currently set minimum opacity.
+         * </summary>
+         */
+        public float minOpacity { get; private set; } = 0f;
+
+        /**
+         * <summary>
+         * The currently set maximum opacity.
+         * </summary>
+         */
+        public float maxOpacity { get; private set; } = 1f;
+
+        /**
+         * <summary>
+         * The opacity the canvas groups are currently at.
+         * </summary>
+         */
+        public float opacity { get; private set; } = 1f;
 
         /**
          * <summary>
@@ -27,12 +52,6 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public bool fadingOut { get; private set; } = false;
-
-        // The minimum and maximum opacities
-        private float minOpacity = 0f;
-        private float maxOpacity = 1f;
-
-        private List<CanvasGroup> groups = new List<CanvasGroup>();
 
         /**
          * <summary>
@@ -49,6 +68,9 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public UnityEvent onFadeOut { get; } = new UnityEvent();
+
+        // Canvas groups to fade in/out
+        private List<CanvasGroup> groups = new List<CanvasGroup>();
 
         /**
          * <summary>
@@ -69,7 +91,7 @@ namespace UILib.Behaviours {
                 float delta = maxOpacity - minOpacity;
 
                 // The actual opacity to set
-                float opacity = minOpacity + delta*t;
+                opacity = minOpacity + delta*t;
 
                 foreach (CanvasGroup group in groups) {
                     group.alpha = opacity;
@@ -125,7 +147,6 @@ namespace UILib.Behaviours {
                 this.minOpacity = max;
                 this.maxOpacity = min;
             }
-
         }
 
         /**

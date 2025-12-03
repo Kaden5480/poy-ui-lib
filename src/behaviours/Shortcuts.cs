@@ -102,13 +102,17 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Checks whether all provided `KeyCodes`
-         * are down.
+         * Checks whether all provided `KeyCodes` are down.
          * </summary>
          * <param name="keys">The keys to check</param>
          * <returns>True if they are, false otherwise</returns>
          */
         private bool AllKeysDown(IList<KeyCode> keys) {
+            // If keys is empty, just do nothing
+            if (keys.Count < 1) {
+                return false;
+            }
+
             foreach (KeyCode key in keys) {
                 if (Input.GetKeyDown(key) == false) {
                     return false;

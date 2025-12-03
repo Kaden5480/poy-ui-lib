@@ -12,7 +12,6 @@ namespace UILib {
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 
-        private ConfigEntry<bool> showIntro;
         private Intro intro;
 
         /**
@@ -23,10 +22,7 @@ namespace UILib {
         private void Awake() {
             instance = this;
 
-            showIntro = Config.Bind(
-                "General", "showIntro", true,
-                "Whether to show the intro on startup"
-            );
+            UILib.Config.Init();
 
             Patcher.Awake();
 
@@ -35,8 +31,8 @@ namespace UILib {
 
             UIRoot.Init();
 
-            if (showIntro.Value == true) {
-                intro = new Intro(showIntro);
+            if (UILib.Config.showIntro.Value == true) {
+                intro = new Intro();
             }
         }
 

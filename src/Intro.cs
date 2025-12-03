@@ -83,7 +83,7 @@ namespace UILib {
             Toggle showOnStartup = new Toggle(showIntro.Value);
             showOnStartup.SetSize(28f, 28f);
             showOnStartup.onValueChanged.AddListener((bool value) => {
-                showIntro.Value = value;
+                Config.showIntro.Value = value;
             });
             showArea.Add(showOnStartup);
 

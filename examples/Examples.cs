@@ -21,6 +21,7 @@ namespace UILibExamples {
         private Chat chat;
         private Inputs inputs;
         private UILibExamples.Layouts layouts;
+        private Shortcuts shortcuts;
         private PauseHandles pauseHandles;
         private Themes themes;
 
@@ -29,10 +30,11 @@ namespace UILibExamples {
             chat = new Chat();
             inputs = new Inputs();
             layouts = new UILibExamples.Layouts();
+            shortcuts = new Shortcuts();
             pauseHandles = new PauseHandles();
             themes = new Themes();
 
-            overlay = new Overlay(300f, 400f);
+            overlay = new Overlay(300f, 450f);
             // Overlays don't have a background by default
             Image background = new Image(Color.black);
             background.SetFill(FillType.All);
@@ -48,6 +50,7 @@ namespace UILibExamples {
             AddExample(chat);
             AddExample(inputs);
             AddExample(layouts);
+            AddExample(shortcuts);
             AddExample(pauseHandles);
             AddExample(themes);
         }
@@ -68,6 +71,12 @@ namespace UILibExamples {
 
         public void Update() {
             pauseHandles.Update();
+            shortcuts.Update();
+
+            // Don't listen for keybinds
+            if (InputOverlay.waitingForInput == true) {
+                return;
+            }
 
             if (Input.GetKeyDown(KeyCode.Tab) == true) {
                 overlay.ToggleVisibility();

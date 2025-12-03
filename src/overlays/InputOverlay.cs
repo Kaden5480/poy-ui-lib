@@ -14,9 +14,11 @@ namespace UILib {
      * An overlay which pops up to allow the user
      * to enter a key.
      *
-     * When working with UILib, you should really check
-     * if <see cref="waitingForInput"/> is set before
-     * doing any other input handling in your mod.
+     * If you're not taking advantage of UILib's
+     * <see cref="UIRoot.AddShortcut">global</see> and
+     * <see cref="Overlay.AddShortcut">local</see> shortcut system,
+     * then you should really check if <see cref="waitingForInput"/>
+     * is set before doing any other input handling in your mod.
      * This prevents some weirdness where your mod
      * may trigger something while the input overlay
      * is waiting for an input.

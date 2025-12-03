@@ -12,6 +12,10 @@ namespace UILib {
      * The root of UILib.
      * This initializes audio, notifications, the input overlay, and
      * handles window management.
+     *
+     * You should use <see cref="UIRoot.onInit"/> to know when
+     * you can start using UILib. `onInit` invokes listeners
+     * once UILib has finished setting everything up internally.
      * </summary>
      */
     public static class UIRoot {

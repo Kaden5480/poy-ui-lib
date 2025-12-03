@@ -27,6 +27,7 @@ namespace UILib.Patches {
             Patch(typeof(InteractFixes));
             Patch(typeof(FadeFix));
             Patch(typeof(MenuFix));
+            Patch(typeof(SceneLoads));
         }
 
         /**
@@ -38,6 +39,7 @@ namespace UILib.Patches {
          */
         internal static void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             Cache.FindObjects();
+            SceneLoads.OnSceneLoaded(scene);
         }
 
         /**
@@ -47,6 +49,7 @@ namespace UILib.Patches {
          * <param name="scene">The scene which unloaded</param>
          */
         internal static void OnSceneUnloaded(Scene scene) {
+            SceneLoads.OnSceneUnloaded(scene);
             Cache.Clear();
         }
 

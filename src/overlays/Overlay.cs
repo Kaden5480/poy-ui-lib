@@ -40,14 +40,14 @@ namespace UILib {
         private LocalShortcuts localShortcuts;
 
         /**
-         * <summary
+         * <summary>
          * Invokes listeners when this overlay becomes focused.
          * </summary>
          */
         public UnityEvent onFocus { get; } = new UnityEvent();
 
         /**
-         * <summary
+         * <summary>
          * Invokes listeners when this overlay loses focus.
          * </summary>
          */

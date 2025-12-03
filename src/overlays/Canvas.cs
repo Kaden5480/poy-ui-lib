@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 using UECanvas = UnityEngine.Canvas;
 using UECanvasScaler = UnityEngine.UI.CanvasScaler;
@@ -9,9 +8,9 @@ using UEGraphicRaycaster = UnityEngine.UI.GraphicRaycaster;
 namespace UILib {
     /**
      * <summary>
-     * A Canvas which each Window gets attached to.
+     * A Canvas which each <see cref="Overlay"/> gets attached to.
      *
-     * Every Window has its own Canvas to handle
+     * Every overlay has its own canvas to handle
      * sorting them on top of each other.
      * </summary>
      */

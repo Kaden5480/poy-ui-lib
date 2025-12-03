@@ -77,7 +77,7 @@ namespace UILib.Behaviours {
          * <param name="keys">The new shortcut</param>
          */
         public void SetShortcut(IList<KeyCode> keys) {
-            keys = new List<KeyCode>(keys);
+            this.keys = new List<KeyCode>(keys);
         }
     }
 

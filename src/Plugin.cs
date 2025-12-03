@@ -20,20 +20,11 @@ namespace UILib {
          * </summary>
          */
         private void Awake() {
-            instance = this;
-
             UILib.Config.Init(Config);
-
             Patcher.Awake();
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
-
-            UIRoot.Init();
-
-            if (UILib.Config.showIntro.Value == true) {
-                intro = new Intro();
-            }
         }
 
         /**
@@ -42,7 +33,10 @@ namespace UILib {
          * </summary>
          */
         private void Start() {
-            if (intro != null) {
+            UIRoot.Init();
+
+            if (UILib.Config.showIntro.Value == true) {
+                intro = new Intro();
                 intro.Show();
             }
         }

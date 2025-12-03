@@ -16,9 +16,9 @@ namespace UILib {
          * </summary>
          * <param name="configFile">The config file to use</param>
          */
-        internal void Init(ConfigFile configFile) {
+        internal static void Init(ConfigFile configFile) {
             // General
-            showIntro = Config.Bind(
+            showIntro = configFile.Bind(
                 "General", "showIntro", true,
                 "Whether to show the intro on startup"
             );

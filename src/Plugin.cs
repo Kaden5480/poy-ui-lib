@@ -22,7 +22,7 @@ namespace UILib {
         private void Awake() {
             instance = this;
 
-            UILib.Config.Init();
+            UILib.Config.Init(Config);
 
             Patcher.Awake();
 

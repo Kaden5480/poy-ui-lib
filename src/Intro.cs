@@ -38,7 +38,7 @@ namespace UILib {
          * Initializes the intro UI.
          * </summary>
          */
-        internal Intro(ConfigEntry<bool> showIntro) {
+        internal Intro() {
             theme.fontLineSpacing = 4;
 
             window = new Window("UILib Intro", 650f, 550f);
@@ -80,7 +80,7 @@ namespace UILib {
             AddSmall(showArea, "Show this intro on startup", 200f, 18)
                 .SetColor(theme.selectAltNormal);
 
-            Toggle showOnStartup = new Toggle(showIntro.Value);
+            Toggle showOnStartup = new Toggle(Config.showIntro.Value);
             showOnStartup.SetSize(28f, 28f);
             showOnStartup.onValueChanged.AddListener((bool value) => {
                 Config.showIntro.Value = value;

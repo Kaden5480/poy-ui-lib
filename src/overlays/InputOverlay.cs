@@ -60,9 +60,6 @@ namespace UILib {
          * </summary>
          */
         internal InputOverlay() : base(0f, 0f) {
-            canvas.canvas.sortingOrder
-                = UIRoot.inputOverlaySortingOrder;
-
             SetFill(FillType.All);
 
             // The huge translucent background

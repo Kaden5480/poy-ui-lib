@@ -22,9 +22,22 @@ namespace UILib {
         /**
          * <summary>
          * Invokes listeners once UILib has been initialized.
+         * This indicates when you can start building UIs.
          * </summary>
          */
         public static UnityEvent onInit { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners once UILib's window
+         * management has been initialized.
+         *
+         * This happens later than <see cref="onInit"/>
+         * and indicates when canvases have been assigned sorting
+         * orders.
+         * </summary>
+         */
+        public static UnityEvent onWMInit { get; } = new UnityEvent();
 
         // The global shortcuts
         private static GlobalShortcuts globalShortcuts;
@@ -54,6 +67,9 @@ namespace UILib {
         // Currently hovered/focused overlay
         internal static Overlay hoveredOverlay { get; private set; }
         internal static Overlay focusedOverlay { get; private set; }
+
+        // Whether UILib is fully initialized, including window management
+        private static bool isInitialized = false;
 
         /**
          * <summary>
@@ -91,17 +107,44 @@ namespace UILib {
 
         /**
          * <summary>
+         * Initializes window management.
+         * </summary>
+         */
+        internal static void InitWM() {
+            if (isInitialized == true) {
+                return;
+            }
+
+            // Assign all sorting orders
+            for (int i = 0; i < overlays.Count; i++) {
+                overlays[i].canvas.canvas.sortingOrder = minSortingOrder + i;
+            }
+
+            inputOverlay.canvas.canvas.sortingOrder = inputOverlaySortingOrder;
+            notificationArea.canvas.canvas.sortingOrder = notificationSortingOrder;
+
+            isInitialized = true;
+            onWMInit.Invoke();
+        }
+
+        /**
+         * <summary>
          * Registers an overlay for sorting.
          * </summary>
          * <param name="overlay">The overlay to register</param>
          */
         internal static void Register(Overlay overlay) {
             UIObject.SetParent(gameObject, overlay.canvas.gameObject);
-            overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
 
             // Don't control InputOverlay
             if (overlay.GetType() == typeof(InputOverlay)) {
                 return;
+            }
+
+            // Only assign a sorting order if window management
+            // has been initialized
+            if (isInitialized == true) {
+                overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
             }
 
             overlays.Add(overlay);
@@ -165,12 +208,20 @@ namespace UILib {
          * <param name="overlay">The overlay to bring to the front</param>
          */
         internal static void BringToFront(Overlay overlay) {
+            // Try finding the overlay
+            int index = overlays.IndexOf(overlay);
+
+            // If not fully initialized, just re-add
+            if (isInitialized == false && index >= 0) {
+                overlays.Remove(overlay);
+                overlays.Add(overlay);
+
+                return;
+            }
+
             // Make the overlay focused
             focusedOverlay = overlay;
             overlay.onFocus.Invoke();
-
-            // Try finding the overlay
-            int index = overlays.IndexOf(overlay);
 
             if (index < 0) {
                 return;

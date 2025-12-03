@@ -27,6 +27,7 @@ namespace UILib {
         internal Canvas() {
             canvas = gameObject.AddComponent<UECanvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = -1;
 
             UECanvasScaler scaler = gameObject.AddComponent<UECanvasScaler>();
             scaler.uiScaleMode = UECanvasScaler.ScaleMode.ScaleWithScreenSize;

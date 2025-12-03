@@ -26,7 +26,6 @@ namespace UILib.Notifications {
 
             canvas = new Canvas();
             canvas.Add(this);
-            canvas.canvas.sortingOrder = UIRoot.notificationSortingOrder;
 
             SetAnchor(AnchorType.TopRight);
             SetFill(FillType.Vertical);

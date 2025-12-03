@@ -83,13 +83,10 @@ namespace UILib.Behaviours {
 
     /**
      * <summary>
-     * The behaviour which handles local shortcuts.
+     * The behaviour which handles global shortcuts.
      * </summary>
      */
-    internal class LocalShortcuts : MonoBehaviour {
-        // The overlay this behaviour is for
-        internal Overlay overlay;
-
+    internal class GlobalShortcuts : MonoBehaviour {
         // The shortcuts assigned
         internal List<Shortcut> shortcuts { get; } = new List<Shortcut>();
 
@@ -127,9 +124,10 @@ namespace UILib.Behaviours {
          * triggered, invoke the associated listeners.
          * </summary>
          */
-        private void Update() {
-            // Only run when the overlay is focused
-            if (overlay.isFocused == false) {
+        internal virtual void Update() {
+            // Don't do anything if the input overlay
+            // is waiting for an input
+            if (InputOverlay.waitingForInput == true) {
                 return;
             }
 
@@ -137,11 +135,34 @@ namespace UILib.Behaviours {
                 // Ignore disabled shortcuts
                 if (shortcut.enabled == false) {
                     continue;
-                }
 
+                }
                 if (AllKeysDown(shortcut.keys) == true) {
                     shortcut.onTrigger.Invoke();
                 }
+            }
+        }
+    }
+
+    /**
+     * <summary>
+     * The behaviour which handles local shortcuts.
+     * </summary>
+     */
+    internal class LocalShortcuts : GlobalShortcuts {
+        // The overlay this behaviour is for
+        internal Overlay overlay;
+
+        /**
+         * <summary>
+         * If any of the assigned shortcuts are
+         * triggered, invoke the associated listeners.
+         * </summary>
+         */
+        internal override void Update() {
+            // Only run when the overlay is focused
+            if (overlay.isFocused == true) {
+                base.Update();
             }
         }
     }

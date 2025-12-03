@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using UILib.Behaviours;
 using UILib.Notifications;
 
 namespace UILib {
@@ -20,6 +21,9 @@ namespace UILib {
          * </summary>
          */
         public static UnityEvent onInit { get; } = new UnityEvent();
+
+        // The global shortcuts
+        private static GlobalShortcuts globalShortcuts;
 
         // The minimum sorting order to apply to Overlay canvases
         private const int minSortingOrder = 1000;
@@ -75,6 +79,9 @@ namespace UILib {
             inputOverlay = new InputOverlay();
             UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
 
+            // Initialize global shortcuts
+            globalShortcuts = gameObject.AddComponent<GlobalShortcuts>();
+
             onInit.Invoke();
         }
 
@@ -114,6 +121,25 @@ namespace UILib {
 
             inputOverlay.canvas.Show();
             notificationArea.canvas.Show();
+        }
+
+        /**
+         * <summary>
+         * Adds a global shortcut. Global shortcuts can be triggered
+         * at any time, but only when the <see cref="InputOverlay"/>
+         * isn't waiting for an input.
+         *
+         * This is the recommended way of handling global shortcuts
+         * when working with UILib.
+         * </summary>
+         * <param name="keys">The keybinds for this shortcut</param>
+         * <returns>The <see cref="Behaviours.Shortcut"/> which was created</returns>
+         */
+        public static Shortcut AddShortcut(IList<KeyCode> keys) {
+            Shortcut shortcut = new Shortcut(keys);
+            globalShortcuts.Add(shortcut);
+
+            return shortcut;
         }
 
 

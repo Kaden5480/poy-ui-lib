@@ -34,6 +34,17 @@ namespace UILib {
 
         /**
          * <summary>
+         * Whether this overlay is currently focused.
+         * If the overlay is focused, it means that it
+         * can receive local shortcuts.
+         * </summary>
+         */
+        public bool isFocused {
+            get => UIRoot.focusedOverlay == this;
+        }
+
+        /**
+         * <summary>
          * Whether the user can interact with this overlay.
          * </summary>
          */
@@ -93,6 +104,39 @@ namespace UILib {
 
             // Hide by default
             Hide();
+        }
+
+        /**
+         * <summary>
+         * Handles this overlay being hovered over.
+         * </summary>
+         */
+        protected override void OnPointerEnter() {
+            UIRoot.SetHoveredOverlay(this);
+
+            // If focus on hover is enabled, also
+            // bring this overlay to the front
+            if (Config.focusOnHover.Value == true) {
+                BringToFront();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles this overlay no longer being hovered over.
+         * </summary>
+         */
+        protected override void OnPointerExit() {
+            UIRoot.SetUnhoveredOverlay(this);
+        }
+
+        /**
+         * <summary>
+         * Bring this overlay's canvas to the front.
+         * </summary>
+         */
+        protected override void OnClick() {
+            BringToFront();
         }
 
         /**

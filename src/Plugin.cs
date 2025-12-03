@@ -86,6 +86,7 @@ namespace UILib {
          */
         private void Update() {
             Patcher.Update();
+            UIRoot.Update();
         }
 
 

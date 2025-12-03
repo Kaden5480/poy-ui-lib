@@ -30,14 +30,22 @@ namespace UILib {
         // Sorting order for the notification area
         internal const int notificationSortingOrder = 9999;
 
+        // The default theme used across UILib
+        internal static Theme defaultTheme { get; } = new Theme();
+
+        // UIRoot's GameObject
         private static GameObject gameObject;
 
-        private static List<Overlay> overlays;
+        // The input overlay and notification area
         internal static InputOverlay inputOverlay;
         internal static NotificationArea notificationArea;
 
-        // The default theme used across UILib
-        internal static Theme defaultTheme { get; } = new Theme();
+        // Currently available overlays
+        private static List<Overlay> overlays;
+
+        // Currently hovered/focused overlay
+        internal static Overlay hoveredOverlay { get; private set; }
+        internal static Overlay focusedOverlay { get; private set; }
 
         /**
          * <summary>
@@ -108,9 +116,14 @@ namespace UILib {
             notificationArea.canvas.Show();
         }
 
+
+#region Hovering/Focusing
+
         /**
          * <summary>
          * Sets a overlay to be in front of all others.
+         *
+         * Also handles setting the focus of an overlay.
          * </summary>
          * <param name="overlay">The overlay to bring to the front</param>
          */
@@ -133,6 +146,56 @@ namespace UILib {
             overlays.Remove(overlay);
             overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
             overlays.Add(overlay);
+
+            // This overlay is now focused
+            focusedOverlay = overlay;
         }
+
+        /**
+         * <summary>
+         * Tells UIRoot which overlay currently has
+         * the pointer hovering over it.
+         * </summary>
+         * <param name="overlay">The overlay being hovered over</param>
+         */
+        internal static void SetHoveredOverlay(Overlay overlay) {
+            hoveredOverlay = overlay;
+        }
+
+        /**
+         * <summary>
+         * Tells UIRoot that an overlay no longer has
+         * the pointer hovering over it.
+         * </summary>
+         * <param name="overlay">The overlay no longer being hovered over</param>
+         */
+        internal static void SetUnhoveredOverlay(Overlay overlay) {
+            // If this overlay was the one being hovered over, unset it
+            if (overlay == hoveredOverlay) {
+                hoveredOverlay = null;
+            }
+        }
+
+        /**
+         * <summary>
+         * Checks for a mouse input. If there is one
+         * and there isn't currently an overlay being hovered over,
+         * make sure the focus is lost.
+         * </summary>
+         */
+        internal static void Update() {
+            if (Input.GetMouseButtonDown(0) == false
+                && Input.GetMouseButtonDown(1) == false
+            ) {
+                return;
+            }
+
+            if (hoveredOverlay == null) {
+                focusedOverlay = null;
+            }
+        }
+
+#endregion
+
     }
 }

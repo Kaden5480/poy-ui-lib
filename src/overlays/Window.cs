@@ -11,8 +11,7 @@ namespace UILib {
      *
      * This object is one of the fundamental building blocks of UILib.
      *
-     * It supports being moved, resized, maximised, closed, moved
-     * on top of other windows.
+     * It supports being moved, resized, maximised, closed.
      *
      * It also has a specially configured <see cref="ScrollView"/> built in.
      * </summary>
@@ -376,15 +375,6 @@ namespace UILib {
             );
 
             return canvasLocal;
-        }
-
-        /**
-         * <summary>
-         * Bring this Window's canvas to the front
-         * </summary>
-         */
-        protected override void OnClick() {
-            BringToFront();
         }
 
         /**

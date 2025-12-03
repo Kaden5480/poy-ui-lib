@@ -91,8 +91,25 @@ namespace UILibExamples {
             // from the user
             TextField textField = new TextField("Enter text", 20);
             textField.SetSize(200f, 40f);
-            textField.onEndEdit.AddListener((string value) => {
-                Notifier.Notify("TextField", $"You entered: {value}");
+            textField.SetPredicate((string value) => {
+                if (value.Length > 4) {
+                    return true;
+                }
+
+                Notifier.Notify("TextField", "You must enter at least 4 characters!");
+                return false;
+            });
+            textField.onSubmit.AddListener((string value) => {
+                Notifier.Notify("TextField Submitted", $"Submitted value: {value}");
+            });
+            textField.onInputChanged.AddListener((string value) => {
+                Notifier.Notify("TextField Changed", $"You are entering: {value}");
+            });
+            textField.onInvalidSubmit.AddListener((string value) => {
+                Notifier.Notify("TextField Invalid", $"Invalid data: {value}");
+            });
+            textField.onCancel.AddListener(() => {
+                Notifier.Notify("TextField Cancel", "You cancelled the input");
             });
             window.Add(textField);
 

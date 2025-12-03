@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -18,7 +20,9 @@ namespace UILib.Components {
     public class TextField : UIComponent {
         // Some fixes
         internal bool wasDeselected = false;
-        private bool setValue = false;
+        private bool setInput = false;
+
+        // The previous value the user typed
         private string previousValue = "";
 
         private Label placeholder;
@@ -26,6 +30,9 @@ namespace UILib.Components {
 
         private UEImage background;
         private CustomInputField _inputField;
+
+        // The predicate used for validating the user's input
+        private Func<string, bool> predicate;
 
         /**
          * <summary>
@@ -39,7 +46,14 @@ namespace UILib.Components {
          * The current value stored in this text field.
          * </summary>
          */
-        public string value {
+        public string value { get; private set; }
+
+        /**
+         * <summary>
+         * The current value the user is entering.
+         * </summary>
+         */
+        public string userInput {
             get => input.text.text;
         }
 
@@ -59,24 +73,39 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Invokes listeners with the current value stored
-         * in the text field whenever it's updated.
+         * Invokes listeners when the user
+         * starts typing something in the input field.
+         *
+         * The value listeners receive is the text the user is typing
+         * not the value which is actually stored in this text field.
          * </summary>
          */
-        public ValueEvent<string> onValueChanged { get; } = new ValueEvent<string>();
+        public ValueEvent<string> onInputChanged { get; } = new ValueEvent<string>();
 
         /**
          * <summary>
-         * Invokes listeners with the current value stored
-         * in the text field when the user stops editing it.
+         * Invokes listeners when the user cancels entering text.
          * </summary>
          */
-        public ValueEvent<string> onEndEdit { get; } = new ValueEvent<string>();
+        public UnityEvent onCancel { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners with the user's input when they
+         * submit something invalid.
+         * </summary>
+         */
+        public ValueEvent<string> onInvalidSubmit { get; } = new ValueEvent<string>();
 
         /**
          * <summary>
          * Invokes listeners with the current value stored
          * when the user submits it.
+         *
+         * The value listeners receive is the value stored in this text field.
+         *
+         * If you have set a predicate, this only triggers if
+         * the user's input was valid.
          * </summary>
          */
         public ValueEvent<string> onSubmit { get; } = new ValueEvent<string>();
@@ -110,25 +139,54 @@ namespace UILib.Components {
                 Patches.InputFieldFix.current = this;
             });
 
-            _inputField.onEndEdit.AddListener((string value) => {
-                EventSystem.current.SetSelectedGameObject(null);
-                onEndEdit.Invoke(value);
+            // spaghetti makes the world go round
+            _inputField.onEndEdit.AddListener((string userInput) => {
+                userInput = userInput.Trim();
 
-                // Check if submitted
-                if (setValue == false
-                    && wasDeselected == false
-                    && _inputField.wasCanceled == false
-                ) {
-                    onSubmit.Invoke(value);
+                if (wasDeselected == false) {
+                    EventSystem.current.SetSelectedGameObject(null);
                 }
 
-                setValue = false;
-                wasDeselected = false;
+                // Check for cancels
+                if (_inputField.wasCanceled == true
+                    || wasDeselected == true
+                ) {
+                    setInput = true;
+                    wasDeselected = false;
+
+                    // Overwrite with last internal data
+                    _inputField.text = this.value;
+                    onCancel.Invoke();
+                    return;
+                }
+
+                // Check for submitted data
+                if (DidSubmit() == false) {
+                    return;
+                }
+
+                // Use the user's input as the new internal data
+                if (Validate(userInput) == true) {
+                    this.value = userInput;
+                    onSubmit.Invoke(this.value);
+                }
+                // Or restore
+                else {
+                    setInput = true;
+                    _inputField.text = this.value;
+                    onInvalidSubmit.Invoke(userInput);
+                }
             });
 
             _inputField.onValueChanged.AddListener((string value) => {
+                // Ignore internal updates
+                if (setInput == true) {
+                    setInput = false;
+                    return;
+                }
+
                 if (value.Equals(previousValue) == false) {
-                    onValueChanged.Invoke(value);
+                    onInputChanged.Invoke(value);
                 }
 
                 previousValue = value;
@@ -140,12 +198,52 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Checks if the user just submitted a value.
+         * </summary>
+         * <returns>Whether the user submitted</returns>
+         */
+        private bool DidSubmit() {
+            return setInput == false
+                && wasDeselected == false
+                && _inputField.wasCanceled == false;
+        }
+
+        /**
+         * <summary>
+         * Checks if the provided input is valid.
+         * </summary>
+         * <param name="value">The value to validate</param>
+         * <returns>True if it's valid, false otherwise</returns>
+         */
+        private bool Validate(string value) {
+            if (predicate == null) {
+                return true;
+            }
+
+            return predicate(value) == true;
+        }
+
+        /**
+         * <summary>
+         * Sets the predicate to use for validating
+         * the user's input.
+         * </summary>
+         * <param name="predicate">The predicate to use</param>
+         */
+        public void SetPredicate(Func<string, bool> predicate) {
+            this.predicate = predicate;
+        }
+
+        /**
+         * <summary>
          * Sets the current value stored in this
-         * text field.
+         * text field. Updates the internal value
+         * and the value displayed in the input field.
          * </summary>
          */
         public void SetValue(string value) {
-            setValue = true;
+            setInput = true;
+            this.value = value;
             _inputField.text = value;
         }
 

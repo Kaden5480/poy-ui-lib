@@ -52,7 +52,7 @@ namespace UILib.Components {
             });
 
             // Apply the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -110,8 +110,7 @@ namespace UILib.Components {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
+        protected override void SetThisTheme(Theme theme) {
             button.colors = theme.blockSelect;
         }
 

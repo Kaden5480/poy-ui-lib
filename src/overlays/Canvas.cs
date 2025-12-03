@@ -38,6 +38,15 @@ namespace UILib {
 
         /**
          * <summary>
+         * Allows setting the theme of this canvas.
+         * Does nothing.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        protected override void SetThisTheme(Theme theme) {}
+
+        /**
+         * <summary>
          * Adds a child to this canvas.
          * </summary>
          * <param name="child">The child to add</param>

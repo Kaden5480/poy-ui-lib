@@ -121,7 +121,8 @@ namespace UILib {
             SetSize(width, height);
 
             // Set the theme
-            SetTheme(theme);
+            logger.LogDebug("Setting theme");
+            SetThisTheme(theme);
 
             // Hide by default
             Hide();
@@ -144,14 +145,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this overlay
-         * and all children.
+         * Allows setting the theme of this overlay.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             // Tell the fade to use a different opacity
             // and fade time
             fade.SetOpacities(max: theme.overlayOpacity);

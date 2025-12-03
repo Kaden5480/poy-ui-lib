@@ -99,7 +99,7 @@ namespace UILib {
             buttonArea.Add(fullscreenButton);
             buttonArea.Add(closeButton);
 
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -114,14 +114,11 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this title bar
-         * and all children.
+         * Allows setting the theme of this title bar.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             background.color = theme.accent;
             closeButton.button.colors = theme.blockImportant;
         }

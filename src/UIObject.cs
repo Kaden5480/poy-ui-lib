@@ -299,8 +299,19 @@ namespace UILib {
 
         /**
          * <summary>
+         * Allows setting the theme of just this UIObject.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        protected abstract void SetThisTheme(Theme theme);
+
+        /**
+         * <summary>
          * Allows setting the theme of this UIObject
          * and all children.
+         *
+         * Passing a `theme` of `null` will result in
+         * the default theme being applied instead.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
@@ -313,6 +324,8 @@ namespace UILib {
             foreach (UIObject child in children) {
                 child.SetTheme(theme);
             }
+
+            SetThisTheme(theme);
         }
 
 #region Handling Parents/Children

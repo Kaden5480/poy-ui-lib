@@ -109,24 +109,22 @@ namespace UILib {
 
             cancelProgress.Hide();
             inputArea.Add(cancelProgress);
+
+            logger.LogDebug("Setting theme");
+            SetThisTheme(theme);
         }
 
         /**
          * <summary>
-         * Allows setting the theme of the input overlay
-         * and all children.
+         * Allows setting the theme of the input overlay.
          *
          * This handles themes a little differently to normal
          * overlays.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
-            if (background == null) {
-                return;
-            }
+        protected new void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
 
             inputBackground.SetColor(theme.background);
 

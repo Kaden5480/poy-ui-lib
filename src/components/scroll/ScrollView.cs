@@ -109,19 +109,16 @@ namespace UILib.Components {
             SetContent(scrollContent);
 
             // Set the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
          * <summary>
-         * Allows setting the theme of this scroll view
-         * and all children.
+         * Allows setting the theme of this scroll view.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             background.color = theme.background;
         }
 

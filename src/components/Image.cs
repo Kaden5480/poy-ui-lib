@@ -43,6 +43,15 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Allows setting the theme of this image.
+         * Does nothing.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        protected override void SetThisTheme(Theme theme) {}
+
+        /**
+         * <summary>
          * Changes the color of this image.
          * </summary>
          * <param name="color">The color to use</param>

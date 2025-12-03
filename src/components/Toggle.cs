@@ -15,7 +15,7 @@ namespace UILib.Components {
      * Also displays a checkmark indicating its current state.
      * </summary>
      */
-    public class Toggle :  UIComponent {
+    public class Toggle : UIComponent {
         /**
          * <summary>
          * The underlying Unity `Toggle`.
@@ -75,7 +75,7 @@ namespace UILib.Components {
                 onValueChanged.Invoke(this.value);
             });
 
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -89,14 +89,11 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Allows setting the theme of this toggle
-         * and all children.
+         * Allows setting the theme of this toggle.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             toggle.colors = theme.blockSelect;
             checkMark.SetColor(theme.foreground);
         }

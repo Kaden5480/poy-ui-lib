@@ -111,19 +111,16 @@ namespace UILib.Components {
             DestroyHandlers();
 
             // Set the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
          * <summary>
-         * Allows setting the theme of this slider
-         * and all children.
+         * Allows setting the theme of this slider.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             slider.colors = theme.blockSelectLight;
             background.SetColor(theme.selectNormal);
             fillImage.SetColor(theme.selectHighlight);

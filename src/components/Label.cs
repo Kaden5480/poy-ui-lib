@@ -37,23 +37,20 @@ namespace UILib.Components {
             SetAlignment(TextAnchor.MiddleCenter);
 
             // Apply the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
          * <summary>
-         * Allows setting the theme of this label
-         * and all children.
+         * Allows setting the theme of this label.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
-            this.text.color = theme.foreground;
-            this.text.font = theme.font;
-            this.text.fontSize = (int) (theme.fontScaler * fontSize);
-            this.text.lineSpacing = theme.fontLineSpacing;
+        protected override void SetThisTheme(Theme theme) {
+            text.color = theme.foreground;
+            text.font = theme.font;
+            text.fontSize = (int) (theme.fontScaler * fontSize);
+            text.lineSpacing = theme.fontLineSpacing;
         }
 
         /**
@@ -63,7 +60,7 @@ namespace UILib.Components {
          * <param name="alignment">The alignment to use</param>
          */
         public void SetAlignment(TextAnchor alignment) {
-            this.text.alignment = alignment;
+            text.alignment = alignment;
         }
 
         /**
@@ -73,7 +70,7 @@ namespace UILib.Components {
          * <param name="color">The color to set</param>
          */
         public void SetColor(Color color) {
-            this.text.color = color;
+            text.color = color;
         }
 
         /**

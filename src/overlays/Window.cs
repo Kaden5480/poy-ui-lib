@@ -147,7 +147,7 @@ namespace UILib {
             decorationFade.Add(cgResizeButton);
 
             // Set the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -197,17 +197,12 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this window
-         * and all children.
+         * Allows setting the theme of this window.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
-            if (scrollView == null) {
-                return;
-            }
+        protected new void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
 
             // Set the background opacity
             Color bg = scrollView.background.color;

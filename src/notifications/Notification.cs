@@ -14,7 +14,7 @@ namespace UILib.Notifications {
      * These pop up in the bottom right of the screen.
      * </summary>
      */
-    internal class Notification : UIComponent {
+    internal class Notification : Area {
         private Timer timer;
 
         /**
@@ -91,7 +91,7 @@ namespace UILib.Notifications {
             Add(dismissLabel);
 
             // Apply theme to children
-            SetTheme(theme);
+            SetThisTheme(theme);
 
             // Customise small text
             dismissLabel.SetColor(theme.selectAltNormal);

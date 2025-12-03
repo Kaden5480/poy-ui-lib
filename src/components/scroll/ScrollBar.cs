@@ -75,7 +75,7 @@ namespace UILib.Components {
             }
 
             InitLayout();
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -103,14 +103,11 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Allows setting the theme of this scroll bar
-         * and all children.
+         * Allows setting the theme of this scroll bar.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             background.color = theme.accent;
             scrollBar.colors = theme.blockSelectAlt;
         }

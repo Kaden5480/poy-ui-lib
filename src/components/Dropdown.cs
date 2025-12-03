@@ -75,7 +75,7 @@ namespace UILib.Components {
             });
 
             // Update the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -149,14 +149,12 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Allows setting the theme of this dropdown
-         * and all children.
+         * Allows setting the theme of this dropdown.
+         * Does nothing.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-        }
+        protected override void SetThisTheme(Theme theme) {}
 
 #region Adding Options
 

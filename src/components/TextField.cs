@@ -135,7 +135,7 @@ namespace UILib.Components {
             });
 
             // Set the theme
-            SetTheme(theme);
+            SetThisTheme(theme);
         }
 
         /**
@@ -151,14 +151,11 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Allows setting the theme of this text field
-         * and all children.
+         * Allows setting the theme of this text field.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        public override void SetTheme(Theme theme) {
-            base.SetTheme(theme);
-
+        protected override void SetThisTheme(Theme theme) {
             background.color = theme.selectNormal;
             placeholder.text.color = theme.selectAltNormal;
             placeholder.text.font = theme.fontAlt;

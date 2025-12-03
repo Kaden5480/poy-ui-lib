@@ -43,5 +43,14 @@ namespace UILib.Notifications {
             // Use the area as the content instead
             SetContent(area);
         }
+
+        /**
+         * <summary>
+         * Allows setting the theme of this notification area.
+         * Does nothing.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        protected override void SetThisTheme(Theme theme) {}
     }
 }

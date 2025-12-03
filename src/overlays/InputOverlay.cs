@@ -110,7 +110,6 @@ namespace UILib {
             cancelProgress.Hide();
             inputArea.Add(cancelProgress);
 
-            logger.LogDebug("Setting theme");
             SetThisTheme(theme);
         }
 

@@ -121,7 +121,6 @@ namespace UILib {
             SetSize(width, height);
 
             // Set the theme
-            logger.LogDebug("Setting theme");
             SetThisTheme(theme);
 
             // Hide by default

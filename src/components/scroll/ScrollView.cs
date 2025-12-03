@@ -42,8 +42,19 @@ namespace UILib.Components {
          */
         public ScrollBar scrollBarV  { get; private set; }
 
-        private GameObject viewport;
-        private Area scrollContent;
+        /**
+         * <summary>
+         * This scroll view's viewport.
+         * </summary>
+         */
+        public Area viewport { get; private set; }
+
+        /**
+         * <summary>
+         * This scroll view's content.
+         * </summary>
+         */
+        public Area scrollContent { get; private set; }
 
         internal CustomScrollRect scrollRect { get; private set; }
 
@@ -52,39 +63,33 @@ namespace UILib.Components {
          * Initializes a ScrollView.
          * </summary>
          * <param name="scrollType">The types of scrolling to support</param>
-         * <param name="scrollBarWidth">The width of the scrollbars</param>
          */
         public ScrollView(
-            ScrollType scrollType = ScrollType.Horizontal | ScrollType.Vertical,
-            float scrollBarWidth = 20
+            ScrollType scrollType = ScrollType.Horizontal | ScrollType.Vertical
         ) {
             scrollRect = gameObject.AddComponent<CustomScrollRect>();
 
-            viewport = new GameObject("Viewport",
-                typeof(RectTransform), typeof(UEMask), typeof(UEImage)
-            );
-            SetParent(gameObject, viewport);
+            viewport = new Area();
+            viewport.gameObject.AddComponent<UEMask>();
+            viewport.gameObject.AddComponent<UEImage>();
+            AddDirect(viewport);
 
             scrollContent = new Area();
-            Add(viewport, scrollContent);
+            viewport.AddDirect(scrollContent);
 
             // Content setup
-            RectTransform contentRect = scrollContent.rectTransform;
-            contentRect.anchorMin = Vector2.zero;
-            contentRect.anchorMax = Vector2.one;
-            contentRect.sizeDelta = Vector2.zero;
+            scrollContent.SetFill(FillType.All);
+            scrollContent.SetSize(0f,0f);
 
             // Viewport setup
-            RectTransform viewportRect = viewport.GetComponent<RectTransform>();
-            viewportRect.anchorMin = Vector2.zero;
-            viewportRect.anchorMax = Vector2.one;
-            viewportRect.sizeDelta = new Vector2(-scrollBarWidth, 0f);
-            viewportRect.anchoredPosition = new Vector2(-scrollBarWidth/2, 0f);
+            viewport.SetFill(FillType.All);
+            viewport.SetSize(-20f, 0f);
+            viewport.SetOffset(-10f, 0f);
 
-            background = viewport.GetComponent<UEImage>();
+            background = viewport.gameObject.GetComponent<UEImage>();
 
             // Scroll rect setup
-            scrollRect.viewport = viewportRect;
+            scrollRect.viewport = viewport.rectTransform;
             scrollRect.elasticity = 0f;
             scrollRect.scrollSensitivity = 150f;
             scrollRect.movementType = UEScrollRect.MovementType.Clamped;
@@ -92,7 +97,7 @@ namespace UILib.Components {
             // Scroll bar setup
             if (scrollType.HasFlag(ScrollType.Horizontal) == true) {
                 scrollRect.horizontal = true;
-                scrollBarH = new ScrollBar(ScrollType.Horizontal, scrollBarWidth);
+                scrollBarH = new ScrollBar(ScrollType.Horizontal);
                 Add(gameObject, scrollBarH);
                 scrollRect.horizontalScrollbar = scrollBarH.scrollBar;
                 scrollRect.horizontalScrollbarVisibility = UEScrollRect.ScrollbarVisibility.AutoHide;
@@ -100,7 +105,7 @@ namespace UILib.Components {
 
             if (scrollType.HasFlag(ScrollType.Vertical) == true) {
                 scrollRect.vertical = true;
-                scrollBarV = new ScrollBar(ScrollType.Vertical, scrollBarWidth);
+                scrollBarV = new ScrollBar(ScrollType.Vertical);
                 Add(gameObject, scrollBarV);
                 scrollRect.verticalScrollbar = scrollBarV.scrollBar;
             }

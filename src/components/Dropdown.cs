@@ -62,7 +62,10 @@ namespace UILib.Components {
             Add(caption);
 
             // The scroll view of all options
-            scrollView = new ScrollView(ScrollType.Vertical, 10f);
+            scrollView = new ScrollView(ScrollType.Vertical);
+            scrollView.scrollBarV.SetSize(10f, 0f);
+            scrollView.viewport.SetSize(-10f, 0f);
+            scrollView.viewport.SetOffset(-5f, 0f);
             scrollView.SetFill(FillType.All);
             scrollView.SetContentLayout(LayoutType.Vertical);
             scrollView.scrollRect.horizontal = false;

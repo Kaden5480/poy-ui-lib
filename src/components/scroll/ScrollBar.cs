@@ -16,13 +16,6 @@ namespace UILib.Components {
     public class ScrollBar : UIObject {
         private ScrollSetter scrollSetter;
 
-        /**
-         * <summary>
-         * The width of this scroll bar.
-         * </summary>
-         */
-        public float barWidth { get; private set; }
-
         private GameObject slidingArea;
         private GameObject handle;
 
@@ -34,9 +27,8 @@ namespace UILib.Components {
          * Initializes a ScrollBar.
          * </summary>
          * <param name="scrollType">The type of scrollbar to use</param>
-         * <param name="width">The width of the scrollbar</param>
          */
-        internal ScrollBar(ScrollType scrollType, float width) {
+        internal ScrollBar(ScrollType scrollType) {
             scrollSetter = gameObject.AddComponent<ScrollSetter>();
 
             // Making the object hierarchy
@@ -61,13 +53,14 @@ namespace UILib.Components {
                     scrollBar.direction = UEScrollbar.Direction.BottomToTop;
                     SetAnchor(AnchorType.TopRight);
                     SetFill(FillType.Vertical);
-                    SetWidth(width);
+                    SetSize(20f, 0f);
                     break;
                 case ScrollType.Horizontal:
                     scrollBar.direction = UEScrollbar.Direction.LeftToRight;
                     SetAnchor(AnchorType.BottomLeft);
                     SetFill(FillType.Horizontal);
-                    SetWidth(width);
+                    SetSize(-20f, 20f);
+                    SetOffset(-10f, 0f);
                     break;
                 default:
                     logger.LogDebug($"Unexpected ScrollType: {scrollType}");
@@ -76,29 +69,6 @@ namespace UILib.Components {
 
             InitLayout();
             SetThisTheme(theme);
-        }
-
-        /**
-         * <summary>
-         * Sets the width of this scrollbar.
-         * </summary>
-         * <param name="width">The width to set</param>
-         */
-        public void SetWidth(float width) {
-            this.barWidth = width;
-
-            switch (scrollBar.direction) {
-                case UEScrollbar.Direction.TopToBottom:
-                case UEScrollbar.Direction.BottomToTop:
-                    rectTransform.sizeDelta = new Vector2(barWidth, 0f);
-                    rectTransform.anchoredPosition = Vector2.zero;
-                    break;
-                case UEScrollbar.Direction.RightToLeft:
-                case UEScrollbar.Direction.LeftToRight:
-                    rectTransform.sizeDelta = new Vector2(-barWidth, 20f);
-                    rectTransform.anchoredPosition = new Vector2(-barWidth/2, 0f);
-                    break;
-            }
         }
 
         /**

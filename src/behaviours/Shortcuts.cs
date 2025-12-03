@@ -139,8 +139,8 @@ namespace UILib.Behaviours {
                 // Ignore disabled shortcuts
                 if (shortcut.enabled == false) {
                     continue;
-
                 }
+
                 if (AllKeysDown(shortcut.keys) == true) {
                     shortcut.onTrigger.Invoke();
                 }

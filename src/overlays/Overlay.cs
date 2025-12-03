@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 using UILib.Behaviours;
 using UILib.Components;
@@ -37,6 +38,20 @@ namespace UILib {
         // The behaviour for managing this overlay's
         // local shortcuts
         private LocalShortcuts localShortcuts;
+
+        /**
+         * <summary
+         * Invokes listeners when this overlay becomes focused.
+         * </summary>
+         */
+        public UnityEvent onFocus { get; } = new UnityEvent();
+
+        /**
+         * <summary
+         * Invokes listeners when this overlay loses focus.
+         * </summary>
+         */
+        public UnityEvent onLostFocus { get; } = new UnityEvent();
 
         /**
          * <summary>

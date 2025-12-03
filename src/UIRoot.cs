@@ -175,6 +175,7 @@ namespace UILib {
 
             // This overlay is now focused
             focusedOverlay = overlay;
+            overlay.onFocus.Invoke();
         }
 
         /**
@@ -216,7 +217,8 @@ namespace UILib {
                 return;
             }
 
-            if (hoveredOverlay == null) {
+            if (hoveredOverlay == null && focusedOverlay != null) {
+                focusedOverlay.onLostFocus.Invoke();
                 focusedOverlay = null;
             }
         }

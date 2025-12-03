@@ -8,6 +8,15 @@ using UILib.Layouts;
 using UIButton = UILib.Components.Button;
 
 namespace UILibExamples {
+    /**
+     * <summary>
+     * A pretty bad example of a primitive chat.
+     * I suggest looking at the source code of:
+     * https://github.com/Kaden5480/poy-in-game-logs/
+     *
+     * It handles things more cleanly.
+     * </summary>
+     */
     public class Chat : Example {
         private Window window;
 

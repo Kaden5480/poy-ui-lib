@@ -40,6 +40,12 @@ namespace UILibExamples {
         }
 
         public void Update() {
+            // Don't listen for keybinds while
+            // the input overlay is waiting for an input
+            if (InputOverlay.waitingForInput == true) {
+                return;
+            }
+
             if (Input.GetKeyDown(KeyCode.PageUp) == false) {
                 return;
             }

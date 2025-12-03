@@ -239,22 +239,28 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets whether this window can be interacted with.
+         * Enables interacting with this window.
          *
-         * Note that this also toggles the visibility of the
+         * Note that this also changes the visibility of the
          * window decorations (title bar, scroll bar, resize button).
          * </summary>
-         * <param name="canInteract">Whether interactions should be allowed</param>
          */
-        public override void SetInteractable(bool canInteract) {
-            base.SetInteractable(canInteract);
+        public override void Enable() {
+            base.Enable();
+            decorationFade.FadeIn();
+        }
 
-            if (canInteract == true) {
-                decorationFade.FadeIn();
-            }
-            else {
-                decorationFade.FadeOut();
-            }
+        /**
+         * <summary>
+         * Disables interacting with this window.
+         *
+         * Note that this also changes the visibility of the
+         * window decorations (title bar, scroll bar, resize button).
+         * </summary>
+         */
+        public override void Disable() {
+            base.Disable();
+            decorationFade.FadeOut();
         }
 
 #endregion

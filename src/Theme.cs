@@ -204,7 +204,7 @@ namespace UILib {
          * <summary>
          * How long it should take for the
          * <see cref="Window">Window's</see> decorations to fade in/out.
-         * This applies whenever <see cref="Window.SetInteractable"/>
+         * This applies whenever <see cref="Window.Enable"/> or <see cref="Window.Disable"/>
          * is called.
          * </summary>
          */

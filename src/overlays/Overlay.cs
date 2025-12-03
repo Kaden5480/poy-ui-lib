@@ -69,7 +69,7 @@ namespace UILib {
          * Whether the user can interact with this overlay.
          * </summary>
          */
-        public bool canInteract {
+        public bool enabled {
             get => canvas.raycaster.enabled;
             private set => canvas.raycaster.enabled = value;
         }
@@ -196,12 +196,20 @@ namespace UILib {
 
         /**
          * <summary>
-         * Sets whether this overlay can be interacted with.
+         * Enables interacting with this overlay.
          * </summary>
-         * <param name="canInteract">Whether interactions should be allowed</param>
          */
-        public virtual void SetInteractable(bool canInteract) {
-            this.canInteract = canInteract;
+        public virtual void Enable() {
+            this.enabled = true;
+        }
+
+        /**
+         * <summary>
+         * Disables interacting with this overlay.
+         * </summary>
+         */
+        public virtual void Disable() {
+            this.enabled = false;
         }
 
         /**

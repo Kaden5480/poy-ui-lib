@@ -98,6 +98,12 @@ namespace UILib {
         internal static void Register(Overlay overlay) {
             UIObject.SetParent(gameObject, overlay.canvas.gameObject);
             overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
+
+            // Don't control InputOverlay
+            if (overlay.GetType == typeof(InputOverlay)) {
+                return;
+            }
+
             overlays.Add(overlay);
         }
 
@@ -108,6 +114,7 @@ namespace UILib {
          * <param name="overlay">The overlay to unregister</param>
          */
         internal static void Unregister(Overlay overlay) {
+            // Make sure the sorting order stays nice
             BringToFront(overlay);
             overlays.Remove(overlay);
         }
@@ -158,6 +165,10 @@ namespace UILib {
          * <param name="overlay">The overlay to bring to the front</param>
          */
         internal static void BringToFront(Overlay overlay) {
+            // Make the overlay focused
+            focusedOverlay = overlay;
+            overlay.onFocus.Invoke();
+
             // Try finding the overlay
             int index = overlays.IndexOf(overlay);
 
@@ -176,10 +187,6 @@ namespace UILib {
             overlays.Remove(overlay);
             overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
             overlays.Add(overlay);
-
-            // This overlay is now focused
-            focusedOverlay = overlay;
-            overlay.onFocus.Invoke();
         }
 
         /**

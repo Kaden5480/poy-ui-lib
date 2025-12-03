@@ -61,8 +61,8 @@ namespace UILib {
          * <param name="mode">The mode the scene loaded with</param>
          */
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            UIRoot.InitWM();
             Patcher.OnSceneLoaded(scene, mode);
+            UIRoot.InitWM();
         }
 
         /**

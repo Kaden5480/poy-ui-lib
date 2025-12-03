@@ -111,7 +111,7 @@ namespace UILib {
          * </summary>
          */
         internal static void InitWM() {
-            if (isInitialized == true) {
+            if (isInitialized == true || overlays == null) {
                 return;
             }
 

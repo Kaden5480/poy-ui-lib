@@ -271,9 +271,11 @@ namespace UILib {
             this.autoPause = autoPause;
 
             // Remove pause handle, since auto pausing is disabled
-            if (autoPause == false && pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
+            if (autoPause == false) {
+                if (pauseHandle != null) {
+                    pauseHandle.Close();
+                    pauseHandle = null;
+                }
                 return;
             }
 

@@ -37,25 +37,16 @@ namespace UILibExamples {
             window.Add(localLabel);
 
             // Add the local shortcut
-            Shortcut shortcut = window.AddShortcut(new[] { KeyCode.Home });
-            shortcut.onTrigger.AddListener(() => {
+            Shortcut localShortcut = window.AddShortcut(new[] { KeyCode.Home });
+            localShortcut.onTrigger.AddListener(() => {
                 Notifier.Notify("Shortcuts", "You triggered the local shortcut!");
             });
-        }
 
-        public void Update() {
-            // Don't do input handling while the input
-            // overlay is waiting for an input, just
-            // out of courtesy for other mods
-            if (InputOverlay.waitingForInput == true) {
-                return;
-            }
-
-            // Listen globally for a shortcut to be pressed
-            // and toggle the UI on/off
-            if (Input.GetKeyDown(KeyCode.End) == true) {
+            // Add a global shortcut
+            Shortcut globalShortcut = UIRoot.AddShortcut(new[] { KeyCode.End });
+            globalShortcut.onTrigger.AddListener(() => {
                 Toggle();
-            }
+            });
         }
 
         public override void Toggle() {

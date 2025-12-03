@@ -1,4 +1,5 @@
 using BepInEx;
+using UILib;
 
 namespace UILibExamples {
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib-examples", "UI Lib Examples", "0.1.0")]
@@ -11,16 +12,9 @@ namespace UILibExamples {
          * </summary>
          */
         private void Awake() {
-            examples = new Examples();
-        }
-
-        /**
-         * <summary>
-         * Executes each frame.
-         * </summary>
-         */
-        private void Update() {
-            examples.Update();
+            UIRoot.onInit.AddListener(() => {
+                examples = new Examples();
+            });
         }
     }
 }

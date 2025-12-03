@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using UILib;
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 
@@ -53,6 +54,12 @@ namespace UILibExamples {
             AddExample(shortcuts);
             AddExample(pauseHandles);
             AddExample(themes);
+
+            // Global shortcut for toggling UI
+            Shortcut shortcut = UIRoot.AddShortcut(new[] { KeyCode.Tab });
+            shortcut.onTrigger.AddListener(() => {
+                overlay.ToggleVisibility();
+            });
         }
 
         /**
@@ -67,24 +74,6 @@ namespace UILibExamples {
                 example.Toggle();
             });
             area.Add(button);
-        }
-
-        public void Update() {
-            pauseHandles.Update();
-            shortcuts.Update();
-
-            // Don't listen for keybinds
-            if (InputOverlay.waitingForInput == true) {
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Tab) == true) {
-                overlay.ToggleVisibility();
-            }
-        }
-
-        public void Show() {
-            overlay.Show();
         }
     }
 }

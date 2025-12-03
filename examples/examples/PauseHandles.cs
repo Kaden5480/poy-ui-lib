@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using UILib;
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 using UILib.Notifications;
@@ -37,19 +38,15 @@ namespace UILibExamples {
             Label label = new Label("This overlay won't pause the game", 20);
             label.SetSize(200f, 40f);
             overlay.Add(label);
+
+            // Assign a global shortcut
+            Shortcut shortcut = UIRoot.AddShortcut(new[] { KeyCode.PageUp });
+            shortcut.onTrigger.AddListener(() => {
+                ManageHandle();
+            });
         }
 
-        public void Update() {
-            // Don't listen for keybinds while
-            // the input overlay is waiting for an input
-            if (InputOverlay.waitingForInput == true) {
-                return;
-            }
-
-            if (Input.GetKeyDown(KeyCode.PageUp) == false) {
-                return;
-            }
-
+        public void ManageHandle() {
             // If you really want to deal with pause handles
             // manually for some reason, they pause the game
             // when you construct them

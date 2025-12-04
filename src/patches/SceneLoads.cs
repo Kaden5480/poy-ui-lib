@@ -25,8 +25,11 @@ namespace UILib.Patches {
     public static class SceneLoads {
         /**
          * <summary>
-         * Invokes listeners when any scene fully loads.
-         * Even switching out of orbit camera in the peak editor.
+         * Invokes listeners when any built-in or custom scene fully loads.
+         *
+         * This excludes switching in/out of quick playtest.
+         * See <see cref="onQuickPlaytestLoad"/> if you'd like
+         * an event for this.
          * </summary>
          */
         public static ValueEvent<Scene> onLoad { get; }
@@ -34,8 +37,11 @@ namespace UILib.Patches {
 
         /**
          * <summary>
-         * Invokes listeners when any scene unloads.
-         * Even switching into orbit camera in the peak editor.
+         * Invokes listeners when any built-in or custom scene unloads.
+         *
+         * This excludes switching in/out of quick playtest.
+         * See <see cref="onQuickPlaytestUnload"/> if you'd like
+         * an event for this.
          * </summary>
          */
         public static ValueEvent<Scene> onUnload { get; }
@@ -118,12 +124,10 @@ namespace UILib.Patches {
             // Quick playtest loaded
             if (isPlaymode == true) {
                 onQuickPlaytestLoad.Invoke(scene);
-                onLoad.Invoke(scene);
             }
             // Unloaded
             else {
                 onQuickPlaytestUnload.Invoke(scene);
-                onUnload.Invoke(scene);
             }
         }
 

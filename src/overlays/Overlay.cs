@@ -136,7 +136,7 @@ namespace UILib {
             SetThisTheme(theme);
 
             // Hide by default
-            Hide();
+            base.Hide();
         }
 
         /**

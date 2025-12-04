@@ -52,7 +52,7 @@ namespace UILib.Patches {
          * Invokes listeners when any built-in or custom scene fully loads.
          *
          * This excludes switching in/out of quick playtest.
-         * See <see cref="onQuickPlaytestLoad"/> if you'd like
+         * See <see cref="onAnyLoad"/> or <see cref="onQuickPlaytestLoad"/> if you'd like
          * an event for this.
          * </summary>
          */
@@ -64,7 +64,7 @@ namespace UILib.Patches {
          * Invokes listeners when any built-in or custom scene unloads.
          *
          * This excludes switching in/out of quick playtest.
-         * See <see cref="onQuickPlaytestUnload"/> if you'd like
+         * See <see cref="onAnyUnload"/> or <see cref="onQuickPlaytestUnload"/> if you'd like
          * an event for this.
          * </summary>
          */

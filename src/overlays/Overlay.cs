@@ -41,6 +41,18 @@ namespace UILib {
 
         /**
          * <summary>
+         * Whether this overlay can be brought to the front
+         * above all other overlays. Or whether it will
+         * only move down the sorting orders.
+         *
+         * By default all overlays are sortable and
+         * so can be brought to the front.
+         * </summary>
+         */
+        public bool sortable { get; private set; } = true;
+
+        /**
+         * <summary>
          * Invokes listeners when this overlay becomes focused.
          * </summary>
          */
@@ -213,8 +225,26 @@ namespace UILib {
 
         /**
          * <summary>
+         * Toggles the ability for this overlay to move to the front
+         * above all other overlays.
+         *
+         * If this is set to `false`, the overlay's sorting
+         * order can only decrease (i.e. move further to the back).
+         * </summary>
+         * <param name="sortable">Whether to allow moving to the front</param>
+         */
+        public void SetSortable(bool sortable) {
+            this.sortable = sortable;
+        }
+
+        /**
+         * <summary>
          * Brings this overlay to the front
          * so that it displays above all others.
+         *
+         * If <see cref="sortable"/> is `false`
+         * this method will only cause the overlay
+         * to become focused. It won't move to the front.
          * </summary>
          */
         public void BringToFront() {

@@ -223,7 +223,8 @@ namespace UILib {
             focusedOverlay = overlay;
             overlay.onFocus.Invoke();
 
-            if (index < 0) {
+            // Check for unsortable overlays
+            if (overlay.sortable == false || index < 0) {
                 return;
             }
 

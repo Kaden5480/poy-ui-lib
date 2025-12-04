@@ -25,6 +25,30 @@ namespace UILib.Patches {
     public static class SceneLoads {
         /**
          * <summary>
+         * Invokes listeners on any scene load event.
+         * This includes:
+         * - A built-in level fully loads
+         * - A custom level fully loads
+         * - The player enters quick playtest in the editor
+         * </summary>
+         */
+        public static ValueEvent<Scene> onAnyLoad { get; }
+            = new ValueEvent<Scene>();
+
+        /**
+         * <summary>
+         * Invokes listeners on any scene unload event.
+         * This includes:
+         * - A built-in level unloads
+         * - A custom level unloads
+         * - The player exits quick playtest in the editor
+         * </summary>
+         */
+        public static ValueEvent<Scene> onAnyUnload { get; }
+            = new ValueEvent<Scene>();
+
+        /**
+         * <summary>
          * Invokes listeners when any built-in or custom scene fully loads.
          *
          * This excludes switching in/out of quick playtest.
@@ -109,6 +133,7 @@ namespace UILib.Patches {
             Scene scene = SceneManager.GetActiveScene();
             onCustomLoad.Invoke(scene);
             onLoad.Invoke(scene);
+            onAnyLoad.Invoke(scene);
         }
 
         /**
@@ -124,10 +149,12 @@ namespace UILib.Patches {
             // Quick playtest loaded
             if (isPlaymode == true) {
                 onQuickPlaytestLoad.Invoke(scene);
+                onAnyLoad.Invoke(scene);
             }
             // Unloaded
             else {
                 onQuickPlaytestUnload.Invoke(scene);
+                onAnyUnload.Invoke(scene);
             }
         }
 
@@ -137,9 +164,11 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void OnSceneLoaded(Scene scene) {
+            // Only built-in scenes are loaded at this point
             if (scene.buildIndex != 69) {
                 onBuiltinLoad.Invoke(scene);
                 onLoad.Invoke(scene);
+                onAnyLoad.Invoke(scene);
             }
         }
 
@@ -157,6 +186,7 @@ namespace UILib.Patches {
             }
 
             onUnload.Invoke(scene);
+            onAnyUnload.Invoke(scene);
         }
     }
 }

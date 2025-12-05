@@ -52,6 +52,16 @@ namespace UILib.Patches {
      * This also takes away focus from the game
      * allowing users to interact with UI when they otherwise
      * wouldn't be able to.
+     *
+     * This tries to handle different cases
+     * where the game is paused, along with pausing
+     * which has been caused by UIs in UILib. So
+     * it could, in most cases, be something
+     * you can rely on to determine whether the
+     * user is in a UI.
+     *
+     * If it doesn't handle something, please let me
+     * know.
      * </summary>
      */
     public static class PauseHandler {
@@ -64,15 +74,9 @@ namespace UILib.Patches {
          * <summary>
          * Indicates whether the game is currently paused
          * by the `PauseHandler`.
-         *
-         * This doesn't necessarily indicate if other things
-         * which are vanilla to the game are pausing it though,
-         * such as the InGameMenu, cutscenes, and other events.
-         *
-         * It only tells you whether `PauseHandler` is doing anything.
          * </summary>
          */
-        public static bool shouldPause { get => handles.Count > 0; }
+        public static bool isPaused { get => handles.Count > 0; }
 
         /**
          * <summary>
@@ -152,7 +156,7 @@ namespace UILib.Patches {
             }
 
             // Disabling movement has to be done every frame, yes
-            if (shouldPause == true) {
+            if (isPaused == true) {
                 AllowMovement(false);
                 InGameMenu.isCurrentlyNavigationMenu = true;
                 Cursor.visible = true;
@@ -161,7 +165,7 @@ namespace UILib.Patches {
             }
 
             // Otherwise, only disable pausing once
-            else if (shouldPause == false
+            else if (isPaused == false
                 && allowingMovement == false
                 && IsInMenu() == false
             ) {

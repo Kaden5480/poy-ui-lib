@@ -38,7 +38,7 @@ namespace UILib.Patches {
         private static bool DisableInteract() {
             // If should pause, return false
             // to bypass the normal execution of these methods
-            if (PauseHandler.shouldPause == true
+            if (PauseHandler.isPaused == true
                 || InGameMenu.isCurrentlyNavigationMenu == true
             ) {
                 return false;

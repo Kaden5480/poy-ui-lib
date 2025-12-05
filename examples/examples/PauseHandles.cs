@@ -67,7 +67,7 @@ namespace UILibExamples {
                 // Also, you can check the pause handler's current state
                 Notifier.Notify(
                     "PauseHandler State",
-                    $"Currently pausing?: {PauseHandler.shouldPause}"
+                    $"Currently pausing?: {PauseHandler.isPaused}"
                 );
             }
         }

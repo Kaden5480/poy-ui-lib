@@ -22,6 +22,12 @@ namespace UILib {
      * This prevents some weirdness where your mod
      * may trigger something while the input overlay
      * is waiting for an input.
+     *
+     * Unfortunately, just checking `waitingForInput` may
+     * not be enough. There are some other instances
+     * where inputs shouldn't be read, but could be.
+     * So it is highly suggested to just stick with
+     * UILib's shortcut system.
      * </summary>
      */
     public class InputOverlay : Overlay {

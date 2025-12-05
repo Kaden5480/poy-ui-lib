@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UILib.Patches {
     /**
@@ -72,6 +73,20 @@ namespace UILib.Patches {
 
         /**
          * <summary>
+         * Invokes listeners when the game is paused.
+         * </summary>
+         */
+        public static UnityEvent onPause { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners when the game is unpaused.
+         * </summary>
+         */
+        public static UnityEvent onUnpause { get; } = new UnityEvent();
+
+        /**
+         * <summary>
          * Indicates whether the game is currently paused
          * by the `PauseHandler`.
          * </summary>
@@ -104,6 +119,7 @@ namespace UILib.Patches {
 #region Peaks Specific Stuff
 
         private static bool allowingMovement = true;
+        private static bool triggeredPause = false;
 
         /**
          * <summary>
@@ -157,6 +173,13 @@ namespace UILib.Patches {
 
             // Disabling movement has to be done every frame, yes
             if (isPaused == true) {
+                // Invoke listeners only on the first
+                // time this runs
+                if (triggeredPause == false) {
+                    triggeredPause = true;
+                    onPause.Invoke();
+                }
+
                 AllowMovement(false);
                 InGameMenu.isCurrentlyNavigationMenu = true;
                 Cursor.visible = true;
@@ -174,6 +197,10 @@ namespace UILib.Patches {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 InGameMenu.hasBeenInMenu = false;
+
+                // Reset state and invoke listeners
+                triggeredPause = false;
+                onUnpause.Invoke();
             }
         }
 

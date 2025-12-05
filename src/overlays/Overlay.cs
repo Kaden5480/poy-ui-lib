@@ -126,7 +126,7 @@ namespace UILib {
             // Set to the middle of the screen by default
             SetAnchor(AnchorType.Middle);
 
-            // Pause by default
+            // Auto-pause by default
             SetAutoPause(true);
 
             // Set size
@@ -136,7 +136,7 @@ namespace UILib {
             SetThisTheme(theme);
 
             // Hide by default
-            base.Hide();
+            Hide(true);
         }
 
         /**
@@ -300,17 +300,17 @@ namespace UILib {
         public void SetAutoPause(bool autoPause) {
             this.autoPause = autoPause;
 
-            // Remove pause handle, since auto pausing is disabled
+            // Remove active pause handle
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+                pauseHandle = null;
+            }
+
             if (autoPause == false) {
-                if (pauseHandle != null) {
-                    pauseHandle.Close();
-                    pauseHandle = null;
-                }
                 return;
             }
 
-            // Allocate pause handle only if visible
-            if (isVisible == true && pauseHandle == null) {
+            if (isVisible == true) {
                 pauseHandle = new PauseHandle();
             }
         }
@@ -348,10 +348,29 @@ namespace UILib {
 
             if (pauseHandle != null) {
                 pauseHandle.Close();
+                pauseHandle = null;
             }
 
             if (autoPause == true) {
                 pauseHandle = new PauseHandle();
+            }
+        }
+
+        /**
+         * <summary>
+         * Another hide method for force hiding
+         * bypassing fading.
+         * </summary>
+         * <param name="force">Whether to bypass fading</param>
+         */
+        private void Hide(bool force) {
+            if (force == true) {
+                fade.FadeOut();
+            }
+
+            if (pauseHandle != null) {
+                pauseHandle.Close();
+                pauseHandle = null;
             }
         }
 
@@ -362,13 +381,7 @@ namespace UILib {
          * </summary>
          */
         public override void Hide() {
-            // Start fading out
-            fade.FadeOut();
-
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
-            }
+            Hide(false);
         }
     }
 }

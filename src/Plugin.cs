@@ -86,7 +86,6 @@ namespace UILib {
             UIRoot.Update();
         }
 
-
         /**
          * <summary>
          * Logs a debug message.

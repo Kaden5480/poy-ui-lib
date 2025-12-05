@@ -9,6 +9,8 @@ namespace UILib.Patches {
      *
      * Also prevent execution while <see cref="InputOverlay"/>
      * is reading an input.
+     *
+     * Will also manage pause handles for the in game menu.
      * </summary>
      */
     [HarmonyPatch(typeof(InGameMenu), "Update")]
@@ -24,7 +26,8 @@ namespace UILib.Patches {
         }
 
         // Update the PauseHandler
-        private static void Postfix() {
+        private static void Postfix(InGameMenu __instance) {
+            PauseFixes.InGameMenuCheck(__instance);
             PauseHandler.Update();
         }
     }

@@ -27,7 +27,12 @@ namespace UILib.Patches {
             Patch(typeof(InteractFixes));
             Patch(typeof(FadeFix));
             Patch(typeof(MenuFix));
+            Patch(typeof(PauseFixes));
             Patch(typeof(SceneLoads));
+
+            SceneLoads.onUnload.AddListener((Scene scene) => {
+                PauseFixes.CloseHandles();
+            });
         }
 
         /**

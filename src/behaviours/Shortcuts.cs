@@ -135,6 +135,14 @@ namespace UILib.Behaviours {
                 return;
             }
 
+            // Also don't do anything if the player
+            // is currently in the keybinding options
+            if (Patches.Cache.inGameMenu != null
+                && Patches.Cache.inGameMenu.isCurrentlyRemapping == true
+            ) {
+                return;
+            }
+
             foreach (Shortcut shortcut in shortcuts) {
                 // Ignore disabled shortcuts
                 if (shortcut.enabled == false) {

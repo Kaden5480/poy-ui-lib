@@ -63,7 +63,7 @@ namespace UILib.Patches {
          */
         internal static void InGameMenuCheck(InGameMenu inGameMenu) {
             if (inGameMenu.inMenu == true) {
-                if (inGameMenuHandle != null) {
+                if (inGameMenuHandle == null) {
                     inGameMenuHandle = new PauseHandle();
                 }
             }

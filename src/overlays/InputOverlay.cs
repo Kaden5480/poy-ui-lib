@@ -128,8 +128,12 @@ namespace UILib {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        protected new void SetThisTheme(Theme theme) {
+        protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
+
+            if (inputBackground == null) {
+                return;
+            }
 
             inputBackground.SetColor(theme.background);
 

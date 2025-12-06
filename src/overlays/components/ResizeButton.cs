@@ -39,10 +39,15 @@ namespace UILib {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        protected new void SetThisTheme(Theme theme) {
+        protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
-            button.colors = theme.blockSelectDark;
+
+            if (image == null) {
+                return;
+            }
+
             image.image.color = theme.selectHighlight;
+            button.colors = theme.blockSelectDark;
         }
 
         /**

@@ -364,12 +364,7 @@ namespace UILib {
          * <param name="force">Whether to bypass fading</param>
          */
         private void Hide(bool force) {
-            if (force == false) {
-                fade.FadeOut();
-            }
-            else {
-                base.Hide();
-            }
+            fade.FadeOut(force);
 
             if (pauseHandle != null) {
                 pauseHandle.Close();

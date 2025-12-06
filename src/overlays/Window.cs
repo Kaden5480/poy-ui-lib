@@ -201,8 +201,12 @@ namespace UILib {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        protected new void SetThisTheme(Theme theme) {
+        protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
+
+            if (decorationFade == null) {
+                return;
+            }
 
             // Set the background opacity
             Color bg = scrollView.background.color;

@@ -74,17 +74,24 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Sets the opacity of all canvas groups.
+         * </summary>
+         * <param name="opacity">The opacity to set</param>
+         */
+        private void SetCurrentOpacity(float opacity) {
+            this.opacity = opacity;
+            foreach (CanvasGroup group in groups) {
+                group.alpha = opacity;
+            }
+        }
+
+        /**
+         * <summary>
          * Sets up listeners to control opacity.
          * </summary>
          */
         private void Awake() {
-            onIter.AddListener((float value) => {
-                opacity = value;
-
-                foreach (CanvasGroup group in groups) {
-                    group.alpha = opacity;
-                }
-            });
+            onIter.AddListener(SetCurrentOpacity);
 
             onEnd.AddListener(() => {
                 if (fadingIn == true) {
@@ -164,26 +171,38 @@ namespace UILib.Behaviours {
          * <summary>
          * Fade the `CanvasGroups` in.
          * </summary>
+         * <param name="force">Whether to force fading in instantly</param>
          */
-        public void FadeIn() {
+        public void FadeIn(bool force = false) {
             fadingIn = true;
             fadingOut = false;
 
             // Fade in from current opacity
-            StartTimer(opacity, maxOpacity);
+            if (force == true) {
+                StartTimer(maxOpacity, maxOpacity);
+            }
+            else {
+                StartTimer(opacity, maxOpacity);
+            }
         }
 
         /**
          * <summary>
          * Fade the `CanvasGroups` out.
          * </summary>
+         * <param name="force">Whether to force fading out instantly</param>
          */
-        public void FadeOut() {
+        public void FadeOut(bool force = false) {
             fadingIn = false;
             fadingOut = true;
 
             // Fade out from current opacity
-            StartTimer(opacity, minOpacity);
+            if (force == true) {
+                StartTimer(minOpacity, minOpacity);
+            }
+            else {
+                StartTimer(opacity, minOpacity);
+            }
         }
     }
 }

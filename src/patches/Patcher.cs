@@ -29,10 +29,13 @@ namespace UILib.Patches {
             Patch(typeof(MenuFix));
             Patch(typeof(PauseFixes));
             Patch(typeof(SceneLoads));
+            Patch(typeof(VelocityFixes));
 
             SceneLoads.onUnload.AddListener((Scene scene) => {
                 PauseFixes.CloseHandles();
             });
+
+            VelocityFixes.Init();
         }
 
         /**

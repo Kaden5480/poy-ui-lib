@@ -144,6 +144,14 @@ namespace UILib.Components {
                 currentSelected = this;
             });
 
+            _inputField.onDeselect.AddListener(() => {
+                if (EventSystem.current.currentSelectedGameObject
+                    == currentSelected.gameObject
+                ) {
+                    currentSelected = null;
+                }
+            });
+
             // spaghetti makes the world go round
             _inputField.onEndEdit.AddListener((string userInput) => {
                 userInput = userInput.Trim();

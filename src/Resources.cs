@@ -90,6 +90,25 @@ namespace UILib {
 
         /**
          * <summary>
+         * A material which renders an HSV spectrum.
+         * </summary>
+         */
+        public static Material hsvSpectrum { get; private set; } = LoadFromBundle<Material>(
+            "HSVSpectrum"
+        );
+
+        /**
+         * <summary>
+         * A material which renders a specific HSV color
+         * in a gradient of opacities.
+         * </summary>
+         */
+        public static Material hsvOpacity { get; private set; } = LoadFromBundle<Material>(
+            "HSVOpacity"
+        );
+
+        /**
+         * <summary>
          * Loads a file with the specified filename
          * into a byte array.
          *

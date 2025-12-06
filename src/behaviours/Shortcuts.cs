@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+using UILib.Components;
+
 namespace UILib.Behaviours {
     /**
      * <summary>
@@ -132,6 +134,11 @@ namespace UILib.Behaviours {
             // Don't do anything if the input overlay
             // is waiting for an input
             if (InputOverlay.waitingForInput == true) {
+                return;
+            }
+
+            // Don't do anything when a text field is selected
+            if (TextField.currentSelected != null) {
                 return;
             }
 

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Reflection;
 
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -121,6 +123,10 @@ namespace UILib.Patches {
         private static bool allowingMovement = true;
         private static bool triggeredPause = false;
 
+        private static FieldInfo climbingDelay = AccessTools.Field(
+            typeof(InGameMenu), "climbingDelay"
+        );
+
         /**
          * <summary>
          * Sets whether the player is allowed to move.
@@ -185,6 +191,7 @@ namespace UILib.Patches {
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 InGameMenu.hasBeenInMenu = true;
+                climbingDelay.SetValue(Cache.inGameMenu, 0f);
             }
 
             // Otherwise, only disable pausing once
@@ -196,7 +203,6 @@ namespace UILib.Patches {
                 InGameMenu.isCurrentlyNavigationMenu = false;
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
-                InGameMenu.hasBeenInMenu = false;
 
                 // Reset state and invoke listeners
                 triggeredPause = false;

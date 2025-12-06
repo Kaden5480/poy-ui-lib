@@ -19,7 +19,9 @@ namespace UILib.Components {
      */
     public class TextField : UIComponent {
         // Some fixes
+        internal static TextField currentSelected { get; private set; } = null;
         internal bool wasDeselected = false;
+        private bool isPointerInside = false;
         private bool setInput = false;
 
         // The previous value the user typed
@@ -135,8 +137,11 @@ namespace UILib.Components {
             _inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
 
+            onPointerEnter.AddListener(() => { isPointerInside = true; });
+            onPointerExit.AddListener(() => { isPointerInside = false; });
+
             _inputField.onSelect.AddListener(() => {
-                Patches.InputFieldFix.current = this;
+                currentSelected = this;
             });
 
             // spaghetti makes the world go round
@@ -269,6 +274,39 @@ namespace UILib.Components {
         public void SetAlignment(TextAnchor alignment) {
             placeholder.text.alignment = alignment;
             input.text.alignment = alignment;
+        }
+
+        /**
+         * <summary>
+         * Runs every frame to handle deselecting when
+         * clicking outside of a text field.
+         * </summary>
+         */
+        internal static void Update() {
+            if (currentSelected == null) {
+                return;
+            }
+
+            if (Input.GetMouseButtonDown(0) == false) {
+                return;
+            }
+
+            if (currentSelected.isPointerInside == true) {
+                return;
+            }
+
+            // - There is a text field selected
+            // - The pointer clicked
+            // - The pointer is located outside the text field
+
+            // So unfocus it if it is the current selected GameObject
+            if (EventSystem.current.currentSelectedGameObject
+                == currentSelected.gameObject
+            ) {
+                currentSelected.wasDeselected = true;
+                EventSystem.current.SetSelectedGameObject(null);
+                currentSelected = null;
+            }
         }
     }
 }

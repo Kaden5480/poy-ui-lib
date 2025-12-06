@@ -5,6 +5,7 @@ using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+using UILib.Components;
 using UILib.Patches;
 
 namespace UILib {
@@ -82,8 +83,8 @@ namespace UILib {
          * </summary>
          */
         private void Update() {
-            Patcher.Update();
             UIRoot.Update();
+            TextField.Update();
         }
 
         /**

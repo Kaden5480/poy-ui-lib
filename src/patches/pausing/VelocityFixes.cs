@@ -7,9 +7,8 @@ using UnityEngine;
 namespace UILib.Patches {
     /**
      * <summary>
-     * Patches the velocity of the player
-     * and boulders to make sure they pause and
-     * restore correctly.
+     * Patches falling rocks to make
+     * sure they pause and restore correctly.
      * </summary>
      */
     internal static class VelocityFixes {

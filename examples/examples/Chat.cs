@@ -105,15 +105,8 @@ namespace UILibExamples {
 
             // Add a text field
             inputBox = new TextField("Enter message", 20);
-            inputBox.onValidSubmit.AddListener(AddMessage);
+            inputBox.onSubmit.AddListener(AddMessage);
             inputBox.SetSize(200f, 30f);
-
-            // Keep the input focused after submitting
-            inputBox.RetainFocus(true);
-
-            // Keep the stored value even on a cancel/deselect
-            inputBox.RetainValue(true);
-
             controlArea.Add(inputBox);
 
             UIButton sendButton = new UIButton("Send", 20);

@@ -99,7 +99,7 @@ namespace UILibExamples {
                 Notifier.Notify("TextField", "You must enter at least 4 characters!");
                 return false;
             });
-            textField.onSubmit.AddListener((string value) => {
+            textField.onValidSubmit.AddListener((string value) => {
                 Notifier.Notify("TextField Submitted", $"Submitted value: {value}");
             });
             textField.onInputChanged.AddListener((string value) => {

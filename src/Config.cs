@@ -32,6 +32,5 @@ namespace UILib {
                 "Whether windows should be focused when you hover over them"
             );
         }
-
     }
 }

@@ -18,6 +18,8 @@ namespace UILib.Components {
      */
     public class Slider : UIComponent {
         private CustomSlider _slider;
+        private Area fillArea;
+        private Area handleArea;
 
         /**
          * <summary>
@@ -26,12 +28,27 @@ namespace UILib.Components {
          */
         public UESlider slider { get => (UESlider) _slider; }
 
-        private Image background;
+        /**
+         * <summary>
+         * The normal background color of the slider.
+         * </summary>
+         */
+        public Image background { get; private set; }
 
-        private Area fillArea;
-        private Area handleArea;
-        private Image fillImage;
-        private Image handleImage;
+        /**
+         * <summary>
+         * The image which covers the slider's
+         * background as the value increases.
+         * </summary>
+         */
+        public Image fillImage { get; private set; }
+
+        /**
+         * <summary>
+         * The slider's handle.
+         * </summary>
+         */
+        public Image handleImage { get; private set; }
 
         /**
          * <summary>

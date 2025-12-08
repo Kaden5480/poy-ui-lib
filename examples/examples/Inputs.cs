@@ -83,6 +83,17 @@ namespace UILibExamples {
             });
             window.Add(verticalSlider);
 
+            Label pickerLabel = new Label("Picker: (0, 0)", 20);
+            pickerLabel.SetSize(200f, 40f);
+            window.Add(pickerLabel);
+
+            Picker picker = new Picker();
+            picker.SetSize(200f, 200f);
+            picker.onValueChanged.AddListener((Vector2 position) => {
+                pickerLabel.SetText($"Picker: {position}");
+            });
+            window.Add(picker);
+
 #endregion
 
 #region Input Fields

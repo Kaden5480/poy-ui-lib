@@ -41,8 +41,10 @@ namespace UILib.Behaviours {
 
 #region Click Events
 
-        internal UnityEvent onClick       { get; } = new UnityEvent();
-        internal UnityEvent onDoubleClick { get; } = new UnityEvent();
+        internal UnityEvent onClick          { get; } = new UnityEvent();
+        internal UnityEvent onDoubleClick    { get; } = new UnityEvent();
+        internal MouseEvent onClickPos       { get; } = new MouseEvent();
+        internal MouseEvent onDoubleClickPos { get; } = new MouseEvent();
 
         /**
          * <summary>
@@ -55,9 +57,11 @@ namespace UILib.Behaviours {
             // dispatch to different callbacks
             switch (eventData.clickCount) {
                 case 1:
+                    onClickPos.Invoke(eventData.position);
                     onClick.Invoke();
                     break;
                 case 2:
+                    onDoubleClickPos.Invoke(eventData.position);
                     onDoubleClick.Invoke();
                     break;
             }
@@ -67,9 +71,9 @@ namespace UILib.Behaviours {
 
 #region Drag Events
 
-        internal DragEvent onBeginDrag { get; } = new DragEvent();
-        internal DragEvent onDrag      { get; } = new DragEvent();
-        internal DragEvent onEndDrag   { get; } = new DragEvent();
+        internal MouseEvent onBeginDrag { get; } = new MouseEvent();
+        internal MouseEvent onDrag      { get; } = new MouseEvent();
+        internal MouseEvent onEndDrag   { get; } = new MouseEvent();
 
         /**
          * <summary>

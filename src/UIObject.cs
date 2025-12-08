@@ -125,7 +125,7 @@ namespace UILib {
          * dragging on this UIObject.
          * </summary>
          */
-        public virtual DragEvent onBeginDrag { get => mouseHandler.onBeginDrag; }
+        public virtual MouseEvent onBeginDrag { get => mouseHandler.onBeginDrag; }
 
         /**
          * <summary>
@@ -133,7 +133,7 @@ namespace UILib {
          * dragging on this UIObject.
          * </summary>
          */
-        public virtual DragEvent onDrag { get => mouseHandler.onDrag; }
+        public virtual MouseEvent onDrag { get => mouseHandler.onDrag; }
 
         /**
          * <summary>
@@ -141,7 +141,7 @@ namespace UILib {
          * stopped dragging on this UIObject.
          * </summary>
          */
-        public virtual DragEvent onEndDrag { get => mouseHandler.onEndDrag; }
+        public virtual MouseEvent onEndDrag { get => mouseHandler.onEndDrag; }
 
 #endregion
 
@@ -229,6 +229,23 @@ namespace UILib {
 
             // Set the default theme
             theme = UIRoot.defaultTheme;
+        }
+
+        /**
+         * <summary>
+         * Converts a position to be local to this UIObject's
+         * <see cref="rectTransform">RectTransform</see>.
+         * </summary>
+         * <param name="position">The position to convert</param>
+         * <returns>The local position relative to the RectTransform</returns>
+         */
+        internal Vector2 ToLocalPosition(Vector2 position) {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                rectTransform, position, null,
+                out Vector2 local
+            );
+
+            return local;
         }
 
         /**

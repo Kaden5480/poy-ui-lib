@@ -66,8 +66,19 @@ namespace UILib.Components {
          */
         public ValueEvent<Vector2> onValueChanged { get; } = new ValueEvent<Vector2>();
 
-        private Image background;
-        private Image handle;
+        /**
+         * <summary>
+         * The background of this picker.
+         * </summary>
+         */
+        public Image background { get; private set; }
+
+        /**
+         * <summary>
+         * The picker's handle.
+         * </summary>
+         */
+        public Image handle { get; private set; }
 
         /**
          * <summary>

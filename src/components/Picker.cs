@@ -11,6 +11,7 @@ namespace UILib.Components {
      * Kind of like a <see cref="Slider"/>, but allows you
      * to handle `x` and `y` values.
      *
+     * By default:
      * (0, 0) is the bottom left
      * (1, 1) is the top right
      * </summary>
@@ -19,11 +20,43 @@ namespace UILib.Components {
         /**
          * <summary>
          * The current value stored in the picker.
-         * This is a normalized local position of
-         * the handle.
+         *
+         * The position of the handle is first normalized
+         * and then the minimum and maximum x and y values are used
+         * to calculate the current value of the handle.
+         *
+         * This value will always be between (minX, minY) and (maxX, maxY).
          * </summary>
          */
         public Vector2 value { get => Calculate(); }
+
+        /**
+         * <summary>
+         * The minimum x value.
+         * </summary>
+         */
+        public float minX { get; private set; } = 0f;
+
+        /**
+         * <summary>
+         * The minimum y value.
+         * </summary>
+         */
+        public float minY { get; private set; } = 0f;
+
+        /**
+         * <summary>
+         * The maximum x value.
+         * </summary>
+         */
+        public float maxX { get; private set; } = 1f;
+
+        /**
+         * <summary>
+         * The maximum y value.
+         * </summary>
+         */
+        public float maxY { get; private set; } = 1f;
 
         /**
          * <summary>
@@ -72,26 +105,56 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Calculates the current normalized coordinates based upon
+         * Sets the minimum values of this picker.
+         * </summary>
+         * <param name="minX">The minimum x value</param>
+         * <param name="minY">The minimum y value</param>
+         */
+        public void SetMinValues(float minX, float minY) {
+            this.minX = minX;
+            this.minY = minY;
+        }
+
+        /**
+         * <summary>
+         * Sets the maximum values of this picker.
+         * </summary>
+         * <param name="maxX">The maximum x value</param>
+         * <param name="maxY">The maximum y value</param>
+         */
+        public void SetMaxValues(float maxX, float maxY) {
+            this.maxX = maxX;
+            this.maxY = maxY;
+        }
+
+        /**
+         * <summary>
+         * Calculates the current coordinates based upon
          * the size and pivot of the container.
          * </summary>
-         * <returns>The normalized coordinates</returns>
+         * <returns>The coordinates</returns>
          */
         private Vector2 Calculate() {
             Vector2 handlePos = handle.rectTransform.localPosition;
             Vector2 pivot = rectTransform.pivot;
             Vector2 size = rectTransform.sizeDelta;
 
+            float normX = (handlePos.x/size.x) + pivot.x;
+            float normY = (handlePos.y/size.y) + pivot.y;
+
+            float valueX = minX + normX * (maxX - minX);
+            float valueY = minY + normY * (maxY - minY);
+
             return new Vector2(
-                (handlePos.x/size.x) + pivot.x,
-                (handlePos.y/size.y) + pivot.y
+                Mathf.Clamp(valueX, minX, maxX),
+                Mathf.Clamp(valueY, minY, maxY)
             );
         }
 
         /**
          * <summary>
-         * Moves the handle to a new position, clamping it
-         * to be within bounds of the picker.
+         * Moves the handle to a new position, clamping it to
+         * be within bounds of the picker.
          * </summary>
          * <param name="position">The new global position to move to</param>
          */

@@ -83,12 +83,19 @@ namespace UILibExamples {
             });
             window.Add(verticalSlider);
 
+            // A 2D picker
             Label pickerLabel = new Label("Picker: (0, 0)", 20);
             pickerLabel.SetSize(200f, 40f);
             window.Add(pickerLabel);
 
             Picker picker = new Picker();
             picker.SetSize(200f, 200f);
+
+            // You can even specify custom limits (the default ranges from
+            // (0, 0) to (1, 1))
+            picker.SetMinValues(10f, 20f);
+            picker.SetMaxValues(15f, 80f);
+
             picker.onValueChanged.AddListener((Vector2 position) => {
                 pickerLabel.SetText($"Picker: {position}");
             });

@@ -48,7 +48,7 @@ namespace UILib.Components {
         /**
          * <summary>
          * Whether this text field will retain the user's input
-         * after the user cancels an input.
+         * after the user cancels or submits an invalid input.
          *
          * False by default.
          * </summary>
@@ -197,7 +197,7 @@ namespace UILib.Components {
          * <param name="value">The value to validate</param>
          * <returns>True if it's valid, false otherwise</returns>
          */
-        private bool Validate(string value) {
+        internal bool Validate(string value) {
             if (predicate == null) {
                 return true;
             }

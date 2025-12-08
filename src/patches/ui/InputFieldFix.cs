@@ -62,14 +62,31 @@ namespace UILib.Patches.UI {
             TextField saved = current;
             current = null;
 
+            string userInput = saved.userInput;
+            bool validated = saved.Validate(userInput);
+
             // Save the current user input
-            saved.SetValue(saved.userInput);
+            if (validated == true) {
+                saved.SetValue(userInput);
+            }
+            else if (saved.retainInput == true) {
+                saved.SetText(userInput);
+            }
+            else {
+                saved.SetText(saved.value);
+            }
 
             EventSystem.current.SetSelectedGameObject(null);
-            saved.onValidSubmit.Invoke(saved.value);
 
             if (saved.retainFocus == true) {
                 EventSystem.current.SetSelectedGameObject(saved.gameObject);
+            }
+
+            if (validated == true) {
+                saved.onValidSubmit.Invoke(saved.value);
+            }
+            else {
+                saved.onInvalidSubmit.Invoke(userInput);
             }
         }
 

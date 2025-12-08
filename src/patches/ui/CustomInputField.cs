@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 using UEInputField = UnityEngine.UI.InputField;
 
-namespace UILib.Components {
+namespace UILib.Patches.UI {
     /**
      * <summary>
      * A custom InputField which implements events

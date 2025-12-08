@@ -8,6 +8,7 @@ using UEMask = UnityEngine.UI.Mask;
 using UEScrollRect = UnityEngine.UI.ScrollRect;
 
 using UILib.Layouts;
+using UILib.Patches.UI;
 
 namespace UILib.Components {
     /**

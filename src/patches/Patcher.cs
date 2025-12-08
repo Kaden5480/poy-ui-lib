@@ -60,5 +60,14 @@ namespace UILib.Patches {
             SceneLoads.OnSceneUnloaded(scene);
             Cache.Clear();
         }
+
+        /**
+         * <summary>
+         * Runs patches that need to run each frame.
+         * </summary>
+         */
+        internal static void Update() {
+            UI.InputFieldFix.Update();
+        }
     }
 }

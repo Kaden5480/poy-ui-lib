@@ -84,7 +84,7 @@ namespace UILib {
          */
         private void Update() {
             UIRoot.Update();
-            TextField.Update();
+            Patcher.Update();
         }
 
         /**

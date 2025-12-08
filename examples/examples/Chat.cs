@@ -5,6 +5,7 @@ using UnityEngine;
 using UILib;
 using UILib.Components;
 using UILib.Layouts;
+using UILib.Notifications;
 using UIButton = UILib.Components.Button;
 
 namespace UILibExamples {
@@ -27,7 +28,7 @@ namespace UILibExamples {
         private TextField inputBox;
 
         private void AddMessage(string message) {
-            Label label = new Label($"{DateTime.Now} | {inputBox.value}", 20);
+            Label label = new Label($"{DateTime.Now} | {message}", 20);
             label.SetAnchor(AnchorType.BottomMiddle);
             label.SetFill(FillType.Horizontal);
             label.SetSize(0f, 30f);
@@ -106,13 +107,18 @@ namespace UILibExamples {
             // Add a text field
             inputBox = new TextField("Enter message", 20);
             inputBox.onValidSubmit.AddListener(AddMessage);
+
+            // Retain focus and the user input
+            inputBox.RetainFocus(true);
+            inputBox.RetainInput(true);
+
             inputBox.SetSize(200f, 30f);
             controlArea.Add(inputBox);
 
             UIButton sendButton = new UIButton("Send", 20);
             sendButton.SetSize(100f, 30f);
             sendButton.onClick.AddListener(() => {
-                AddMessage(inputBox.value);
+                AddMessage(inputBox.userInput);
             });
             controlArea.Add(sendButton);
 

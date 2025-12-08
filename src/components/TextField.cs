@@ -9,6 +9,7 @@ using UEInputField = UnityEngine.UI.InputField;
 
 using UILib.Behaviours;
 using UILib.Layouts;
+using UILib.Patches.UI;
 using UILib.Notifications;
 
 namespace UILib.Components {
@@ -25,12 +26,46 @@ namespace UILib.Components {
         private UEImage background;
         private CustomInputField inputField;
 
+        // Whether the pointer is currently inside
+        internal bool isPointerInside { get; private set; } = false;
+
+        // Whether the text was updated internally
+        private bool internalChange = false;
+
         // The predicate used for validating the user's input
         private Func<string, bool> predicate;
 
         /**
          * <summary>
+         * Whether this text field will retain its focus
+         * after the user submits an input.
+         *
+         * False by default.
+         * </summary>
+         */
+        public bool retainFocus { get; private set; } = false;
+
+        /**
+         * <summary>
+         * Whether this text field will retain the user's input
+         * after the user cancels an input.
+         *
+         * False by default.
+         * </summary>
+         */
+        public bool retainInput { get; private set; } = false;
+
+        /**
+         * <summary>
+         * The current user input (displayed text).
+         * </summary>
+         */
+        public string userInput { get; private set; } = "";
+
+        /**
+         * <summary>
          * The current value stored in this text field.
+         * This only updates whenever the user submits a valid input.
          * </summary>
          */
         public string value { get; private set; }
@@ -99,13 +134,19 @@ namespace UILib.Components {
             inputField.textComponent = input.text;
             input.text.alignByGeometry = false;
 
+            // A lot of magic is happening in InputFieldFix
             inputField.onSelect.AddListener(() => {
-                currentSelected = this;
+                InputFieldFix.current = this;
             });
             inputField.onDeselect.AddListener(() => {
-                if (currentSelected == this) {
-                    currentSelected = null;
-                    SetText(value);
+                if (InputFieldFix.current == this) {
+                    InputFieldFix.current = null;
+                    if (retainInput == true) {
+                        SetText(userInput);
+                    }
+                    else {
+                        SetText(value);
+                    }
                     onCancel.Invoke();
                 }
 
@@ -125,6 +166,28 @@ namespace UILib.Components {
 
             // Set the theme
             SetThisTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Sets whether this text field should <see cref="retainFocus">
+         * retain focus</see>
+         * </summary>
+         * <param name="retainFocus">Whether to retain focus</param>
+         */
+        public void RetainFocus(bool retainFocus) {
+            this.retainFocus = retainFocus;
+        }
+
+        /**
+         * <summary>
+         * Sets whether this text field should <see cref="retainInput">
+         * retain its current input</see>
+         * </summary>
+         * <param name="retainInput">Whether to retain focus</param>
+         */
+        public void RetainInput(bool retainInput) {
+            this.retainInput = retainInput;
         }
 
         /**
@@ -164,6 +227,7 @@ namespace UILib.Components {
                 internalChange = true;
             }
             inputField.text = text;
+            userInput = text;
         }
 
         /**
@@ -202,66 +266,5 @@ namespace UILib.Components {
             placeholder.text.alignment = alignment;
             input.text.alignment = alignment;
         }
-
-#region Patches
-
-        // Some fixes
-        internal static TextField currentSelected { get; private set; } = null;
-        private bool isPointerInside = false;
-
-        private string userInput     = "";
-        private bool internalChange  = false;
-
-        private void CheckDeselect() {
-            if (isPointerInside == true) {
-                return;
-            }
-
-            if (EventSystem.current.currentSelectedGameObject == gameObject) {
-                HandleCancel();
-            }
-        }
-
-        private void HandleCancel() {
-            currentSelected = null;
-            EventSystem.current.SetSelectedGameObject(null);
-            SetText(value);
-            onCancel.Invoke();
-        }
-
-        private void HandleSubmit() {
-            currentSelected = null;
-            SetValue(userInput);
-            EventSystem.current.SetSelectedGameObject(null);
-            onValidSubmit.Invoke(value);
-            EventSystem.current.SetSelectedGameObject(gameObject);
-        }
-
-        /**
-         * <summary>
-         * Runs every frame to handle deselecting when
-         * clicking outside of a text field.
-         * </summary>
-         */
-        internal static void Update() {
-            if (currentSelected == null) {
-                return;
-            }
-
-            if (Input.GetMouseButtonDown(0) == true) {
-                currentSelected.CheckDeselect();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Escape) == true) {
-                currentSelected.HandleCancel();
-            }
-
-            if (Input.GetKeyDown(KeyCode.Return) == true) {
-                currentSelected.HandleSubmit();
-            }
-        }
-
-#endregion
-
     }
 }

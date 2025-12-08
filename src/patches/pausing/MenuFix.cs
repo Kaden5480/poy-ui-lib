@@ -3,8 +3,6 @@ using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 
-using UILib.Components;
-
 namespace UILib.Patches {
     /**
      * <summary>
@@ -39,7 +37,7 @@ namespace UILib.Patches {
                 return false;
             }
 
-            if (TextField.currentSelected != null) {
+            if (UI.InputFieldFix.current != null) {
                 return false;
             }
 

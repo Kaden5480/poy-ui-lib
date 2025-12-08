@@ -7,6 +7,7 @@ using UESlider = UnityEngine.UI.Slider;
 
 using UILib.Behaviours;
 using UILib.Layouts;
+using UILib.Patches.UI;
 
 namespace UILib.Components {
     /**

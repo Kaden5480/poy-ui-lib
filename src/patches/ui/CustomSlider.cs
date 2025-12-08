@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 using UESlider = UnityEngine.UI.Slider;
 
-namespace UILib.Components {
+namespace UILib.Patches.UI {
     /**
      * <summary>
      * A custom Slider which implements events

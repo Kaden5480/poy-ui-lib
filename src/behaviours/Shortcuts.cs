@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-using UILib.Components;
+using UILib.Patches.UI;
 
 namespace UILib.Behaviours {
     /**
@@ -138,7 +138,7 @@ namespace UILib.Behaviours {
             }
 
             // Don't do anything when a text field is selected
-            if (TextField.currentSelected != null) {
+            if (InputFieldFix.current != null) {
                 return;
             }
 

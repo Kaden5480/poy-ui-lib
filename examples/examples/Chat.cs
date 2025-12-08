@@ -105,7 +105,7 @@ namespace UILibExamples {
 
             // Add a text field
             inputBox = new TextField("Enter message", 20);
-            inputBox.onSubmit.AddListener(AddMessage);
+            inputBox.onValidSubmit.AddListener(AddMessage);
             inputBox.SetSize(200f, 30f);
             controlArea.Add(inputBox);
 

@@ -99,17 +99,17 @@ namespace UILibExamples {
                 Notifier.Notify("TextField", "You must enter at least 4 characters!");
                 return false;
             });
-            textField.onSubmit.AddListener((string value) => {
-                Notifier.Notify("TextField Submitted", $"Submitted value: {value}");
-            });
             textField.onInputChanged.AddListener((string value) => {
                 Notifier.Notify("TextField Changed", $"You are entering: {value}");
+            });
+            textField.onCancel.AddListener(() => {
+                Notifier.Notify("TextField Cancel", "You cancelled the input");
             });
             textField.onInvalidSubmit.AddListener((string value) => {
                 Notifier.Notify("TextField Invalid", $"Invalid data: {value}");
             });
-            textField.onCancel.AddListener(() => {
-                Notifier.Notify("TextField Cancel", "You cancelled the input");
+            textField.onValidSubmit.AddListener((string value) => {
+                Notifier.Notify("TextField Submitted", $"Submitted value: {value}");
             });
             window.Add(textField);
 

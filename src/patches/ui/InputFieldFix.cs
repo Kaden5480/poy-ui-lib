@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using UILib.Components;
+using RetainMode = UILib.Components.TextField.RetainMode;
 
 namespace UILib.Patches.UI {
     /**
@@ -30,20 +31,24 @@ namespace UILib.Patches.UI {
             }
 
             // Otherwise, cancel here
-            HandleCancel();
+            HandleCancel(true);
         }
 
         /**
          * <summary>
          * Handles cancelling the input.
          * </summary>
+         * <param name="wasClick">Whether a click cancelled</param>
          */
-        private static void HandleCancel() {
+        private static void HandleCancel(bool wasClick) {
             TextField saved = current;
             current = null;
             EventSystem.current.SetSelectedGameObject(null);
 
-            if (saved.retainInput == true) {
+            if ((wasClick == true
+                && saved.retainMode.HasFlag(RetainMode.CancelClick) == true)
+                || saved.retainMode.HasFlag(RetainMode.CancelEsc) == true
+            ) {
                 saved.SetText(saved.userInput);
             }
             else {
@@ -69,7 +74,7 @@ namespace UILib.Patches.UI {
             if (validated == true) {
                 saved.SetValue(userInput);
             }
-            else if (saved.retainInput == true) {
+            else if (saved.retainMode.HasFlag(RetainMode.InvalidSubmit) == true) {
                 saved.SetText(userInput);
             }
             else {
@@ -110,7 +115,7 @@ namespace UILib.Patches.UI {
 
             // Cancelled with escape
             if (Input.GetKeyDown(KeyCode.Escape) == true) {
-                HandleCancel();
+                HandleCancel(false);
             }
 
             // Submitted with return

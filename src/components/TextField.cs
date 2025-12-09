@@ -20,6 +20,23 @@ namespace UILib.Components {
      * </summary>
      */
     public class TextField : UIComponent {
+        /**
+         * <summary>
+         * An enum of modes which determine in which
+         * cases will a <see cref="TextField"/> retain
+         * the current user input.
+         *
+         * The input will always be retained on a valid submit.
+         * </summary>
+         */
+        [Flags]
+        public enum RetainMode {
+            None           = 0,
+            CancelEsc      = 1 << 0,
+            CancelClick    = 1 << 1,
+            InvalidSubmit  = 1 << 2,
+        }
+
         private Label placeholder;
         private Label input;
 
@@ -47,13 +64,15 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Whether this text field will retain the user's input
-         * after the user cancels or submits an invalid input.
+         * In which cases will this text field retain the
+         * current user input.
          *
-         * False by default.
+         * The input will always be retained on a valid submit.
+         *
+         * Default: None
          * </summary>
          */
-        public bool retainInput { get; private set; } = false;
+        public RetainMode retainMode { get; private set; } = RetainMode.None;
 
         /**
          * <summary>
@@ -141,7 +160,7 @@ namespace UILib.Components {
             inputField.onDeselect.AddListener(() => {
                 if (InputFieldFix.current == this) {
                     InputFieldFix.current = null;
-                    if (retainInput == true) {
+                    if (retainMode.HasFlag(RetainMode.CancelClick) == true) {
                         SetText(userInput);
                     }
                     else {
@@ -175,19 +194,21 @@ namespace UILib.Components {
          * </summary>
          * <param name="retainFocus">Whether to retain focus</param>
          */
-        public void RetainFocus(bool retainFocus) {
+        public void SetRetainFocus(bool retainFocus) {
             this.retainFocus = retainFocus;
         }
 
         /**
          * <summary>
-         * Sets whether this text field should <see cref="retainInput">
-         * retain its current input</see>
+         * Sets in which cases this text field will retain
+         * the current user input.
+         *
+         * The input will always be retained on a valid submit.
          * </summary>
-         * <param name="retainInput">Whether to retain focus</param>
+         * <param name="retainMode">Which cases the input should be retained</param>
          */
-        public void RetainInput(bool retainInput) {
-            this.retainInput = retainInput;
+        public void SetRetainMode(RetainMode retainMode) {
+            this.retainMode = retainMode;
         }
 
         /**

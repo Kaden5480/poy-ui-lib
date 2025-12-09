@@ -94,6 +94,9 @@ namespace UILib.ColorPicker {
             opacitySlider.onValueChanged.AddListener((float value) => {
                 opacity = value;
             });
+
+            // Initialize
+            Update(ColorUpdate.RGB);
         }
 
         /**
@@ -109,20 +112,20 @@ namespace UILib.ColorPicker {
             switch (update) {
                 case ColorUpdate.HSV: {
                     Color rgb = Colors.HSV(hue, vSat, val);
-                    red = rgb.r;
-                    green = rgb.g;
-                    blue = rgb.b;
+                    red = 255f*rgb.r;
+                    green = 255f*rgb.g;
+                    blue = 255f*rgb.b;
                 }; break;
 
                 case ColorUpdate.HSL: {
                     Color rgb = Colors.HSL(hue, lSat, lightness);
-                    red = rgb.r;
-                    green = rgb.g;
-                    blue = rgb.b;
+                    red = 255f*rgb.r;
+                    green = 255f*rgb.g;
+                    blue = 255f*rgb.b;
                 }; break;
             }
 
-            // Recalculate HSV and HSL
+            // Recalculate RGB, HSV, and HSL
             Vector3 hsv = Colors.RGBToHSV(red, green, blue);
             hue = hsv.x;
             vSat = hsv.y;

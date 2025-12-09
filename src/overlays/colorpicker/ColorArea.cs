@@ -5,6 +5,7 @@ using UILib.Layouts;
 
 namespace UILib.ColorPicker {
     internal class ColorArea : Area {
+        private ColorUpdater updater;
         private ColorUpdate updateType;
         private TextField[] fields;
 
@@ -13,10 +14,13 @@ namespace UILib.ColorPicker {
          * Initializes a color area.
          * </summary>
          * <param name="inputs">The inputs for this area</param>
+         * <param name="updater">The updater to dispatch to</param>
          * <param name="updateType">The type of updates this area makes</param>
          */
-        internal ColorArea(InputInfo[] inputs, ColorUpdate updateType) {
+        internal ColorArea(InputInfo[] inputs, ColorUpdater updater, ColorUpdate updateType) {
+            this.updater = updater;
             this.updateType = updateType;
+
             SetSize(90f, 26f*inputs.Length + 10*(inputs.Length-1));
             SetContentLayout(LayoutType.Vertical);
             SetElementSpacing(10);
@@ -26,6 +30,30 @@ namespace UILib.ColorPicker {
             for (int i = 0; i < inputs.Length; i++) {
                 fields[i] = CreateInput(inputs[i]);
             }
+        }
+
+        /**
+         * <summary>
+         * Validates the provided string is a float within
+         * min and max.
+         * </summary>
+         * <param name="input">The input to validate</param>
+         * <param name="min">The min value</param>
+         * <param name="max">The max value</param>
+         * <param name="result">The converted result if it is valid</param>
+         */
+        private bool Validate(string input, float min, float max, out float result) {
+            if (float.TryParse(input, out result) == false) {
+                return false;
+            }
+
+            result = (float) Math.Round(result, 2);
+
+            if (result < min || result > max) {
+                return false;
+            }
+
+            return true;
         }
 
         /**
@@ -63,6 +91,22 @@ namespace UILib.ColorPicker {
                 TextField.SubmitMode.Click
                 | TextField.SubmitMode.Escape
             );
+
+            textField.SetPredicate((string value) => {
+                if (Validate(value, input.min, input.max, out float result) == true) {
+                    input.value = result;
+                    updater.Update(updateType);
+                    return true;
+                }
+                return false;
+            });
+            textField.onInputChanged.AddListener((string value) => {
+                if (Validate(value, input.min, input.max, out float result) == true) {
+                    input.value = result;
+                    updater.Update(updateType);
+                }
+            });
+
             textField.SetSize(60f, 26f);
             area.Add(textField);
 

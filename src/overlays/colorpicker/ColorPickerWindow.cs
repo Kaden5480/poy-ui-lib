@@ -41,21 +41,21 @@ namespace UILib.ColorPicker {
                 new InputInfo("R", 0, 255, updater.refRed),
                 new InputInfo("G", 0, 255, updater.refGreen),
                 new InputInfo("B", 0, 255, updater.refBlue),
-            }, ColorUpdate.RGB);
+            }, updater, ColorUpdate.RGB);
             inputs.Add(updater.rgbArea);
 
             updater.hsvArea = new ColorArea(new[] {
                 new InputInfo("H", 0, 360, updater.refHue),
                 new InputInfo("S", 0, 100, updater.refVSat),
                 new InputInfo("V", 0, 100, updater.refValue),
-            }, ColorUpdate.HSV);
+            }, updater, ColorUpdate.HSV);
             inputs.Add(updater.hsvArea);
 
             updater.hslArea = new ColorArea(new[] {
                 new InputInfo("H", 0, 360, updater.refHue),
                 new InputInfo("S", 0, 100, updater.refLSat),
                 new InputInfo("L", 0, 100, updater.refLightness),
-            }, ColorUpdate.HSL);
+            }, updater, ColorUpdate.HSL);
             inputs.Add(updater.hslArea);
 
             window.Add(inputs);
@@ -89,7 +89,7 @@ namespace UILib.ColorPicker {
 
             // Hue slider
             Slider hueSlider = new Slider(
-                0f, 360f, UESlider.Direction.BottomToTop
+                0f, 359.99f, UESlider.Direction.BottomToTop
             );
             hueSlider.background.image.material = new Material(
                 Resources.hsvSpectrum

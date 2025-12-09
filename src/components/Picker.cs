@@ -28,7 +28,9 @@ namespace UILib.Components {
          * This value will always be between (minX, minY) and (maxX, maxY).
          * </summary>
          */
-        public Vector2 value { get => Calculate(); }
+        public Vector2 value {
+            get => PositionToValue(handle.rectTransform.localPosition);
+        }
 
         /**
          * <summary>
@@ -116,6 +118,24 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Sets the current value of this picker.
+         *
+         * These values must be within your configured min and max
+         * values.
+         * </summary>
+         * <param name="x">The x value to set the picker to</param>
+         * <param name="y">The y value to set the picker to</param>
+         */
+        public void SetValue(float x, float y) {
+            x = Mathf.Clamp(x, minX, maxX);
+            y = Mathf.Clamp(y, minY, maxY);
+
+            Vector2 position = ValueToPosition(x, y);
+            handle.rectTransform.localPosition = position;
+        }
+
+        /**
+         * <summary>
          * Sets the minimum values of this picker.
          * </summary>
          * <param name="minX">The minimum x value</param>
@@ -140,18 +160,38 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Calculates the current coordinates based upon
-         * the size and pivot of the container.
+         * Converts a value into a local position.
          * </summary>
-         * <returns>The coordinates</returns>
+         * <param name="x">The x value to convert</param>
+         * <param name="y">The y value to convert</param>
          */
-        private Vector2 Calculate() {
-            Vector2 handlePos = handle.rectTransform.localPosition;
+        private Vector2 ValueToPosition(float x, float y) {
             Vector2 pivot = rectTransform.pivot;
             Vector2 size = rectTransform.sizeDelta;
 
-            float normX = (handlePos.x/size.x) + pivot.x;
-            float normY = (handlePos.y/size.y) + pivot.y;
+            float normX = (x - minX) / (maxX - minX);
+            float normY = (y - minY) / (maxY - minY);
+
+            float posX = size.x * (normX - pivot.x);
+            float posY = size.y * (normY - pivot.y);
+
+            return new Vector2(posX, posY);
+        }
+
+        /**
+         * <summary>
+         * Converts a provided local position into a
+         * value within the min and max limits.
+         * </summary>
+         * <param name="position">The local position to convert</param>
+         * <returns>The value</returns>
+         */
+        private Vector2 PositionToValue(Vector2 position) {
+            Vector2 pivot = rectTransform.pivot;
+            Vector2 size = rectTransform.sizeDelta;
+
+            float normX = (position.x/size.x) + pivot.x;
+            float normY = (position.y/size.y) + pivot.y;
 
             float valueX = minX + normX * (maxX - minX);
             float valueY = minY + normY * (maxY - minY);
@@ -180,7 +220,9 @@ namespace UILib.Components {
                 Mathf.Clamp(local.y, -(pivot.y*size.y), (1-pivot.y)*size.y)
             );
 
-            onValueChanged.Invoke(Calculate());
+            onValueChanged.Invoke(
+                PositionToValue(handle.rectTransform.localPosition)
+            );
         }
 
         /**

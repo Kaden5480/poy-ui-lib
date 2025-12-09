@@ -28,13 +28,13 @@ namespace UILib {
          * </summary>
          */
         internal ColorPickerWindow() {
-            window = new Window("Color Picker", 500f, 400f);
-            window.SetMinSize(500f, 400f);
+            window = new Window("Color Picker", 550f, 600f);
+            window.SetMinSize(550f, 600f);
             window.SetContentLayout(LayoutType.Vertical);
-            window.scrollView.background.color = Colors.RGB(41, 41, 41);
+            window.SetElementSpacing(20);
+            window.scrollView.background.color = UIRoot.defaultTheme.accentAlt;
 
             Area mainArea = CreateMainArea(250f);
-            mainArea.SetSize(390f, 250f);
 
             // Initialize controls
             svPicker.SetValue(100f, 100f);
@@ -44,7 +44,98 @@ namespace UILib {
 
             window.Add(mainArea);
 
+            Area inputs = new Area();
+            inputs.SetContentLayout(LayoutType.Horizontal);
+            inputs.SetElementSpacing(50);
+            inputs.SetSize(500f, 150f);
+
+            Area rgbArea = CreateInputArea(new[] {
+                new InputInfo("R", 0, 255),
+                new InputInfo("G", 0, 255),
+                new InputInfo("B", 0, 255),
+            });
+            inputs.Add(rgbArea);
+
+            Area hsvArea = CreateInputArea(new[] {
+                new InputInfo("H", 0, 360),
+                new InputInfo("S", 0, 100),
+                new InputInfo("V", 0, 100),
+            });
+            inputs.Add(hsvArea);
+
+            Area hslArea = CreateInputArea(new[] {
+                new InputInfo("H", 0, 360),
+                new InputInfo("S", 0, 100),
+                new InputInfo("L", 0, 100),
+            });
+            inputs.Add(hslArea);
+
+            window.Add(inputs);
             window.Show();
+        }
+
+        /**
+         * <summary>
+         * A class holding information for a single input.
+         * </summary>
+         */
+        private class InputInfo {
+            internal string name;
+            internal int min;
+            internal int max;
+
+            internal InputInfo(string name, int min, int max) {
+                this.name = name;
+                this.min = min;
+                this.max = max;
+            }
+        }
+
+        /**
+         * <summary>
+         * Creates one input control.
+         * </summary>
+         * <param name="input">The input to make</param>
+         * <returns>The input control</returns>
+         */
+        private Area CreateInput(InputInfo input) {
+            Area area = new Area();
+            area.SetSize(90f, 26f);
+            area.SetContentLayout(LayoutType.Horizontal);
+
+            Label label = new Label($"{input.name}", 20);
+            label.SetSize(30f, 26f);
+            area.Add(label);
+
+            TextField textField = new TextField("", 20);
+            textField.SetSubmitMode(
+                TextField.SubmitMode.Click
+                | TextField.SubmitMode.Escape
+            );
+            textField.SetSize(60f, 26f);
+            area.Add(textField);
+
+            return area;
+        }
+
+        /**
+         * <summary>
+         * Creates a set of text field controls.
+         * </summary>
+         * <param name="inputs">The inputs to make controls with</param>
+         * <returns>The controls</returns>
+         */
+        private Area CreateInputArea(InputInfo[] inputs) {
+            Area area = new Area();
+            area.SetSize(90f, 26f*inputs.Length + 10*(inputs.Length-1));
+            area.SetContentLayout(LayoutType.Vertical);
+            area.SetElementSpacing(10);
+
+            foreach (InputInfo input in inputs) {
+                area.Add(CreateInput(input));
+            }
+
+            return area;
         }
 
         /**
@@ -55,6 +146,7 @@ namespace UILib {
          */
         private Area CreateMainArea(float height) {
             Area area = new Area();
+            area.SetSize(390f, 250f);
             area.SetContentLayout(LayoutType.Horizontal);
             area.SetElementSpacing(20);
 

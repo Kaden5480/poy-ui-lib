@@ -35,8 +35,14 @@ namespace UILib {
 
             Area mainArea = CreateMainArea(250f);
             mainArea.SetSize(390f, 250f);
-            window.Add(mainArea);
 
+            // Initialize controls
+            svPicker.SetValue(100f, 100f);
+            hueSlider.SetValue(0f);
+            opacitySlider.SetValue(100f);
+            UpdateColors();
+
+            window.Add(mainArea);
 
             window.Show();
         }

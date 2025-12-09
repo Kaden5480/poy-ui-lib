@@ -242,35 +242,13 @@ namespace UILib.Components {
          * <param name="position">The position dragged to</param>
          */
         protected override void OnDrag(Vector2 position) {
+            base.OnDrag(position);
+
+            if (Input.GetKey(KeyCode.LeftAlt) == true) {
+                return;
+            }
+
             MoveHandle(position);
         }
-
-#region Stopping Overrides
-
-        /**
-         * <summary>
-         * Handles this picker being clicked.
-         * </summary>
-         */
-        protected override void OnClick() {}
-
-        /**
-         * <summary>
-         * Handles the start of this picker being dragged.
-         * </summary>
-         * <param name="position">The position the drag started at</param>
-         */
-        protected override void OnBeginDrag(Vector2 position) {}
-
-        /**
-         * <summary>
-         * Handles the end of this picker being dragged.
-         * </summary>
-         * <param name="position">The position the drag ended at</param>
-         */
-        protected override void OnEndDrag(Vector2 position) {}
-
-#endregion
-
     }
 }

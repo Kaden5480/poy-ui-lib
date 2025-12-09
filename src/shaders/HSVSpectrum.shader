@@ -1,6 +1,6 @@
 Shader "UILib/HSVSpectrum" {
     Properties {
-        _MainText ("Base Texture", 2D) = "white" {}
+        _MainTex ("Base Texture", 2D) = "white" {}
     }
 
     SubShader {
@@ -11,6 +11,8 @@ Shader "UILib/HSVSpectrum" {
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+
+            sampler2D _MainTex;
 
             struct appdata {
                 float4 pos: POSITION;
@@ -52,5 +54,5 @@ Shader "UILib/HSVSpectrum" {
         }
     }
 
-    FallBack "Diffuse"
+    FallBack "UI/Default"
 }

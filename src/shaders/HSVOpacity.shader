@@ -1,6 +1,6 @@
 Shader "UILib/HSVOpacity" {
     Properties {
-        _MainText ("Base Texture", 2D) = "white" {}
+        _MainTex ("Base Texture", 2D) = "white" {}
         _Hue ("Hue", Range(0.0, 360.0)) = 0.0
         _Saturation ("Saturation", Range(0.0, 100.0)) = 0.0
         _Value ("Value", Range(0.0, 100.0)) = 0.0
@@ -19,6 +19,7 @@ Shader "UILib/HSVOpacity" {
 
             #include "UnityCG.cginc"
 
+            sampler2D _MainTex;
             float _Hue;
             float _Saturation;
             float _Value;

@@ -1,6 +1,6 @@
 Shader "UILib/HSVRect" {
     Properties {
-        _MainText ("Base Texture", 2D) = "white" {}
+        _MainTex ("Base Texture", 2D) = "white" {}
         _Hue ("Hue", Range(0.0, 360.0)) = 0.0
     }
 
@@ -13,6 +13,7 @@ Shader "UILib/HSVRect" {
 
             #include "UnityCG.cginc"
 
+            sampler2D _MainTex;
             float _Hue;
 
             struct appdata {
@@ -57,5 +58,5 @@ Shader "UILib/HSVRect" {
         }
     }
 
-    FallBack "Diffuse"
+    FallBack "UI/Default"
 }

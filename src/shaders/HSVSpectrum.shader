@@ -1,18 +1,29 @@
 Shader "UILib/HSVSpectrum" {
     Properties {
-        _MainTex ("Base Texture", 2D) = "white" {}
+        [HideInInspector] _MainTex ("Base Texture", 2D) = "white" {}
     }
 
     SubShader {
-        Tags { "RenderType" = "Opaque" }
+        Tags {
+            "Queue" = "Geometry"
+            "RenderType" = "Opaque"
+            "IgnoreProjector" = "True"
+            "PreviewType" = "Plane"
+            "CanUseSpriteAtlas" = "True"
+        }
+
+        Cull Off
+        ZWrite Off
+        ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
+
         Pass {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
-
-            sampler2D _MainTex;
+            #include "UnityUI.cginc"
 
             struct appdata {
                 float4 pos: POSITION;
@@ -22,6 +33,7 @@ Shader "UILib/HSVSpectrum" {
             struct v2f {
                 float4 pos: POSITION;
                 float2 texcoord: TEXCOORD0;
+                float4 worldPos: TEXCOORD1;
             };
 
             float hsvf(float h, float s, float v, int n) {
@@ -38,16 +50,26 @@ Shader "UILib/HSVSpectrum" {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.pos);
                 o.texcoord = v.texcoord;
+                o.worldPos = v.pos;
                 return o;
             }
 
             float4 frag(v2f i) : SV_Target {
-                float y = i.texcoord.y;
-                float r = hsvf(y*360, 1, 1, 5);
-                float g = hsvf(y*360, 1, 1, 3);
-                float b = hsvf(y*360, 1, 1, 1);
+                float h = i.texcoord.y;
 
-                return float4(r, g, b, 1.0);
+                float r = hsvf(h*360, 1, 1, 5);
+                float g = hsvf(h*360, 1, 1, 3);
+                float b = hsvf(h*360, 1, 1, 1);
+
+                #ifdef UNITY_UI_CLIP_RECT
+                if (any(i.worldPos.xy < _ClipRect.xy)
+                    || any(i.worldPos.xy > _ClipRect.zw)
+                ) {
+                    discard;
+                }
+                #endif
+
+                return pow(float4(r, g, b, 1.0), 2.2);
             }
 
             ENDCG

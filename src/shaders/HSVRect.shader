@@ -1,19 +1,32 @@
 Shader "UILib/HSVRect" {
     Properties {
-        _MainTex ("Base Texture", 2D) = "white" {}
         _Hue ("Hue", Range(0.0, 360.0)) = 0.0
+        [HideInInspector] _MainTex ("Base Texture", 2D) = "white" {}
     }
 
     SubShader {
-        Tags { "RenderType" = "Opaque" }
+        Tags {
+            "Queue" = "Geometry"
+            "RenderType" = "Opaque"
+            "IgnoreProjector" = "True"
+            "PreviewType" = "Plane"
+            "CanUseSpriteAtlas" = "True"
+        }
+
+        Cull Off
+        ZWrite Off
+        ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
+
         Pass {
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
 
             #include "UnityCG.cginc"
+            #include "UnityUI.cginc"
 
-            sampler2D _MainTex;
+            float4 _ClipRect;
             float _Hue;
 
             struct appdata {
@@ -22,8 +35,9 @@ Shader "UILib/HSVRect" {
             };
 
             struct v2f {
-                float4 pos: POSITION;
+                float4 pos: SV_POSITION;
                 float2 texcoord: TEXCOORD0;
+                float4 worldPos : TEXCOORD1;
             };
 
             float hsvf(float h, float s, float v, int n) {
@@ -40,18 +54,27 @@ Shader "UILib/HSVRect" {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.pos);
                 o.texcoord = v.texcoord;
+                o.worldPos = v.pos;
                 return o;
             }
 
             float4 frag(v2f i) : SV_Target {
-                float x = i.texcoord.x;
-                float y = i.texcoord.y;
+                float s = i.texcoord.x;
+                float v = i.texcoord.y;
 
-                float r = hsvf(_Hue, x, y, 5);
-                float g = hsvf(_Hue, x, y, 3);
-                float b = hsvf(_Hue, x, y, 1);
+                float r = hsvf(_Hue, s, v, 5);
+                float g = hsvf(_Hue, s, v, 3);
+                float b = hsvf(_Hue, s, v, 1);
 
-                return float4(r, g, b, 1.0);
+                #ifdef UNITY_UI_CLIP_RECT
+                if (any(i.worldPos.xy < _ClipRect.xy)
+                    || any(i.worldPos.xy > _ClipRect.zw)
+                ) {
+                    discard;
+                }
+                #endif
+
+                return pow(float4(r, g, b, 1.0), 2.2);
             }
 
             ENDCG

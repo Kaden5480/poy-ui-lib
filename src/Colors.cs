@@ -63,7 +63,7 @@ namespace UILib {
             int b = 0xff & (hexA >> 8);
             int a = 0xff & (hexA >> 0);
 
-            return RGBA(r, g, b, a);
+            return RGBA(r, g, b, 100*(a/255));
         }
 
         /**
@@ -78,13 +78,45 @@ namespace UILib {
             return HexA((hex << 8) | 0xff);
         }
 
+        /**
+         * <summary>
+         * Converts a RGB to a hex value in the form 0xRRGGBB.
+         * </summary>
+         * <param name="r">The red component (0-255)</param>
+         * <param name="g">The green component (0-255)</param>
+         * <param name="b">The blue component (0-255)</param>
+         * <returns>The hex value</returns>
+         */
+        public static int RGBToHex(int r, int g, int b) {
+            return r << 16
+                | g << 8
+                | b << 0;
+        }
+
+        /**
+         * <summary>
+         * Converts a RGB to a hex value in the form 0xRRGGBBAA.
+         * </summary>
+         * <param name="r">The red component (0-255)</param>
+         * <param name="g">The green component (0-255)</param>
+         * <param name="b">The blue component (0-255)</param>
+         * <param name="a">The alpha component (0-100)</param>
+         * <returns>The hex value</returns>
+         */
+        public static int RGBAToHex(int r, int g, int b, int a) {
+            return r << 24
+                | g << 16
+                | b << 8
+                | (255*(a/100)) << 0;
+        }
+
 #endregion
 
 #region HSL
 
         /**
          * <summary>
-         * Function for helping with hsl conversions.
+         * Function for helping with hsl -> rgb conversions.
          *
          * See:
          * https://en.wikipedia.org/wiki/HSL_and_HSV#Color_conversion_formulae
@@ -134,6 +166,55 @@ namespace UILib {
             return HSLA(h, s, l, 100f);
         }
 
+        /**
+         * <summary>
+         * Converts RGB to HSL.
+         *
+         * The returned HSL will be:
+         * H: [0, 360]
+         * S: [0, 100]
+         * L: [0, 100]
+         *
+         * See:
+         * https://en.wikipedia.org/wiki/HSL_and_HSV#Color_conversion_formulae
+         * </summary>
+         * <param name="r">The red component (0-255)</param>
+         * <param name="g">The green component (0-255)</param>
+         * <param name="b">The blue component (0-255)</param>
+         * <returns>The HSL values</returns>
+         */
+        public static Vector3 RGBToHSL(float r, float g, float b) {
+            r /= 255f;
+            g /= 255f;
+            b /= 255f;
+
+            float cMax = Mathf.Max(Mathf.Max(r, g), b);
+            float cMin = Mathf.Min(Mathf.Min(r, g), b);
+
+            float c = cMax - cMin;
+
+            float hue = 0f;
+            float saturation = 0f;
+            float lightness = (cMax + cMin)/2f;
+
+            // Calculate hue
+            if (c == 0f) { hue = 0f; }
+            else if (cMax == r) { hue = 60f * ((g - b)/c % 6f); }
+            else if (cMax == g) { hue = 60f * ((b - r)/c + 2f); }
+            else if (cMax == b) { hue = 60f * ((r - g)/c + 4f); }
+
+            if (hue < 0) { hue += 360f; }
+
+            // Calculate saturation
+            if (c == 0f || lightness == 0f || lightness == 1f) {
+                saturation = 0f;
+            }
+            else {
+                saturation = c / (1f - Mathf.Abs(2f*lightness - 1f));
+            }
+
+            return new Vector3(hue, 100f*saturation, 100f*lightness);
+        }
 
 #endregion
 
@@ -188,6 +269,52 @@ namespace UILib {
          */
         public static Color HSV(float h, float s, float v) {
             return HSVA(h, s, v, 100f);
+        }
+
+        /**
+         * <summary>
+         * Converts RGB to HSV.
+         *
+         * The returned HSV will be:
+         * H: [0, 360]
+         * S: [0, 100]
+         * V: [0, 100]
+         *
+         * See:
+         * https://en.wikipedia.org/wiki/HSL_and_HSV#Color_conversion_formulae
+         * </summary>
+         * <param name="r">The red component (0-255)</param>
+         * <param name="g">The green component (0-255)</param>
+         * <param name="b">The blue component (0-255)</param>
+         * <returns>The HSV values</returns>
+         */
+        public static Vector3 RGBToHSV(float r, float g, float b) {
+            r /= 255f;
+            g /= 255f;
+            b /= 255f;
+
+            float cMax = Mathf.Max(Mathf.Max(r, g), b);
+            float cMin = Mathf.Min(Mathf.Min(r, g), b);
+
+            float c = cMax - cMin;
+
+            float hue = 0f;
+            float saturation = 0f;
+            float lightness = (cMax + cMin)/2f;
+
+            // Calculate hue
+            if (c == 0f) { hue = 0f; }
+            else if (cMax == r) { hue = 60f * ((g - b)/c % 6f); }
+            else if (cMax == g) { hue = 60f * ((b - r)/c + 2f); }
+            else if (cMax == b) { hue = 60f * ((r - g)/c + 4f); }
+
+            if (hue < 0) { hue += 360f; }
+
+            // Calculate saturation
+            if (cMax == 0f) { saturation = 0f; }
+            else { saturation = c / cMax; }
+
+            return new Vector3(hue, 100f*saturation, 100f*cMax);
         }
 
 #endregion

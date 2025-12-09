@@ -44,6 +44,8 @@ namespace UILib.Patches.UI {
         private static void HandleCancel(bool wasClick) {
             TextField saved = current;
             current = null;
+            string input = saved.userInput;
+
             EventSystem.current.SetSelectedGameObject(null);
 
             // Submits
@@ -51,7 +53,6 @@ namespace UILib.Patches.UI {
                 && saved.submitMode.HasFlag(SubmitMode.Click) == true)
                 || saved.submitMode.HasFlag(SubmitMode.Escape) == true
             ) {
-                string input = saved.userInput;
                 if (saved.Validate() == true) {
                     saved.onValidSubmit.Invoke(saved.value);
                 }
@@ -67,7 +68,7 @@ namespace UILib.Patches.UI {
                 && saved.retainMode.HasFlag(RetainMode.CancelClick) == true)
                 || saved.retainMode.HasFlag(RetainMode.CancelEscape) == true
             ) {
-                saved.SetText(saved.userInput);
+                saved.SetText(input);
             }
             else {
                 saved.SetText(saved.value);

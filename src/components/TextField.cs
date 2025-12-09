@@ -310,7 +310,7 @@ namespace UILib.Components {
             bool valid = true;
 
             if (predicate != null) {
-                valid = predicate(value);
+                valid = predicate(userInput);
             }
 
             if (valid == true) {

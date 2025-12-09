@@ -61,6 +61,9 @@ namespace UILib {
         internal static InputOverlay inputOverlay;
         internal static NotificationArea notificationArea;
 
+        // The color picker window
+        internal static ColorPickerWindow colorPickerWindow;
+
         // Currently available overlays
         private static List<Overlay> overlays;
 
@@ -101,6 +104,9 @@ namespace UILib {
 
             // Initialize global shortcuts
             globalShortcuts = gameObject.AddComponent<GlobalShortcuts>();
+
+            // Initialize the color picker
+            colorPickerWindow = new ColorPickerWindow();
 
             onInit.Invoke();
         }

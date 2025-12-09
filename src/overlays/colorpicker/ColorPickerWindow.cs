@@ -11,26 +11,26 @@ namespace UILib.ColorPicker {
      * The window containing the color picker tools.
      * </summary>
      */
-    internal class ColorPickerWindow {
-        private Window window;
+    internal class ColorPickerWindow : Window {
         private ColorUpdater updater;
+
+        private Slider hueSlider;
+        private Slider opacitySlider;
 
         /**
          * <summary>
          * Initializes the color picker window.
          * </summary>
          */
-        internal ColorPickerWindow() {
+        internal ColorPickerWindow() : base("Color Picker", 550f, 600f) {
             updater = new ColorUpdater();
 
-            window = new Window("Color Picker", 550f, 600f);
-            window.SetMinSize(550f, 600f);
-            window.SetContentLayout(LayoutType.Vertical);
-            window.SetElementSpacing(20);
-            window.scrollView.background.color = UIRoot.defaultTheme.accentAlt;
+            SetMinSize(550f, 600f);
+            SetContentLayout(LayoutType.Vertical);
+            SetElementSpacing(20);
 
             Area mainArea = CreateMainArea(250f);
-            window.Add(mainArea);
+            Add(mainArea);
 
             Area inputs = new Area();
             inputs.SetContentLayout(LayoutType.Horizontal);
@@ -58,12 +58,39 @@ namespace UILib.ColorPicker {
             }, updater, ColorUpdate.HSL);
             inputs.Add(updater.hslArea);
 
-            window.Add(inputs);
+            Add(inputs);
 
             updater.Init();
-            window.Show();
+
+            // Set the theme
+            SetThisTheme(theme);
+
+            Show();
         }
 
+        /**
+         * <summary>
+         * Allows setting the theme of the color picker window.
+         * </summary>
+         * <param name="theme">The theme to apply</param>
+         */
+        protected override void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
+
+            if (scrollView == null || hueSlider == null) {
+                return;
+            }
+
+            Color bg = theme.accentAlt;
+            bg.a = theme.windowOpacity;
+            scrollView.background.color = bg;
+
+            hueSlider.background.SetColor(Color.white);
+            hueSlider.fill.SetColor(Color.clear);
+
+            opacitySlider.background.SetColor(Color.white);
+            opacitySlider.fill.SetColor(Color.clear);
+        }
 
         /**
          * <summary>
@@ -88,7 +115,7 @@ namespace UILib.ColorPicker {
             area.Add(svPicker);
 
             // Hue slider
-            Slider hueSlider = new Slider(
+            hueSlider = new Slider(
                 0f, 359.99f, UESlider.Direction.BottomToTop
             );
             hueSlider.background.image.material = new Material(
@@ -98,7 +125,7 @@ namespace UILib.ColorPicker {
             area.Add(hueSlider);
 
             // Opacity slider
-            Slider opacitySlider = new Slider(
+            opacitySlider = new Slider(
                 0f, 100f, UESlider.Direction.BottomToTop
             );
             opacitySlider.background.image.material = new Material(
@@ -110,11 +137,9 @@ namespace UILib.ColorPicker {
             // Set up images and some customisations
             hueSlider.handle.image.sprite = null;
             hueSlider.handle.SetSize(10f, 10f);
-            hueSlider.fill.SetColor(Color.clear);
 
             opacitySlider.handle.image.sprite = null;
             opacitySlider.handle.SetSize(10f, 10f);
-            opacitySlider.fill.SetColor(Color.clear);
 
             updater.svPicker = svPicker;
             updater.hueSlider = hueSlider;

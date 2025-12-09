@@ -30,67 +30,88 @@ namespace UILib {
         internal ColorPickerWindow() {
             window = new Window("Color Picker", 500f, 400f);
             window.SetMinSize(500f, 400f);
-            window.SetContentLayout(LayoutType.Horizontal);
-            window.SetElementSpacing(20);
+            window.SetContentLayout(LayoutType.Vertical);
             window.scrollView.background.color = Colors.RGB(41, 41, 41);
+
+            Area mainArea = CreateMainArea(250f);
+            mainArea.SetSize(390f, 250f);
+            window.Add(mainArea);
+
+
+            window.Show();
+        }
+
+        /**
+         * <summary>
+         * Creates the main color picker area.
+         * </summary>
+         * <returns>The area</returns>
+         */
+        private Area CreateMainArea(float height) {
+            Area area = new Area();
+            area.SetContentLayout(LayoutType.Horizontal);
+            area.SetElementSpacing(20);
 
             // Saturation/value picker
             svPicker = new Picker();
             svPicker.background.image.material = new Material(
                 Resources.hsvRect
             );
-            svPicker.SetSize(250f, 250f);
+            svPicker.SetSize(height, height);
             svPicker.SetMinValues(0f, 0f);
             svPicker.SetMaxValues(100f, 100f);
             svPicker.onValueChanged.AddListener(delegate {
                 UpdateColors();
             });
-            window.Add(svPicker);
+            area.Add(svPicker);
 
+            // Hue slider
             hueSlider = new Slider(
                 0f, 360f, UESlider.Direction.BottomToTop
             );
             hueSlider.background.image.material = new Material(
                 Resources.hsvSpectrum
             );
-            hueSlider.SetSize(50f, 250f);
+            hueSlider.SetSize(50f, height);
             hueSlider.onValueChanged.AddListener(delegate {
                 UpdateColors();
             });
-            window.Add(hueSlider);
+            area.Add(hueSlider);
 
+            // Opacity slider
             opacitySlider = new Slider(
                 0f, 100f, UESlider.Direction.BottomToTop
             );
             opacitySlider.background.image.material = new Material(
                 Resources.hsvOpacity
             );
-            opacitySlider.SetSize(50f, 250f);
+            opacitySlider.SetSize(50f, height);
             opacitySlider.onValueChanged.AddListener(delegate {
                 UpdateColors();
             });
-            window.Add(opacitySlider);
+            area.Add(opacitySlider);
 
             // Set up images and some customisations
             hueSlider.handleImage.image.sprite = null;
             hueSlider.handleImage.SetSize(10f, 10f);
             hueSlider.fillImage.SetColor(Color.clear);
 
-            opacitySlider.background.image.SetMaterialDirty();
             opacitySlider.handleImage.image.sprite = null;
             opacitySlider.handleImage.SetSize(10f, 10f);
             opacitySlider.fillImage.SetColor(Color.clear);
 
-            hsvRect     = svPicker.background.image;
+            // Track the images for later updates
+            hsvRect = svPicker.background.image;
             hsvSpectrum = hueSlider.background.image;
-            hsvOpacity  = opacitySlider.background.image;
+            hsvOpacity = opacitySlider.background.image;
 
-            // Fix masking
+            // Masking is disabled for now because
+            // shaders are kind of a nightmare
             hsvRect.maskable = false;
             hsvSpectrum.maskable = false;
             hsvOpacity.maskable = false;
 
-            window.Show();
+            return area;
         }
 
         /**

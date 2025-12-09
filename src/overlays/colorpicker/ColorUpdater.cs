@@ -1,3 +1,4 @@
+using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
 using UILib.Components;
@@ -48,7 +49,6 @@ namespace UILib.ColorPicker {
         // Alpha/Opacity (0-100)
         internal RefValue<float> refOpacity = new RefValue<float>();
 
-
         internal float red       { get => refRed.value;       set => refRed.value = value; }
         internal float green     { get => refGreen.value;     set => refGreen.value = value; }
         internal float blue      { get => refBlue.value;      set => refBlue.value = value; }
@@ -74,6 +74,30 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
+         * Initializes some extra updates.
+         * <see cref="ColorAreas"/> handle their own updates.
+         * </summary>
+         */
+        internal void Init() {
+            svPicker.onValueChanged.AddListener((Vector2 position) => {
+                vSat = position.x;
+                val = position.y;
+                Update(ColorUpdate.HSV);
+            });
+
+            hueSlider.onValueChanged.AddListener((float value) => {
+                hue = value;
+                Update(ColorUpdate.HSV);
+            });
+
+            // TODO: Use opacity for the final color preview
+            opacitySlider.onValueChanged.AddListener((float value) => {
+                opacity = value;
+            });
+        }
+
+        /**
+         * <summary>
          * Recalculates values based upon the type
          * of update which happened.
          * </summary>
@@ -89,6 +113,7 @@ namespace UILib.ColorPicker {
                     green = rgb.g;
                     blue = rgb.b;
                 }; break;
+
                 case ColorUpdate.HSL: {
                     Color rgb = Colors.HSL(hue, lSat, lightness);
                     red = rgb.r;
@@ -110,8 +135,7 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
-         * Tells the color updater that a certain
-         * update happened.
+         * Tells the color updater that a certain update happened.
          * </summary>
          * <param name="update">The update which happened</param>
          */
@@ -121,6 +145,11 @@ namespace UILib.ColorPicker {
             // Update picker/slider positions
             svPicker.SetValue(vSat, val);
             hueSlider.SetValue(hue);
+
+            // Update input areas
+            rgbArea.Update(new[] { red, green, blue     });
+            hsvArea.Update(new[] { hue, vSat, val       });
+            hslArea.Update(new[] { hue, lSat, lightness });
 
             // Update visuals
             hsvRect.material.SetFloat("_Hue", hue);

@@ -1,8 +1,11 @@
+using System;
+
 using UILib.Components;
 using UILib.Layouts;
 
 namespace UILib.ColorPicker {
     internal class ColorArea : Area {
+        private ColorUpdate updateType;
         private TextField[] fields;
 
         /**
@@ -20,8 +23,8 @@ namespace UILib.ColorPicker {
 
             fields = new TextField[inputs.Length];
 
-            foreach (InputInfo input in inputs) {
-                fields[i] = CreateInput(input);
+            for (int i = 0; i < inputs.Length; i++) {
+                fields[i] = CreateInput(inputs[i]);
             }
         }
 
@@ -33,7 +36,9 @@ namespace UILib.ColorPicker {
          */
         internal void Update(float[] values) {
             for (int i = 0; i < values.Length; i++) {
-                fields[i].SetValue(Math.Round(values[i]), 2);
+                fields[i].SetValue(
+                    Math.Round(values[i], 2).ToString()
+                );
             }
         }
 

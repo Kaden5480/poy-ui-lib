@@ -138,6 +138,14 @@ namespace UILib {
          */
         public Color accent = Colors.RGB(22, 22, 22);
 
+        /**
+         * <summary>
+         * The alternate accent color (such as the background
+         * of <see cref="ColorPicker.ColorPickerWindow"/>).
+         * </summary>
+         */
+        public Color accentAlt = Colors.RGB(41, 41, 41);
+
 #endregion
 
 #region Overlays and Windows

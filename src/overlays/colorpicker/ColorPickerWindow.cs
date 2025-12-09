@@ -37,28 +37,30 @@ namespace UILib.ColorPicker {
             inputs.SetElementSpacing(50);
             inputs.SetSize(500f, 150f);
 
-            updater.rgbArea = ColorArea(new[] {
-                new InputInfo("R", 0, 255),
-                new InputInfo("G", 0, 255),
-                new InputInfo("B", 0, 255),
-            });
-            inputs.Add(rgbArea);
+            updater.rgbArea = new ColorArea(new[] {
+                new InputInfo("R", 0, 255, updater.refRed),
+                new InputInfo("G", 0, 255, updater.refGreen),
+                new InputInfo("B", 0, 255, updater.refBlue),
+            }, ColorUpdate.RGB);
+            inputs.Add(updater.rgbArea);
 
-            updater.hsvArea = ColorArea(new[] {
-                new InputInfo("H", 0, 360),
-                new InputInfo("S", 0, 100),
-                new InputInfo("V", 0, 100),
-            });
-            inputs.Add(hsvArea);
+            updater.hsvArea = new ColorArea(new[] {
+                new InputInfo("H", 0, 360, updater.refHue),
+                new InputInfo("S", 0, 100, updater.refVSat),
+                new InputInfo("V", 0, 100, updater.refValue),
+            }, ColorUpdate.HSV);
+            inputs.Add(updater.hsvArea);
 
-            updater.hslArea = ColorArea(new[] {
-                new InputInfo("H", 0, 360),
-                new InputInfo("S", 0, 100),
-                new InputInfo("L", 0, 100),
-            });
-            inputs.Add(hslArea);
+            updater.hslArea = new ColorArea(new[] {
+                new InputInfo("H", 0, 360, updater.refHue),
+                new InputInfo("S", 0, 100, updater.refLSat),
+                new InputInfo("L", 0, 100, updater.refLightness),
+            }, ColorUpdate.HSL);
+            inputs.Add(updater.hslArea);
 
             window.Add(inputs);
+
+            updater.Init();
             window.Show();
         }
 

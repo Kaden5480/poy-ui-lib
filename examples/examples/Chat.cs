@@ -7,6 +7,7 @@ using UILib.Components;
 using UILib.Layouts;
 using UILib.Notifications;
 using UIButton = UILib.Components.Button;
+using RetainMode = UILib.Components.TextField.RetainMode;
 
 namespace UILibExamples {
     /**
@@ -109,8 +110,11 @@ namespace UILibExamples {
             inputBox.onValidSubmit.AddListener(AddMessage);
 
             // Retain focus and the user input
-            inputBox.RetainFocus(true);
-            inputBox.RetainInput(true);
+            inputBox.SetRetainFocus(true);
+            inputBox.SetRetainMode(
+                RetainMode.CancelEscape
+                | RetainMode.CancelClick
+            );
 
             inputBox.SetSize(200f, 30f);
             controlArea.Add(inputBox);

@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 
 using UILib.Components;
 using RetainMode = UILib.Components.TextField.RetainMode;
+using SubmitMode = UILib.Components.TextField.SubmitMode;
 
 namespace UILib.Patches.UI {
     /**
@@ -45,9 +46,26 @@ namespace UILib.Patches.UI {
             current = null;
             EventSystem.current.SetSelectedGameObject(null);
 
+            // Submits
+            if ((wasClick == true
+                && saved.submitMode.HasFlag(SubmitMode.Click) == true)
+                || saved.submitMode.HasFlag(SubmitMode.Escape) == true
+            ) {
+                string input = saved.userInput;
+                if (saved.Validate() == true) {
+                    saved.onValidSubmit.Invoke(saved.value);
+                }
+                else {
+                    saved.onInvalidSubmit.Invoke(input);
+                }
+
+                return;
+            }
+
+            // Actual cancels
             if ((wasClick == true
                 && saved.retainMode.HasFlag(RetainMode.CancelClick) == true)
-                || saved.retainMode.HasFlag(RetainMode.CancelEsc) == true
+                || saved.retainMode.HasFlag(RetainMode.CancelEscape) == true
             ) {
                 saved.SetText(saved.userInput);
             }
@@ -68,18 +86,9 @@ namespace UILib.Patches.UI {
             current = null;
 
             string userInput = saved.userInput;
-            bool validated = saved.Validate(userInput);
 
-            // Save the current user input
-            if (validated == true) {
-                saved.SetValue(userInput);
-            }
-            else if (saved.retainMode.HasFlag(RetainMode.InvalidSubmit) == true) {
-                saved.SetText(userInput);
-            }
-            else {
-                saved.SetText(saved.value);
-            }
+            // Check the user input
+            bool validated = saved.Validate();
 
             EventSystem.current.SetSelectedGameObject(null);
 

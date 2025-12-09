@@ -31,10 +31,65 @@ namespace UILib.Components {
          */
         [Flags]
         public enum RetainMode {
+            /**
+             * <summary>
+             * Don't retain input in any other special cases.
+             * </summary>
+             */
             None           = 0,
-            CancelEsc      = 1 << 0,
+
+            /**
+             * <summary>
+             * Cancelling with escape retains the input.
+             * </summary>
+             */
+            CancelEscape   = 1 << 0,
+
+            /**
+             * <summary>
+             * Cancelling by clicking something else retains the input.
+             * </summary>
+             */
             CancelClick    = 1 << 1,
+
+            /**
+             * <summary>
+             * Submitting something invalid retains the input.
+             * </summary>
+             */
             InvalidSubmit  = 1 << 2,
+        }
+
+        /**
+         * <summary>
+         * An enum of modes which determine which interactions
+         * will count as a submit.
+         *
+         * Pressing `Return` will always count as a submit
+         * </summary>
+         */
+        [Flags]
+        public enum SubmitMode {
+            /**
+             * <summary>
+             * Nothing extra counts as a submit.
+             * </summary>
+             */
+            None   = 0,
+
+            /**
+             * <summary>
+             * Pressing escape will count as a submit.
+             * </summary>
+             */
+            Escape = 1 << 0,
+
+            /**
+             * <summary>
+             * Clicking something other than this field counts as a submit.
+             * </summary>
+             */
+            Click  = 1 << 1,
         }
 
         private Label placeholder;
@@ -64,7 +119,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * In which cases will this text field retain the
+         * In which extra cases will this text field retain the
          * current user input.
          *
          * The input will always be retained on a valid submit.
@@ -73,6 +128,16 @@ namespace UILib.Components {
          * </summary>
          */
         public RetainMode retainMode { get; private set; } = RetainMode.None;
+
+        /**
+         * <summary>
+         * Which extra interactions with the text field will
+         * count as a submit.
+         *
+         * Default: None
+         * </summary>
+         */
+        public SubmitMode submitMode { get; private set; } = SubmitMode.None;
 
         /**
          * <summary>
@@ -160,6 +225,19 @@ namespace UILib.Components {
             inputField.onDeselect.AddListener(() => {
                 if (InputFieldFix.current == this) {
                     InputFieldFix.current = null;
+
+                    if (submitMode.HasFlag(SubmitMode.Click) == true) {
+                        string input = userInput;
+                        if (Validate() == true) {
+                            onValidSubmit.Invoke(value);
+                        }
+                        else {
+                            onInvalidSubmit.Invoke(input);
+                        }
+
+                        return;
+                    }
+
                     if (retainMode.HasFlag(RetainMode.CancelClick) == true) {
                         SetText(userInput);
                     }
@@ -213,17 +291,39 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Checks if the provided input is valid.
+         * Sets which interactions with this text field
+         * will count as a submit.
          * </summary>
-         * <param name="value">The value to validate</param>
-         * <returns>True if it's valid, false otherwise</returns>
+         * <param name="submitMode">Which cases will count as a submit</param>
          */
-        internal bool Validate(string value) {
-            if (predicate == null) {
-                return true;
+        public void SetSubmitMode(SubmitMode submitMode) {
+            this.submitMode = submitMode;
+        }
+
+        /**
+         * <summary>
+         * Checks if the user input is valid.
+         * </summary>
+         * <returns>Whether the user's input was valid</returns>
+         */
+        internal bool Validate() {
+            bool valid = true;
+
+            if (predicate != null) {
+                valid = predicate(value);
             }
 
-            return predicate(value) == true;
+            if (valid == true) {
+                SetValue(userInput);
+            }
+            else if (retainMode.HasFlag(RetainMode.InvalidSubmit) == true) {
+                SetText(userInput);
+            }
+            else {
+                SetText(value);
+            }
+
+            return valid;
         }
 
         /**

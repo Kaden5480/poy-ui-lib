@@ -18,6 +18,7 @@ namespace UILib.Components {
      */
     public class Slider : UIComponent {
         private CustomSlider _slider;
+        private bool internalChange = false;
         private Area fillArea;
         private Area handleArea;
 
@@ -41,14 +42,14 @@ namespace UILib.Components {
          * background as the value increases.
          * </summary>
          */
-        public Image fillImage { get; private set; }
+        public Image fill { get; private set; }
 
         /**
          * <summary>
          * The slider's handle.
          * </summary>
          */
-        public Image handleImage { get; private set; }
+        public Image handle { get; private set; }
 
         /**
          * <summary>
@@ -101,28 +102,32 @@ namespace UILib.Components {
             handleArea = new Area();
             handleArea.SetFill(FillType.All);
 
-            fillImage = new Image();
-            fillImage.SetFill(FillType.All);
-            fillImage.image.type = UEImage.Type.Sliced;
-            fillArea.Add(fillImage);
+            fill = new Image();
+            fill.SetFill(FillType.All);
+            fill.image.type = UEImage.Type.Sliced;
+            fillArea.Add(fill);
 
-            handleImage = new Image(Resources.circle);
-            handleImage.SetFill(FillType.All);
-            handleArea.Add(handleImage);
+            handle = new Image(Resources.circle);
+            handle.SetFill(FillType.All);
+            handleArea.Add(handle);
 
             Add(background);
             Add(fillArea);
             Add(handleArea);
 
             _slider = gameObject.AddComponent<CustomSlider>();
-            slider.fillRect = fillImage.rectTransform;
-            slider.handleRect = handleImage.rectTransform;
-            slider.targetGraphic = handleImage.image;
+            slider.fillRect = fill.rectTransform;
+            slider.handleRect = handle.rectTransform;
+            slider.targetGraphic = handle.image;
             slider.direction = direction;
 
             SetLimits(min, max);
 
             _slider.onValueChanged.AddListener((float value) => {
+                if (internalChange == true) {
+                    internalChange = false;
+                    return;
+                }
                 onValueChanged.Invoke(value);
             });
 
@@ -141,7 +146,7 @@ namespace UILib.Components {
         protected override void SetThisTheme(Theme theme) {
             slider.colors = theme.blockSelectLight;
             background.SetColor(theme.selectNormal);
-            fillImage.SetColor(theme.selectHighlight);
+            fill.SetColor(theme.selectHighlight);
         }
 
         /**
@@ -155,10 +160,10 @@ namespace UILib.Components {
             base.SetSize(width, height);
 
             if (IsVerticalDirection(slider.direction) == true) {
-                handleImage.SetSize(width, 2*width);
+                handle.SetSize(width, 2*width);
             }
             else {
-                handleImage.SetSize(2*height, height);
+                handle.SetSize(2*height, height);
             }
         }
 
@@ -180,6 +185,7 @@ namespace UILib.Components {
          * <param name="value">The value to set</param>
          */
         public void SetValue(float value) {
+            internalChange = true;
             _slider.value = value;
         }
 
@@ -232,9 +238,9 @@ namespace UILib.Components {
         private void DestroyHandlers() {
             background.DestroyMouseHandler();
             fillArea.DestroyMouseHandler();
-            fillImage.DestroyMouseHandler();
+            fill.DestroyMouseHandler();
             handleArea.DestroyMouseHandler();
-            handleImage.DestroyMouseHandler();
+            handle.DestroyMouseHandler();
         }
     }
 }

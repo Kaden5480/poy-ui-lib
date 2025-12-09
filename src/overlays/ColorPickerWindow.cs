@@ -92,13 +92,13 @@ namespace UILib {
             area.Add(opacitySlider);
 
             // Set up images and some customisations
-            hueSlider.handleImage.image.sprite = null;
-            hueSlider.handleImage.SetSize(10f, 10f);
-            hueSlider.fillImage.SetColor(Color.clear);
+            hueSlider.handle.image.sprite = null;
+            hueSlider.handle.SetSize(10f, 10f);
+            hueSlider.fill.SetColor(Color.clear);
 
-            opacitySlider.handleImage.image.sprite = null;
-            opacitySlider.handleImage.SetSize(10f, 10f);
-            opacitySlider.fillImage.SetColor(Color.clear);
+            opacitySlider.handle.image.sprite = null;
+            opacitySlider.handle.SetSize(10f, 10f);
+            opacitySlider.fill.SetColor(Color.clear);
 
             // Track the images for later updates
             hsvRect = svPicker.background.image;

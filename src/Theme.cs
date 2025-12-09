@@ -118,7 +118,7 @@ namespace UILib {
          * The foreground color (like on text).
          * </summary>
          */
-        public Color foreground = Colors.RGB(255, 255, 255);
+        public Color foreground = Colors.RGB(255f, 255f, 255f);
 
         /**
          * <summary>
@@ -126,7 +126,7 @@ namespace UILib {
          * background for <see cref="Window">Windows</see>).
          * </summary>
          */
-        public Color background = Colors.RGB(0, 0, 0);
+        public Color background = Colors.RGB(0f, 0f, 0f);
 
         /**
          * <summary>
@@ -136,7 +136,7 @@ namespace UILib {
          * <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color accent = Colors.RGB(22, 22, 22);
+        public Color accent = Colors.RGB(22f, 22f, 22f);
 
         /**
          * <summary>
@@ -144,7 +144,7 @@ namespace UILib {
          * of <see cref="ColorPicker.ColorPickerWindow"/>).
          * </summary>
          */
-        public Color accentAlt = Colors.RGB(41, 41, 41);
+        public Color accentAlt = Colors.RGB(41f, 41f, 41f);
 
 #endregion
 
@@ -228,7 +228,7 @@ namespace UILib {
          * the background of <see cref="Components.Button">Buttons</see>).
          * </summary>
          */
-        public Color selectNormal = Colors.RGB(50, 50, 50);
+        public Color selectNormal = Colors.RGB(50f, 50f, 50f);
 
         /**
          * <summary>
@@ -237,7 +237,7 @@ namespace UILib {
          * when hovered over).
          * </summary>
          */
-        public Color selectHighlight = Colors.RGB(80, 80, 80);
+        public Color selectHighlight = Colors.RGB(80f, 80f, 80f);
 
         /**
          * <summary>
@@ -248,7 +248,7 @@ namespace UILib {
          * <see cref="Components.ScrollView">ScrollViews</see>.
          * </summary>
          */
-        public Color selectAltNormal = Colors.RGB(134, 134, 134);
+        public Color selectAltNormal = Colors.RGB(134f, 134f, 134f);
 
         /**
          * <summary>
@@ -257,7 +257,7 @@ namespace UILib {
          * of the handles for <see cref="Components.Slider">Sliders</see>..
          * </summary>
          */
-        public Color selectAltHighlight = Colors.RGB(164, 164, 164);
+        public Color selectAltHighlight = Colors.RGB(164f, 164f, 164f);
 
         /**
          * <summary>
@@ -278,7 +278,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color importantNormal = Colors.RGB(166, 89, 89);
+        public Color importantNormal = Colors.RGB(166f, 89f, 89f);
         /**
          * <summary>
          * The secondary important color.
@@ -286,7 +286,7 @@ namespace UILib {
          * the close button on <see cref="Window">Windows</see>.
          * </summary>
          */
-        public Color importantHighlight = Colors.RGB(204, 51, 51);
+        public Color importantHighlight = Colors.RGB(204f, 51f, 51f);
 
 #endregion
 

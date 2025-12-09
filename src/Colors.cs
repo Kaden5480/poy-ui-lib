@@ -22,12 +22,12 @@ namespace UILib {
          * <param name="a">The alpha value (0-100)</param>
          * <returns>The `Color`</returns>
          */
-        public static Color RGBA(int r, int g, int b, int a) {
+        public static Color RGBA(float r, float g, float b, float a) {
             return new Color(
-                ((float) r)/255f,
-                ((float) g)/255f,
-                ((float) b)/255f,
-                ((float) a)/100f
+                r/255f,
+                g/255f,
+                b/255f,
+                a/100f
             );
         }
 
@@ -41,7 +41,7 @@ namespace UILib {
          * <param name="b">The blue value (0-255)</param>
          * <returns>The `Color`</returns>
          */
-        public static Color RGB(int r, int g, int b) {
+        public static Color RGB(float r, float g, float b) {
             return RGBA(r, g, b, 100);
         }
 

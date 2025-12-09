@@ -26,9 +26,9 @@ namespace UILibExamples {
             Theme theme = new Theme() {
                 // Override some of the theme
                 // There are also some nice methods for making Colors
-                background         = Colors.RGB(100, 40, 40),
-                foreground         = Colors.HSL(180, 50, 70),
-                selectNormal       = Colors.HSV(240, 30, 50),
+                background         = Colors.RGB(100f, 40f, 40f),
+                foreground         = Colors.HSL(180f, 50f, 70f),
+                selectNormal       = Colors.HSV(240f, 30f, 50f),
                 selectHighlight    = Colors.Hex(0xffaaee),
                 selectFadeTime     = 2f,
                 overlayFadeTime    = 0.5f,

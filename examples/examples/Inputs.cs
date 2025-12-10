@@ -53,7 +53,7 @@ namespace UILibExamples {
 
 #region Color Field
 
-            Label colorLabel = new Label("Color: #ffffff", 20);
+            Label colorLabel = new Label("Color: #ffffffff", 20);
             colorLabel.SetSize(200f, 40f);
             window.Add(colorLabel);
 
@@ -64,7 +64,7 @@ namespace UILibExamples {
                 colorLabel.SetText($"Color: #{hex}");
             });
             colorField.onSubmit.AddListener((Color color) => {
-                string hex = ColorUtility.ToHtmlStringRGB(color).ToLower();
+                string hex = ColorUtility.ToHtmlStringRGBA(color).ToLower();
                 Notifier.Notify("ColorField", $"You picked: #{hex}");
             });
             window.Add(colorField);

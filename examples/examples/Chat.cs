@@ -64,7 +64,7 @@ namespace UILibExamples {
 
             window.Add(history);
 
-            Image image = new Image(Colors.RGB(255, 0, 0));
+            Image image = new Image(Colors.RGB(255f, 0f, 0f));
             image.SetFill(FillType.All);
             history.Add(image);
 

@@ -119,6 +119,7 @@ namespace UILib.ColorPicker {
          * <param name="field">The new color field to use</param>
          */
         internal void Link(ColorField field) {
+            Unlink();
             updater.current = field;
             updater.SetColor(field.value);
             Show();

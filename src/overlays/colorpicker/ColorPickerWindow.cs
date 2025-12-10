@@ -117,11 +117,13 @@ namespace UILib.ColorPicker {
          * be a different one.
          * </summary>
          * <param name="field">The new color field to use</param>
+         * <param name="theme">The theme to use</param>
          */
         internal void Link(ColorField field) {
             Unlink();
             updater.current = field;
             updater.SetColor(field.value);
+            SetTheme(field.theme);
             Show();
         }
 
@@ -142,6 +144,9 @@ namespace UILib.ColorPicker {
 
             updater.current.SetValue(color);
             updater.current.onSubmit.Invoke(color);
+
+            updater.current = null;
+            updater.SetColor(Color.white);
         }
 
         /**
@@ -152,6 +157,21 @@ namespace UILib.ColorPicker {
         public override void Hide() {
             base.Hide();
             Unlink();
+        }
+
+        /**
+         * <summary>
+         * Checks to see if the color field is hidden.
+         * </summary>
+         */
+        internal void Update() {
+            if (updater.current == null) {
+                return;
+            }
+
+            if (updater.current.gameObject.activeInHierarchy == false) {
+                Hide();
+            }
         }
 
 #region UI Creation

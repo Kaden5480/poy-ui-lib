@@ -69,8 +69,15 @@ namespace UILibExamples {
             });
             window.Add(colorField);
 
+            Theme customTheme = new Theme() {
+                foreground = Colors.HSL(120, 50, 50),
+                accentAlt = Colors.HSL(120, 40, 40),
+            };
+
             ColorField colorField2 = new ColorField(Color.red);
             colorField2.SetSize(40f, 40f);
+            colorField2.SetTheme(customTheme);
+
             window.Add(colorField2);
 
 #endregion

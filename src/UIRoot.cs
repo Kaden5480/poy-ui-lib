@@ -281,9 +281,15 @@ namespace UILib {
          * Checks for a mouse input. If there is one
          * and there isn't currently an overlay being hovered over,
          * make sure the focus is lost.
+         *
+         * Also updates the color picker.
          * </summary>
          */
         internal static void Update() {
+            if (colorPickerWindow != null) {
+                colorPickerWindow.Update();
+            }
+
             if (Input.GetMouseButtonDown(0) == false
                 && Input.GetMouseButtonDown(1) == false
             ) {

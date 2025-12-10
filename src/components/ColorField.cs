@@ -7,6 +7,8 @@ using UIButton = UILib.Components.Button;
 namespace UILib.Components {
     /**
      * <summary>
+     * A component which stores a color that can
+     * be changed by the user through a color picker.
      * </summary>
      */
     public class ColorField : UIButton {

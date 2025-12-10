@@ -37,6 +37,9 @@ namespace UILib.ColorPicker {
      * </summary>
      */
     internal class ColorUpdater {
+        // The current field being updated
+        internal ColorField current;
+
         // RGB (0-255)
         internal RefValue<float> refRed = new RefValue<float>();
         internal RefValue<float> refGreen = new RefValue<float>();
@@ -160,6 +163,20 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
+         * Sets the updater to use a specified color.
+         * </summary>
+         * <param name="color">The color to use</param>
+         */
+        internal void SetColor(Color color) {
+            red = 255f*color.r;
+            green = 255f*color.g;
+            blue = 255f*color.b;
+            opacity = 100f*color.a;
+            Update(ColorUpdate.None);
+        }
+
+        /**
+         * <summary>
          * Recalculates values based upon the type
          * of update which happened.
          * </summary>
@@ -256,6 +273,13 @@ namespace UILib.ColorPicker {
                 hsvOpacity.material.SetFloat("_Hue", hue);
                 hsvOpacity.material.SetFloat("_Saturation", vSat);
                 hsvOpacity.material.SetFloat("_Value", val);
+            }
+
+            // Update linked field
+            if (current != null) {
+                Color color = Colors.RGBA(red, green, blue, opacity);
+                current.SetValue(color);
+                current.onValueChanged.Invoke(color);
             }
         }
 

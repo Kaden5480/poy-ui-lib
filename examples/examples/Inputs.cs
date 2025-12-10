@@ -51,6 +51,30 @@ namespace UILibExamples {
 
 #endregion
 
+#region Color Field
+
+            Label colorLabel = new Label("Color: #ffffff", 20);
+            colorLabel.SetSize(200f, 40f);
+            window.Add(colorLabel);
+
+            ColorField colorField = new ColorField(Color.white);
+            colorField.SetSize(40f, 40f);
+            colorField.onValueChanged.AddListener((Color color) => {
+                string hex = ColorUtility.ToHtmlStringRGBA(color).ToLower();
+                colorLabel.SetText($"Color: #{hex}");
+            });
+            colorField.onSubmit.AddListener((Color color) => {
+                string hex = ColorUtility.ToHtmlStringRGB(color).ToLower();
+                Notifier.Notify("ColorField", $"You picked: #{hex}");
+            });
+            window.Add(colorField);
+
+            ColorField colorField2 = new ColorField(Color.red);
+            colorField2.SetSize(40f, 40f);
+            window.Add(colorField2);
+
+#endregion
+
 #region Sliders
 
             // The default slider, horizontal and from 0-1

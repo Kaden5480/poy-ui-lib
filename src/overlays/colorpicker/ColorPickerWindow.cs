@@ -78,14 +78,13 @@ namespace UILib.ColorPicker {
 
             UIButton doneButton = new UIButton("Done", 20);
             doneButton.SetSize(100f, 30f);
+            doneButton.onClick.AddListener(Hide);
             Add(doneButton);
 
             updater.Init();
 
             // Set the theme
             SetThisTheme(theme);
-
-            Show();
         }
 
         /**
@@ -111,6 +110,50 @@ namespace UILib.ColorPicker {
             opacitySlider.background.SetColor(Color.white);
             opacitySlider.fill.SetColor(Color.clear);
         }
+
+        /**
+         * <summary>
+         * Updates the currently selected color field to
+         * be a different one.
+         * </summary>
+         * <param name="field">The new color field to use</param>
+         */
+        internal void Link(ColorField field) {
+            updater.current = field;
+            updater.SetColor(field.value);
+            Show();
+        }
+
+        /**
+         * <summary>
+         * Unlinks the currently selected color field.
+         * </summary>
+         */
+        internal void Unlink() {
+            if (updater.current == null) {
+                return;
+            }
+
+            Color color = Colors.RGBA(
+                updater.red, updater.green,
+                updater.blue, updater.opacity
+            );
+
+            updater.current.SetValue(color);
+            updater.current.onSubmit.Invoke(color);
+        }
+
+        /**
+         * <summary>
+         * Unlinks on hide.
+         * </summary>
+         */
+        public override void Hide() {
+            base.Hide();
+            Unlink();
+        }
+
+#region UI Creation
 
         /**
          * <summary>
@@ -202,5 +245,8 @@ namespace UILib.ColorPicker {
 
             return area;
         }
+
+#endregion
+
     }
 }

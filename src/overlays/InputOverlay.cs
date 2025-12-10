@@ -50,6 +50,9 @@ namespace UILib {
         // Show cancel progress
         private ProgressBar cancelProgress;
 
+        // The small text
+        private Label smallText;
+
         /**
          * <summary>
          * Whether the input overlay
@@ -97,8 +100,7 @@ namespace UILib {
             inputTitle.SetSize(300f, 50f);
             inputInfo.Add(inputTitle);
 
-            Label smallText = new Label("(or hold \"esc\" to cancel)", 20);
-            smallText.text.color = theme.selectHighlight;
+            smallText = new Label("(or hold \"esc\" to cancel)", 20);
             smallText.SetSize(300f, 20f);
             inputInfo.Add(smallText);
 
@@ -147,6 +149,8 @@ namespace UILib {
             Color bg = theme.background;
             bg.a = theme.inputOverlayOpacity;
             background.SetColor(bg);
+
+            smallText.text.color = theme.selectHighlight;
         }
 
         /**

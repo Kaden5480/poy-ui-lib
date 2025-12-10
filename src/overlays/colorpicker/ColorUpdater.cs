@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 
@@ -10,9 +12,14 @@ namespace UILib.ColorPicker {
      * </summary>
      */
     internal enum ColorUpdate {
+        None,
         RGB,
-        HSV,
+        HSVSliders,
+        HSVFields,
         HSL,
+        Hex,
+        OpacitySlider,
+        OpacityField,
     }
 
     /**
@@ -68,6 +75,9 @@ namespace UILib.ColorPicker {
         internal ColorArea hsvArea;
         internal ColorArea hslArea;
 
+        internal TextField hexField;
+        internal TextField opacityField;
+
         internal UEImage hsvRect     { get => svPicker.background.image; }
         internal UEImage hsvSpectrum { get => hueSlider.background.image; }
         internal UEImage hsvOpacity  { get => opacitySlider.background.image; }
@@ -80,23 +90,72 @@ namespace UILib.ColorPicker {
          */
         internal void Init() {
             svPicker.onValueChanged.AddListener((Vector2 position) => {
+                hue = hueSlider.value;
                 vSat = position.x;
                 val = position.y;
-                Update(ColorUpdate.HSV);
+                Update(ColorUpdate.HSVSliders);
             });
 
             hueSlider.onValueChanged.AddListener((float value) => {
                 hue = value;
-                Update(ColorUpdate.HSV);
+                vSat = svPicker.value.x;
+                val = svPicker.value.y;
+                Update(ColorUpdate.HSVSliders);
             });
 
-            // TODO: Use opacity for the final color preview
             opacitySlider.onValueChanged.AddListener((float value) => {
                 opacity = value;
+                Update(ColorUpdate.OpacitySlider);
+            });
+
+            // Extra inputs
+            hexField.onInputChanged.AddListener((string value) => {
+                if (value.StartsWith("#") == false) {
+                    value = $"#{value}";
+                }
+
+                if (ColorUtility.TryParseHtmlString(value, out Color color) == true) {
+                    red = (float) Math.Round(255f*color.r, 2);
+                    green = (float) Math.Round(255f*color.g, 2);
+                    blue = (float) Math.Round(255f*color.b, 2);
+                    Update(ColorUpdate.Hex);
+                }
+            });
+            hexField.SetPredicate((string value) => {
+                if (value.StartsWith("#") == false) {
+                    value = $"#{value}";
+                }
+
+                if (ColorUtility.TryParseHtmlString(value, out Color color) == true) {
+                    red = (float) Math.Round(255f*color.r, 2);
+                    green = (float) Math.Round(255f*color.g, 2);
+                    blue = (float) Math.Round(255f*color.b, 2);
+                    // Trigger RGB update on purpose to prefix with "#"
+                    Update(ColorUpdate.RGB);
+                    return true;
+                }
+                return false;
+            });
+
+            opacityField.onInputChanged.AddListener((string value) => {
+                if (Validate(value, 0f, 100f, out float result) == true) {
+                    opacity = result;
+                    Update(ColorUpdate.OpacityField);
+                }
+            });
+            opacityField.SetPredicate((string value) => {
+                if (Validate(value, 0f, 100f, out float result) == true) {
+                    opacity = result;
+                    Update(ColorUpdate.OpacityField);
+                    return true;
+                }
+                return false;
             });
 
             // Initialize
-            Update(ColorUpdate.RGB);
+            red = 255f;
+            opacity = 100f;
+            Update(ColorUpdate.None);
         }
 
         /**
@@ -107,10 +166,18 @@ namespace UILib.ColorPicker {
          * <param name="update">The update which happened</param>
          */
         internal void Recalculate(ColorUpdate update) {
-            // RGB updates can be ignored in this switch,
+            // Opacity updates require nothing special
+            if (update == ColorUpdate.OpacitySlider
+                || update == ColorUpdate.OpacityField
+            ) {
+                return;
+            }
+
+            // RGB/Hex updates can be ignored in this switch,
             // as the values are all derived from it
             switch (update) {
-                case ColorUpdate.HSV: {
+                case ColorUpdate.HSVSliders:
+                case ColorUpdate.HSVFields: {
                     Color rgb = Colors.HSV(hue, vSat, val);
                     red = 255f*rgb.r;
                     green = 255f*rgb.g;
@@ -145,21 +212,75 @@ namespace UILib.ColorPicker {
         internal void Update(ColorUpdate update) {
             Recalculate(update);
 
-            // Update picker/slider positions
-            svPicker.SetValue(vSat, val);
-            hueSlider.SetValue(hue);
+            if (update != ColorUpdate.OpacitySlider) {
+                opacitySlider.SetValue(opacity);
+            }
 
-            // Update input areas
-            rgbArea.Update(new[] { red, green, blue     });
-            hsvArea.Update(new[] { hue, vSat, val       });
-            hslArea.Update(new[] { hue, lSat, lightness });
+            if (update != ColorUpdate.OpacityField) {
+                opacityField.SetValue(opacity.ToString());
+            }
 
-            // Update visuals
-            hsvRect.material.SetFloat("_Hue", hue);
+            // Don't overwrite the hex input
+            if (update != ColorUpdate.Hex) {
+                hexField.SetValue(
+                    "#" + ColorUtility.ToHtmlStringRGB(
+                        Colors.RGB(red, green, blue)
+                    ).ToLower()
+                );
+            }
 
-            hsvOpacity.material.SetFloat("_Hue", hue);
-            hsvOpacity.material.SetFloat("_Saturation", vSat);
-            hsvOpacity.material.SetFloat("_Value", val);
+            // Limit updates if just opacity
+            if (update != ColorUpdate.OpacitySlider
+                && update != ColorUpdate.OpacityField
+            ) {
+                // Update picker/slider positions
+                if (update != ColorUpdate.HSVSliders) {
+                    svPicker.SetValue(vSat, val);
+                    hueSlider.SetValue(hue);
+                }
+
+                // Update input areas
+                if (update != ColorUpdate.RGB) {
+                    rgbArea.Update(new[] { red, green, blue });
+                }
+                if (update != ColorUpdate.HSVFields) {
+                    hsvArea.Update(new[] { hue, vSat, val });
+                }
+                if (update != ColorUpdate.HSL) {
+                    hslArea.Update(new[] { hue, lSat, lightness });
+                }
+
+                // Update visuals
+                hsvRect.material.SetFloat("_Hue", hue);
+
+                hsvOpacity.material.SetFloat("_Hue", hue);
+                hsvOpacity.material.SetFloat("_Saturation", vSat);
+                hsvOpacity.material.SetFloat("_Value", val);
+            }
+        }
+
+        /**
+         * <summary>
+         * Validates the provided string is a float within
+         * min and max.
+         * </summary>
+         * <param name="input">The input to validate</param>
+         * <param name="min">The min value</param>
+         * <param name="max">The max value</param>
+         * <param name="result">The converted result if it is valid</param>
+         */
+        internal static bool Validate(string input, float min, float max, out float result) {
+            if (float.TryParse(input, out result) == false) {
+                return false;
+            }
+
+            result = (float) Math.Round(result, 2);
+
+            if (result < min || result > max) {
+                return false;
+            }
+
+            return true;
         }
     }
 }

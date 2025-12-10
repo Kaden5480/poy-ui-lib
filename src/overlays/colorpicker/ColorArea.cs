@@ -34,30 +34,6 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
-         * Validates the provided string is a float within
-         * min and max.
-         * </summary>
-         * <param name="input">The input to validate</param>
-         * <param name="min">The min value</param>
-         * <param name="max">The max value</param>
-         * <param name="result">The converted result if it is valid</param>
-         */
-        private bool Validate(string input, float min, float max, out float result) {
-            if (float.TryParse(input, out result) == false) {
-                return false;
-            }
-
-            result = (float) Math.Round(result, 2);
-
-            if (result < min || result > max) {
-                return false;
-            }
-
-            return true;
-        }
-
-        /**
-         * <summary>
          * Updates this area using the provided values.
          * </summary>
          * <param name="values">The values to update the area with</param>
@@ -82,18 +58,19 @@ namespace UILib.ColorPicker {
             area.SetSize(90f, 26f);
             area.SetContentLayout(LayoutType.Horizontal);
 
-            Label label = new Label($"{input.name}", 20);
+            Label label = new Label(input.name, 20);
             label.SetSize(30f, 26f);
             area.Add(label);
 
             TextField textField = new TextField("", 20);
+            textField.SetSize(60f, 26f);
             textField.SetSubmitMode(
                 TextField.SubmitMode.Click
                 | TextField.SubmitMode.Escape
             );
 
             textField.SetPredicate((string value) => {
-                if (Validate(value, input.min, input.max, out float result) == true) {
+                if (ColorUpdater.Validate(value, input.min, input.max, out float result) == true) {
                     input.value = result;
                     updater.Update(updateType);
                     return true;
@@ -101,13 +78,12 @@ namespace UILib.ColorPicker {
                 return false;
             });
             textField.onInputChanged.AddListener((string value) => {
-                if (Validate(value, input.min, input.max, out float result) == true) {
+                if (ColorUpdater.Validate(value, input.min, input.max, out float result) == true) {
                     input.value = result;
                     updater.Update(updateType);
                 }
             });
 
-            textField.SetSize(60f, 26f);
             area.Add(textField);
 
             Add(area);

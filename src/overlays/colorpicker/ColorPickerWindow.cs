@@ -4,6 +4,7 @@ using UESlider = UnityEngine.UI.Slider;
 
 using UILib.Components;
 using UILib.Layouts;
+using UIButton = UILib.Components.Button;
 
 namespace UILib.ColorPicker {
     /**
@@ -22,18 +23,19 @@ namespace UILib.ColorPicker {
          * Initializes the color picker window.
          * </summary>
          */
-        internal ColorPickerWindow() : base("Color Picker", 550f, 600f) {
+        internal ColorPickerWindow() : base("Color Picker", 520f, 640f) {
             updater = new ColorUpdater();
 
-            SetMinSize(550f, 600f);
+            SetMinSize(520f, 640f);
             SetContentLayout(LayoutType.Vertical);
-            SetElementSpacing(20);
+            SetElementSpacing(15);
 
             Area mainArea = CreateMainArea(250f);
             Add(mainArea);
 
             Area inputs = new Area();
             inputs.SetContentLayout(LayoutType.Horizontal);
+            inputs.SetContentPadding(left: -26);
             inputs.SetElementSpacing(50);
             inputs.SetSize(500f, 150f);
 
@@ -48,7 +50,7 @@ namespace UILib.ColorPicker {
                 new InputInfo("H", 0, 360, updater.refHue),
                 new InputInfo("S", 0, 100, updater.refVSat),
                 new InputInfo("V", 0, 100, updater.refValue),
-            }, updater, ColorUpdate.HSV);
+            }, updater, ColorUpdate.HSVFields);
             inputs.Add(updater.hsvArea);
 
             updater.hslArea = new ColorArea(new[] {
@@ -59,6 +61,24 @@ namespace UILib.ColorPicker {
             inputs.Add(updater.hslArea);
 
             Add(inputs);
+
+            Area extraInputs = new Area();
+            extraInputs.SetContentLayout(LayoutType.Horizontal);
+            extraInputs.SetElementSpacing(70);
+            extraInputs.SetSize(500f, 26f);
+
+            updater.hexField = CreateExtra(extraInputs, "Hex");
+            updater.opacityField = CreateExtra(extraInputs, "Opacity");
+
+            Add(extraInputs);
+
+            Area space = new Area();
+            space.SetSize(0f, 15f);
+            Add(space);
+
+            UIButton doneButton = new UIButton("Done", 20);
+            doneButton.SetSize(100f, 30f);
+            Add(doneButton);
 
             updater.Init();
 
@@ -90,6 +110,35 @@ namespace UILib.ColorPicker {
 
             opacitySlider.background.SetColor(Color.white);
             opacitySlider.fill.SetColor(Color.clear);
+        }
+
+        /**
+         * <summary>
+         * Creates an extra text field input.
+         * </summary>
+         * <param name="extraArea">The area to add this input to</param>
+         * <param name="name">The name of the input</param>
+         */
+        private TextField CreateExtra(Area extraArea, string name) {
+            Area area = new Area();
+            area.SetSize(80f, 60f);
+            area.SetContentLayout(LayoutType.Vertical);
+
+            Label label = new Label(name, 20);
+            label.SetSize(80f, 30f);
+            area.Add(label);
+
+            TextField textField = new TextField("", 20);
+            textField.SetSize(80f, 30f);
+            textField.SetSubmitMode(
+                TextField.SubmitMode.Click
+                | TextField.SubmitMode.Escape
+            );
+            area.Add(textField);
+
+            extraArea.Add(area);
+
+            return textField;
         }
 
         /**

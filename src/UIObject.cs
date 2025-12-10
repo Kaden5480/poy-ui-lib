@@ -28,7 +28,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The underlying GameObject this UIObject attaches
+         * The underlying `GameObject` this UIObject attaches
          * components to.
          * </summary>
          */
@@ -36,7 +36,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The RectTransform attached to <see cref="gameObject"/>.
+         * The `RectTransform` attached to <see cref="gameObject"/>.
          * </summary>
          */
         public RectTransform rectTransform { get; private set; }
@@ -163,7 +163,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The LayoutElement for this UIObject, if it has one.
+         * The `LayoutElement` for this UIObject, if it has one.
          * </summary>
          */
         public LayoutElement layoutElement { get; private set; }
@@ -171,7 +171,7 @@ namespace UILib {
         /**
          * <summary>
          * The current layout set on this UIObject's content.
-         * It's important to note that this is added to the
+         * It's important to note that this is set on the
          * configured <see cref="SetContent">content</see>.
          * </summary>
          */
@@ -179,7 +179,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The ContentSizeFitter for this UIObject's content, if it has one.
+         * The `ContentSizeFitter` for this UIObject's content, if it has one.
          * It's important to note that this is added to the
          * configured <see cref="SetContent">content</see>.
          * </summary>
@@ -188,7 +188,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * The LayoutGroup for this UIObject's content, if it has one.
+         * The `LayoutGroup` for this UIObject's content, if it has one.
          * It's important to note that this is added to the
          * configured <see cref="SetContent">content</see>,
          * not necessarily on the <see cref="gameObject"/>.
@@ -293,7 +293,7 @@ namespace UILib {
          *
          * A good example of this would be
          * <see cref="ScrollView">ScrollViews</see>,
-         * which are composed of a variety of GameObjects
+         * which are composed of a variety of `GameObjects`
          * like so:
          * <code>
          * - ScrollView
@@ -303,10 +303,10 @@ namespace UILib {
          *   - ScrollBar
          * </code>
          *
-         * In general adding to the ScrollView directly doesn't make much
-         * sense, you usually want to add to the Content GameObject instead.
-         * So, ScrollViews configure their content to be the "Content",
-         * rather than "ScrollView".
+         * In general adding to the <see cref="Components.ScrollView"/> directly doesn't make much
+         * sense, you usually want to add to the "Content" `GameObject` instead.
+         * So, <see cref="Components.ScrollView">ScrollViews</see> configure their content
+         * to be the "Content", rather than "ScrollView".
          * </summary>
          * <param name="content">The component which should be the `content` instead</param>
          */
@@ -396,12 +396,9 @@ namespace UILib {
          * <summary>
          * Adds a component directly to this UIObject,
          * ignoring the configured <see cref="SetContent">content</see>.
-         *
-         * Keep in mind, the child will inherit the <see cref="Theme"/>
-         * of this UIObject.
          * </summary>
          * <param name="child">The child to add</param>
-         * <param name="setTheme">Whether the child should inherit this object's theme</param>
+         * <param name="setTheme">Whether the child should inherit this object's theme immediately</param>
          */
         public virtual void AddDirect(UIComponent child, bool setTheme = false) {
             Add(gameObject, child, setTheme);
@@ -411,12 +408,9 @@ namespace UILib {
          * <summary>
          * Adds a component to the
          * <see cref="SetContent">content</see>.
-         *
-         * Keep in mind, the child will inherit the <see cref="Theme"/>
-         * of the `content`.
          * </summary>
          * <param name="child">The child to add</param>
-         * <param name="setTheme">Whether the child should inherit the content's theme</param>
+         * <param name="setTheme">Whether the child should inherit the content's theme immediately</param>
          */
         public virtual void AddContent(UIComponent child, bool setTheme = false) {
             if (content == this) {
@@ -432,7 +426,7 @@ namespace UILib {
          * Shorthand for <see cref="AddContent"/>.
          * </summary>
          * <param name="child">The child to add</param>
-         * <param name="setTheme">Whether the child should inherit the content's theme</param>
+         * <param name="setTheme">Whether the child should inherit the content's theme immediately</param>
          */
         public void Add(UIComponent child, bool setTheme = false) {
             AddContent(child, setTheme);
@@ -565,16 +559,16 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a LayoutElement to this UIObject
+         * Adds a `LayoutElement` to this UIObject
          * to allow automatically managing how
          * it's layed out in its parent container.
          *
          * In general, you won't need to call this
          * since whenever you add a UIObject to another, it
-         * will automatically get a LayoutElement if the
+         * will automatically get a `LayoutElement` if the
          * parent being added to has a layout configured already.
          *
-         * LayoutElements only do anything if the parent container has
+         * `LayoutElements` only do anything if the parent container has
          * a layout set on it (vertical or horizontal).
          * </summary>
          */

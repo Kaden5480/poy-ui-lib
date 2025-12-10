@@ -108,7 +108,7 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Add a `CanvasGroup` which should have
+         * Adds a `CanvasGroup` which should have
          * its `alpha` controlled by this behaviour.
          * </summary>
          */
@@ -169,7 +169,7 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Fade the `CanvasGroups` in.
+         * Fades the `CanvasGroups` in.
          * </summary>
          * <param name="force">Whether to force fading in instantly</param>
          */
@@ -188,7 +188,7 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Fade the `CanvasGroups` out.
+         * Fades the `CanvasGroups` out.
          * </summary>
          * <param name="force">Whether to force fading out instantly</param>
          */

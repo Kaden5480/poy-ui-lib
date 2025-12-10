@@ -34,8 +34,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Allows setting the theme of this resize button
-         * and all children.
+         * Allows setting the theme of this resize button.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */

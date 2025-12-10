@@ -33,7 +33,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Creates a `Color` from red, green, blue, and alpha
+         * Creates a `Color` from red, green, and blue
          * components.
          * </summary>
          * <param name="r">The red value (0-255)</param>
@@ -55,7 +55,7 @@ namespace UILib {
          * 0xRRGGBBAA.
          * </summary>
          * <param name="hexA">The hex value (including the alpha component)</param>
-         * <returns>The `Color</returns>
+         * <returns>The `Color`</returns>
          */
         public static Color HexA(int hexA) {
             int r = 0xff & (hexA >> 24);
@@ -72,7 +72,7 @@ namespace UILib {
          * 0xRRGGBB.
          * </summary>
          * <param name="hex">The hex value</param>
-         * <returns>The `Color</returns>
+         * <returns>The `Color`</returns>
          */
         public static Color Hex(int hex) {
             return HexA((hex << 8) | 0xff);
@@ -80,7 +80,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Converts a RGB to a hex value in the form 0xRRGGBB.
+         * Converts RGB values to a hex value in the form 0xRRGGBB.
          * </summary>
          * <param name="r">The red component (0-255)</param>
          * <param name="g">The green component (0-255)</param>
@@ -95,7 +95,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Converts a RGB to a hex value in the form 0xRRGGBBAA.
+         * Converts RGB values to a hex value in the form 0xRRGGBBAA.
          * </summary>
          * <param name="r">The red component (0-255)</param>
          * <param name="g">The green component (0-255)</param>

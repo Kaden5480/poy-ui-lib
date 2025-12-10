@@ -25,7 +25,7 @@ namespace UILib.Components {
          * and then the minimum and maximum x and y values are used
          * to calculate the current value of the handle.
          *
-         * This value will always be between (minX, minY) and (maxX, maxY).
+         * This value will always be between (`minX`, `minY`) and (`maxX`, `maxY`).
          * </summary>
          */
         public Vector2 value {
@@ -63,7 +63,8 @@ namespace UILib.Components {
         /**
          * <summary>
          * Invokes listeners with the current value
-         * when the position of the handle changes.
+         * when the position of the handle is changed
+         * by the user.
          * </summary>
          */
         public ValueEvent<Vector2> onValueChanged { get; } = new ValueEvent<Vector2>();

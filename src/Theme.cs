@@ -141,7 +141,7 @@ namespace UILib {
         /**
          * <summary>
          * The alternate accent color (such as the background
-         * of <see cref="ColorPicker.ColorPickerWindow"/>).
+         * of the color picker window.
          * </summary>
          */
         public Color accentAlt = Colors.RGB(41f, 41f, 41f);
@@ -338,14 +338,16 @@ namespace UILib {
 
         /**
          * <summary>
-         * The maximum length of a notification's message.
+         * The maximum length of a notification's message before
+         * it starts getting replaced with ellipses.
          * </summary>
          */
         public int notificationMaxMessage = 256;
 
         /**
          * <summary>
-         * The maximum length of a notification's title.
+         * The maximum length of a notification's title before
+         * it starts getting replaced with ellipses.
          * </summary>
          */
         public int notificationMaxTitle = 48;

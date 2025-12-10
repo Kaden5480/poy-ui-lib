@@ -11,8 +11,8 @@ namespace UILib {
     /**
      * <summary>
      * The root of UILib.
-     * This initializes audio, notifications, the input overlay, and
-     * handles window management.
+     * This initializes audio, notifications, the color picker,
+     * the input overlay, and handles window management.
      *
      * You should use <see cref="UIRoot.onInit"/> to know when
      * you can start using UILib. `onInit` invokes listeners
@@ -24,6 +24,9 @@ namespace UILib {
          * <summary>
          * Invokes listeners once UILib has been initialized.
          * This indicates when you can start building UIs.
+         *
+         * The best place to add a listener to `onInit` is
+         * usually in the `Awake` of your mod.
          * </summary>
          */
         public static UnityEvent onInit { get; } = new UnityEvent();

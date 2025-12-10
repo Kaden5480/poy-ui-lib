@@ -61,7 +61,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * This window's underlying ScrollView.
+         * This window's underlying <see cref="Components.ScrollView"/>.
          * </summary>
          */
         public ScrollView scrollView { get; private set; }

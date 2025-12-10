@@ -66,6 +66,7 @@ namespace UILib.Components {
                     }
                     else {
                         SetValue(key);
+                        onValueChanged.Invoke(value);
                     }
                 });
             });
@@ -74,16 +75,12 @@ namespace UILib.Components {
         /**
          * <summary>
          * Sets the current value stored in this field.
-         *
-         * If `KeyCode.None` is passed, this method
-         * will invoke the <see cref="onCancel"/> listeners.
          * </summary>
          * <param name="value">The value to set</param>
          */
         public void SetValue(KeyCode value) {
             this.value = value;
             SetText(KeyAsString(value));
-            onValueChanged.Invoke(value);
         }
 
         /**

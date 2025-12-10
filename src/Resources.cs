@@ -90,7 +90,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * A material which renders an HSV spectrum.
+         * A material which renders a spectrum of all hues at maximum
+         * saturation and value.
          * </summary>
          */
         public static Material hsvSpectrum { get; private set; } = LoadFromBundle<Material>(

@@ -23,7 +23,7 @@ namespace UILib.Components {
         /**
          * <summary>
          * An enum of modes which determine in which
-         * cases will a <see cref="TextField"/> retain
+         * cases a <see cref="TextField"/> will retain
          * the current user input.
          *
          * The input will always be retained on a valid submit.
@@ -267,8 +267,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Sets whether this text field should <see cref="retainFocus">
-         * retain focus</see>
+         * Sets whether this text field should retain focus.
          * </summary>
          * <param name="retainFocus">Whether to retain focus</param>
          */

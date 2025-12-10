@@ -16,6 +16,7 @@ namespace UILib.ColorPicker {
         private ColorUpdater updater;
 
         private Slider hueSlider;
+        private Area opacityArea;
         private Slider opacitySlider;
 
         /**
@@ -67,8 +68,8 @@ namespace UILib.ColorPicker {
             extraInputs.SetElementSpacing(70);
             extraInputs.SetSize(500f, 26f);
 
-            updater.hexField = CreateExtra(extraInputs, "Hex");
-            updater.opacityField = CreateExtra(extraInputs, "Opacity");
+            (_, updater.hexField) = CreateExtra(extraInputs, "Hex");
+            (opacityArea, updater.opacityField) = CreateExtra(extraInputs, "Opacity");
 
             Add(extraInputs);
 
@@ -124,6 +125,16 @@ namespace UILib.ColorPicker {
             updater.current = field;
             updater.SetColor(field.value);
             SetTheme(field.theme);
+
+            if (field.allowOpacity == true) {
+                opacitySlider.Show();
+                opacityArea.Show();
+            }
+            else {
+                opacitySlider.Hide();
+                opacityArea.Hide();
+            }
+
             Show();
         }
 
@@ -182,8 +193,9 @@ namespace UILib.ColorPicker {
          * </summary>
          * <param name="extraArea">The area to add this input to</param>
          * <param name="name">The name of the input</param>
+         * <returns>The area and the text field within it</returns>
          */
-        private TextField CreateExtra(Area extraArea, string name) {
+        private (Area, TextField) CreateExtra(Area extraArea, string name) {
             Area area = new Area();
             area.SetSize(80f, 60f);
             area.SetContentLayout(LayoutType.Vertical);
@@ -202,7 +214,7 @@ namespace UILib.ColorPicker {
 
             extraArea.Add(area);
 
-            return textField;
+            return (area, textField);
         }
 
         /**

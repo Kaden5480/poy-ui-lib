@@ -21,6 +21,13 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Whether the opacity of this color field can be changed.
+         * </summary>
+         */
+        public bool allowOpacity { get; private set; } = true;
+
+        /**
+         * <summary>
          * Invokes listeners when the color is changed.
          * </summary>
          */
@@ -64,6 +71,17 @@ namespace UILib.Components {
         public void SetValue(Color color) {
             this.value = color;
             preview.SetColor(color);
+        }
+
+        /**
+         * <summary>
+         * Sets whether changing the opacity of the color is allowed.
+         * By default the opacity can be changed.
+         * </summary>
+         * <param name="allowed">Whether changing opacity is allowed</param>
+         */
+        public void AllowOpacity(bool allowed) {
+            this.allowOpacity = allowed;
         }
     }
 }

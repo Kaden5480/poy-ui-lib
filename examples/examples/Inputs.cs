@@ -69,14 +69,19 @@ namespace UILibExamples {
             });
             window.Add(colorField);
 
+            // Themes can also be inherited from color fields
+            // to the color picker
             Theme customTheme = new Theme() {
-                foreground = Colors.HSL(120, 50, 50),
-                accentAlt = Colors.HSL(120, 40, 40),
+                foreground = Colors.HSL(230, 60, 60),
+                accentAlt = Colors.HSL(230, 40, 40),
             };
 
             ColorField colorField2 = new ColorField(Color.red);
             colorField2.SetSize(40f, 40f);
             colorField2.SetTheme(customTheme);
+
+            // You can also prevent opacity from being modified
+            colorField2.AllowOpacity(false);
 
             window.Add(colorField2);
 

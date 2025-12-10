@@ -23,6 +23,7 @@ namespace UILib.Components {
          */
         public UEToggle toggle { get; private set; }
 
+        private bool internalChange = false;
         private Image background;
         private Image checkMark;
 
@@ -72,6 +73,11 @@ namespace UILib.Components {
             });
 
             toggle.onValueChanged.AddListener((bool v) => {
+                if (internalChange == true) {
+                    internalChange = false;
+                    return;
+                }
+
                 onValueChanged.Invoke(this.value);
             });
 
@@ -84,6 +90,7 @@ namespace UILib.Components {
          * </summary>
          */
         public void SetValue(bool value) {
+            internalChange = true;
             toggle.isOn = value;
         }
 

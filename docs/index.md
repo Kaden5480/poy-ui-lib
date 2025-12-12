@@ -18,6 +18,6 @@ There are overlays, windows, window management, a variety of components,
 notifications, themes, simple layout systems, and more.
 
 Here are some useful links to get started:
-- [API Reference](/api/UILib.html)
+- [API Reference](/docs/uilib/api/UILib.html)
 - [Examples](https://github.com/Kaden5480/poy-ui-lib/tree/main/examples)
 - [Source Code](https://github.com/Kaden5480/poy-ui-lib)

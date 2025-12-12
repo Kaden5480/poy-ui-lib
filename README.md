@@ -70,3 +70,5 @@ The configuration file must be in the root of this repository and must be called
 
 # Credits
 - Roman Antique font: https://www.dafont.com/roman-antique.font
+- [Givo](https://gitlab.com/givowo): fixing input field fonts, suggesting themes, suggesting toggling interactions with overlays/windows (like the steam overlay)
+- [Argore](https://github.com/ArgoreOfficial/): suggesting bounds checks for window/component focus and shaders for generating the color picker graphics

@@ -332,6 +332,15 @@ namespace UILib {
          */
         public float fontScaler = 1f;
 
+        /**
+         * <summary>
+         * Like <see cref="fontScaler"/> but specific to
+         * <see cref="Components.TextField">TextFields</see>
+         * due to the reasons explained in <see cref="fontAlt"/>.
+         * </summary>
+         */
+        public float fontScalerAlt = 2f;
+
 #endregion
 
 #region Notifications

@@ -193,6 +193,9 @@ namespace UILib.Components {
          */
         public ValueEvent<string> onValidSubmit { get; } = new ValueEvent<string>();
 
+        // The configured font size
+        private int fontSize;
+
         /**
          * <summary>
          * Initializes a text field.
@@ -201,11 +204,13 @@ namespace UILib.Components {
          * <param name="fontSize">The font size to use</param>
          */
         public TextField(string text, int fontSize) {
-            placeholder = new Label(text, 2 * fontSize);
+            this.fontSize = fontSize;
+
+            placeholder = new Label(text, fontSize);
             placeholder.SetFill(FillType.All);
             Add(placeholder);
 
-            input = new Label("", 2 * fontSize);
+            input = new Label("", fontSize);
             input.SetFill(FillType.All);
             Add(input);
 
@@ -374,6 +379,9 @@ namespace UILib.Components {
             placeholder.text.color = theme.selectAltNormal;
             placeholder.text.font = theme.fontAlt;
             input.text.font = theme.fontAlt;
+
+            input.text.fontSize = (int) theme.fontScalerAlt * fontSize;
+            placeholder.text.fontSize = (int) theme.fontScalerAlt * fontSize;
         }
 
         /**

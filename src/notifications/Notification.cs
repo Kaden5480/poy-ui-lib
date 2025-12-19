@@ -91,7 +91,7 @@ namespace UILib.Notifications {
             Add(dismissLabel);
 
             // Apply theme to children
-            SetThisTheme(theme);
+            SetTheme(theme);
 
             // Customise small text
             dismissLabel.SetColor(theme.selectAltNormal);

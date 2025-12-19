@@ -51,7 +51,8 @@ namespace UILib.Patches.UI {
             // Submits
             if ((wasClick == true
                 && saved.submitMode.HasFlag(SubmitMode.Click) == true)
-                || saved.submitMode.HasFlag(SubmitMode.Escape) == true
+             || (wasClick == false
+                && saved.submitMode.HasFlag(SubmitMode.Escape) == true)
             ) {
                 if (saved.Validate() == true) {
                     saved.onValidSubmit.Invoke(saved.value);
@@ -66,7 +67,8 @@ namespace UILib.Patches.UI {
             // Actual cancels
             if ((wasClick == true
                 && saved.retainMode.HasFlag(RetainMode.CancelClick) == true)
-                || saved.retainMode.HasFlag(RetainMode.CancelEscape) == true
+             || (wasClick == false
+                && saved.retainMode.HasFlag(RetainMode.CancelEscape) == true)
             ) {
                 saved.SetText(input);
             }

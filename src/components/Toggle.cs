@@ -72,13 +72,13 @@ namespace UILib.Components {
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
-            toggle.onValueChanged.AddListener((bool v) => {
+            toggle.onValueChanged.AddListener((bool val) => {
                 if (internalChange == true) {
                     internalChange = false;
                     return;
                 }
 
-                onValueChanged.Invoke(this.value);
+                onValueChanged.Invoke(val);
             });
 
             SetThisTheme(theme);
@@ -90,6 +90,10 @@ namespace UILib.Components {
          * </summary>
          */
         public void SetValue(bool value) {
+            if (value == toggle.isOn) {
+                return;
+            }
+
             internalChange = true;
             toggle.isOn = value;
         }

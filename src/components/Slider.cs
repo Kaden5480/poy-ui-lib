@@ -185,7 +185,9 @@ namespace UILib.Components {
          * <param name="value">The value to set</param>
          */
         public void SetValue(float value) {
-            internalChange = true;
+            if (value != _slider.value) {
+                internalChange = true;
+            }
             _slider.value = value;
         }
 

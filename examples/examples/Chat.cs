@@ -53,7 +53,7 @@ namespace UILibExamples {
             history.SetAnchor(AnchorType.BottomLeft);
 
             // Align messages to the left
-            history.SetElementAlignment(AnchorType.LowerLeft);
+            history.SetElementAlignment(AnchorType.BottomLeft);
 
             // Add some padding around the messages so they don't
             // appear really close to the window's border

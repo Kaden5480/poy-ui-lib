@@ -490,9 +490,10 @@ namespace UILib.Components {
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
-        public void SetAlignment(TextAnchor alignment) {
-            placeholder.text.alignment = alignment;
-            input.text.alignment = alignment;
+        public void SetAlignment(AnchorType alignment) {
+            TextAnchor anchor = AnchorToText(alignment);
+            placeholder.text.alignment = anchor;
+            input.text.alignment = anchor;
         }
     }
 }

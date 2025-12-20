@@ -808,7 +808,7 @@ namespace UILib {
             layoutGroup.childControlWidth = true;
             layoutGroup.childControlHeight = true;
 
-            SetElementAlignment(TextAnchor.MiddleCenter);
+            SetElementAlignment(AnchorType.Middle);
 
             if (fitter == null) {
                 fitter = obj.AddComponent<ContentSizeFitter>();
@@ -844,7 +844,7 @@ namespace UILib {
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
-        public void SetElementAlignment(TextAnchor alignment) {
+        public void SetElementAlignment(AnchorType alignment) {
             if (content != this) {
                 content.SetElementAlignment(alignment);
                 return;
@@ -855,7 +855,7 @@ namespace UILib {
                 return;
             }
 
-            layoutGroup.childAlignment = alignment;
+            layoutGroup.childAlignment = AnchorToText(alignment);
         }
 
         /**
@@ -912,6 +912,43 @@ namespace UILib {
             }
 
             layoutGroup.padding = new RectOffset(left, right, top, bottom);
+        }
+
+        /**
+         * <summary>
+         * Converts an <see cref="Layouts.AnchorType"/> to a Unity `TextAnchor`.
+         * </summary>
+         * <param name="anchor">The anchor to convert</param>
+         * <returns>The converted anchor</returns>
+         */
+        public TextAnchor AnchorToText(AnchorType anchor) {
+            switch (anchor) {
+                case AnchorType.TopLeft:
+                    return TextAnchor.UpperLeft;
+                case AnchorType.TopMiddle:
+                    return TextAnchor.UpperCenter;
+                case AnchorType.TopRight:
+                    return TextAnchor.UpperRight;
+
+                case AnchorType.MiddleLeft:
+                    return TextAnchor.MiddleLeft;
+                case AnchorType.Middle:
+                    return TextAnchor.MiddleCenter;
+                case AnchorType.MiddleRight:
+                    return TextAnchor.MiddleRight;
+
+                case AnchorType.BottomLeft:
+                    return TextAnchor.LowerLeft;
+                case AnchorType.BottomMiddle:
+                    return TextAnchor.LowerCenter;
+                case AnchorType.BottomRight:
+                    return TextAnchor.LowerRight;
+
+                // Shouldn't happen
+                default:
+                    logger.LogError($"What is this anchor? `{anchor}`");
+                    return TextAnchor.MiddleCenter;
+            }
         }
 
 #endregion

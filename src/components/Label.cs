@@ -1,7 +1,8 @@
 using UnityEngine;
-
 using UELayoutElement = UnityEngine.UI.LayoutElement;
 using UEText = UnityEngine.UI.Text;
+
+using UILib.Layouts;
 
 namespace UILib.Components {
     /**
@@ -34,7 +35,7 @@ namespace UILib.Components {
             this.text.text = text;
             this.text.alignByGeometry = true;
 
-            SetAlignment(TextAnchor.MiddleCenter);
+            SetAlignment(AnchorType.Middle);
 
             // Apply the theme
             SetThisTheme(theme);
@@ -59,8 +60,8 @@ namespace UILib.Components {
          * </summary>
          * <param name="alignment">The alignment to use</param>
          */
-        public void SetAlignment(TextAnchor alignment) {
-            text.alignment = alignment;
+        public void SetAlignment(AnchorType alignment) {
+            text.alignment = AnchorToText(alignment);
         }
 
         /**

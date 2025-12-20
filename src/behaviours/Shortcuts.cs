@@ -138,7 +138,7 @@ namespace UILib.Behaviours {
             }
 
             // Don't do anything when a text field is selected
-            if (InputFieldFix.current != null) {
+            if (InputFieldFix.isSelected == true) {
                 return;
             }
 

@@ -289,11 +289,11 @@ namespace UILib.Components {
 
             // A lot of magic is happening in InputFieldFix
             inputField.onSelect.AddListener(() => {
-                InputFieldFix.current = this;
+                InputFieldFix.Select(this);
             });
             inputField.onDeselect.AddListener(() => {
                 if (InputFieldFix.current == this) {
-                    InputFieldFix.current = null;
+                    InputFieldFix.Deselect();
 
                     if (submitMode.HasFlag(SubmitMode.Click) == true) {
                         string input = userInput;

@@ -1,3 +1,5 @@
+using System.Collections;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -16,7 +18,66 @@ namespace UILib.Patches.UI {
      */
     internal static class InputFieldFix {
         // The currently selected TextField
-        internal static TextField current = null;
+        internal static TextField current { get; private set; } = null;
+
+        // Indicates to other UILib functionality whether a text field
+        // was recently selected
+        internal static bool isSelected { get; private set; } = false;
+
+        // Coroutine for delaying deselect
+        private static IEnumerator deselectRoutine = null;
+
+        /**
+         * <summary>
+         * Handles stopping the deselect routine.
+         * </summary>
+         */
+        private static void StopRoutine() {
+            if (deselectRoutine != null) {
+                Plugin.instance.StopCoroutine(deselectRoutine);
+                deselectRoutine = null;
+            }
+        }
+
+        /**
+         * <summary>
+         * Delays notifying about text fields being deselected.
+         * </summary>
+         */
+        private static IEnumerator DeselectRoutine() {
+            yield return null;
+
+            isSelected = false;
+            deselectRoutine = null;
+
+            yield break;
+        }
+
+        /**
+         * <summary>
+         * Handles deselecting the current text field.
+         * </summary>
+         */
+        internal static void Deselect() {
+            current = null;
+
+            StopRoutine();
+            deselectRoutine = DeselectRoutine();
+            Plugin.instance.StartCoroutine(deselectRoutine);
+        }
+
+        /**
+         * <summary>
+         * Handles selecting a text field.
+         * </summary>
+         * <param name="field">The text field which was selected</param>
+         */
+        internal static void Select(TextField field) {
+            current = field;
+
+            StopRoutine();
+            isSelected = true;
+        }
 
         /**
          * <summary>
@@ -44,7 +105,7 @@ namespace UILib.Patches.UI {
          */
         private static void HandleCancel(bool wasClick) {
             TextField saved = current;
-            current = null;
+            Deselect();
             string input = saved.userInput;
 
             EventSystem.current.SetSelectedGameObject(null);
@@ -101,7 +162,7 @@ namespace UILib.Patches.UI {
          */
         private static void HandleSubmit() {
             TextField saved = current;
-            current = null;
+            Deselect();
 
             string userInput = saved.userInput;
 

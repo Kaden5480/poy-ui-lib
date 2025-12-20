@@ -37,7 +37,7 @@ namespace UILib.Patches {
                 return false;
             }
 
-            if (UI.InputFieldFix.current != null) {
+            if (UI.InputFieldFix.isSelected == true) {
                 return false;
             }
 

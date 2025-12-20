@@ -66,7 +66,7 @@ namespace UILib.Components {
                     }
                     else {
                         SetValue(key);
-                        onValueChanged.Invoke(value);
+                        onValueChanged.Invoke(key);
                     }
                 });
             });

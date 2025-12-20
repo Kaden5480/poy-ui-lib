@@ -27,8 +27,19 @@ namespace UILib.Components {
 
         private Image background;
 
-        internal Label label;
-        internal Image image;
+        /**
+         * <summary>
+         * The label attached to this button, if any.
+         * </summary>
+         */
+        public Label label { get; private set; }
+
+        /**
+         * <summary>
+         * The image attached to this button, if any.
+         * </summary>
+         */
+        public Image image { get; private set; }
 
         public override UnityEvent onClick {
             get => (button == null) ? base.onClick : button.onClick;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,12 +32,23 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * The event which triggers for the entire duration
+         * the shortcut is held.
+         * </summary>
+         */
+        public UnityEvent onHold { get; } = new UnityEvent();
+
+        /**
+         * <summary>
          * Which `KeyCodes` need to be entered
          * at the same time for this shortcut
          * to trigger.
          * </summary>
          */
-        public List<KeyCode> keys { get; private set; }
+        public Dictionary<KeyCode, bool> keys { get; private set; }
+
+        // Whether onTrigger has been called
+        private bool hasTriggered = false;
 
         /**
          * <summary>
@@ -79,7 +91,85 @@ namespace UILib.Behaviours {
          * <param name="keys">The new shortcut</param>
          */
         public void SetShortcut(IList<KeyCode> keys) {
-            this.keys = new List<KeyCode>(keys);
+            this.keys = new Dictionary<KeyCode, bool>();
+
+            foreach (KeyCode key in keys) {
+                this.keys[key] = false;
+            }
+        }
+
+        /**
+         * <summary>
+         * Tracks key releases.
+         * </summary>
+         */
+        internal void UpdateKeysUp() {
+            foreach (KeyCode key in keys.Keys.ToList()) {
+                if (Input.GetKeyUp(key) == true) {
+                    keys[key] = false;
+                }
+            }
+        }
+
+        /**
+         * <summary>
+         * Updates the keys which are currently down.
+         * </summary>
+         */
+        internal void UpdateKeysDown() {
+            foreach (KeyCode key in keys.Keys.ToList()) {
+                if (Input.GetKeyDown(key) == true) {
+                    keys[key] = true;
+                }
+            }
+
+            if (AllKeysDown() == false) {
+                hasTriggered = false;
+            }
+        }
+
+        /**
+         * <summary>
+         * Checks whether all configured keys are down.
+         * </summary>
+         * <returns>True if they are, false otherwise</returns>
+         */
+        private bool AllKeysDown() {
+            // If keys is empty, just do nothing
+            if (keys.Count < 1) {
+                return false;
+            }
+
+            return keys.Values.All(isDown => isDown);
+        }
+
+        /**
+         * <summary>
+         * Checks the current state of the input,
+         * invoking listeners where necessary.
+         * </summary>
+         */
+        internal void Check() {
+            // Do nothing if disabled
+            if (enabled == false) {
+                return;
+            }
+
+            UpdateKeysDown();
+
+            // Check the current input state
+            if (AllKeysDown() == false) {
+                return;
+            }
+
+            // Call onTrigger
+            if (hasTriggered == false) {
+                onTrigger.Invoke();
+                hasTriggered = true;
+            }
+
+            // Call onHold
+            onHold.Invoke();
         }
     }
 
@@ -104,33 +194,16 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Checks whether all provided `KeyCodes` are down.
-         * </summary>
-         * <param name="keys">The keys to check</param>
-         * <returns>True if they are, false otherwise</returns>
-         */
-        private bool AllKeysDown(IList<KeyCode> keys) {
-            // If keys is empty, just do nothing
-            if (keys.Count < 1) {
-                return false;
-            }
-
-            foreach (KeyCode key in keys) {
-                if (Input.GetKeyDown(key) == false) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /**
-         * <summary>
          * If any of the assigned shortcuts are
          * triggered, invoke the associated listeners.
          * </summary>
          */
         internal virtual void Update() {
+            // Always need to update keys down
+            foreach (Shortcut shortcut in shortcuts) {
+                shortcut.UpdateKeysUp();
+            }
+
             // Don't do anything if the input overlay
             // is waiting for an input
             if (InputOverlay.waitingForInput == true) {
@@ -150,15 +223,9 @@ namespace UILib.Behaviours {
                 return;
             }
 
+            // Check if shortcuts should trigger
             foreach (Shortcut shortcut in shortcuts) {
-                // Ignore disabled shortcuts
-                if (shortcut.enabled == false) {
-                    continue;
-                }
-
-                if (AllKeysDown(shortcut.keys) == true) {
-                    shortcut.onTrigger.Invoke();
-                }
+                shortcut.Check();
             }
         }
     }

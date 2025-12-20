@@ -23,6 +23,58 @@ namespace UILib.Components {
         /**
          * <summary>
          * An enum of modes which determine in which
+         * cases a <see cref="TextField"/> will clear
+         * the input and its internal value.
+         * </summary>
+         */
+        [Flags]
+        public enum ClearMode {
+            /**
+             * <summary>
+             * Don't clear.
+             * </summary>
+             */
+            None = 0,
+
+            /**
+             * <summary>
+             * Clear when the user presses escape.
+             * </summary>
+             */
+            Escape = 1 << 1,
+
+            /**
+             * <summary>
+             * Clear when the user clicks outside the text field.
+             * </summary>
+             */
+            Click = 1 << 2,
+
+            /**
+             * <summary>
+             * Clear on an invalid submit.
+             * </summary>
+             */
+            InvalidSubmit = 1 << 3,
+
+            /**
+             * <summary>
+             * Clear on an valid submit.
+             * </summary>
+             */
+            ValidSubmit = 1 << 4,
+
+            /**
+             * <summary>
+             * Always clear.
+             * </summary>
+             */
+            Always = Escape | Click | InvalidSubmit | ValidSubmit,
+        }
+
+        /**
+         * <summary>
+         * An enum of modes which determine in which
          * cases a <see cref="TextField"/> will retain
          * the current user input.
          *
@@ -36,28 +88,28 @@ namespace UILib.Components {
              * Don't retain input in any other special cases.
              * </summary>
              */
-            None           = 0,
+            None = 0,
 
             /**
              * <summary>
-             * Cancelling with escape retains the input.
+             * When the user presses escape, the input is retained.
              * </summary>
              */
-            CancelEscape   = 1 << 0,
+            Escape = 1 << 0,
 
             /**
              * <summary>
-             * Cancelling by clicking something else retains the input.
+             * When the user clicks something else, the input is retained.
              * </summary>
              */
-            CancelClick    = 1 << 1,
+            Click = 1 << 1,
 
             /**
              * <summary>
              * Submitting something invalid retains the input.
              * </summary>
              */
-            InvalidSubmit  = 1 << 2,
+            InvalidSubmit = 1 << 2,
         }
 
         /**
@@ -75,7 +127,7 @@ namespace UILib.Components {
              * Nothing extra counts as a submit.
              * </summary>
              */
-            None   = 0,
+            None = 0,
 
             /**
              * <summary>
@@ -89,7 +141,7 @@ namespace UILib.Components {
              * Clicking something other than this field counts as a submit.
              * </summary>
              */
-            Click  = 1 << 1,
+            Click = 1 << 1,
         }
 
         private Label placeholder;
@@ -116,6 +168,18 @@ namespace UILib.Components {
          * </summary>
          */
         public bool retainFocus { get; private set; } = false;
+
+        /**
+         * <summary>
+         * In which cases will this text field wipe its input and value.
+         *
+         * Note:
+         * Clear modes will override equivalent retain modes.
+         *
+         * Default: None
+         * </summary>
+         */
+        public ClearMode clearMode { get; private set; } = ClearMode.None;
 
         /**
          * <summary>
@@ -243,12 +307,17 @@ namespace UILib.Components {
                         return;
                     }
 
-                    if (retainMode.HasFlag(RetainMode.CancelClick) == true) {
+                    // Clear mode overrides
+                    if (clearMode.HasFlag(ClearMode.Click) == true) {
+                        SetValue("");
+                    }
+                    else if (retainMode.HasFlag(RetainMode.Click) == true) {
                         SetText(userInput);
                     }
                     else {
                         SetText(value);
                     }
+
                     onCancel.Invoke();
                 }
 
@@ -268,6 +337,20 @@ namespace UILib.Components {
 
             // Set the theme
             SetThisTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Sets when this text field should clear the user input
+         * and its value.
+         *
+         * Note:
+         * Clear modes will override equivalent retain modes.
+         * </summary>
+         * <param name="clearMode">When to clear</param>
+         */
+        public void SetClearMode(ClearMode clearMode) {
+            this.clearMode = clearMode;
         }
 
         /**
@@ -317,10 +400,26 @@ namespace UILib.Components {
                 valid = predicate(userInput);
             }
 
+            // Handle valid inputs
             if (valid == true) {
-                SetValue(userInput);
+                if (clearMode.HasFlag(ClearMode.ValidSubmit) == true) {
+                    SetValue("");
+                }
+                else {
+                    SetValue(userInput);
+                }
+
+                return valid;
             }
-            else if (retainMode.HasFlag(RetainMode.InvalidSubmit) == true) {
+
+            // Clear mode overrides anything else
+            if (clearMode.HasFlag(ClearMode.InvalidSubmit) == true) {
+                SetValue("");
+                return valid;
+            }
+
+            // Handle other invalid states
+            if (retainMode.HasFlag(RetainMode.InvalidSubmit) == true) {
                 SetText(userInput);
             }
             else {

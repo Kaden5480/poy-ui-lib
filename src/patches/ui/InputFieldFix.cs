@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 using UILib.Components;
+using ClearMode = UILib.Components.TextField.ClearMode;
 using RetainMode = UILib.Components.TextField.RetainMode;
 using SubmitMode = UILib.Components.TextField.SubmitMode;
 
@@ -64,16 +65,30 @@ namespace UILib.Patches.UI {
                 return;
             }
 
-            // Actual cancels
-            if ((wasClick == true
-                && saved.retainMode.HasFlag(RetainMode.CancelClick) == true)
-             || (wasClick == false
-                && saved.retainMode.HasFlag(RetainMode.CancelEscape) == true)
-            ) {
-                saved.SetText(input);
+            // Handle different cancel states
+            // Clicking outside
+            if (wasClick == true) {
+                if (saved.clearMode.HasFlag(ClearMode.Click) == true) {
+                    saved.SetValue("");
+                }
+                else if (saved.retainMode.HasFlag(RetainMode.Click) == true) {
+                    saved.SetText(input);
+                }
+                else {
+                    saved.SetValue(saved.value);
+                }
             }
+            // Escape
             else {
-                saved.SetText(saved.value);
+                if (saved.clearMode.HasFlag(ClearMode.Escape) == true) {
+                    saved.SetValue("");
+                }
+                else if (saved.retainMode.HasFlag(RetainMode.Escape) == true) {
+                    saved.SetText(input);
+                }
+                else {
+                    saved.SetValue(saved.value);
+                }
             }
 
             saved.onCancel.Invoke();

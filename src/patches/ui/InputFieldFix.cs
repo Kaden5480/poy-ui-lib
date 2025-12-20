@@ -55,8 +55,8 @@ namespace UILib.Patches.UI {
              || (wasClick == false
                 && saved.submitMode.HasFlag(SubmitMode.Escape) == true)
             ) {
-                if (saved.Validate() == true) {
-                    saved.onValidSubmit.Invoke(saved.value);
+                if (saved.Validate(input) == true) {
+                    saved.onValidSubmit.Invoke(input);
                 }
                 else {
                     saved.onInvalidSubmit.Invoke(input);
@@ -106,7 +106,7 @@ namespace UILib.Patches.UI {
             string userInput = saved.userInput;
 
             // Check the user input
-            bool validated = saved.Validate();
+            bool validated = saved.Validate(userInput);
 
             EventSystem.current.SetSelectedGameObject(null);
 
@@ -115,7 +115,7 @@ namespace UILib.Patches.UI {
             }
 
             if (validated == true) {
-                saved.onValidSubmit.Invoke(saved.value);
+                saved.onValidSubmit.Invoke(userInput);
             }
             else {
                 saved.onInvalidSubmit.Invoke(userInput);

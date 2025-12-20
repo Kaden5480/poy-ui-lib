@@ -297,8 +297,8 @@ namespace UILib.Components {
 
                     if (submitMode.HasFlag(SubmitMode.Click) == true) {
                         string input = userInput;
-                        if (Validate() == true) {
-                            onValidSubmit.Invoke(value);
+                        if (Validate(input) == true) {
+                            onValidSubmit.Invoke(input);
                         }
                         else {
                             onInvalidSubmit.Invoke(input);
@@ -391,9 +391,10 @@ namespace UILib.Components {
          * <summary>
          * Checks if the user input is valid.
          * </summary>
+         * <param name="userInput">The input to validate</param>
          * <returns>Whether the user's input was valid</returns>
          */
-        internal bool Validate() {
+        internal bool Validate(string userInput) {
             bool valid = true;
 
             if (predicate != null) {

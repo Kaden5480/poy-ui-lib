@@ -112,8 +112,8 @@ namespace UILibExamples {
             // Retain focus and the user input
             inputBox.SetRetainFocus(true);
             inputBox.SetRetainMode(
-                RetainMode.CancelEscape
-                | RetainMode.CancelClick
+                RetainMode.Escape
+                | RetainMode.Click
             );
 
             inputBox.SetSize(200f, 30f);

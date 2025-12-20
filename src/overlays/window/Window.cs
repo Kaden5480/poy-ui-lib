@@ -81,6 +81,9 @@ namespace UILib {
          */
         public ResizeButton resizeButton { get; private set; }
 
+        // The container
+        private Area container;
+
         // States stored for helping with moving/resizing/maximising/etc.
         private WindowState state;
         private Vector2 latestDragPosition;
@@ -115,9 +118,12 @@ namespace UILib {
             titleBar = new TitleBar(this, titleBarHeight, titleBarPadding);
             AddDirect(titleBar);
 
-            // Modify container dimensions
+            // Set up container
+            container = new Area();
+            container.SetFill(FillType.All);
             container.SetSize(0f, -(titleBarHeight + 2*titleBarPadding));
             container.SetOffset(0f, -(titleBarHeight + 2*titleBarPadding) / 2);
+            AddDirect(container);
 
             // Add scroll view
             scrollView = new ScrollView();

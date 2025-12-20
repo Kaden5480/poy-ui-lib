@@ -26,9 +26,6 @@ namespace UILib {
         // This overlay's pause handle
         private PauseHandle pauseHandle;
 
-        // This overlay's container
-        internal Area container;
-
         // Canvas group for controlling opacity
         internal CanvasGroup canvasGroup;
 
@@ -117,11 +114,6 @@ namespace UILib {
 
             // Register this overlay
             UIRoot.Register(this);
-
-            // Container for content
-            container = new Area();
-            container.SetFill(FillType.All);
-            AddDirect(container);
 
             // Set to the middle of the screen by default
             SetAnchor(AnchorType.Middle);

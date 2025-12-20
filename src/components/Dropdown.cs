@@ -9,6 +9,10 @@ namespace UILib.Components {
      * <summary>
      * A component which displays a dropdown
      * of multiple options.
+     *
+     * IMPORTANT:
+     * Don't rely on the API staying this way, dropdowns are not implemented
+     * all that well at the moment and so are subject to change.
      * </summary>
      */
     public class Dropdown<T> : UIComponent {

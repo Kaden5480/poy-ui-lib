@@ -28,9 +28,11 @@ namespace UILib {
         public bool autoPause { get; private set; }
 
         /**
+         * <summary>
          * Whether this overlay will <see cref="Patches.InputLock">
          * auto-lock some vanilla</see>
          * inputs while it's visible.
+         * </summary>
          */
         public bool lockInput { get; private set; }
 

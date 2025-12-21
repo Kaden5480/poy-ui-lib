@@ -12,7 +12,7 @@ namespace UILib.Patches {
      * of <see cref="Overlay.SetInputLock">automatically managing them</see>.
      *
      * Whenever an `InputLock` is constructed, it automatically
-     * prevents the use of some extra vanilla keybinds (such as the InGameMenu).
+     * prevents the use of some extra vanilla keybinds (such as the `InGameMenu`).
      * </summary>
      */
     public class InputLock {
@@ -76,7 +76,17 @@ namespace UILib.Patches {
          * <param name="inputLock">The input lock to add</param>
          */
         internal static void Add(InputLock inputLock) {
-            locks.Add(inputLock);
+            if (inputLock == null) {
+                return;
+            }
+
+            if (isLocked == false) {
+                locks.Add(inputLock);
+                onLock.Invoke();
+            }
+            else {
+                locks.Add(inputLock);
+            }
         }
 
         /**
@@ -86,7 +96,17 @@ namespace UILib.Patches {
          * <param name="inputLock">The lock to remove</param>
          */
         internal static void Remove(InputLock inputLock) {
-            locks.Remove(inputLock);
+            if (inputLock == null || locks.Count < 1) {
+                return;
+            }
+
+            if (locks.Count == 1) {
+                locks.Remove(inputLock);
+                onUnlock.Invoke();
+            }
+            else {
+                locks.Remove(inputLock);
+            }
         }
     }
 }

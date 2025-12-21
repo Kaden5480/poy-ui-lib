@@ -12,6 +12,14 @@ namespace UILib.Behaviours {
 
     /**
      * <summary>
+     * An event type which passes two values
+     * to its listeners.
+     * </summary>
+     */
+    public class ValueEvent<T1, T2> : UnityEvent<T1, T2> {}
+
+    /**
+     * <summary>
      * An event type which passes a `Vector2` position
      * to listeners when the mouse is clicked/dragged.
      * This will be the current position of the mouse.

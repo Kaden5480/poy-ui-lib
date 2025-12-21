@@ -41,14 +41,15 @@ namespace UILib {
         private IEnumerator coroutine;
 
         // The duration for the cancel timer
-        private const float cancelDuration = 1f;
+        private const float quitDuration = 1f;
 
-        // How long an escape press can be
-        // until it's detected as a cancel
-        private const float escReadTime = 0.2f;
+        // How long a press can be
+        // until it's detected as a cancel/unbind
+        private const float readTime = 0.2f;
 
         // Show cancel progress
-        private ProgressBar cancelProgress;
+        private ProgressBar quitProgress;
+        private Label quitLabel;
 
         // The small text
         private Label smallText;
@@ -100,23 +101,23 @@ namespace UILib {
             inputTitle.SetSize(300f, 50f);
             inputInfo.Add(inputTitle);
 
-            smallText = new Label("(or hold \"esc\" to cancel)", 20);
-            smallText.SetSize(300f, 20f);
+            smallText = new Label("(hold \"esc\" to cancel, or \"backspace\" to unbind)", 20);
+            smallText.SetSize(400f, 20f);
             inputInfo.Add(smallText);
 
             inputArea.Add(inputInfo);
 
             // Cancel progress
-            cancelProgress = new ProgressBar();
-            cancelProgress.SetSize(200f, 40f);
+            quitProgress = new ProgressBar();
+            quitProgress.SetSize(200f, 40f);
 
-            Label cancelLabel = new Label("Cancelling...", 22);
-            cancelLabel.SetAnchor(AnchorType.Middle);
-            cancelLabel.SetSize(200f, 40f);
-            cancelProgress.Add(cancelLabel);
+            quitLabel = new Label("Cancelling...", 22);
+            quitLabel.SetAnchor(AnchorType.Middle);
+            quitLabel.SetSize(200f, 40f);
+            quitProgress.Add(quitLabel);
 
-            cancelProgress.Hide();
-            inputArea.Add(cancelProgress);
+            quitProgress.Hide();
+            inputArea.Add(quitProgress);
 
             SetThisTheme(theme);
         }
@@ -217,57 +218,80 @@ namespace UILib {
          * </summary>
          * <param name="ev">The event to invoke when a keycode is read</param>
          */
-        private IEnumerator HandleRequest(ValueEvent<KeyCode> ev) {
+        private IEnumerator HandleRequest(ValueEvent<bool, KeyCode> ev) {
             // Wait a little bit before reading inputs
             yield return new WaitForSeconds(0.02f);
 
-            float cancelTimer = 0f;
+            float quitTimer = 0f;
+            bool cancelling = false;
 
             // Run until the cancel timer fills up
-            while (cancelTimer < cancelDuration) {
+            while (quitTimer < quitDuration) {
                 // If the user is holding "esc", keep incrementing
                 // the cancel timer
                 if (Input.GetKey(KeyCode.Escape) == true) {
-                    cancelTimer += Time.deltaTime;
+                    cancelling = true;
+                    quitTimer += Time.deltaTime;
+                }
+                // If the user is holding "backspace", keep incrementing
+                // the unbind timer
+                else if (Input.GetKey(KeyCode.Backspace) == true) {
+                    cancelling = false;
+                    quitTimer += Time.deltaTime;
                 }
                 // Otherwise, if the user has released esc
                 // but only pressed it for a short amount of time
                 // take "esc" as the input
-                else if (cancelTimer > 0 && cancelTimer < escReadTime){
-                    ev.Invoke(KeyCode.Escape);
+                else if (quitTimer > 0 && quitTimer < readTime){
+                    if (cancelling == true) {
+                        ev.Invoke(false, KeyCode.Escape);
+                    }
+                    else {
+                        ev.Invoke(false, KeyCode.Backspace);
+                    }
                     yield break;
                 }
+
                 // Otherwise, reset the timer
                 // and check the current key
                 else {
-                    cancelTimer = 0f;
+                    quitTimer = 0f;
+                    cancelling = false;
 
                     if (Event.current.type == EventType.KeyDown
                         || IsMouseDown() == true
                     ) {
                         KeyCode current = GetCurrentKey();
                         if (ShouldIgnore(current) == false) {
-                            ev.Invoke(current);
+                            ev.Invoke(false, current);
                             yield break;
                         }
                     }
                 }
 
-                // If the timer is >= escReadTime, show its progress
-                if (cancelTimer >= escReadTime) {
-                    cancelProgress.Show();
-                    cancelProgress.SetProgress(cancelTimer / cancelDuration);
+                // If the timer is >= readTime, show its progress
+                if (quitTimer >= readTime) {
+                    quitProgress.Show();
+
+                    if (cancelling == true) {
+                        quitLabel.SetText("Cancelling...");
+                    }
+                    else {
+                        quitLabel.SetText("Unbinding...");
+                    }
+
+                    quitProgress.SetProgress(quitTimer / quitDuration);
                 }
                 // Or keep it hidden
                 else {
-                    cancelProgress.Hide();
+                    quitProgress.Hide();
                 }
 
                 yield return null;
             }
 
             // The input was cancelled
-            ev.Invoke(KeyCode.None);
+            ev.Invoke(cancelling, KeyCode.None);
 
             yield break;
         }
@@ -277,19 +301,22 @@ namespace UILib {
          * Request a key or mouse button from the user.
          *
          * The event will invoke the listener with the KeyCode read.
-         * If the request was cancelled by the user, KeyCode.None will
-         * be used instead.
+         *
+         * If the input was cancelled, `true, KeyCode.None` will be returned,
+         * otherwise `false, KeyCode.None` will return to indicate an unbind.
+         *
+         * If the input was read successfully, `false, <keycode>` will be returned.
          * </summary>
          * <param name="theme">The theme to use</param>
          * <returns>An event to listen for when the request has finished</returns>
          */
-        internal ValueEvent<KeyCode> Request(Theme theme) {
+        internal ValueEvent<bool, KeyCode> Request(Theme theme) {
             // Can't request when the coroutine is already running
             if (coroutine != null) {
                 return null;
             }
 
-            ValueEvent<KeyCode> ev = new ValueEvent<KeyCode>();
+            ValueEvent<bool, KeyCode> ev = new ValueEvent<bool, KeyCode>();
             ev.AddListener(delegate {
                 coroutine = null;
                 Hide();

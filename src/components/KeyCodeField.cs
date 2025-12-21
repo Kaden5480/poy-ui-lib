@@ -52,7 +52,7 @@ namespace UILib.Components {
 
             // When clicked, request an input
             onClick.AddListener(() => {
-                ValueEvent<KeyCode> ev = UIRoot.inputOverlay.Request(theme);
+                ValueEvent<bool, KeyCode> ev = UIRoot.inputOverlay.Request(theme);
                 if (ev == null) {
                     return;
                 }
@@ -60,8 +60,8 @@ namespace UILib.Components {
                 // Forward to listeners and
                 // update text if a valid key was
                 // received
-                ev.AddListener((KeyCode key) => {
-                    if (key == KeyCode.None) {
+                ev.AddListener((bool cancel, KeyCode key) => {
+                    if (cancel == true) {
                         onCancel.Invoke();
                     }
                     else {

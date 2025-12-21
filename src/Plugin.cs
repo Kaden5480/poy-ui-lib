@@ -48,6 +48,8 @@ namespace UILib {
          */
         private void Register() {
             ModInfo info = ModManager.Register(this);
+            info.license = "GPL-3.0";
+
             info.Add(typeof(UILib.Config));
 
             // Button to display the intro

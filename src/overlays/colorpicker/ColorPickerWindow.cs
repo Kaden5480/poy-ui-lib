@@ -80,9 +80,7 @@ namespace UILib.ColorPicker {
 
             Add(extraInputs);
 
-            Area space = new Area();
-            space.SetSize(0f, 15f);
-            Add(space);
+            Add(new Area(0f, 15f));
 
             UIButton doneButton = new UIButton("Done", 20);
             doneButton.SetSize(100f, 30f);

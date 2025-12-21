@@ -54,9 +54,7 @@ namespace UILib {
                 400f, 20
             ).SetSize(400f, 80f);
 
-            Area spacing = new Area();
-            spacing.SetSize(0f, 25f);
-            window.Add(spacing);
+            window.Add(new Area(0f, 25f));
 
             // Keybinds
             AddLabel(window, "Useful Shortcuts", 200f, 28);
@@ -69,9 +67,7 @@ namespace UILib {
                 AddSmall(window, text, 500f, 20);
             }
 
-            Area spacing2 = new Area();
-            spacing2.SetSize(0f, 25f);
-            window.Add(spacing2);
+            window.Add(new Area(0f, 25f));
 
             Area showArea = new Area();
             showArea.SetContentLayout(LayoutType.Horizontal);
@@ -89,9 +85,7 @@ namespace UILib {
 
             window.Add(showArea);
 
-            Area spacing3 = new Area();
-            spacing3.SetSize(0f, 15f);
-            window.Add(spacing3);
+            window.Add(new Area(0f, 15f));
 
             Area links = new Area();
             links.SetContentLayout(LayoutType.Horizontal);

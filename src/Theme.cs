@@ -79,10 +79,10 @@ namespace UILib {
 
         /**
          * <summary>
-         * Gets a specified theme.
+         * Gets a <see cref="Register">registered</see> theme.
          * </summary>
          * <param name="theme">The theme to get</param>
-         * <returns>The theme if it is registered, null otherwise</returns>
+         * <returns>The theme if found, null otherwise</returns>
          */
         public static Theme GetTheme(string name) {
             if (themes.TryGetValue(name, out Theme theme) == false) {
@@ -187,6 +187,7 @@ namespace UILib {
         /**
          * <summary>
          * Gets the current theme directly.
+         * This doesn't make a copy.
          * </summary>
          */
         internal static Theme GetThemeUnsafe() {
@@ -268,7 +269,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Supports making a clone of the current default theme.
+         * Supports making a clone of this theme.
          * You probably want to use <see cref="Copy"/>
          * instead though, since it also handles
          * converting to a <see cref="Theme"/>.
@@ -281,7 +282,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Takes a copy of the current default theme.
+         * Takes a copy of this theme.
          * Like <see cref="Clone"/> but also handles
          * converting to a <see cref="Theme"/> type.
          * </summary>

@@ -22,6 +22,7 @@ namespace UILibExamples {
 
         public Themes() {
             // Create a new theme from the current one
+            // If you intend to register a theme, see `src/Plugin.cs`
             Theme theme = Theme.GetTheme();
 
             // Override some of the theme

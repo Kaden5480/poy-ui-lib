@@ -12,7 +12,7 @@ namespace UILib {
      */
     public class Theme : ICloneable {
         // Underlying current theme (not a copy)
-        private static Theme current;
+        private static Theme current = fallbackTheme;
 
         // The fallback theme
         private static Theme fallbackTheme = new Theme();
@@ -52,6 +52,17 @@ namespace UILib {
             }
 
             themes[theme.name] = theme;
+        }
+
+        /**
+         * <summary>
+         * Creates a new theme from UILib's fallback (default).
+         * This theme is not the same as the user's configured default.
+         * </summary>
+         * <param name="name">The name to apply to the theme</param>
+         */
+        public static Theme MakeNew(string name) {
+            return new Theme(name);
         }
 
         /**
@@ -286,20 +297,6 @@ namespace UILib {
          */
         public Theme Copy() {
             return (Theme) Clone();
-        }
-
-        /**
-         * <summary>
-         * Takes a copy of the current default theme
-         * and applies a custom name to it.
-         * </summary>
-         * <param name="name">The name to apply</param>
-         * <returns>The copy</returns>
-         */
-        public Theme Copy(string name) {
-            Theme copy = Copy();
-            copy.name = name;
-            return copy;
         }
 
 #region Base Colors

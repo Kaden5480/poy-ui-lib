@@ -40,6 +40,25 @@ namespace UILibExamples {
             button.SetSize(200f, 40f);
             window.Add(button);
 
+            UIButton notifyButton = new UIButton("Send big notification", 20);
+            notifyButton.onClick.AddListener(() => {
+                Notifier.Notify(
+                    "Here is an unnecessarily long title to see how UILib handles"
+                    + " overly large notification titles. This is important for testing",
+
+                    "Here is the beginning of a really long message to send through Notifier.Notify."
+                    + " This is to ensure that UILib can handle messages which are really long."
+                    + " In theory, the message should be truncated and end with three \".\" instead."
+                    + " If this isn't the case, then something is clearly going wrong with Notifier's"
+                    + " logic, and that would be a bug that needs fixing."
+                    + " Themes can also configure their own max message limits as well, so that's useful.",
+
+                    NotificationType.Error
+                );
+            });
+            notifyButton.SetSize(200f, 40f);
+            window.Add(notifyButton);
+
             // A simple toggle, like a button but
             // stores an on/off state
             Toggle toggle = new Toggle();
@@ -241,6 +260,10 @@ namespace UILibExamples {
 
         public override void Toggle() {
             window.ToggleVisibility();
+
+            if (window.isVisible == true) {
+                window.ScrollToTop();
+            }
         }
     }
 }

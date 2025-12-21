@@ -93,6 +93,19 @@ namespace UILib.Notifications {
             // Apply theme to children
             SetTheme(theme);
 
+            // Add warnings if error
+            if (type == NotificationType.Error) {
+                Label leftWarning = MakeWarning();
+                leftWarning.SetAnchor(AnchorType.MiddleLeft);
+                leftWarning.SetOffset(8f, 0f);
+                titleBackground.Add(leftWarning);
+
+                Label rightWarning = MakeWarning();
+                rightWarning.SetAnchor(AnchorType.MiddleRight);
+                rightWarning.SetOffset(-8f, 0f);
+                titleBackground.Add(rightWarning);
+            }
+
             // Customise small text
             dismissLabel.SetColor(theme.selectAltNormal);
 
@@ -121,6 +134,20 @@ namespace UILib.Notifications {
             });
 
             timer.StartTimer(waitTime + fadeTime);
+        }
+
+        /**
+         * <summary>
+         * Makes a warning label.
+         * </summary>
+         * <returns>The warning label</returns>
+         */
+        private Label MakeWarning() {
+            Label label = new Label("!", 32);
+            label.SetColor(theme.importantNormal);
+            label.SetSize(20f, 20f);
+
+            return label;
         }
 
         /**

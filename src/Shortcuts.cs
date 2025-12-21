@@ -12,9 +12,46 @@ namespace UILib {
      * A class which represents a shortcut.
      * This holds important information about a shortcut
      * such as the event listener and underlying keybinds.
+     *
+     * Also has a useful field `canRun` which indicates whether
+     * a shortcut can run. This takes into consideration a
+     * variety of cases including:
+     * - The InputOverlay waiting for an input
+     * - An input field being selected (to avoid triggering while typing/deselecting)
+     * - The player is editing keybinds in the `InGameMenu`
      * </summary>
      */
     public class Shortcut {
+        private static bool CheckCanRun() {
+            // Don't do anything if the input overlay
+            // is waiting for an input
+            if (InputOverlay.waitingForInput == true) {
+                return false;
+            }
+
+            // Don't do anything when a text field is selected
+            if (InputFieldFix.isSelected == true) {
+                return false;
+            }
+
+            // Also don't do anything if the player
+            // is currently in the keybinding options
+            if (Patches.Cache.inGameMenu != null
+                && Patches.Cache.inGameMenu.isCurrentlyRemapping == true
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /**
+         * <summary>
+         * A static property which indicates whether a shortcut can run.
+         * </summary>
+         */
+        public static bool canRun { get => CheckCanRun(); }
+
         /**
          * <summary>
          * Whether this shortcut is currently enabled.
@@ -204,22 +241,7 @@ namespace UILib {
                 shortcut.UpdateKeysUp();
             }
 
-            // Don't do anything if the input overlay
-            // is waiting for an input
-            if (InputOverlay.waitingForInput == true) {
-                return;
-            }
-
-            // Don't do anything when a text field is selected
-            if (InputFieldFix.isSelected == true) {
-                return;
-            }
-
-            // Also don't do anything if the player
-            // is currently in the keybinding options
-            if (Patches.Cache.inGameMenu != null
-                && Patches.Cache.inGameMenu.isCurrentlyRemapping == true
-            ) {
+            if (Shortcut.canRun == false) {
                 return;
             }
 

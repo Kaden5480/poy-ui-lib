@@ -13,24 +13,9 @@ namespace UILib {
      * <summary>
      * An overlay which pops up to allow the user
      * to enter a key.
-     *
-     * If you're not taking advantage of UILib's
-     * <see cref="UIRoot.AddShortcut">global</see> and
-     * <see cref="Overlay.AddShortcut">local</see> shortcut system,
-     * then you should really check if <see cref="waitingForInput"/>
-     * is set before doing any other input handling in your mod.
-     * This prevents some weirdness where your mod
-     * may trigger something while the input overlay
-     * is waiting for an input.
-     *
-     * Unfortunately, just checking `waitingForInput` may
-     * not be enough. There are some other instances
-     * where inputs shouldn't be read, but could be.
-     * So it is highly suggested to just stick with
-     * UILib's shortcut system.
      * </summary>
      */
-    public class InputOverlay : Overlay {
+    internal class InputOverlay : Overlay {
         // The large background
         private Image background;
 
@@ -60,7 +45,7 @@ namespace UILib {
          * is currently waiting for a key.
          * </summary>
          */
-        public static bool waitingForInput {
+        internal static bool waitingForInput {
             get => UIRoot.inputOverlay.coroutine != null;
         }
 

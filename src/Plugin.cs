@@ -15,7 +15,7 @@ using UILib.Patches;
 using UIButton = UILib.Components.Button;
 
 namespace UILib {
-    [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UI Lib", PluginInfo.PLUGIN_VERSION)]
+    [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UILib", PluginInfo.PLUGIN_VERSION)]
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 

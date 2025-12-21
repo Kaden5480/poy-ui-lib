@@ -20,7 +20,7 @@ If you haven't installed BepInEx yet, follow the install instructions here:
 - [Windows](https://github.com/Kaden5480/modloader-instructions#bepinex-windows)
 - [Linux](https://github.com/Kaden5480/modloader-instructions#bepinex-linux)
 
-### UI Lib
+### UILib
 - Download the latest release
 [here](https://github.com/Kaden5480/poy-ui-lib/releases).
 - The compressed zip will contain a `plugins` directory.

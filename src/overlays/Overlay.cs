@@ -292,13 +292,13 @@ namespace UILib {
          * automatically pause the game when it's shown.
          *
          * Calling with `autoPause` being `false`:
-         * - If the overlay has an active <see cref="PauseHandle"/>,
+         * - If the overlay has an active <see cref="Patches.PauseHandle"/>,
          *   it will be closed immediately regardless of its visibility.
          *
          * Calling with `autoPause` being `true`:
-         * - If the overlay is visible, a new <see cref="PauseHandle"/> will
+         * - If the overlay is visible, a new <see cref="Patches.PauseHandle"/> will
          *   be allocated.
-         * - If the overlay is hidden, no <see cref="PauseHandle"/> will
+         * - If the overlay is hidden, no <see cref="Patches.PauseHandle"/> will
          *   be allocated.
          *
          * </summary>

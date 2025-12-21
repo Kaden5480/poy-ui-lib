@@ -34,6 +34,8 @@ namespace UILib.Components {
          * actually inputs a key or presses a mouse button.
          *
          * Passes the `KeyCode` that was read to listeners.
+         *
+         * A result of `KeyCode.None` means the key was unbound.
          * </summary>
          */
         public ValueEvent<KeyCode> onValueChanged { get; } = new ValueEvent<KeyCode>();

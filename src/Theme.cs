@@ -114,11 +114,33 @@ namespace UILib {
 
         /**
          * <summary>
+         * Builds a theme with a provided hue.
+         * </summary>
+         * <param name="name">The name of the theme</param>
+         * <param name="hue">The hue to build the theme with</param>
+         * <returns>The theme which was built</returns>
+         */
+        private static Theme BuildWithHue(string name, float hue) {
+            return new Theme(name) {
+                background         = Colors.HSL(hue, 10f,  10f),
+                foreground         = Colors.HSL(hue, 100f, 90f),
+                accent             = Colors.HSL(hue, 10f,  15f),
+                accentAlt          = Colors.HSL(hue, 10f,  20f),
+                selectNormal       = Colors.HSL(hue, 20f,  40f),
+                selectHighlight    = Colors.HSL(hue, 20f,  50f),
+                selectAltNormal    = Colors.HSL(hue, 30f,  60f),
+                selectAltHighlight = Colors.HSL(hue, 30f,  70f),
+            };
+        }
+
+        /**
+         * <summary>
          * Registers built-in themes.
          * </summary>
          */
         internal static void RegisterBuiltIn() {
             Register(new Theme("Peaks Dark"));
+
             Register(new Theme("Peaks Light") {
                 foreground         = Colors.RGB(0f,   0f,   0f),
                 background         = Colors.RGB(255f, 255f, 255f),
@@ -131,6 +153,16 @@ namespace UILib {
                 importantNormal    = Colors.RGB(240f, 100f, 100f),
                 importantHighlight = Colors.RGB(230f, 80f,  80f),
             });
+
+            Register(BuildWithHue("UILib Red",       0f));
+            Register(BuildWithHue("UILib Orange",    25f));
+            Register(BuildWithHue("UILib Yellow",    62f));
+            Register(BuildWithHue("UILib Green",     100f));
+            Register(BuildWithHue("UILib Mint",      165f));
+            Register(BuildWithHue("UILib Aqua",      190f));
+            Register(BuildWithHue("UILib Blue",      215f));
+            Register(BuildWithHue("UILib Purple",    250f));
+            Register(BuildWithHue("UILib Pink",      300f));
 
             // Also set the default
             SetTheme(Config.selectedTheme.Value);

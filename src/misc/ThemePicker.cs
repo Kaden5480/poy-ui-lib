@@ -23,11 +23,12 @@ namespace UILib.Misc {
         internal ThemePicker() : base("Theme Picker", 800f, 600f) {
             Area area = new Area();
             area.SetAnchor(AnchorType.TopMiddle);
-            area.SetElementAlignment(AnchorType.TopMiddle);
             area.SetContentLayout(LayoutType.Vertical);
+            area.SetElementAlignment(AnchorType.TopMiddle);
             area.SetContentPadding(20);
             area.SetElementSpacing(20f);
 
+            // Main title and description
             Label mainLabel = new Label(
                 "This UI allows you to customise your currently selected theme.",
                 26
@@ -58,6 +59,8 @@ namespace UILib.Misc {
             }
 
             Add(area);
+
+            scrollView.SetContent(area);
 
             UpdateTheme(Theme.GetTheme());
         }

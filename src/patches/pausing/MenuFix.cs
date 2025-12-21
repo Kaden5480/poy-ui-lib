@@ -33,6 +33,10 @@ namespace UILib.Patches {
             // Save player velocity
             PlayerVelocityFix.Save(___playerRB, ___pausedRB);
 
+            if (InputHandler.isLocked == true) {
+                return false;
+            }
+
             if (InputOverlay.waitingForInput == true) {
                 return false;
             }

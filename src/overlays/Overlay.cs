@@ -19,12 +19,24 @@ namespace UILib {
         // The canvas this overlay is attached to
         internal Canvas canvas;
 
-        // Whether this overlay should pause the game
-        // automatically when it's shown
-        private bool autoPause;
+        /**
+         * <summary>
+         * Whether this overlay will <see cref="Patches.PauseHandle">
+         * auto-pause the game</see> while it's visible.
+         * </summary>
+         */
+        public bool autoPause { get; private set; }
 
-        // This overlay's pause handle
+        /**
+         * Whether this overlay will <see cref="Patches.InputLock">
+         * auto-lock some vanilla</see>
+         * inputs while it's visible.
+         */
+        public bool lockInput { get; private set; }
+
+        // This overlay's pause handle and input lock
         private PauseHandle pauseHandle;
+        private InputLock inputLock;
 
         // Canvas group for controlling opacity
         internal CanvasGroup canvasGroup;
@@ -120,6 +132,9 @@ namespace UILib {
 
             // Auto-pause by default
             SetAutoPause(true);
+
+            // But don't auto-lock inputs
+            SetInputLock(false);
 
             // Set size
             SetSize(width, height);
@@ -276,11 +291,11 @@ namespace UILib {
          * Set whether this overlay should
          * automatically pause the game when it's shown.
          *
-         * Calling with autoPause being `false`:
+         * Calling with `autoPause` being `false`:
          * - If the overlay has an active <see cref="PauseHandle"/>,
          *   it will be closed immediately regardless of its visibility.
          *
-         * Calling with autoPause being `true`:
+         * Calling with `autoPause` being `true`:
          * - If the overlay is visible, a new <see cref="PauseHandle"/> will
          *   be allocated.
          * - If the overlay is hidden, no <see cref="PauseHandle"/> will
@@ -304,6 +319,41 @@ namespace UILib {
 
             if (isVisible == true) {
                 pauseHandle = new PauseHandle();
+            }
+        }
+
+        /**
+         * <summary>
+         * Set whether this overlay should automatically lock some
+         * extra vanilla inputs while it's shown.
+         *
+         * Calling with `lockInput` being `false`:
+         * - If the overlay has an active <see cref="Patches.InputLock"/>,
+         *   it will be closed immediately regardless of its visibility.
+         *
+         * Calling with `lockInput` being `true`:
+         * - If the overlay is visible, a new <see cref="Patches.InputLock"/> will
+         *   be allocated.
+         * - If the overlay is hidden, no <see cref="Patches.InputLock"/> will
+         *   be allocated.
+         * </summary>
+         * <param name="lockInput">Whether inputs should automatically lock</param>
+         */
+        public void SetInputLock(bool lockInput) {
+            this.lockInput = lockInput;
+
+            // Remove active input lock
+            if (inputLock != null) {
+                inputLock.Close();
+                inputLock = null;
+            }
+
+            if (lockInput == false) {
+                return;
+            }
+
+            if (isVisible == true) {
+                inputLock = new InputLock();
             }
         }
 

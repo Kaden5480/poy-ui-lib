@@ -37,7 +37,7 @@ namespace UILib.Patches {
 
         /**
          * <summary>
-         * Close this pause handle,
+         * Closes this pause handle,
          * telling the <see cref="PauseHandler"/> that the game
          * no longer needs to be paused.
          * </summary>
@@ -97,12 +97,9 @@ namespace UILib.Patches {
 
         /**
          * <summary>
-         * Requests a PauseHandle.
-         *
-         * For the entire lifetime of the returned PauseHandle
-         * the game will be paused and focus will be taken
-         * from the game.
+         * Adds a PauseHandle to pause the game.
          * </summary>
+         * <param name="handle">The handle to add</param>
          */
         internal static void Add(PauseHandle handle) {
             handles.Add(handle);
@@ -110,7 +107,7 @@ namespace UILib.Patches {
 
         /**
          * <summary>
-         * Handles removing a PauseHandle.
+         * Removes a PauseHandle.
          * </summary>
          * <param name="handle">The handle to remove</param>
          */

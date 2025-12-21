@@ -13,10 +13,10 @@ namespace UILib {
      * This holds important information about a shortcut
      * such as the event listener and underlying keybinds.
      *
-     * Also has a useful field `canRun` which indicates whether
+     * Also has a useful field <see cref="Shortcut.canRun"/> which indicates whether
      * a shortcut can run. This takes into consideration a
      * variety of cases including:
-     * - The InputOverlay waiting for an input
+     * - UILib's `InputOverlay` waiting for an input
      * - An input field being selected (to avoid triggering while typing/deselecting)
      * - The player is editing keybinds in the `InGameMenu`
      * </summary>

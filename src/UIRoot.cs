@@ -189,8 +189,7 @@ namespace UILib {
         /**
          * <summary>
          * Adds a global shortcut. Global shortcuts can be triggered
-         * at any time, but only when the <see cref="InputOverlay"/>
-         * isn't waiting for an input.
+         * at any time (provided shortcuts can actually <see cref="Shortcut.canRun">run</see>.
          *
          * This is the recommended way of handling global shortcuts
          * when working with UILib.

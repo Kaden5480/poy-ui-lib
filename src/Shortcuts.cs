@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 using UILib.Patches.UI;
 
-namespace UILib.Behaviours {
+namespace UILib {
     /**
      * <summary>
      * A class which represents a shortcut.

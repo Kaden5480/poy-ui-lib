@@ -1,5 +1,8 @@
 using BepInEx.Configuration;
+using ModMenu.Config;
 using UnityEngine;
+
+using UILib.ColorPicker;
 
 namespace UILib {
     /**
@@ -9,12 +12,17 @@ namespace UILib {
      */
     internal static class Config {
         // General
+        [Field("Show Intro")]
         internal static ConfigEntry<bool> showIntro { get; private set; }
 
         // Keybinds
+        [Field("Open Color Picker")]
+        [Listener(typeof(ColorPickerWindow), nameof(ColorPickerWindow.UpdateShortcut))]
         internal static ConfigEntry<KeyCode> openColorPicker { get; private set; }
 
         // Window Management
+        [Category("Window Management")]
+        [Field("Focus on Hover")]
         internal static ConfigEntry<bool> focusOnHover { get; private set; }
 
         /**

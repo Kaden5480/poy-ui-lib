@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 
 using BepInEx;
 using BepInEx.Configuration;
+using HarmonyLib;
+using ModMenu;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -28,6 +31,23 @@ namespace UILib {
 
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
+
+            if (AccessTools.AllAssemblies().FirstOrDefault(
+                    a => a.GetName().Name == "ModMenu"
+                ) != null
+            ) {
+                Register();
+            }
+        }
+
+        /**
+         * <summary>
+         * Register with Mod Menu.
+         * </summary>
+         */
+        private void Register() {
+            ModInfo info = ModManager.Register(this);
+            info.Add(typeof(UILib.Config));
         }
 
         /**

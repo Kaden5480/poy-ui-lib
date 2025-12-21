@@ -22,6 +22,10 @@ namespace UILib.ColorPicker {
 
         internal static Shortcut toggleShortcut;
 
+        internal static void UpdateShortcut(KeyCode shortcut) {
+            toggleShortcut.SetShortcut(new[] { shortcut });
+        }
+
         /**
          * <summary>
          * Initializes the color picker window.

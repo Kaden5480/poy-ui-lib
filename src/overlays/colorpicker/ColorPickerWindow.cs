@@ -2,6 +2,7 @@ using UnityEngine;
 using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 using UIButton = UILib.Components.Button;
@@ -18,6 +19,8 @@ namespace UILib.ColorPicker {
         private Slider hueSlider;
         private Area opacityArea;
         private Slider opacitySlider;
+
+        internal static Shortcut toggleShortcut;
 
         /**
          * <summary>
@@ -84,6 +87,17 @@ namespace UILib.ColorPicker {
 
             updater.Init();
 
+            // Register shortcut
+            toggleShortcut = UIRoot.AddShortcut(new[] { Config.openColorPicker.Value });
+            toggleShortcut.onTrigger.AddListener(() => {
+                if (isVisible == false || updater.current != null) {
+                    OpenDetached();
+                }
+                else {
+                    Hide();
+                }
+            });
+
             // Set the theme
             SetThisTheme(theme);
         }
@@ -114,6 +128,25 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
+         * Opens the color picker in a "detached" mode.
+         * </summary>
+         */
+        internal void OpenDetached() {
+            Unlink();
+            SetTheme(UIRoot.defaultTheme);
+
+            updater.SetColor(Color.white);
+
+            opacitySlider.Show();
+            opacityArea.Show();
+
+            SetName("Color Picker (Detached)");
+
+            Show();
+        }
+
+        /**
+         * <summary>
          * Updates the currently selected color field to
          * be a different one.
          * </summary>
@@ -135,6 +168,7 @@ namespace UILib.ColorPicker {
                 opacityArea.Hide();
             }
 
+            SetName("Color Picker");
             Show();
         }
 

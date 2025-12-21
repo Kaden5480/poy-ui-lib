@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using UILib.ColorPicker;
-using UILib.Behaviours;
 using UILib.Notifications;
 
 namespace UILib {
@@ -197,7 +196,7 @@ namespace UILib {
          * when working with UILib.
          * </summary>
          * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
-         * <returns>The <see cref="Behaviours.Shortcut"/> which was created</returns>
+         * <returns>The <see cref="Shortcut"/> which was created</returns>
          */
         public static Shortcut AddShortcut(IList<KeyCode> keys) {
             Shortcut shortcut = new Shortcut(keys);

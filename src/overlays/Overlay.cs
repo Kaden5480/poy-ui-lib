@@ -249,13 +249,13 @@ namespace UILib {
 
         /**
          * <summary>
-         * Adds a local <see cref="Behaviours.Shortcut"/> to this overlay.
+         * Adds a local <see cref="Shortcut"/> to this overlay.
          *
          * Local shortcuts are triggered whenever
          * all keys configured in the shortcut are pressed.
          * </summary>
          * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
-         * <returns>The <see cref="Behaviours.Shortcut"/> which was created</returns>
+         * <returns>The <see cref="Shortcut"/> which was created</returns>
          */
         public Shortcut AddShortcut(IList<KeyCode> keys) {
             if (localShortcuts == null) {

@@ -1,7 +1,6 @@
 using UnityEngine;
 
 using UILib;
-using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 

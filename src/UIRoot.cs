@@ -21,6 +21,17 @@ namespace UILib {
     public static class UIRoot {
         /**
          * <summary>
+         * Invokes listeners just before UILib starts
+         * initializing itself.
+         *
+         * If you need to do anything really specific, this
+         * listener is here for those cases.
+         * </summary>
+         */
+        public static UnityEvent onPreInit { get; } = new UnityEvent();
+
+        /**
+         * <summary>
          * Invokes listeners once UILib has been initialized.
          * This indicates when you can start building UIs.
          *
@@ -83,6 +94,8 @@ namespace UILib {
             if (gameObject != null) {
                 return;
             }
+
+            onPreInit.Invoke();
 
             // Instantiate game object to attach all overlays to
             gameObject = new GameObject("UILib Root");

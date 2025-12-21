@@ -12,7 +12,7 @@ namespace UILib {
      */
     internal static class Config {
         // General
-        [Field("Show Intro")]
+        [Field("Show Intro on Startup")]
         internal static ConfigEntry<bool> showIntro { get; private set; }
 
         // Keybinds

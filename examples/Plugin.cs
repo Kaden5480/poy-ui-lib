@@ -13,7 +13,7 @@ namespace UILibExamples {
          */
         private void Awake() {
             // You can add custom themes to UILib in Awake like so
-            Theme custom = Theme.MakeNew("Example Theme");
+            Theme custom = new Theme("Example Theme");
 
             // Change the background to something else
             custom.background = Colors.HSL(120f, 50f, 50f);

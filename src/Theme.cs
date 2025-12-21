@@ -56,17 +56,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Creates a new theme from UILib's fallback (default).
-         * This theme is not the same as the user's configured default.
-         * </summary>
-         * <param name="name">The name to apply to the theme</param>
-         */
-        public static Theme MakeNew(string name) {
-            return new Theme(name);
-        }
-
-        /**
-         * <summary>
          * Gets all registered themes.
          *
          * Note:
@@ -114,10 +103,13 @@ namespace UILib {
          * <summary>
          * Constructs an instance of the fallback theme
          * with a custom name.
+         *
+         * Use this if you want to create a new theme
+         * to register with UILib.
          * </summary>
          * <param name="name">The name to use</param>
          */
-        private Theme(string name) {
+        public Theme(string name) {
             this.name = name;
         }
 

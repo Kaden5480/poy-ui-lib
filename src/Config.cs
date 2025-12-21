@@ -19,6 +19,14 @@ namespace UILib {
         internal static ConfigEntry<string> selectedTheme { get; private set; }
 
         // Keybinds
+        [Category("Keybinds")]
+        [Field("Drag Window")]
+        private const string dragWindow = "Left Alt + Left Click";
+
+        [Category("Keybinds")]
+        [Field("Resize Window")]
+        private const string resizeWindow = "Left Alt + Right Click";
+
         [Field("Open Color Picker")]
         [Listener(typeof(ColorPickerWindow), nameof(ColorPickerWindow.UpdateShortcut))]
         internal static ConfigEntry<KeyCode> openColorPicker { get; private set; }

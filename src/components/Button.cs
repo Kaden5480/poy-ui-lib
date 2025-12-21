@@ -123,6 +123,10 @@ namespace UILib.Components {
          */
         protected override void SetThisTheme(Theme theme) {
             button.colors = theme.blockSelect;
+
+            if (image != null) {
+                image.SetColor(theme.foreground);
+            }
         }
 
         /**

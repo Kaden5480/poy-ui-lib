@@ -228,7 +228,7 @@ namespace UILib {
             content = this;
 
             // Set the default theme
-            theme = UIRoot.defaultTheme;
+            theme = Theme.GetThemeUnsafe();
         }
 
         /**
@@ -334,7 +334,7 @@ namespace UILib {
          */
         public virtual void SetTheme(Theme theme) {
             if (theme == null) {
-                theme = UIRoot.defaultTheme;
+                theme = Theme.GetThemeUnsafe();
             }
 
             this.theme = theme;

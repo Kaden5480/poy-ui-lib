@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,152 @@ namespace UILib {
      * </summary>
      */
     public class Theme : ICloneable {
+        // Underlying current theme (not a copy)
+        private static Theme current;
+
+        // The fallback theme
+        private static Theme fallbackTheme = new Theme();
+
+        // Registered themes
+        private static Dictionary<string, Theme> themes
+            = new Dictionary<string, Theme>();
+
+        /**
+         * <summary>
+         * The name of this theme.
+         * </summary>
+         */
+        public string name { get; private set; } = "Fallback";
+
+        /**
+         * <summary>
+         * Registers a new theme.
+         *
+         * If you wish to register a new theme, its name must be unique.
+         *
+         * You should also register themes in `Awake`. UILib doesn't need to
+         * be <see cref="UIRoot.onInit">initialized</see> for you to
+         * add themes.
+         * </summary>
+         * <param name="theme">The theme to add</param>
+         */
+        public static void Register(Theme theme) {
+            if (theme.name == null) {
+                Plugin.LogError("Tried registering a theme without a name");
+                return;
+            }
+
+            if (themes.ContainsKey(theme.name) == true) {
+                Plugin.LogError($"Theme: {theme.name} has already been registered");
+                return;
+            }
+
+            themes[theme.name] = theme;
+        }
+
+        /**
+         * <summary>
+         * Gets all registered themes.
+         *
+         * Note:
+         * These themes are not copies.
+         * </summary>
+         * <returns>The registered themes</returns>
+         */
+        public static Dictionary<string, Theme> GetThemes() {
+            return themes;
+        }
+
+        /**
+         * <summary>
+         * Gets a copy of the current theme.
+         * </summary>
+         * <returns>A copy of the current theme</returns>
+         */
+        public static Theme GetTheme() {
+            return current.Copy();
+        }
+
+        /**
+         * <summary>
+         * Gets a specified theme.
+         * </summary>
+         * <param name="theme">The theme to get</param>
+         * <returns>The theme if it is registered, null otherwise</returns>
+         */
+        public static Theme GetTheme(string name) {
+            if (themes.TryGetValue(name, out Theme theme) == false) {
+                return null;
+            }
+
+            return theme;
+        }
+
+        /**
+         * <summary>
+         * Can only construct privately.
+         * </summary>
+         */
+        private Theme() {}
+
+        /**
+         * <summary>
+         * Constructs an instance of the fallback theme
+         * with a custom name.
+         * </summary>
+         * <param name="name">The name to use</param>
+         */
+        private Theme(string name) {
+            this.name = name;
+        }
 
 #region Internal
+
+        /**
+         * <summary>
+         * Registers built-in themes.
+         * </summary>
+         */
+        internal static void RegisterBuiltIn() {
+            Register(new Theme("Peaks Dark"));
+            Register(new Theme("Peaks Light") {
+                foreground         = Colors.RGB(0f,   0f,   0f),
+                background         = Colors.RGB(255f, 255f, 255f),
+                accent             = Colors.RGB(230f, 230f, 230f),
+                accentAlt          = Colors.RGB(210f, 210f, 210f),
+                selectNormal       = Colors.RGB(180f, 180f, 180f),
+                selectHighlight    = Colors.RGB(150f, 150f, 150f),
+                selectAltNormal    = Colors.RGB(130f, 130f, 130f),
+                selectAltHighlight = Colors.RGB(120f, 120f, 120f),
+                importantNormal    = Colors.RGB(240f, 100f, 100f),
+                importantHighlight = Colors.RGB(230f, 80f,  80f),
+            });
+
+            // Also set the default
+            SetTheme(Config.selectedTheme.Value);
+        }
+
+        /**
+         * <summary>
+         * Sets the current default theme.
+         * </summary>
+         */
+        internal static void SetTheme(string name) {
+            current = GetTheme(name);
+            if (current == null) {
+                Plugin.LogError($"Unable to find theme: {name}, using fallback instead");
+                current = fallbackTheme;
+            }
+        }
+
+        /**
+         * <summary>
+         * Gets the current theme directly.
+         * </summary>
+         */
+        internal static Theme GetThemeUnsafe() {
+            return current;
+        }
 
         /**
          * <summary>
@@ -88,7 +233,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Supports making a clone of this theme.
+         * Supports making a clone of the current default theme.
          * You probably want to use <see cref="Copy"/>
          * instead though, since it also handles
          * converting to a <see cref="Theme"/>.
@@ -101,7 +246,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Takes a copy of this theme.
+         * Takes a copy of the current default theme.
          * Like <see cref="Clone"/> but also handles
          * converting to a <see cref="Theme"/> type.
          * </summary>
@@ -109,6 +254,20 @@ namespace UILib {
          */
         public Theme Copy() {
             return (Theme) Clone();
+        }
+
+        /**
+         * <summary>
+         * Takes a copy of the current default theme
+         * and applies a custom name to it.
+         * </summary>
+         * <param name="name">The name to apply</param>
+         * <returns>The copy</returns>
+         */
+        public Theme Copy(string name) {
+            Theme copy = Copy();
+            copy.name = name;
+            return copy;
         }
 
 #region Base Colors

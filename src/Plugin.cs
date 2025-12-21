@@ -9,6 +9,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 using UILib.Components;
+using UILib.Layouts;
+using UILib.Misc;
 using UILib.Patches;
 using UIButton = UILib.Components.Button;
 
@@ -18,6 +20,7 @@ namespace UILib {
         internal static Plugin instance { get; private set; }
 
         private Intro intro;
+        private ThemePicker themePicker;
 
         /**
          * <summary>
@@ -54,7 +57,22 @@ namespace UILib {
 
             // Button to display the intro
             info.onBuild.AddListener((ModView view) => {
-                UIButton introButton = new UIButton("Intro", 20);
+                Area area = new Area();
+                area.SetFill(FillType.All);
+                area.SetContentLayout(LayoutType.Vertical);
+                area.SetElementSpacing(20f);
+
+                UIButton themeButton = new UIButton("Change Theme", 20);
+                themeButton.SetSize(200f, 40f);
+                themeButton.onClick.AddListener(() => {
+                    if (themePicker == null) {
+                        themePicker = new ThemePicker();
+                    }
+
+                    themePicker.ToggleVisibility();
+                });
+
+                UIButton introButton = new UIButton("Show Intro", 20);
                 introButton.SetSize(200f, 40f);
                 introButton.onClick.AddListener(() => {
                     if (intro == null) {
@@ -64,7 +82,10 @@ namespace UILib {
                     intro.window.ToggleVisibility();
                 });
 
-                view.Add("Extras", introButton);
+                area.Add(themeButton);
+                area.Add(introButton);
+
+                view.Add("Extras", area);
             });
         }
 
@@ -74,6 +95,9 @@ namespace UILib {
          * </summary>
          */
         private void Start() {
+            // Register built-in themes
+            Theme.RegisterBuiltIn();
+
             UIRoot.Init();
 
             if (UILib.Config.showIntro.Value == true) {

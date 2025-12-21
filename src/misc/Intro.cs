@@ -5,14 +5,14 @@ using UILib.Components;
 using UILib.Layouts;
 using UIButton = UILib.Components.Button;
 
-namespace UILib {
+namespace UILib.Misc {
     /**
      * <summary>
      * Displays an introduction to UILib.
      * </summary>
      */
     internal class Intro {
-        private Theme theme = new Theme();
+        private Theme theme = Theme.GetTheme();
         internal Window window { get; private set; }
 
         /**

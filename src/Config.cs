@@ -15,6 +15,8 @@ namespace UILib {
         [Field("Show Intro on Startup")]
         internal static ConfigEntry<bool> showIntro { get; private set; }
 
+        internal static ConfigEntry<string> selectedTheme { get; private set; }
+
         // Keybinds
         [Field("Open Color Picker")]
         [Listener(typeof(ColorPickerWindow), nameof(ColorPickerWindow.UpdateShortcut))]
@@ -36,6 +38,11 @@ namespace UILib {
             showIntro = configFile.Bind(
                 "General", "showIntro", true,
                 "Whether to show the intro on startup"
+            );
+
+            selectedTheme = configFile.Bind(
+                "General", "selectedTheme", "Peaks Dark",
+                "The currently selected theme to use by default"
             );
 
             // Keybinds

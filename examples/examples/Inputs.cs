@@ -90,10 +90,9 @@ namespace UILibExamples {
 
             // Themes can also be inherited from color fields
             // to the color picker
-            Theme customTheme = new Theme() {
-                foreground = Colors.HSL(230, 60, 60),
-                accentAlt = Colors.HSL(230, 40, 40),
-            };
+            Theme customTheme = Theme.GetTheme();
+            customTheme.foreground = Colors.HSL(230, 60, 60);
+            customTheme.accentAlt = Colors.HSL(230, 40, 40);
 
             ColorField colorField2 = new ColorField(Color.red);
             colorField2.SetSize(40f, 40f);

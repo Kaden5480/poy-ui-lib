@@ -54,9 +54,6 @@ namespace UILib {
         // Sorting order for the notification area
         internal const int notificationSortingOrder = 9999;
 
-        // The default theme used across UILib
-        internal static Theme defaultTheme { get; } = new Theme();
-
         // UIRoot's GameObject
         private static GameObject gameObject;
 

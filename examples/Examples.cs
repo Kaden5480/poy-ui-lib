@@ -36,7 +36,7 @@ namespace UILibExamples {
 
             overlay = new Overlay(300f, 450f);
             // Overlays don't have a background by default
-            Image background = new Image(Color.black);
+            Image background = new Image(Theme.GetTheme().background);
             background.SetFill(FillType.All);
             overlay.Add(background);
 

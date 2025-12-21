@@ -135,7 +135,7 @@ namespace UILib.ColorPicker {
          */
         internal void OpenDetached() {
             Unlink();
-            SetTheme(UIRoot.defaultTheme);
+            SetTheme(Theme.GetThemeUnsafe());
 
             updater.SetColor(Color.white);
 

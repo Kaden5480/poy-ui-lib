@@ -41,7 +41,7 @@ namespace UILibExamples {
 
         public Chat() {
             // Get the default theme
-            Theme theme = new Theme();
+            Theme theme = Theme.GetTheme();
 
             window = new Window("Chat", 800f, 600f);
 

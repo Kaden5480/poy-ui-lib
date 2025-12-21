@@ -21,19 +21,18 @@ namespace UILibExamples {
         private int fontSize = 20;
 
         public Themes() {
-            // Create a new theme, by default
-            // all settings will be UILib's defaults
-            Theme theme = new Theme() {
-                // Override some of the theme
-                // There are also some nice methods for making Colors
-                background         = Colors.RGB(100f, 40f, 40f),
-                foreground         = Colors.HSL(180f, 50f, 70f),
-                selectNormal       = Colors.HSV(240f, 30f, 50f),
-                selectHighlight    = Colors.Hex(0xffaaee),
-                selectFadeTime     = 2f,
-                overlayFadeTime    = 0.5f,
-                windowOpacity      = 0.9f,
-            };
+            // Create a new theme from the current one
+            Theme theme = Theme.GetTheme();
+
+            // Override some of the theme
+            // There are also some nice methods for making Colors
+            theme.background         = Colors.RGB(100f, 40f, 40f);
+            theme.foreground         = Colors.HSL(180f, 50f, 70f);
+            theme.selectNormal       = Colors.HSV(240f, 30f, 50f);
+            theme.selectHighlight    = Colors.Hex(0xffaaee);
+            theme.selectFadeTime     = 2f;
+            theme.overlayFadeTime    = 0.5f;
+            theme.windowOpacity      = 0.9f;
 
             window = new Window("Themes", 800f, 600f);
             window.SetContentLayout(LayoutType.Vertical);

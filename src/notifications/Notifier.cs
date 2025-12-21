@@ -29,7 +29,7 @@ namespace UILib.Notifications {
             Theme theme = null
         ) {
             if (theme == null) {
-                theme = UIRoot.defaultTheme;
+                theme = Theme.GetThemeUnsafe();
             }
 
             Notification notification = new Notification(

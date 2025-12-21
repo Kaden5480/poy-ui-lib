@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 
 using UILib.Components;
 using UILib.Patches;
+using UIButton = UILib.Components.Button;
 
 namespace UILib {
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UI Lib", PluginInfo.PLUGIN_VERSION)]
@@ -48,6 +49,21 @@ namespace UILib {
         private void Register() {
             ModInfo info = ModManager.Register(this);
             info.Add(typeof(UILib.Config));
+
+            // Button to display the intro
+            info.onBuild.AddListener((ModView view) => {
+                UIButton introButton = new UIButton("Intro", 20);
+                introButton.SetSize(200f, 40f);
+                introButton.onClick.AddListener(() => {
+                    if (intro == null) {
+                        intro = new Intro();
+                    }
+
+                    intro.window.ToggleVisibility();
+                });
+
+                view.Add("Extras", introButton);
+            });
         }
 
         /**
@@ -60,7 +76,7 @@ namespace UILib {
 
             if (UILib.Config.showIntro.Value == true) {
                 intro = new Intro();
-                intro.Show();
+                intro.window.Show();
             }
         }
 

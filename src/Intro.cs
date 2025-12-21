@@ -13,7 +13,7 @@ namespace UILib {
      */
     internal class Intro {
         private Theme theme = new Theme();
-        private Window window;
+        internal Window window { get; private set; }
 
         /**
          * <summary>
@@ -106,15 +106,6 @@ namespace UILib {
             });
             github.SetSize(80f, 25f);
             links.Add(github);
-        }
-
-        /**
-         * <summary>
-         * Shows the intro.
-         * </summary>
-         */
-        internal void Show() {
-            window.Show();
         }
     }
 }

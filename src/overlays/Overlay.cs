@@ -390,6 +390,7 @@ namespace UILib {
             // Start fading in
             fade.FadeIn();
 
+            // Pause handle
             if (pauseHandle != null) {
                 pauseHandle.Close();
                 pauseHandle = null;
@@ -397,6 +398,16 @@ namespace UILib {
 
             if (autoPause == true) {
                 pauseHandle = new PauseHandle();
+            }
+
+            // Input lock
+            if (inputLock != null) {
+                inputLock.Close();
+                inputLock = null;
+            }
+
+            if (lockInput == true) {
+                inputLock = new InputLock();
             }
         }
 
@@ -413,6 +424,11 @@ namespace UILib {
             if (pauseHandle != null) {
                 pauseHandle.Close();
                 pauseHandle = null;
+            }
+
+            if (inputLock != null) {
+                inputLock.Close();
+                inputLock = null;
             }
         }
 

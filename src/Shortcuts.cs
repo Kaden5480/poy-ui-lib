@@ -137,6 +137,19 @@ namespace UILib {
 
         /**
          * <summary>
+         * Resets the key press state.
+         * </summary>
+         */
+        internal void Reset() {
+            foreach (KeyCode key in keys.Keys.ToList()) {
+                keys[key] = false;
+            }
+
+            hasTriggered = false;
+        }
+
+        /**
+         * <summary>
          * Tracks key releases.
          * </summary>
          */
@@ -218,6 +231,17 @@ namespace UILib {
     internal class GlobalShortcuts : MonoBehaviour {
         // The shortcuts assigned
         internal List<Shortcut> shortcuts { get; } = new List<Shortcut>();
+
+        /**
+         * <summary>
+         * Reset the state of shortcuts on disable.
+         * </summary>
+         */
+        internal void OnDisable() {
+            foreach (Shortcut shortcut in shortcuts) {
+                shortcut.Reset();
+            }
+        }
 
         /**
          * <summary>

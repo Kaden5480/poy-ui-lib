@@ -916,6 +916,35 @@ namespace UILib {
 
         /**
          * <summary>
+         * Sets the padding to apply to the
+         * <see cref="SetContent">content</see>.
+         *
+         * This requires you to have already called <see cref="SetContentLayout"/>
+         * to configure a layout for the <see cref="SetContent">content</see>.
+         * </summary>
+         * <param name="horizontal">The horizontal padding to use</param>
+         * <param name="vertical">The vertical padding to use</param>
+         */
+        public void SetContentPadding(int horizontal, int vertical) {
+            SetContentPadding(horizontal, horizontal, vertical, vertical);
+        }
+
+        /**
+         * <summary>
+         * Sets the padding to apply to the
+         * <see cref="SetContent">content</see>.
+         *
+         * This requires you to have already called <see cref="SetContentLayout"/>
+         * to configure a layout for the <see cref="SetContent">content</see>.
+         * </summary>
+         * <param name="padding">The padding to use all around</param>
+         */
+        public void SetContentPadding(int padding) {
+            SetContentPadding(padding, padding);
+        }
+
+        /**
+         * <summary>
          * Converts an <see cref="Layouts.AnchorType"/> to a Unity `TextAnchor`.
          * </summary>
          * <param name="anchor">The anchor to convert</param>

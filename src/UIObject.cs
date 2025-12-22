@@ -511,7 +511,7 @@ namespace UILib {
                 return;
             }
 
-            if (tooltip == null) {
+            if (string.IsNullOrEmpty(tooltip) == true) {
                 if (parent != null) {
                     parent.ShowTooltip();
                 }

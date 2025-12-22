@@ -45,6 +45,9 @@ namespace UILib {
             canvas = new Canvas();
             canvas.Add(this);
 
+            // Prevent raycasting
+            canvas.raycaster.enabled = false;
+
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             Area area = new Area(fillType: FillType.All);

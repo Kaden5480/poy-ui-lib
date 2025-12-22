@@ -16,6 +16,8 @@ namespace UILib.Components {
      * </summary>
      */
     public class Toggle : UIComponent {
+        private bool internalChange = false;
+
         /**
          * <summary>
          * The underlying Unity `Toggle`.
@@ -23,9 +25,26 @@ namespace UILib.Components {
          */
         public UEToggle toggle { get; private set; }
 
-        private bool internalChange = false;
-        private Image background;
-        private Image checkMark;
+        /**
+         * <summary>
+         * The background of the toggle.
+         * </summary>
+         */
+        public Image background { get; private set; }
+
+        /**
+         * <summary>
+         * The image which displays when the toggle is on.
+         * </summary>
+         */
+        public Image onImage { get; private set; }
+
+        /**
+         * <summary>
+         * The image which displays when the toggle is off.
+         * </summary>
+         */
+        public Image offImage { get; private set; }
 
         /**
          * <summary>
@@ -56,16 +75,10 @@ namespace UILib.Components {
             background.SetFill(FillType.All);
             Add(background);
 
-            checkMark = new Image(Resources.checkMark);
-            checkMark.SetFill(FillType.All);
-            Add(checkMark);
-
             toggle.targetGraphic = background.image;
-            toggle.graphic = checkMark.image;
 
             // Destroy mouse handlers
             background.DestroyMouseHandler();
-            checkMark.DestroyMouseHandler();
 
             // Add listeners
             onClick.AddListener(() => {
@@ -78,10 +91,35 @@ namespace UILib.Components {
                     return;
                 }
 
+                UpdateOffImage(val);
                 onValueChanged.Invoke(val);
             });
 
+            // Set the default "on" image
+            Image onImage = new Image(Resources.checkMark);
+            onImage.SetFill(FillType.All);
+            SetOnImage(onImage);
+
             SetThisTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Updates the state of the off image.
+         * </summary>
+         * <param name="value">The current value of the toggle</param>
+         */
+        private void UpdateOffImage(bool value) {
+            if (offImage == null) {
+                return;
+            }
+
+            if (value == true) {
+                offImage.Hide();
+            }
+            else {
+                offImage.Show();
+            }
         }
 
         /**
@@ -96,6 +134,37 @@ namespace UILib.Components {
 
             internalChange = true;
             toggle.isOn = value;
+            UpdateOffImage(value);
+        }
+
+        /**
+         * <summary>
+         * Sets the image to display in the "on" state.
+         * </summary>
+         * <param name="image">The image to display</param>
+         */
+        public void SetOnImage(Image onImage) {
+            this.onImage = onImage;
+            Add(onImage);
+
+            onImage.DestroyMouseHandler();
+
+            toggle.graphic = onImage.image;
+        }
+
+        /**
+         * <summary>
+         * Sets the image to display in the "off" state.
+         * </summary>
+         * <param name="image">The image to display</param>
+         */
+        public void SetOffImage(Image offImage) {
+            this.offImage = offImage;
+            Add(offImage);
+
+            offImage.DestroyMouseHandler();
+
+            UpdateOffImage(value);
         }
 
         /**
@@ -106,7 +175,14 @@ namespace UILib.Components {
          */
         protected override void SetThisTheme(Theme theme) {
             toggle.colors = theme.blockSelect;
-            checkMark.SetColor(theme.foreground);
+
+            if (onImage != null) {
+                onImage.SetColor(theme.foreground);
+            }
+
+            if (offImage != null) {
+                offImage.SetColor(theme.foreground);
+            }
         }
     }
 }

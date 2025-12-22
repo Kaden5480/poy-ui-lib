@@ -5,6 +5,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using ModMenu;
+using ModMenu.Views;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -57,20 +58,24 @@ namespace UILib {
 
             // Button to display the intro
             info.onBuild.AddListener((ModView view) => {
-                Area area = new Area();
-                area.SetFill(FillType.All);
-                area.SetContentLayout(LayoutType.Vertical);
-                area.SetElementSpacing(20f);
-
-                UIButton themeButton = new UIButton("Change Theme", 20);
+                UIButton themeButton = new UIButton(
+                    UILib.Config.selectedTheme.Value, 20
+                );
                 themeButton.SetSize(200f, 40f);
                 themeButton.onClick.AddListener(() => {
                     if (themePicker == null) {
                         themePicker = new ThemePicker();
+                        themePicker.onValueChanged.AddListener((Theme theme) => {
+                            themeButton.SetText(theme.name);
+                        });
                     }
 
                     themePicker.ToggleVisibility();
                 });
+
+                view.Add(
+                    "General", "Current Theme", themeButton
+                );
 
                 UIButton introButton = new UIButton("Show Intro", 20);
                 introButton.SetSize(200f, 40f);
@@ -82,10 +87,10 @@ namespace UILib {
                     intro.window.ToggleVisibility();
                 });
 
-                area.Add(themeButton);
-                area.Add(introButton);
-
-                view.Add("Extras", area);
+                view.Add(
+                    "Extras", introButton,
+                    new MetaData(new[] { "Show Intro" })
+                );
             });
         }
 

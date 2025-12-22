@@ -1,5 +1,6 @@
 using System;
 
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 using UIButton = UILib.Components.Button;
@@ -13,7 +14,12 @@ namespace UILib.Misc {
      * </summary>
      */
     internal class ThemePicker : Window {
+        // Label containing extra description
         private Label extraLabel;
+
+        // Event for indicating theme changes.
+        internal ValueEvent<Theme> onValueChanged { get; private set; }
+            = new ValueEvent<Theme>();
 
         /**
          * <summary>
@@ -74,6 +80,7 @@ namespace UILib.Misc {
         internal void UpdateTheme(Theme theme) {
             SetTheme(theme);
             extraLabel.SetColor(theme.selectAltHighlight);
+            onValueChanged.Invoke(theme);
         }
     }
 }

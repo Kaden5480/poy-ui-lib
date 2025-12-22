@@ -15,7 +15,6 @@ namespace UILib {
         [Field("Show Intro on Startup")]
         internal static ConfigEntry<bool> showIntro { get; private set; }
 
-        [Field("Current Theme", FieldType.ReadOnly)]
         internal static ConfigEntry<string> selectedTheme { get; private set; }
 
         // Keybinds

@@ -66,6 +66,12 @@ namespace UILibExamples {
             toggle.onValueChanged.AddListener((bool value) => {
                 Notifier.Notify("Toggle", $"Value was changed to: {value}");
             });
+
+            // Set a custom off image
+            Image offImage = new Image(UILib.Resources.circle);
+            offImage.SetFill(FillType.All);
+            toggle.SetOffImage(offImage);
+
             window.Add(toggle);
 
 #endregion

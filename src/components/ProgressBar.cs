@@ -17,8 +17,19 @@ namespace UILib.Components {
          */
         public float progress { get; private set; } = 0f;
 
-        private Image background;
-        private Image fill;
+        /**
+         * <summary>
+         * The background for this progress bar.
+         * </summary>
+         */
+        public Image background { get; private set; }
+
+        /**
+         * <summary>
+         * The fill for this progress bar.
+         * </summary>
+         */
+        public Image fill { get; private set; }
 
         /**
          * <summary>

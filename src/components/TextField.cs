@@ -144,10 +144,7 @@ namespace UILib.Components {
             Click = 1 << 1,
         }
 
-        private Label placeholder;
-        private Label input;
-
-        private UEImage background;
+        // The underlying input field
         private CustomInputField inputField;
 
         // Whether the pointer is currently inside
@@ -158,6 +155,27 @@ namespace UILib.Components {
 
         // The predicate used for validating the user's input
         private Func<string, bool> predicate;
+
+        /**
+         * <summary>
+         * The background of this text field.
+         * </summary>
+         */
+        public UEImage background { get; private set; }
+
+        /**
+         * <summary>
+         * The placeholder label.
+         * </summary>
+         */
+        public Label placeholder { get; private set; }
+
+        /**
+         * <summary>
+         * The label containing the user input.
+         * </summary>
+         */
+        public Label input { get; private set; }
 
         /**
          * <summary>
@@ -475,7 +493,10 @@ namespace UILib.Components {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
-            background.color = theme.selectNormal;
+            if (background != null) {
+                background.color = theme.selectNormal;
+            }
+
             placeholder.text.color = theme.selectAltNormal;
             placeholder.text.font = theme.fontAlt;
             input.text.font = theme.fontAlt;

@@ -126,8 +126,7 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Allows setting the theme of this button
-         * and all children.
+         * Allows setting the theme of this button.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */

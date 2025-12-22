@@ -9,7 +9,12 @@ namespace UILib.Components {
      * </summary>
      */
     public class QueueArea : Area {
-        private int limit;
+        /**
+         * <summary>
+         * The currently configured limit for this queue area.
+         * </summary>
+         */
+        public int limit { get; private set; }
 
         /**
          * <summary>

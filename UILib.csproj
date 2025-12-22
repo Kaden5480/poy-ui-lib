@@ -62,6 +62,16 @@
     </Reference>
   </ItemGroup>
 
+  <PropertyGroup Condition="$(ModMenu) != false">
+    <DefineConstants>MODMENU</DefineConstants>
+  </PropertyGroup>
+
+  <Target
+    Name="ModMenuStatus"
+    BeforeTargets="BeforeCompile">
+    <Message Condition="$(ModMenu) == false" Importance="high" Text="!!! Building without Mod Menu integration !!!"/>
+  </Target>
+
   <ItemGroup>
     <EmbeddedResource Include="res/uilib.bundle"/>
   </ItemGroup>

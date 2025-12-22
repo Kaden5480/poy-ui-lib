@@ -52,8 +52,9 @@ or by selecting Build -> Build Solution.
 The following can be configured:
 - The path Peaks of Yore is installed at
 - Whether the mod should automatically install on build
+- Whether integration with [Mod Menu](https://github.com/Kaden5480/poy-mod-menu) should be enabled
 
-Note that both of these properties are optional.
+Note that all of these properties are optional.
 
 The configuration file must be in the root of this repository and must be called "Config.props".
 ```xml
@@ -64,6 +65,10 @@ The configuration file must be in the root of this repository and must be called
 
     <!-- Add this option if you want to install after building -->
     <InstallAfterBuild>true</InstallAfterBuild>
+
+    <!-- Add this option if you want to disable mod menu integration
+        This is useful for bootstrapping UILib -->
+    <ModMenu>false</ModMenu>
   </PropertyGroup>
 </Project>
 ```

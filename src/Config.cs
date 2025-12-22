@@ -1,6 +1,9 @@
 using BepInEx.Configuration;
-using ModMenu.Config;
 using UnityEngine;
+
+#if MODMENU
+using ModMenu.Config;
+#endif
 
 using UILib.ColorPicker;
 
@@ -11,6 +14,7 @@ namespace UILib {
      * </summary>
      */
     internal static class Config {
+#if MODMENU
         // General
         [Field("Show Intro on Startup")]
         internal static ConfigEntry<bool> showIntro { get; private set; }
@@ -33,6 +37,12 @@ namespace UILib {
         [Category("Window Management")]
         [Field("Focus on Hover")]
         internal static ConfigEntry<bool> focusOnHover { get; private set; }
+#else
+        internal static ConfigEntry<bool> showIntro { get; private set; }
+        internal static ConfigEntry<string> selectedTheme { get; private set; }
+        internal static ConfigEntry<KeyCode> openColorPicker { get; private set; }
+        internal static ConfigEntry<bool> focusOnHover { get; private set; }
+#endif
 
         /**
          * <summary>

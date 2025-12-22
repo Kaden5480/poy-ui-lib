@@ -4,8 +4,12 @@ using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+
+#if MODMENU
 using ModMenu;
 using ModMenu.Views;
+#endif
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -37,14 +41,17 @@ namespace UILib {
             SceneManager.sceneLoaded += OnSceneLoaded;
             SceneManager.sceneUnloaded += OnSceneUnloaded;
 
+#if MODMENU
             if (AccessTools.AllAssemblies().FirstOrDefault(
                     a => a.GetName().Name == "ModMenu"
                 ) != null
             ) {
                 Register();
             }
+#endif
         }
 
+#if MODMENU
         /**
          * <summary>
          * Register with Mod Menu.
@@ -94,6 +101,7 @@ namespace UILib {
                 );
             });
         }
+#endif
 
         /**
          * <summary>

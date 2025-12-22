@@ -286,7 +286,7 @@ namespace UILib {
 
             // Check the current input state
             if (AllKeysDown() == false) {
-                Reset();
+                hasTriggered = false;
                 return;
             }
 

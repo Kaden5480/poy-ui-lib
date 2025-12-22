@@ -507,6 +507,10 @@ namespace UILib {
          * </summary>
          */
         internal void ShowTooltip() {
+            if (UIRoot.tooltipOverlay == null) {
+                return;
+            }
+
             if (tooltip == null) {
                 if (parent != null) {
                     parent.ShowTooltip();
@@ -524,6 +528,10 @@ namespace UILib {
          * </summary>
          */
         internal void HideTooltip() {
+            if (UIRoot.tooltipOverlay == null) {
+                return;
+            }
+
             UIRoot.tooltipOverlay.HideTooltip(this);
         }
 

@@ -88,10 +88,6 @@ namespace UILib {
             source.clip = theme.navigationSound;
             source.volume = theme.navigationSoundVolume;
 
-            if (source.clip == null) {
-                source.clip = Resources.gameMenuClick;
-            }
-
             source.Play();
         }
 

@@ -605,8 +605,6 @@ namespace UILib {
         /**
          * <summary>
          * The sound to play in place of the game's built-in click sound.
-         *
-         * Setting this to null means the built-in click sound will be used instead.
          * </summary>
          */
         public AudioClip navigationSound = Resources.gameMenuClick;

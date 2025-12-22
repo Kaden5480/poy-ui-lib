@@ -25,7 +25,12 @@ namespace UILib.Components {
          */
         public UEButton button { get; private set; }
 
-        private Image background;
+        /**
+         * <summary>
+         * The button's background.
+         * </summary>
+         */
+        public Image background { get; private set; }
 
         /**
          * <summary>

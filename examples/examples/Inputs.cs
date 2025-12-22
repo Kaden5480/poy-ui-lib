@@ -56,6 +56,11 @@ namespace UILibExamples {
                     NotificationType.Error
                 );
             });
+            notifyButton.SetTooltip(
+                "This is a cool notification button that sends a huge notification."
+                + " Like the giant notification, this tooltip is written to be unnecessarily long,"
+                + " just to see how UILib handles very long tooltips."
+            );
             notifyButton.SetSize(200f, 40f);
             window.Add(notifyButton);
 

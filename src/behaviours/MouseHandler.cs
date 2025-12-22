@@ -14,6 +14,31 @@ namespace UILib.Behaviours {
         IBeginDragHandler, IDragHandler
     {
 
+#region Enable/Disable Events
+
+        internal UnityEvent onEnable { get; } = new UnityEvent();
+        internal UnityEvent onDisable { get; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Executes when this behaviour is enabled.
+         * </summary>
+         */
+        private void OnEnable() {
+            onEnable.Invoke();
+        }
+
+        /**
+         * <summary>
+         * Executes when this behaviour is disabled.
+         * </summary>
+         */
+        private void OnDisable() {
+            onDisable.Invoke();
+        }
+
+#endregion
+
 #region Hover Events
 
         internal UnityEvent onPointerEnter { get; } = new UnityEvent();

@@ -66,12 +66,16 @@ namespace UILib {
         // Sorting order for the notification area
         internal const int notificationSortingOrder = 9999;
 
+        // Tooltip sorting order
+        internal const int tooltipOverlaySortingOrder = 10000;
+
         // UIRoot's GameObject
         private static GameObject gameObject;
 
         // The input overlay and notification area
         internal static InputOverlay inputOverlay;
         internal static NotificationArea notificationArea;
+        internal static TooltipOverlay tooltipOverlay;
 
         // The color picker window
         internal static ColorPickerWindow colorPickerWindow;
@@ -122,6 +126,10 @@ namespace UILib {
             // Initialize the color picker
             colorPickerWindow = new ColorPickerWindow();
 
+            // Initialize tooltip overlay
+            tooltipOverlay = new TooltipOverlay();
+            UIObject.SetParent(gameObject, tooltipOverlay.canvas.gameObject);
+
             onInit.Invoke();
         }
 
@@ -142,6 +150,7 @@ namespace UILib {
 
             inputOverlay.canvas.canvas.sortingOrder = inputOverlaySortingOrder;
             notificationArea.canvas.canvas.sortingOrder = notificationSortingOrder;
+            tooltipOverlay.canvas.canvas.sortingOrder = tooltipOverlaySortingOrder;
 
             isInitialized = true;
             onWMInit.Invoke();
@@ -195,6 +204,7 @@ namespace UILib {
 
             inputOverlay.canvas.Show();
             notificationArea.canvas.Show();
+            tooltipOverlay.canvas.Show();
         }
 
         /**

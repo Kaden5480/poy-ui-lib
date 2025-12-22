@@ -43,6 +43,13 @@ namespace UILib {
 
         /**
          * <summary>
+         * This UIObject's tooltip.
+         * </summary>
+         */
+        public string tooltip { get; private set; }
+
+        /**
+         * <summary>
          * The theme currently applied to this UIObject.
          * </summary>
          */
@@ -87,9 +94,23 @@ namespace UILib {
         // by default
         private UIObject content;
 
-#region Hover/Click/Drag Events
+#region Enable/Hover/Click/Drag Events
 
         internal MouseHandler mouseHandler { get; private set; }
+
+        /**
+         * <summary>
+         * Invokes listeners when this UIObject is enabled (shown).
+         * </summary>
+         */
+        public virtual UnityEvent onEnable { get => mouseHandler.onEnable; }
+
+        /**
+         * <summary>
+         * Invokes listeners when this UIObject is disabled (hidden).
+         * </summary>
+         */
+        public virtual UnityEvent onDisable { get => mouseHandler.onDisable; }
 
         /**
          * <summary>
@@ -221,6 +242,11 @@ namespace UILib {
             onBeginDrag.AddListener(OnBeginDrag);
             onDrag.AddListener(OnDrag);
             onEndDrag.AddListener(OnEndDrag);
+
+            // Tooltip events
+            onPointerEnter.AddListener(ShowTooltip);
+            onPointerExit.AddListener(HideTooltip);
+            onDisable.AddListener(HideTooltip);
 
             SetAnchor(AnchorType.Middle);
 
@@ -457,6 +483,48 @@ namespace UILib {
             for (int i = 0; i < children.Count; i++) {
                 children[i].Destroy();
             }
+
+            HideTooltip();
+        }
+
+#endregion
+
+#region Tooltips
+
+        /**
+         * <summary>
+         * Sets the tooltip for this UIObject.
+         * </summary>
+         * <param name="tooltip">The tooltip to display</param>
+         */
+        public void SetTooltip(string tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        /**
+         * <summary>
+         * Displays this UIObject's tooltip.
+         * </summary>
+         */
+        internal void ShowTooltip() {
+            if (tooltip == null) {
+                if (parent != null) {
+                    parent.ShowTooltip();
+                }
+
+                return;
+            }
+
+            UIRoot.tooltipOverlay.ShowTooltip(this);
+        }
+
+        /**
+         * <summary>
+         * Hides this UIObject's tooltip.
+         * </summary>
+         */
+        internal void HideTooltip() {
+            UIRoot.tooltipOverlay.HideTooltip(this);
         }
 
 #endregion

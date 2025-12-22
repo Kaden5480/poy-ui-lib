@@ -61,6 +61,12 @@ namespace UILib.Components {
                 UIRoot.colorPickerWindow.Link(this);
             });
 
+            onDisable.AddListener(() => {
+                if (UIRoot.colorPickerWindow != null) {
+                    UIRoot.colorPickerWindow.Unlink(this);
+                }
+            });
+
             preview.DestroyMouseHandler();
         }
 

@@ -78,7 +78,9 @@ namespace UILib.ColorPicker {
 
             UIButton doneButton = new UIButton("Done", 20);
             doneButton.SetSize(100f, 30f);
-            doneButton.onClick.AddListener(Hide);
+            doneButton.onClick.AddListener(() => {
+                Unlink(updater.current);
+            });
             Add(doneButton);
 
             updater.Init();
@@ -90,7 +92,7 @@ namespace UILib.ColorPicker {
                     OpenDetached();
                 }
                 else {
-                    Hide();
+                    Unlink(updater.current);
                 }
             });
             UIRoot.AddShortcut(toggleShortcut);
@@ -129,7 +131,7 @@ namespace UILib.ColorPicker {
          * </summary>
          */
         internal void OpenDetached() {
-            Unlink();
+            Unlink(updater.current);
             SetTheme(Theme.GetThemeUnsafe());
 
             updater.SetColor(Color.white);
@@ -151,7 +153,7 @@ namespace UILib.ColorPicker {
          * <param name="theme">The theme to use</param>
          */
         internal void Link(ColorField field) {
-            Unlink();
+            Unlink(updater.current);
             updater.current = field;
             updater.SetColor(field.value);
             SetTheme(field.theme);
@@ -171,24 +173,28 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
-         * Unlinks the currently selected color field.
+         * Unlinks a color field.
          * </summary>
+         * <param name="field">The field to unlink</param>
          */
-        internal void Unlink() {
-            if (updater.current == null) {
+        internal void Unlink(ColorField field) {
+            if (updater.current != field) {
                 return;
             }
 
-            Color color = Colors.RGBA(
-                updater.red, updater.green,
-                updater.blue, updater.opacity
-            );
+            if (updater.current != null) {
+                Color color = Colors.RGBA(
+                    updater.red, updater.green,
+                    updater.blue, updater.opacity
+                );
 
-            updater.current.SetValue(color);
-            updater.current.onSubmit.Invoke(color);
+                updater.current.SetValue(color);
+                updater.current.onSubmit.Invoke(color);
+            }
 
             updater.current = null;
             updater.SetColor(Color.white);
+            Hide();
         }
 
         /**
@@ -198,22 +204,6 @@ namespace UILib.ColorPicker {
          */
         public override void Hide() {
             base.Hide();
-            Unlink();
-        }
-
-        /**
-         * <summary>
-         * Checks to see if the color field is hidden.
-         * </summary>
-         */
-        internal void Update() {
-            if (updater.current == null) {
-                return;
-            }
-
-            if (updater.current.gameObject.activeInHierarchy == false) {
-                Hide();
-            }
         }
 
 #region UI Creation

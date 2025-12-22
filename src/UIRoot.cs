@@ -301,10 +301,6 @@ namespace UILib {
          * </summary>
          */
         internal static void Update() {
-            if (colorPickerWindow != null) {
-                colorPickerWindow.Update();
-            }
-
             if (Input.GetMouseButtonDown(0) == false
                 && Input.GetMouseButtonDown(1) == false
             ) {

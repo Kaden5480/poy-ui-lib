@@ -56,8 +56,8 @@ namespace UILib {
 
             info.Add(typeof(UILib.Config));
 
-            // Button to display the intro
             info.onBuild.AddListener((ModView view) => {
+                // Button to open the theme picker
                 UIButton themeButton = new UIButton(
                     UILib.Config.selectedTheme.Value, 20
                 );
@@ -77,6 +77,7 @@ namespace UILib {
                     "General", "Current Theme", themeButton
                 );
 
+                // Button to display the intro
                 UIButton introButton = new UIButton("Show Intro", 20);
                 introButton.SetSize(200f, 40f);
                 introButton.onClick.AddListener(() => {

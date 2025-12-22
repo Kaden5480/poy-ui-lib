@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -271,19 +272,15 @@ namespace UILib {
          * Local shortcuts are triggered whenever
          * all keys configured in the shortcut are pressed.
          * </summary>
-         * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
-         * <returns>The <see cref="Shortcut"/> which was created</returns>
+         * <param name="shortcut">The shortcut to add</param>
          */
-        public Shortcut AddShortcut(IList<KeyCode> keys) {
+        public void AddShortcut(Shortcut shortcut) {
             if (localShortcuts == null) {
                 localShortcuts = gameObject.AddComponent<LocalShortcuts>();
                 localShortcuts.overlay = this;
             }
 
-            Shortcut shortcut = new Shortcut(keys);
             localShortcuts.Add(shortcut);
-
-            return shortcut;
         }
 
 #endregion

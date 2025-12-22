@@ -39,10 +39,11 @@ namespace UILibExamples {
             overlay.Add(label);
 
             // Assign a global shortcut
-            Shortcut shortcut = UIRoot.AddShortcut(new[] { KeyCode.PageUp });
+            Shortcut shortcut = new Shortcut(new[] { KeyCode.PageUp });
             shortcut.onTrigger.AddListener(() => {
                 ManageHandle();
             });
+            UIRoot.AddShortcut(shortcut);
         }
 
         public void ManageHandle() {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 
+using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -204,14 +205,10 @@ namespace UILib {
          * This is the recommended way of handling global shortcuts
          * when working with UILib.
          * </summary>
-         * <param name="keys">The keys which must be pressed for this shortcut to trigger</param>
-         * <returns>The <see cref="Shortcut"/> which was created</returns>
+         * <param name="shortcut">The shortcut to add</param>
          */
-        public static Shortcut AddShortcut(IList<KeyCode> keys) {
-            Shortcut shortcut = new Shortcut(keys);
+        public static void AddShortcut(Shortcut shortcut) {
             globalShortcuts.Add(shortcut);
-
-            return shortcut;
         }
 
 

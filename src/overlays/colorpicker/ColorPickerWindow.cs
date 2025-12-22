@@ -20,12 +20,6 @@ namespace UILib.ColorPicker {
         private Area opacityArea;
         private Slider opacitySlider;
 
-        internal static Shortcut toggleShortcut;
-
-        internal static void UpdateShortcut(KeyCode shortcut) {
-            toggleShortcut.SetShortcut(new[] { shortcut });
-        }
-
         /**
          * <summary>
          * Initializes the color picker window.
@@ -90,7 +84,7 @@ namespace UILib.ColorPicker {
             updater.Init();
 
             // Register shortcut
-            toggleShortcut = UIRoot.AddShortcut(new[] { Config.openColorPicker.Value });
+            Shortcut toggleShortcut = new Shortcut(new[] { Config.openColorPicker });
             toggleShortcut.onTrigger.AddListener(() => {
                 if (isVisible == false || updater.current != null) {
                     OpenDetached();
@@ -99,6 +93,7 @@ namespace UILib.ColorPicker {
                     Hide();
                 }
             });
+            UIRoot.AddShortcut(toggleShortcut);
 
             // Set the theme
             SetThisTheme(theme);

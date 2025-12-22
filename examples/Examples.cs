@@ -55,10 +55,11 @@ namespace UILibExamples {
             AddExample(themes);
 
             // Global shortcut for toggling UI
-            Shortcut shortcut = UIRoot.AddShortcut(new[] { KeyCode.Tab });
+            Shortcut shortcut = new Shortcut(new[] { KeyCode.Tab });
             shortcut.onTrigger.AddListener(() => {
                 overlay.ToggleVisibility();
             });
+            UIRoot.AddShortcut(shortcut);
         }
 
         /**

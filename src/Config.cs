@@ -27,7 +27,6 @@ namespace UILib {
         private const string resizeWindow = "Left Alt + Right Click";
 
         [Field("Open Color Picker")]
-        [Listener(typeof(ColorPickerWindow), nameof(ColorPickerWindow.UpdateShortcut))]
         internal static ConfigEntry<KeyCode> openColorPicker { get; private set; }
 
         // Window Management

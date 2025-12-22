@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -84,17 +85,52 @@ namespace UILib {
          */
         public Dictionary<KeyCode, bool> keys { get; private set; }
 
+        /**
+         * <summary>
+         * Like <see cref="keys"/> but holds the BepInEx
+         * `ConfigEntry` keys.
+         * </summary>
+         */
+        public Dictionary<ConfigEntry<KeyCode>, bool> bepInKeys { get; private set; }
+
         // Whether onTrigger has been called
         private bool hasTriggered = false;
 
         /**
          * <summary>
-         * Initializes a shortcut
+         * Initializes a shortcut using the provided `KeyCodes`.
+         *
+         * All `keys` must be down for the shortcut to trigger.
          * </summary>
-         * <param name="keys">The shortcut</param>
+         * <param name="keys">The keys for the shortcut</param>
          */
-        internal Shortcut(IList<KeyCode> keys) {
-            SetShortcut(keys);
+        public Shortcut(IList<KeyCode> keys) : this(keys, null) {}
+
+        /**
+         * <summary>
+         * Initializes a shortcut using the provided `KeyCodes`
+         * wrapped in BepInEx `ConfigEntry` types.
+         *
+         * All `keys` must be down for the shortcut to trigger.
+         * </summary>
+         * <param name="keys">The keys for the shortcut</param>
+         */
+        public Shortcut(IList<ConfigEntry<KeyCode>> keys) : this(null, keys) {}
+
+        /**
+         * <summary>
+         * Initializes a shortcut.
+         *
+         * Both arguments are optional.
+         *
+         * All provided `keys` and `bepInKeys` must be down
+         * for the shortcut to trigger.
+         * </summary>
+         * <param name="keys">The shortcut's plain keys</param>
+         * <param name="bepInKeys">The shortcut's BepInEx `ConfigEntry` keys</param>
+         */
+        public Shortcut(IList<KeyCode> keys = null, IList<ConfigEntry<KeyCode>> bepInKeys = null) {
+            SetShortcut(keys, bepInKeys);
         }
 
         /**
@@ -119,19 +155,72 @@ namespace UILib {
          */
         public void Disable() {
             this.enabled = false;
+            Reset();
         }
 
         /**
          * <summary>
          * Sets a different shortcut to use instead.
+         *
+         * Both arguments are optional.
+         *
+         * All provided `keys` and `bepInKeys` must be down
+         * for the shortcut to trigger.
          * </summary>
          * <param name="keys">The new shortcut</param>
          */
-        public void SetShortcut(IList<KeyCode> keys) {
+        public void SetShortcut(IList<KeyCode> keys = null, IList<ConfigEntry<KeyCode>> bepInKeys = null) {
             this.keys = new Dictionary<KeyCode, bool>();
+            this.bepInKeys = new Dictionary<ConfigEntry<KeyCode>, bool>();
 
-            foreach (KeyCode key in keys) {
-                this.keys[key] = false;
+            if (keys != null) {
+                foreach (KeyCode key in keys) {
+                    this.keys[key] = false;
+                }
+            }
+
+            if (bepInKeys != null) {
+                foreach (ConfigEntry<KeyCode> key in bepInKeys) {
+                    this.bepInKeys[key] = false;
+                }
+            }
+        }
+
+        /**
+         * <summary>
+         * Updates which keys are down.
+         * </summary>
+         */
+        internal void UpdateKeysDown() {
+            foreach (KeyCode key in keys.Keys.ToList()) {
+                if (Input.GetKeyDown(key) == true) {
+                    keys[key] = true;
+                }
+            }
+
+            foreach (ConfigEntry<KeyCode> key in bepInKeys.Keys.ToList()) {
+                if (Input.GetKeyDown(key.Value) == true) {
+                    bepInKeys[key] = true;
+                }
+            }
+        }
+
+        /**
+         * <summary>
+         * Updates which keys are up.
+         * </summary>
+         */
+        internal void UpdateKeysUp() {
+            foreach (KeyCode key in keys.Keys.ToList()) {
+                if (Input.GetKeyUp(key) == true) {
+                    keys[key] = false;
+                }
+            }
+
+            foreach (ConfigEntry<KeyCode> key in bepInKeys.Keys.ToList()) {
+                if (Input.GetKeyUp(key.Value) == true) {
+                    bepInKeys[key] = false;
+                }
             }
         }
 
@@ -145,37 +234,11 @@ namespace UILib {
                 keys[key] = false;
             }
 
+            foreach (ConfigEntry<KeyCode> key in bepInKeys.Keys.ToList()) {
+                bepInKeys[key] = false;
+            }
+
             hasTriggered = false;
-        }
-
-        /**
-         * <summary>
-         * Tracks key releases.
-         * </summary>
-         */
-        internal void UpdateKeysUp() {
-            foreach (KeyCode key in keys.Keys.ToList()) {
-                if (Input.GetKeyUp(key) == true) {
-                    keys[key] = false;
-                }
-            }
-        }
-
-        /**
-         * <summary>
-         * Updates the keys which are currently down.
-         * </summary>
-         */
-        internal void UpdateKeysDown() {
-            foreach (KeyCode key in keys.Keys.ToList()) {
-                if (Input.GetKeyDown(key) == true) {
-                    keys[key] = true;
-                }
-            }
-
-            if (AllKeysDown() == false) {
-                hasTriggered = false;
-            }
         }
 
         /**
@@ -185,12 +248,25 @@ namespace UILib {
          * <returns>True if they are, false otherwise</returns>
          */
         private bool AllKeysDown() {
-            // If keys is empty, just do nothing
-            if (keys.Count < 1) {
+            // If keys are empty, just do nothing
+            if (keys.Count < 1 && bepInKeys.Count < 1) {
                 return false;
             }
 
-            return keys.Values.All(isDown => isDown);
+            // Check if all keys are down
+            foreach (bool down in keys.Values) {
+                if (down == false) {
+                    return false;
+                }
+            }
+
+            foreach (bool down in bepInKeys.Values) {
+                if (down == false) {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /**
@@ -205,10 +281,12 @@ namespace UILib {
                 return;
             }
 
+            // Check which keys are down
             UpdateKeysDown();
 
             // Check the current input state
             if (AllKeysDown() == false) {
+                Reset();
                 return;
             }
 
@@ -260,7 +338,7 @@ namespace UILib {
          * </summary>
          */
         internal virtual void Update() {
-            // Always need to update keys down
+            // Always update keys up
             foreach (Shortcut shortcut in shortcuts) {
                 shortcut.UpdateKeysUp();
             }

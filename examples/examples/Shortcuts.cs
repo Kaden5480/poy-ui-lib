@@ -37,16 +37,18 @@ namespace UILibExamples {
             window.Add(localLabel);
 
             // Add the local shortcut
-            Shortcut localShortcut = window.AddShortcut(new[] { KeyCode.Home });
+            Shortcut localShortcut = new Shortcut(new[] { KeyCode.Home });
             localShortcut.onTrigger.AddListener(() => {
                 Notifier.Notify("Shortcuts", "You triggered the local shortcut!");
             });
+            window.AddShortcut(localShortcut);
 
             // Add a global shortcut
-            Shortcut globalShortcut = UIRoot.AddShortcut(new[] { KeyCode.End });
+            Shortcut globalShortcut = new Shortcut(new[] { KeyCode.End });
             globalShortcut.onTrigger.AddListener(() => {
                 Toggle();
             });
+            UIRoot.AddShortcut(globalShortcut);
         }
 
         public override void Toggle() {

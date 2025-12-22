@@ -22,6 +22,7 @@ namespace UILib {
 
         // Fading in/out
         private float fadeTime = 0.25f;
+        private float maxOpacity = 1f;
         private CanvasGroup canvasGroup;
         private IEnumerator showRoutine;
         private IEnumerator hideRoutine;
@@ -73,8 +74,29 @@ namespace UILib {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
-            background.SetColor(theme.background);
+            background.SetColor(theme.accent);
             tooltipLabel.SetColor(theme.foreground);
+        }
+
+        /**
+         * <summary>
+         * Moves the tooltip to the given UIObject.
+         * </summary>
+         * <param name="obj">The object to move to</param>
+         */
+        internal void MoveTo(UIObject obj) {
+            Vector2 position = obj.rectTransform.position;
+            Vector2 pivot = obj.rectTransform.pivot;
+            Vector2 size = obj.rectTransform.sizeDelta;
+
+            RectTransform rect = tooltipLabel.rectTransform;
+
+            Vector2 offset = new Vector2(
+                0f, (size.y*pivot.y) + 10f + (rect.sizeDelta.y*rect.pivot.y)
+            );
+
+            // Move to the UIObject
+            rectTransform.position = position + offset;
         }
 
         /**
@@ -91,29 +113,33 @@ namespace UILib {
 
             current = obj;
 
-            // Use new text and position
+            // Use the new object's theme
+            SetTheme(obj.theme);
+
+            // Move off the screen, yes this is a bit of a hack
+            // It prevents cases where the tooltip could cover up
+            // the object being selected (which would immediately hide it again)
+            rectTransform.position = new Vector2(
+                9999f, 9999f
+            );
+
+            // Use new text
             tooltipLabel.SetText(obj.tooltip);
 
-            Vector2 position = obj.rectTransform.position;
-            Vector2 pivot = obj.rectTransform.pivot;
-            Vector2 size = obj.rectTransform.sizeDelta;
-
-            // Move to the UIObject
-            rectTransform.position = position
-                + new Vector2(
-                    0f, size.y*(pivot.y + rectTransform.pivot.y)
-                );
+            yield return null;
 
             // Begin fading in
             float timer = 0f;
             while (timer < fadeTime) {
-                canvasGroup.alpha = timer / fadeTime;
+                MoveTo(obj);
+                canvasGroup.alpha = (timer / fadeTime) * maxOpacity;
                 timer += Time.deltaTime;
 
                 yield return null;
             }
 
-            // Finish
+            canvasGroup.alpha = maxOpacity;
+
             showRoutine = null;
             yield break;
         }
@@ -134,7 +160,7 @@ namespace UILib {
             // Begin fading out from current opacity
             float timer = fadeTime * canvasGroup.alpha;
             while (timer > 0f) {
-                canvasGroup.alpha = timer / fadeTime;
+                canvasGroup.alpha = (timer / fadeTime) * maxOpacity;
                 timer -= Time.deltaTime;
 
                 yield return null;

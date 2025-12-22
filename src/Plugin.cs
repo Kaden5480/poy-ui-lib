@@ -82,7 +82,7 @@ namespace UILib {
 
                 view.Add(
                     "General", "Current Theme", themeButton,
-                    new MetaData(null, "Change the default UILib theme")
+                    new MetaData(null, "Change the default UILib theme.")
                 );
 
                 // Button to display the intro
@@ -98,7 +98,7 @@ namespace UILib {
 
                 view.Add(
                     "Extras", introButton,
-                    new MetaData(new[] { "Show Intro" }, "Shows the UILib intro")
+                    new MetaData(new[] { "Show Intro" }, "Shows the UILib intro.")
                 );
             });
         }

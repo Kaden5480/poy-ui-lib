@@ -3,7 +3,7 @@
     <TargetFramework>net472</TargetFramework>
     <Platform>Any CPU</Platform>
     <AssemblyName>UILib</AssemblyName>
-    <Description>A UI library for Peaks of Yore</Description>
+    <Description>A UI library for Peaks of Yore.</Description>
     <Version>0.4.0</Version>
     <RootNamespace>$(AssemblyName)</RootNamespace>
     <Configurations>Debug;Release</Configurations>

@@ -54,24 +54,24 @@ namespace UILib {
             // General
             showIntro = configFile.Bind(
                 "General", "showIntro", true,
-                "Whether to show the intro on startup"
+                "Whether to show the intro on startup."
             );
 
             selectedTheme = configFile.Bind(
                 "General", "selectedTheme", "Peaks Dark",
-                "The currently selected theme to use by default"
+                "The currently selected theme to use by default."
             );
 
             // Keybinds
             openColorPicker = configFile.Bind(
                 "Keybinds", "openColorPicker", KeyCode.F10,
-                "Keybind to open the color picker in a \"detached\" mode"
+                "Keybind to open the color picker in a \"detached\" mode."
             );
 
             // Window Management
             focusOnHover = configFile.Bind(
                 "WindowManagement", "focusOnHover", false,
-                "Whether windows should be focused when you hover over them"
+                "Whether windows should be focused when you hover over them."
             );
         }
     }

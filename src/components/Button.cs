@@ -46,13 +46,18 @@ namespace UILib.Components {
          */
         public Image image { get; private set; }
 
+        /**
+         * <summary>
+         * Invokes listeners when this button is clicked.
+         * </summary>
+         */
         public override UnityEvent onClick {
             get => (button == null) ? base.onClick : button.onClick;
         }
 
         /**
          * <summary>
-         * Initializes a button.
+         * Initializes a blank button.
          * </summary>
          */
         public Button() {
@@ -141,6 +146,10 @@ namespace UILib.Components {
          * <param name="texture">The texture to use instead</param>
          */
         public void SetBackground(Texture2D texture) {
+            if (background == null) {
+                return;
+            }
+
             background.SetTexture(texture);
         }
 

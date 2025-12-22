@@ -23,11 +23,11 @@ namespace UILib {
 
         // Keybinds
         [Category("Keybinds")]
-        [Field("Drag Window")]
+        [Field("Drag Window", "The shortcut to move a window from anywhere")]
         private const string dragWindow = "Left Alt + Left Click";
 
         [Category("Keybinds")]
-        [Field("Resize Window")]
+        [Field("Resize Window", "The shortcut to resize a window from anywhere")]
         private const string resizeWindow = "Left Alt + Right Click";
 
         [Field("Open Color Picker")]

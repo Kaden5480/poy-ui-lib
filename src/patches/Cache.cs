@@ -26,6 +26,7 @@ namespace UILib.Patches {
                 return null;
             }
 
+            logger.LogDebug($"Found {typeof(T)}");
             return all[0];
         }
 

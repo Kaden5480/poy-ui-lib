@@ -75,6 +75,28 @@ namespace UILib {
 
         /**
          * <summary>
+         * Plays the navigation sound from the provided theme.
+         *
+         * Passing `null` for the theme means the current theme will be used instead.
+         * </summary>
+         */
+        public static void PlayNavigation(Theme theme = null) {
+            if (theme == null) {
+                theme = Theme.GetThemeUnsafe();
+            }
+
+            source.clip = theme.navigationSound;
+            source.volume = theme.navigationSoundVolume;
+
+            if (source.clip == null) {
+                source.clip = Resources.gameMenuClick;
+            }
+
+            source.Play();
+        }
+
+        /**
+         * <summary>
          * Plays the <see cref="Resources.notification">default normal
          * notification sound</see>.
          * </summary>

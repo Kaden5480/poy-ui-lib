@@ -24,6 +24,7 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void Awake() {
+            Patch(typeof(Audio));
             Patch(typeof(InteractFixes));
             Patch(typeof(FadeFix));
             Patch(typeof(MenuFix));

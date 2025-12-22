@@ -36,6 +36,15 @@ namespace UILib {
 
         /**
          * <summary>
+         * The default Peaks of Yore menu click sound.
+         * </summary>
+         */
+        internal static AudioClip gameMenuClick { get; private set; } = LoadFromBundle<AudioClip>(
+            "MenuClick"
+        );
+
+        /**
+         * <summary>
          * The default checkmark used by Peaks of Yore.
          * </summary>
          */

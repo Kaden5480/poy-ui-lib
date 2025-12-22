@@ -197,15 +197,6 @@ namespace UILib.ColorPicker {
             Hide();
         }
 
-        /**
-         * <summary>
-         * Unlinks on hide.
-         * </summary>
-         */
-        public override void Hide() {
-            base.Hide();
-        }
-
 #region UI Creation
 
         /**

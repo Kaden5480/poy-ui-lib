@@ -61,6 +61,7 @@ namespace UILib {
             area.Add(background);
 
             tooltipLabel = new Label("", 20);
+            tooltipLabel.text.verticalOverflow = VerticalWrapMode.Overflow;
             tooltipLabel.SetSize(300f, 0f);
             tooltipLabel.SetFill(FillType.Vertical);
             background.Add(tooltipLabel);

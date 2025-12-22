@@ -92,6 +92,7 @@ namespace UILib.Components {
                 }
 
                 UpdateOffImage(val);
+                Audio.PlayNavigation(theme);
                 onValueChanged.Invoke(val);
             });
 

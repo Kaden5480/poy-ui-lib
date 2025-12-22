@@ -69,6 +69,7 @@ namespace UILib.Components {
             button = gameObject.AddComponent<UEButton>();
             button.targetGraphic = background.image;
             button.onClick.AddListener(() => {
+                Audio.PlayNavigation(theme);
                 EventSystem.current.SetSelectedGameObject(null);
             });
 

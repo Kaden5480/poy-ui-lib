@@ -41,12 +41,14 @@ namespace UILib {
          * <param name="theme">The theme to add</param>
          */
         public static void Register(Theme theme) {
-            if (theme.name == null) {
+            if (string.IsNullOrEmpty(theme.name) == true) {
                 Plugin.LogError("Tried registering a theme without a name");
                 return;
             }
 
-            if (themes.ContainsKey(theme.name) == true) {
+            if (theme.name == fallbackTheme.name
+                || themes.ContainsKey(theme.name) == true
+            ) {
                 Plugin.LogError($"Theme: {theme.name} has already been registered");
                 return;
             }
@@ -110,6 +112,10 @@ namespace UILib {
          * <param name="name">The name to use</param>
          */
         public Theme(string name) {
+            if (name != null) {
+                name = name.Trim();
+            }
+
             this.name = name;
         }
 

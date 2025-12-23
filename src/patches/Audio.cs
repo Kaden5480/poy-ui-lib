@@ -13,7 +13,7 @@ namespace UILib.Patches {
         [HarmonyPatch(typeof(AudioSource), "PlayHelper")]
         private static bool PatchPlay(AudioSource source) {
             // Do nothing on null sources
-            if (Cache.menuClicks == null || Cache.menuClicks.Count < 1) {
+            if (Cache.menuClicks.Count < 1) {
                 return true;
             }
 

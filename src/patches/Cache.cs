@@ -14,6 +14,7 @@ namespace UILib.Patches {
         private static Logger logger = new Logger(typeof(Cache));
 
         internal static List<AudioSource> menuClicks { get; private set; }
+            = new List<AudioSource>();
         internal static InGameMenu inGameMenu        { get; private set; }
         internal static PeakSummited peakSummited    { get; private set; }
         internal static PlayerManager playerManager  { get; private set; }
@@ -41,7 +42,7 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void FindObjects(Scene scene) {
-            menuClicks = new List<AudioSource>();
+            menuClicks.Clear();
 
             inGameMenu = Find<InGameMenu>();
             if (inGameMenu != null) {
@@ -86,7 +87,7 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void Clear() {
-            menuClicks = null;
+            menuClicks.Clear();
             inGameMenu = null;
             peakSummited = null;
             playerManager = null;

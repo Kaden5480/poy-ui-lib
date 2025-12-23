@@ -106,28 +106,20 @@ namespace UILib {
 
         /**
          * <summary>
-         * Executes when the plugin has been enabled.
+         * Executes when the plugin has started.
          * </summary>
          */
-        private void OnEnable() {
+        private void Start() {
             // Register built-in themes
             Theme.RegisterBuiltIn();
 
             UIRoot.Init();
+            UIRoot.InitWM();
 
             if (UILib.Config.showIntro.Value == true) {
                 intro = new Intro();
                 intro.window.Show();
             }
-        }
-
-        /**
-         * <summary>
-         * Executes when the plugin has started.
-         * </summary>
-         */
-        private void Start() {
-            UIRoot.InitWM();
         }
 
         /**

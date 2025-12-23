@@ -106,10 +106,10 @@ namespace UILib {
 
         /**
          * <summary>
-         * Executes when the plugin has started.
+         * Executes when the plugin has been enabled.
          * </summary>
          */
-        private void Start() {
+        private void OnEnable() {
             // Register built-in themes
             Theme.RegisterBuiltIn();
 
@@ -119,6 +119,15 @@ namespace UILib {
                 intro = new Intro();
                 intro.window.Show();
             }
+        }
+
+        /**
+         * <summary>
+         * Executes when the plugin has started.
+         * </summary>
+         */
+        private void Start() {
+            UIRoot.InitWM();
         }
 
         /**
@@ -140,7 +149,6 @@ namespace UILib {
          */
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
             Patcher.OnSceneLoaded(scene, mode);
-            UIRoot.InitWM();
         }
 
         /**

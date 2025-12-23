@@ -40,16 +40,10 @@ namespace UILib.Notifications {
                 case NotificationType.Silent:
                     break;
                 case NotificationType.Normal:
-                    Audio.Play(
-                        theme.notification,
-                        theme.notificationVolume
-                    );
+                    Audio.PlayNormal(theme);
                     break;
                 case NotificationType.Error:
-                    Audio.Play(
-                        theme.notificationError,
-                        theme.notificationErrorVolume
-                    );
+                    Audio.PlayError(theme);
                     break;
                 default:
                     logger.LogDebug($"Unexpected notification type: {type}");

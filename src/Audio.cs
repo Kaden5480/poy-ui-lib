@@ -93,22 +93,32 @@ namespace UILib {
 
         /**
          * <summary>
-         * Plays the <see cref="Resources.notification">default normal
-         * notification sound</see>.
+         * Plays the notification sound from the provided theme.
+         *
+         * Passing `null` for the theme means the current theme will be used instead.
          * </summary>
          */
-        public static void PlayNormal() {
-            Play(Resources.notification, 0.6f);
+        public static void PlayNormal(Theme theme = null) {
+            if (theme == null) {
+                theme = Theme.GetThemeUnsafe();
+            }
+
+            Play(theme.notification, theme.notificationVolume);
         }
 
         /**
          * <summary>
-         * Plays the <see cref="Resources.notificationError">default error
-         * notification sound</see>.
+         * Plays the error notification sound from the provided theme.
+         *
+         * Passing `null` for the theme means the current theme will be used instead.
          * </summary>
          */
-        public static void PlayError() {
-            Play(Resources.notificationError, 0.4f);
+        public static void PlayError(Theme theme = null) {
+            if (theme == null) {
+                theme = Theme.GetThemeUnsafe();
+            }
+
+            Play(theme.notificationError, theme.notificationErrorVolume);
         }
     }
 }

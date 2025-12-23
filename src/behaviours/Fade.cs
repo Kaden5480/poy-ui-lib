@@ -180,6 +180,7 @@ namespace UILib.Behaviours {
             // Fade in from current opacity
             if (force == true) {
                 StartTimer(maxOpacity, maxOpacity);
+                onFadeIn.Invoke();
             }
             else {
                 StartTimer(opacity, maxOpacity);
@@ -199,6 +200,7 @@ namespace UILib.Behaviours {
             // Fade out from current opacity
             if (force == true) {
                 StartTimer(minOpacity, minOpacity);
+                onFadeOut.Invoke();
             }
             else {
                 StartTimer(opacity, minOpacity);

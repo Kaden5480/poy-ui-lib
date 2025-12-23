@@ -128,6 +128,21 @@ namespace UILib {
 
         /**
          * <summary>
+         * Invokes listeners when the pointer is held down on this UIObject.
+         * </summary>
+         */
+        public virtual UnityEvent onPointerDown { get => mouseHandler.onPointerDown; }
+
+        /**
+         * <summary>
+         * Invokes listeners when the pointer is no longer being
+         * held down on this UIObject.
+         * </summary>
+         */
+        public virtual UnityEvent onPointerUp { get => mouseHandler.onPointerUp; }
+
+        /**
+         * <summary>
          * Invokes listeners whenever this UIObject is clicked.
          * </summary>
          */
@@ -237,6 +252,8 @@ namespace UILib {
             mouseHandler = gameObject.AddComponent<MouseHandler>();
             onPointerEnter.AddListener(OnPointerEnter);
             onPointerExit.AddListener(OnPointerExit);
+            onPointerDown.AddListener(OnPointerDown);
+            onPointerUp.AddListener(OnPointerUp);
             onClick.AddListener(OnClick);
             onDoubleClick.AddListener(OnDoubleClick);
             onBeginDrag.AddListener(OnBeginDrag);
@@ -568,6 +585,28 @@ namespace UILib {
         protected virtual void OnPointerExit() {
             if (parent != null) {
                 parent.OnPointerExit();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles the pointer being held down on this UIObject.
+         * </summary>
+         */
+        protected virtual void OnPointerDown() {
+            if (parent != null) {
+                parent.OnPointerDown();
+            }
+        }
+
+        /**
+         * <summary>
+         * Handles the pointer no longer being held down on this UIObject.
+         * </summary>
+         */
+        protected virtual void OnPointerUp() {
+            if (parent != null) {
+                parent.OnPointerUp();
             }
         }
 

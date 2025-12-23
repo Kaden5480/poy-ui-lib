@@ -10,6 +10,7 @@ namespace UILib.Behaviours {
      */
     internal class MouseHandler: MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler,
+        IPointerDownHandler, IPointerUpHandler,
         IPointerClickHandler,
         IBeginDragHandler, IDragHandler
     {
@@ -39,10 +40,12 @@ namespace UILib.Behaviours {
 
 #endregion
 
-#region Hover Events
+#region Pointer Events
 
         internal UnityEvent onPointerEnter { get; } = new UnityEvent();
         internal UnityEvent onPointerExit { get; } = new UnityEvent();
+        internal UnityEvent onPointerDown { get; } = new UnityEvent();
+        internal UnityEvent onPointerUp { get; } = new UnityEvent();
 
         /**
          * <summary>
@@ -60,6 +63,24 @@ namespace UILib.Behaviours {
          */
         public void OnPointerExit(PointerEventData eventData) {
             onPointerExit.Invoke();
+        }
+
+        /**
+         * <summary>
+         * Executes when the pointer is held down on an object.
+         * </summary>
+         */
+        public void OnPointerDown(PointerEventData eventData) {
+            onPointerDown.Invoke();
+        }
+
+        /**
+         * <summary>
+         * Executes when the pointer is no longer held down on an object.
+         * </summary>
+         */
+        public void OnPointerUp(PointerEventData eventData) {
+            onPointerUp.Invoke();
         }
 
 #endregion

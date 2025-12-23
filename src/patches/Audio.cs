@@ -12,16 +12,20 @@ namespace UILib.Patches {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(AudioSource), "PlayHelper")]
         private static bool PatchPlay(AudioSource source) {
-            if (source.clip == null) {
+            // Do nothing on null sources
+            if (Cache.menuClicks == null || Cache.menuClicks.Count < 1) {
                 return true;
             }
 
-            if (source.clip.name != "click") {
-                return true;
+            // Make sure it's the in game menu one
+            foreach (AudioSource src in Cache.menuClicks) {
+                if (src == source) {
+                    UILib.Audio.PlayNavigation();
+                    return false;
+                }
             }
 
-            UILib.Audio.PlayNavigation();
-            return false;
+            return true;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace UILib.Patches {
          * <param name="mode">The mode the scene loaded with</param>
          */
         internal static void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-            Cache.FindObjects();
+            Cache.FindObjects(scene);
             SceneLoads.OnSceneLoaded(scene);
         }
 

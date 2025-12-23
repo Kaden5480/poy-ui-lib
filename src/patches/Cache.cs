@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace UILib.Patches {
     /**
@@ -10,9 +13,10 @@ namespace UILib.Patches {
     internal static class Cache {
         private static Logger logger = new Logger(typeof(Cache));
 
-        internal static InGameMenu inGameMenu       { get; private set; }
-        internal static PeakSummited peakSummited   { get; private set; }
-        internal static PlayerManager playerManager { get; private set; }
+        internal static List<AudioSource> menuClicks { get; private set; }
+        internal static InGameMenu inGameMenu        { get; private set; }
+        internal static PeakSummited peakSummited    { get; private set; }
+        internal static PlayerManager playerManager  { get; private set; }
 
         /**
          * <summary>
@@ -23,6 +27,7 @@ namespace UILib.Patches {
         private static T Find<T>() where T : UnityEngine.Object {
             T[] all = UnityEngine.Resources.FindObjectsOfTypeAll<T>();
             if (all.Length < 1) {
+                logger.LogDebug($"Unable to find any objects of type: {typeof(T)}");
                 return null;
             }
 
@@ -35,8 +40,40 @@ namespace UILib.Patches {
          * Finds objects in the current scene.
          * </summary>
          */
-        internal static void FindObjects() {
+        internal static void FindObjects(Scene scene) {
+            menuClicks = new List<AudioSource>();
+
             inGameMenu = Find<InGameMenu>();
+            if (inGameMenu != null) {
+                AudioSource click = inGameMenu.GetComponent<AudioSource>();
+                if (click != null) {
+                    menuClicks.Add(click);
+                }
+                else {
+                    logger.LogError("Failed finding InGameMenu's audio source");
+                }
+            }
+            else {
+                logger.LogError("Failed finding InGameMenu");
+            }
+
+            // Try finding other clicks
+            if (scene.buildIndex == 0) {
+                GameObject click = GameObject.Find("Click");
+                if (click != null) {
+                    AudioSource clickSource = click.GetComponent<AudioSource>();
+                    if (clickSource != null) {
+                        menuClicks.Add(clickSource);
+                    }
+                    else {
+                        logger.LogError("Failed finding main menu Click AudioSource");
+                    }
+                }
+                else {
+                    logger.LogError("Failed finding main menu Click");
+                }
+            }
+
             peakSummited = Find<PeakSummited>();
             playerManager = Find<PlayerManager>();
 
@@ -49,6 +86,7 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void Clear() {
+            menuClicks = null;
             inGameMenu = null;
             peakSummited = null;
             playerManager = null;

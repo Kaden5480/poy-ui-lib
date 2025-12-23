@@ -614,6 +614,6 @@ namespace UILib {
          * The volume to play the navigation sound with.
          * </summary>
          */
-        public float navigationSoundVolume = 0.28f;
+        public float navigationSoundVolume = 0.20f;
     }
 }

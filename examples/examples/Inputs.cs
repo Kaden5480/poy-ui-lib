@@ -146,6 +146,13 @@ namespace UILibExamples {
             verticalSlider.onValueChanged.AddListener((float value) => {
                 sliderVLabel.SetText($"Vertical Slider: {value}");
             });
+
+            // You can also find out when the slider's value
+            // has stopped changing (user stopped holding click on it)
+            verticalSlider.onSubmit.AddListener((float value) => {
+                Notifier.Notify("Inputs", $"Slider value submitted: {value}");
+            });
+
             window.Add(verticalSlider);
 
             // A 2D picker
@@ -163,6 +170,11 @@ namespace UILibExamples {
 
             picker.onValueChanged.AddListener((Vector2 position) => {
                 pickerLabel.SetText($"Picker: {position}");
+            });
+
+            // Like sliders, you also have an onSubmit event
+            picker.onSubmit.AddListener((Vector2 position) => {
+                Notifier.Notify("Inputs", $"Picker position: {position}");
             });
             window.Add(picker);
 

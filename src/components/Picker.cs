@@ -71,6 +71,14 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Invokes listeners with the current value
+         * when the user stops moving the handle.
+         * </summary>
+         */
+        public ValueEvent<Vector2> onSubmit { get; } = new ValueEvent<Vector2>();
+
+        /**
+         * <summary>
          * The background of this picker.
          * </summary>
          */
@@ -98,6 +106,11 @@ namespace UILib.Components {
             handle = new Image(Resources.circle);
             handle.SetSize(15f, 15f);
             Add(handle);
+
+            // Handle pointer up
+            onPointerUp.AddListener(() => {
+                onSubmit.Invoke(value);
+            });
 
             // Set the theme
             SetThisTheme(theme);

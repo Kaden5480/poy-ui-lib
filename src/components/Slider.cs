@@ -82,6 +82,14 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Invokes listeners when the value of this slider is submitted.
+         * This happens when the user stops holding the slider down.
+         * </summary>
+         */
+        public ValueEvent<float> onSubmit { get; } = new ValueEvent<float>();
+
+        /**
+         * <summary>
          * Initializes a slider.
          * </summary>
          * <param name="min">The minimum value of this slider</param>
@@ -129,6 +137,10 @@ namespace UILib.Components {
                     return;
                 }
                 onValueChanged.Invoke(value);
+            });
+
+            onPointerUp.AddListener(() => {
+                onSubmit.Invoke(value);
             });
 
             DestroyHandlers();

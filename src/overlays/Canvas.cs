@@ -14,9 +14,20 @@ namespace UILib {
      * sorting them on top of each other.
      * </summary>
      */
-    internal class Canvas : UIObject {
-        internal UECanvas canvas { get; private set; }
-        internal UEGraphicRaycaster raycaster { get; private set; }
+    public class Canvas : UIObject {
+        /**
+         * <summary>
+         * The underlying Unity `Canvas`.
+         * </summary>
+         */
+        public UECanvas canvas { get; private set; }
+
+        /**
+         * <summary>
+         * The `GraphicRaycaster` attached to this canvas.
+         * </summary>
+         */
+        public UEGraphicRaycaster raycaster { get; private set; }
 
         /**
          * <summary>

@@ -17,8 +17,12 @@ namespace UILib {
      * </summary>
      */
     public class Overlay : UIObject {
-        // The canvas this overlay is attached to
-        internal Canvas canvas;
+        /**
+         * <summary>
+         * This overlay's canvas.
+         * </summary>
+         */
+        public Canvas canvas { get; private set; }
 
         /**
          * <summary>

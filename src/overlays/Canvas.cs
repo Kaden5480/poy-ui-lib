@@ -31,6 +31,13 @@ namespace UILib {
 
         /**
          * <summary>
+         * The `CanvasScaler` attached to this canvas.
+         * </summary>
+         */
+        public UECanvasScaler scaler { get; private set; }
+
+        /**
+         * <summary>
          * Initializes a Canvas.
          * </summary>
          */
@@ -39,7 +46,7 @@ namespace UILib {
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
             canvas.sortingOrder = -1;
 
-            UECanvasScaler scaler = gameObject.AddComponent<UECanvasScaler>();
+            scaler = gameObject.AddComponent<UECanvasScaler>();
             scaler.uiScaleMode = UECanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920, 1080);
             scaler.screenMatchMode = UECanvasScaler.ScreenMatchMode.Expand;

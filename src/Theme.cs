@@ -298,6 +298,18 @@ namespace UILib {
             return (Theme) Clone();
         }
 
+        /**
+         * <summary>
+         * Takes a copy of this theme and applies a custom name.
+         * </summary>
+         * <returns>The copy with a custom name</returns>
+         */
+        public Theme Copy(string name) {
+            Theme copy = Copy();
+            copy.name = name;
+            return copy;
+        }
+
 #region Base Colors
 
         /**

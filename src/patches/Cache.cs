@@ -18,6 +18,8 @@ namespace UILib.Patches {
         internal static InGameMenu inGameMenu        { get; private set; }
         internal static PeakSummited peakSummited    { get; private set; }
         internal static PlayerManager playerManager  { get; private set; }
+        internal static PlayerMove playerMove        { get; private set; }
+        internal static Rigidbody playerRb           { get; private set; }
 
         /**
          * <summary>
@@ -77,6 +79,11 @@ namespace UILib.Patches {
 
             peakSummited = Find<PeakSummited>();
             playerManager = Find<PlayerManager>();
+            playerMove = Find<PlayerMove>();
+
+            if (playerMove != null) {
+                playerRb = playerMove.rigid;
+            }
 
             logger.LogDebug("Cached objects");
         }
@@ -91,6 +98,8 @@ namespace UILib.Patches {
             inGameMenu = null;
             peakSummited = null;
             playerManager = null;
+            playerMove = null;
+            playerRb = null;
 
             logger.LogDebug("Cleared objects");
         }

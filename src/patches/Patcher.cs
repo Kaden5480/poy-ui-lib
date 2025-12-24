@@ -24,10 +24,12 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void Awake() {
+            LockHandler.Init();
+
             Patch(typeof(Audio));
+            Patch(typeof(GameMenu));
             Patch(typeof(InteractFixes));
             Patch(typeof(FadeFix));
-            Patch(typeof(MenuFix));
             Patch(typeof(PauseFixes));
             Patch(typeof(SceneLoads));
 
@@ -56,6 +58,7 @@ namespace UILib.Patches {
          */
         internal static void OnSceneUnloaded(Scene scene) {
             SceneLoads.OnSceneUnloaded(scene);
+            PlayerVelocity.Clear();
             Cache.Clear();
         }
 

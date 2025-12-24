@@ -8,22 +8,22 @@ namespace UILib.Patches {
      * </summary>
      */
     internal static class PauseFixes {
-        private static PauseHandle editorBenchHandle;
-        private static PauseHandle inGameMenuHandle;
+        private static Lock editorBenchLock;
+        private static Lock inGameMenuLock;
 
         /**
          * <summary>
-         * Closes a pause handle.
+         * Closes a lock.
          * </summary>
-         * <param name="handle">The handle to close</param>
+         * <param name="@lock">The lock to close</param>
          */
-        private static void CloseHandle(ref PauseHandle handle) {
-            if (handle == null) {
+        private static void CloseLock(ref Lock @lock) {
+            if (@lock == null) {
                 return;
             }
 
-            handle.Close();
-            handle = null;
+            @lock.Close();
+            @lock = null;
         }
 
         /**
@@ -35,8 +35,8 @@ namespace UILib.Patches {
         [HarmonyPrefix]
         [HarmonyPatch(typeof(LevelEditor_LoadEditCustomLevel), "EnableLevelEditPanel")]
         private static void EditBooksEnable() {
-            CloseHandle(ref editorBenchHandle);
-            editorBenchHandle = new PauseHandle();
+            CloseLock(ref editorBenchLock);
+            editorBenchLock = new Lock();
         }
 
         /**
@@ -52,7 +52,7 @@ namespace UILib.Patches {
         [HarmonyPatch(typeof(LevelEditor_LoadEditCustomLevel), "DisableLevelEditPanel")]
         [HarmonyPatch(typeof(LevelEditor_LoadEditCustomLevel), "EditLevel")]
         private static void EditBooksDisable() {
-            CloseHandle(ref editorBenchHandle);
+            CloseLock(ref editorBenchLock);
         }
 
         /**
@@ -63,12 +63,12 @@ namespace UILib.Patches {
          */
         internal static void InGameMenuCheck(InGameMenu inGameMenu) {
             if (inGameMenu.inMenu == true) {
-                if (inGameMenuHandle == null) {
-                    inGameMenuHandle = new PauseHandle();
+                if (inGameMenuLock == null) {
+                    inGameMenuLock = new Lock();
                 }
             }
             else {
-                CloseHandle(ref inGameMenuHandle);
+                CloseLock(ref inGameMenuLock);
             }
         }
 
@@ -79,8 +79,8 @@ namespace UILib.Patches {
          * </summary>
          */
         internal static void CloseHandles() {
-            CloseHandle(ref editorBenchHandle);
-            CloseHandle(ref inGameMenuHandle);
+            CloseLock(ref editorBenchLock);
+            CloseLock(ref inGameMenuLock);
         }
     }
 }

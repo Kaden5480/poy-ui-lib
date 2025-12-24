@@ -22,24 +22,14 @@ namespace UILib {
 
         /**
          * <summary>
-         * Whether this overlay will <see cref="Patches.PauseHandle">
-         * auto-pause the game</see> while it's visible.
+         * The lock modes this overlay will automatically
+         * use when it's visible.
          * </summary>
          */
-        public bool autoPause { get; private set; }
+        public LockMode lockMode { get; private set; }
 
-        /**
-         * <summary>
-         * Whether this overlay will <see cref="Patches.InputLock">
-         * auto-lock some vanilla</see>
-         * inputs while it's visible.
-         * </summary>
-         */
-        public bool lockInput { get; private set; }
-
-        // This overlay's pause handle and input lock
-        private PauseHandle pauseHandle;
-        private InputLock inputLock;
+        // This overlay's lock
+        private Lock @lock;
 
         // Canvas group for controlling opacity
         internal CanvasGroup canvasGroup;
@@ -134,10 +124,7 @@ namespace UILib {
             SetAnchor(AnchorType.Middle);
 
             // Auto-pause by default
-            SetAutoPause(true);
-
-            // But don't auto-lock inputs
-            SetInputLock(false);
+            SetLockMode(LockMode.Default);
 
             // Set size
             SetSize(width, height);
@@ -158,9 +145,9 @@ namespace UILib {
             UIRoot.Unregister(this);
             base.Destroy();
 
-            // If an active pause handle exists, remove it
-            if (pauseHandle != null) {
-                pauseHandle.Close();
+            // If an active lock exists, remove it
+            if (@lock != null) {
+                @lock.Close();
             }
         }
 
@@ -287,72 +274,20 @@ namespace UILib {
 
         /**
          * <summary>
-         * Set whether this overlay should
-         * automatically pause the game when it's shown.
+         * Sets the lock mode this overlay will use
+         * when it's visible.
          *
-         * Calling with `autoPause` being `false`:
-         * - If the overlay has an active <see cref="Patches.PauseHandle"/>,
-         *   it will be closed immediately regardless of its visibility.
-         *
-         * Calling with `autoPause` being `true`:
-         * - If the overlay is visible, a new <see cref="Patches.PauseHandle"/> will
-         *   be allocated.
-         * - If the overlay is hidden, no <see cref="Patches.PauseHandle"/> will
-         *   be allocated.
-         *
+         * If the overlay is currently visible, the provided
+         * lock mode will apply immediately.
          * </summary>
-         * <param name="autoPause">Whether to pause the game automatically</param>
+         * <param name="lockMode">The lock mode to use</param>
          */
-        public void SetAutoPause(bool autoPause) {
-            this.autoPause = autoPause;
+        public void SetLockMode(LockMode lockMode) {
+            this.lockMode = lockMode;
 
-            // Remove active pause handle
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
-            }
-
-            if (autoPause == false) {
-                return;
-            }
-
-            if (isVisible == true) {
-                pauseHandle = new PauseHandle();
-            }
-        }
-
-        /**
-         * <summary>
-         * Set whether this overlay should automatically lock some
-         * extra vanilla inputs while it's shown.
-         *
-         * Calling with `lockInput` being `false`:
-         * - If the overlay has an active <see cref="Patches.InputLock"/>,
-         *   it will be closed immediately regardless of its visibility.
-         *
-         * Calling with `lockInput` being `true`:
-         * - If the overlay is visible, a new <see cref="Patches.InputLock"/> will
-         *   be allocated.
-         * - If the overlay is hidden, no <see cref="Patches.InputLock"/> will
-         *   be allocated.
-         * </summary>
-         * <param name="lockInput">Whether inputs should automatically lock</param>
-         */
-        public void SetInputLock(bool lockInput) {
-            this.lockInput = lockInput;
-
-            // Remove active input lock
-            if (inputLock != null) {
-                inputLock.Close();
-                inputLock = null;
-            }
-
-            if (lockInput == false) {
-                return;
-            }
-
-            if (isVisible == true) {
-                inputLock = new InputLock();
+            // If a lock is active, update it
+            if (@lock != null) {
+                @lock.SetMode(lockMode);
             }
         }
 
@@ -387,25 +322,13 @@ namespace UILib {
             // Start fading in
             fade.FadeIn();
 
-            // Pause handle
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
+            // Acquire a lock
+            if (@lock == null) {
+                @lock = new Lock();
             }
 
-            if (autoPause == true) {
-                pauseHandle = new PauseHandle();
-            }
-
-            // Input lock
-            if (inputLock != null) {
-                inputLock.Close();
-                inputLock = null;
-            }
-
-            if (lockInput == true) {
-                inputLock = new InputLock();
-            }
+            // Update the lock mode
+            @lock.SetMode(lockMode);
         }
 
         /**
@@ -420,14 +343,10 @@ namespace UILib {
                 fade.FadeOut(force);
             }
 
-            if (pauseHandle != null) {
-                pauseHandle.Close();
-                pauseHandle = null;
-            }
-
-            if (inputLock != null) {
-                inputLock.Close();
-                inputLock = null;
+            // Clear the current lock
+            if (@lock != null) {
+                @lock.Close();
+                @lock = null;
             }
         }
 

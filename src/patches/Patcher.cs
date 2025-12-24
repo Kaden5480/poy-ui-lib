@@ -34,7 +34,7 @@ namespace UILib.Patches {
             Patch(typeof(SceneLoads));
             Patch(typeof(UI.InputFieldFix));
 
-            SceneLoads.onUnload.AddListener((Scene scene) => {
+            SceneLoads.AddUnloadListener((Scene scene) => {
                 PauseFixes.CloseHandles();
             });
         }

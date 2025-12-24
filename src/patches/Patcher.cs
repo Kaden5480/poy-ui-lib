@@ -32,6 +32,7 @@ namespace UILib.Patches {
             Patch(typeof(FadeFix));
             Patch(typeof(PauseFixes));
             Patch(typeof(SceneLoads));
+            Patch(typeof(UI.InputFieldFix));
 
             SceneLoads.onUnload.AddListener((Scene scene) => {
                 PauseFixes.CloseHandles();

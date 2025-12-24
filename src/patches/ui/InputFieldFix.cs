@@ -1,8 +1,12 @@
+using System;
 using System.Collections;
+using System.Reflection;
 
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UEInputField = UnityEngine.UI.InputField;
 
 using UILib.Components;
 using ClearMode = UILib.Components.TextField.ClearMode;
@@ -19,6 +23,13 @@ namespace UILib.Patches.UI {
     internal static class InputFieldFix {
         // The currently selected TextField
         internal static TextField current { get; private set; } = null;
+
+        // The currently selected InputField
+        private static UEInputField currentInputField = null;
+
+        // Accessor for isPointerInside property
+        private static PropertyInfo isPointerInside = AccessTools
+            .Property(typeof(UEInputField), "isPointerInside");
 
         // Indicates to other UILib functionality whether a text field
         // was recently selected
@@ -60,6 +71,7 @@ namespace UILib.Patches.UI {
          */
         internal static void Deselect() {
             current = null;
+            currentInputField = null;
 
             StopRoutine();
             deselectRoutine = DeselectRoutine();
@@ -68,12 +80,19 @@ namespace UILib.Patches.UI {
 
         /**
          * <summary>
-         * Handles selecting a text field.
+         * Handles selecting an input field.
          * </summary>
          * <param name="field">The text field which was selected</param>
+         * <param name="inputField">The Unity input field which was selected</param>
          */
-        internal static void Select(TextField field) {
-            current = field;
+        internal static void Select(TextField field = null, UEInputField inputField = null) {
+            if (field != null) {
+                current = field;
+            }
+
+            if (inputField != null) {
+                currentInputField = inputField;
+            }
 
             StopRoutine();
             isSelected = true;
@@ -85,16 +104,21 @@ namespace UILib.Patches.UI {
          * </summary>
          */
         private static void HandleClickOutside() {
-            // If another object has since been selected,
-            // don't do anything
-            if (EventSystem.current.currentSelectedGameObject
-                != current.gameObject
+            // Check for normal InputField events
+            if (currentInputField != null
+                && EventSystem.current.currentSelectedGameObject
+                == currentInputField.gameObject
             ) {
-                return;
+                HandleCancel(true);
             }
 
-            // Otherwise, cancel here
-            HandleCancel(true);
+            // Check for TextField events
+            if (current != null
+                && EventSystem.current.currentSelectedGameObject
+                == current.gameObject
+            ) {
+                HandleCancel(true);
+            }
         }
 
         /**
@@ -104,6 +128,13 @@ namespace UILib.Patches.UI {
          * <param name="wasClick">Whether a click cancelled</param>
          */
         private static void HandleCancel(bool wasClick) {
+            // If it was an input field, handle differently
+            if (currentInputField != null) {
+                Deselect();
+                EventSystem.current.SetSelectedGameObject(null);
+                return;
+            }
+
             TextField saved = current;
             Deselect();
             string input = saved.userInput;
@@ -161,6 +192,13 @@ namespace UILib.Patches.UI {
          * </summary>
          */
         private static void HandleSubmit() {
+            // If it was an input field, handle differently
+            if (currentInputField != null) {
+                Deselect();
+                EventSystem.current.SetSelectedGameObject(null);
+                return;
+            }
+
             TextField saved = current;
             Deselect();
 
@@ -190,15 +228,23 @@ namespace UILib.Patches.UI {
          * </summary>
          */
         internal static void Update() {
-            if (current == null) {
+            if (current == null && currentInputField == null) {
                 return;
             }
 
             // Clicked outside
-            if (Input.GetMouseButtonDown(0) == true
-                && current.isPointerInside == false
-            ) {
-                HandleClickOutside();
+            if (Input.GetMouseButtonDown(0) == true) {
+                // Text fields
+                if (current != null && current.isPointerInside == false) {
+                    HandleClickOutside();
+                }
+
+                // Input fields
+                else if (currentInputField != null
+                    && (bool) isPointerInside.GetValue(currentInputField) == false
+                ) {
+                    HandleClickOutside();
+                }
             }
 
             // Cancelled with escape
@@ -210,6 +256,42 @@ namespace UILib.Patches.UI {
             if (Input.GetKeyDown(KeyCode.Return) == true) {
                 HandleSubmit();
             }
+        }
+
+        /**
+         * <summary>
+         * Patches around InputField select events.
+         * </summary>
+         */
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UEInputField), "OnSelect")]
+        private static void InputOnSelect(UEInputField __instance) {
+            Type type = __instance.GetType();
+            if (type == typeof(CustomInputField)
+                || type.IsSubclassOf(typeof(CustomInputField)) == true
+            ) {
+                return;
+            }
+
+            Select(inputField: __instance);
+        }
+
+        /**
+         * <summary>
+         * Patches around InputField deselect events.
+         * </summary>
+         */
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(UEInputField), "OnDeselect")]
+        private static void InputOnDeselect(UEInputField __instance) {
+            Type type = __instance.GetType();
+            if (type == typeof(CustomInputField)
+                || type.IsSubclassOf(typeof(CustomInputField)) == true
+            ) {
+                return;
+            }
+
+            currentInputField = __instance;
         }
     }
 }

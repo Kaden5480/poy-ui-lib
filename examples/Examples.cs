@@ -22,7 +22,7 @@ namespace UILibExamples {
         private Inputs inputs;
         private UILibExamples.Layouts layouts;
         private Shortcuts shortcuts;
-        private PauseHandles pauseHandles;
+        private Locks locks;
         private Themes themes;
 
         public Examples() {
@@ -31,7 +31,7 @@ namespace UILibExamples {
             inputs = new Inputs();
             layouts = new UILibExamples.Layouts();
             shortcuts = new Shortcuts();
-            pauseHandles = new PauseHandles();
+            locks = new Locks();
             themes = new Themes();
 
             overlay = new Overlay(300f, 450f);
@@ -51,7 +51,7 @@ namespace UILibExamples {
             AddExample(inputs);
             AddExample(layouts);
             AddExample(shortcuts);
-            AddExample(pauseHandles);
+            AddExample(locks);
             AddExample(themes);
 
             // Global shortcut for toggling UI

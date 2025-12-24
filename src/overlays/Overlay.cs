@@ -93,7 +93,7 @@ namespace UILib {
          * Initializes an overlay.
          *
          * By default overlays will pause the game when shown.
-         * If you want to disable this behaviour see <see cref="SetAutoPause"/>.
+         * If you want to disable this behaviour see <see cref="SetLockMode"/>.
          * </summary>
          * <param name="width">The width of the overlay</param>
          * <param name="height">The height of the overlay</param>
@@ -308,8 +308,8 @@ namespace UILib {
         /**
          * <summary>
          * Makes this overlay visible and
-         * creates a new <see cref="PauseHandle"/>
-         * if auto-pausing is enabled.
+         * creates a new <see cref="Patches.Lock"/>
+         * with the current <see cref="lockMode"/>.
          * </summary>
          */
         public override void Show() {
@@ -353,7 +353,7 @@ namespace UILib {
         /**
          * <summary>
          * Hides this overlay and closes
-         * the internal <see cref="PauseHandle"/>.
+         * the internal <see cref="Patches.Lock"/>.
          * </summary>
          */
         public override void Hide() {

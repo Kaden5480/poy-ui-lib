@@ -87,7 +87,7 @@ namespace UILib.Patches {
          * <summary>
          * Sets the mode this lock is in.
          * </summary>
-         * <param name="mode">
+         * <param name="mode">The mode to use</param>
          */
         public void SetMode(LockMode mode) {
             this.mode = mode;
@@ -100,6 +100,7 @@ namespace UILib.Patches {
          * This retains the current mode, but applies
          * the provided `mode` as an extra mode on top.
          * </summary>
+         * <param name="mode">The mode to add</param>
          */
         public void AddMode(LockMode mode) {
             this.mode |= mode;
@@ -112,6 +113,7 @@ namespace UILib.Patches {
          * This retains the current mode, but removes
          * the provided `mode` from it.
          * </summary>
+         * <param name="mode">The mode to remove</param>
          */
         public void RemoveMode(LockMode mode) {
             this.mode &= (~mode);
@@ -133,7 +135,7 @@ namespace UILib.Patches {
 
     /**
      * <summary>
-     * Processes the currently active <see cref="Locks"/> to
+     * Processes the currently active <see cref="Lock">Locks</see> to
      * determine what should be locked/unlocked.
      * </summary>
      */

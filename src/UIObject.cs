@@ -57,6 +57,14 @@ namespace UILib {
 
         /**
          * <summary>
+         * Whether automatic theme inheritance is allowed
+         * for this UIObject.
+         * </summary>
+         */
+        public bool inheritTheme { get; private set; } = true;
+
+        /**
+         * <summary>
          * The currently configured width of this UIObject.
          * </summary>
          */
@@ -382,10 +390,30 @@ namespace UILib {
 
             this.theme = theme;
             foreach (UIObject child in children) {
-                child.SetTheme(theme);
+                if (child.inheritTheme == true) {
+                    child.SetTheme(theme);
+                }
             }
 
             SetThisTheme(theme);
+        }
+
+        /**
+         * <summary>
+         * Determines whether this UIObject can automatically inherit
+         * its parent's theme on a `SetTheme`.
+         *
+         * If this is `true`, this UIObject can inherit the theme from its
+         * parent on a `SetTheme` call
+         *
+         * If this is `false`, this UIObject won't be able to automatically inherit
+         * the theme from the parent. Calls to <see cref="SetTheme"/>
+         * on this object will still work though.
+         * </summary>
+         * <param name="inheritTheme">Whether theme inheriting is allowed</param>
+         */
+        public void SetInheritTheme(bool inheritTheme) {
+            this.inheritTheme = inheritTheme;
         }
 
 #region Handling Parents/Children

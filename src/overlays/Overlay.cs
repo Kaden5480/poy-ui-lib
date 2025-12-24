@@ -114,6 +114,7 @@ namespace UILib {
             // Showing is handled in Show() as the gameObject
             // has to be enabled immediately
             fade.onFadeOut.AddListener(() => {
+                canvas.Hide();
                 base.Hide();
             });
 
@@ -314,6 +315,7 @@ namespace UILib {
          */
         public override void Show() {
             // Make sure the game object is enabled first
+            canvas.Show();
             base.Show();
 
             // Bring to the front

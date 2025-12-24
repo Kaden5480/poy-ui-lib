@@ -55,6 +55,9 @@ namespace UILib {
          * </summary>
          */
         internal InputOverlay() : base(0f, 0f) {
+            // Disable sorting
+            SetSortingMode(Overlay.SortingMode.Static);
+
             SetFill(FillType.All);
 
             // The huge translucent background

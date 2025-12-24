@@ -19,6 +19,43 @@ namespace UILib {
     public class Overlay : UIObject {
         /**
          * <summary>
+         * The sorting modes which can be applied to <see cref="Overlay">
+         * Overlays</see>.
+         * </summary>
+         */
+        public enum SortingMode {
+            /**
+             * <summary>
+             * The default sorting mode. Overlays can be fully controlled
+             * by <see cref="UIRoot"/>. They can freely be placed above/below each other
+             * as the user focuses/unfocuses them.
+             * </summary>
+             */
+            Default,
+
+            /**
+             * <summary>
+             * In this mode, the overlay can only move down the sorting order,
+             * it can't be brought above another overlay when the user focuses it.
+             *
+             * It will still get brought to the front initially when opened through
+             * <see cref="Show"/>, this only disables increasing the sorting order
+             * from user interactions.
+             * </summary>
+             */
+            Recede,
+
+            /**
+             * <summary>
+             * Tells <see cref="UIRoot"/> to completely ignore sorting this overlay,
+             * letting you set whatever sorting order you want on its <see cref="Canvas"/>.
+             * </summary>
+             */
+            Static,
+        }
+
+        /**
+         * <summary>
          * This overlay's canvas.
          * </summary>
          */
@@ -47,15 +84,10 @@ namespace UILib {
 
         /**
          * <summary>
-         * Whether this overlay can be brought to the front
-         * above all other overlays. Or whether it will
-         * only move down the sorting orders.
-         *
-         * By default all overlays are sortable and
-         * so can be brought to the front.
+         * The sorting mode this overlay is currently in.
          * </summary>
          */
-        public bool sortable { get; private set; } = true;
+        public SortingMode sortingMode { get; private set; } = SortingMode.Default;
 
         /**
          * <summary>
@@ -227,16 +259,12 @@ namespace UILib {
 
         /**
          * <summary>
-         * Toggles the ability for this overlay to move to the front
-         * above all other overlays.
-         *
-         * If this is set to `false`, the overlay's sorting
-         * order can only decrease (i.e. move further to the back).
+         * Sets the sorting mode this overlay is currently in
          * </summary>
-         * <param name="sortable">Whether to allow moving to the front</param>
+         * <param name="sortingMode">The new sorting mode to use</param>
          */
-        public void SetSortable(bool sortable) {
-            this.sortable = sortable;
+        public void SetSortingMode(SortingMode sortingMode) {
+            this.sortingMode = sortingMode;
         }
 
         /**
@@ -244,9 +272,9 @@ namespace UILib {
          * Brings this overlay to the front
          * so that it displays above all others.
          *
-         * If <see cref="sortable"/> is `false`
-         * this method will only cause the overlay
-         * to become focused. It won't move to the front.
+         * If the sorting mode is <see cref="SortingMode.Recede"/>, this will
+         * only cause the overlay to become focused.
+         * It won't move to the front.
          * </summary>
          */
         public void BringToFront() {

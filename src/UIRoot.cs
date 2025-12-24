@@ -145,6 +145,11 @@ namespace UILib {
 
             // Assign all sorting orders
             for (int i = 0; i < overlays.Count; i++) {
+                // Ignore static overlays
+                if (overlays[i].sortingMode == Overlay.SortingMode.Static) {
+                    continue;
+                }
+
                 overlays[i].canvas.canvas.sortingOrder = minSortingOrder + i;
             }
 
@@ -164,11 +169,6 @@ namespace UILib {
          */
         internal static void Register(Overlay overlay) {
             UIObject.SetParent(gameObject, overlay.canvas.gameObject);
-
-            // Don't control InputOverlay
-            if (overlay.GetType() == typeof(InputOverlay)) {
-                return;
-            }
 
             // Only assign a sorting order if window management
             // has been initialized
@@ -248,21 +248,31 @@ namespace UILib {
             focusedOverlay = overlay;
             overlay.onFocus.Invoke();
 
-            // Check for unsortable overlays
-            if (overlay.sortable == false || index < 0) {
+            // Check for recede
+            if (overlay.sortingMode == Overlay.SortingMode.Recede || index < 0) {
                 return;
             }
 
             // Iterate the list in reverse, decrementing all sorting orders
             // until reaching the canvas to set on top
             for (int i = overlays.Count - 1; i > index; i--) {
+                // Make sure to ignore static orders
+                if (overlays[i].sortingMode == Overlay.SortingMode.Static) {
+                    continue;
+                }
+
                 overlays[i].canvas.canvas.sortingOrder--;
             }
 
             // Now remove the overlay from the list, and add it back
             // to the end, while also updating the sorting order
             overlays.Remove(overlay);
-            overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
+
+            // But ignore static again
+            if (overlay.sortingMode != Overlay.SortingMode.Static) {
+                overlay.canvas.canvas.sortingOrder = minSortingOrder + overlays.Count;
+            }
+
             overlays.Add(overlay);
         }
 

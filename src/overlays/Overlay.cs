@@ -367,8 +367,8 @@ namespace UILib {
 
         /**
          * <summary>
-         * Another hide method for force hiding
-         * bypassing fading.
+         * Another hide method for force hiding, which bypasses
+         * the configured fade duration.
          * </summary>
          * <param name="force">Whether to bypass fading</param>
          */

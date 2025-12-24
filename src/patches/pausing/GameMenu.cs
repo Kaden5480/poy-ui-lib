@@ -9,19 +9,7 @@ namespace UILib.Patches {
      */
     [HarmonyPatch(typeof(InGameMenu), "Update")]
     internal static class GameMenu {
-        // Whether the player's velocity was being paused
-        private static bool shouldPause = false;
-
-        /**
-         * <summary>
-         * Whether the velocity should currently be paused.
-         * </summary>
-         */
-        private static bool ShouldPause() {
-            return LockHandler.isNavigationLocked == true
-                || InputOverlay.waitingForInput == true
-                || UI.InputFieldFix.isSelected == true;
-        }
+        private static bool wasPausing = false;
 
         /**
          * <summary>
@@ -29,23 +17,23 @@ namespace UILib.Patches {
          * </summary>
          */
         private static bool Prefix(bool ___pausedRB) {
-            // Determine whether the player should be paused
-            if (ShouldPause() == true || ___pausedRB == true) {
-                shouldPause = true;
-                PlayerVelocity.Pause();
-            }
-
             // Only save the player's velocity when not pausing
-            if (shouldPause == false) {
+            if (LockHandler.isPaused == true || ___pausedRB == true) {
+                wasPausing = true;
+            }
+            else {
                 PlayerVelocity.Save();
             }
 
-            // If pausing is being managed in a special way
-            // by UILib, prevent the execution of InGameMenu
-            if (ShouldPause() == true) {
+            // Prevent execution of InGameMenu when input is locked
+            if (LockHandler.isNavigationLocked == true
+                || InputOverlay.waitingForInput == true
+                || UI.InputFieldFix.isSelected == true
+            ) {
                 return false;
             }
 
+            // Otherwise, let it run
             return true;
         }
 
@@ -56,18 +44,20 @@ namespace UILib.Patches {
          * </summary>
          */
         private static void Postfix(InGameMenu __instance, bool ___pausedRB) {
+            // Update the InGameMenu's lock
             PauseFixes.InGameMenuCheck(__instance);
 
+            // Update the lock handler
             LockHandler.Update();
 
-            // If pausing should no longer take effect, let
-            // the player restore
-            if (shouldPause == true
-                && ShouldPause() == false
+            // Only restore if player velocity was being paused
+            // and the LockHandler and InGameMenu stopped messing around with it
+            if (wasPausing == true
+                && LockHandler.isPaused == false
                 && ___pausedRB == false
             ) {
-                shouldPause = false;
                 PlayerVelocity.Restore();
+                wasPausing = false;
             }
         }
     }

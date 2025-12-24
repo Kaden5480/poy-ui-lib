@@ -292,6 +292,15 @@ namespace UILib.Patches {
                 }
             }
 
+            // In these loading states, the game must be paused
+            if (InGameMenu.isLoading == true
+                || EnterPeakScene.enteringPeakScene == true
+                || EnterPeakScene.enteringAlpScene == true
+                || EnterRoomSegmentScene.enteringScene == true
+            ) {
+                isPaused = true;
+            }
+
             // Invoke listeners
             InvokeEvents(
                 LockHandler.isPaused, isPaused,
@@ -389,21 +398,13 @@ namespace UILib.Patches {
             // Update the lock state
             UpdateLocks();
 
-            // Do nothing in certain loading states
-            if (InGameMenu.isLoading == true
-                || EnterPeakScene.enteringPeakScene == true
-                || EnterPeakScene.enteringAlpScene == true
-                || EnterRoomSegmentScene.enteringScene == true
-            ) {
-                return;
-            }
-
             // Disabling movement has to be done every frame, yes
             if (isPaused == true) {
                 AllowMovement(false);
                 InGameMenu.isCurrentlyNavigationMenu = true;
                 InGameMenu.hasBeenInMenu = true;
                 climbingDelay.SetValue(Cache.inGameMenu, 0f);
+                PlayerVelocity.Pause();
             }
 
             // Same with freeing the cursor

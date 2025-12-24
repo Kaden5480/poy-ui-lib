@@ -11,15 +11,15 @@ namespace UILib {
      * </summary>
      */
     public static class Resources {
-        private const string bundlePath = "uilib.bundle";
-        private static AssetBundle bundle;
+        private const string bundlePath = "res.uilib.bundle";
+        private static AssetBundle bundle = null;
 
         /**
          * <summary>
          * The default Peaks of Yore font (Roman Antique).
          * </summary>
          */
-        public static Font gameFont { get; private set; } = LoadFromBundle<Font>(
+        public static Font gameFont { get; private set; } = LoadAsset<Font>(
             "RomanAntique"
         );
 
@@ -30,7 +30,7 @@ namespace UILib {
          * fields are a mess.
          * </summary>
          */
-        internal static Font gameFontScuffed { get; private set; } = LoadFromBundle<Font>(
+        internal static Font gameFontScuffed { get; private set; } = LoadAsset<Font>(
             "RomanAntiqueScuffed"
         );
 
@@ -39,7 +39,7 @@ namespace UILib {
          * The default Peaks of Yore menu click sound.
          * </summary>
          */
-        internal static AudioClip gameMenuClick { get; private set; } = LoadFromBundle<AudioClip>(
+        internal static AudioClip gameMenuClick { get; private set; } = LoadAsset<AudioClip>(
             "MenuClick"
         );
 
@@ -48,7 +48,7 @@ namespace UILib {
          * The default checkmark used by Peaks of Yore.
          * </summary>
          */
-        public static Texture2D checkMark { get; private set; } = LoadFromBundle<Texture2D>(
+        public static Texture2D checkMark { get; private set; } = LoadAsset<Texture2D>(
             "CheckMark"
         );
 
@@ -57,7 +57,7 @@ namespace UILib {
          * A texture of a circle.
          * </summary>
          */
-        public static Texture2D circle { get; private set; } = LoadFromBundle<Texture2D>(
+        public static Texture2D circle { get; private set; } = LoadAsset<Texture2D>(
             "Circle"
         );
 
@@ -66,7 +66,7 @@ namespace UILib {
          * A texture of a triangle.
          * </summary>
          */
-        public static Texture2D triangle { get; private set; } = LoadFromBundle<Texture2D>(
+        public static Texture2D triangle { get; private set; } = LoadAsset<Texture2D>(
             "Triangle"
         );
 
@@ -75,7 +75,7 @@ namespace UILib {
          * The default notification sound used by UILib.
          * </summary>
          */
-        public static AudioClip notification { get; private set; } = LoadFromBundle<AudioClip>(
+        public static AudioClip notification { get; private set; } = LoadAsset<AudioClip>(
             "Notification"
         );
 
@@ -84,7 +84,7 @@ namespace UILib {
          * The default error notification sound used by UILib.
          * </summary>
          */
-        public static AudioClip notificationError { get; private set; } = LoadFromBundle<AudioClip>(
+        public static AudioClip notificationError { get; private set; } = LoadAsset<AudioClip>(
             "NotificationError"
         );
 
@@ -93,7 +93,7 @@ namespace UILib {
          * A material which renders an HSV rectangle.
          * </summary>
          */
-        public static Material hsvRect { get; private set; } = LoadFromBundle<Material>(
+        public static Material hsvRect { get; private set; } = LoadAsset<Material>(
             "HSVRect"
         );
 
@@ -103,7 +103,7 @@ namespace UILib {
          * saturation and value.
          * </summary>
          */
-        public static Material hsvSpectrum { get; private set; } = LoadFromBundle<Material>(
+        public static Material hsvSpectrum { get; private set; } = LoadAsset<Material>(
             "HSVSpectrum"
         );
 
@@ -113,27 +113,23 @@ namespace UILib {
          * in a gradient of opacities.
          * </summary>
          */
-        public static Material hsvOpacity { get; private set; } = LoadFromBundle<Material>(
+        public static Material hsvOpacity { get; private set; } = LoadAsset<Material>(
             "HSVOpacity"
         );
 
         /**
          * <summary>
          * Loads a file with the specified filename
-         * into a byte array.
-         *
-         * The files are loaded from res/, so passing
-         * a name of "image.png" will load res/image.png.
+         * from a given `Assembly` into a byte array.
          * </summary>
+         * <param name="assembly">The assembly to load from</param>
          * <param name="name">The name of the file to load</param>
          * <returns>The file's bytes</returns>
          */
-        internal static byte[] LoadBytes(string name) {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+        private static byte[] LoadBytes(Assembly assembly, string name) {
             string assemblyName = assembly.GetName().Name;
-
             using (Stream stream = assembly.GetManifestResourceStream(
-                $"{assemblyName}.res.{name}"
+                $"{assemblyName}.{name}"
             )) {
             using (MemoryStream mem = new MemoryStream()) {
                 stream.CopyTo(mem);
@@ -143,15 +139,30 @@ namespace UILib {
 
         /**
          * <summary>
-         * Loads an asset by name.
+         * Loads an `AssetBundle`.
+         *
+         * If your asset bundle is embedded under `res/`, for example,
+         * and has the name `uilib.bundle`, then the name should be `res.uilib.bundle`.
+         * </summary>
+         * <param name="assembly">The assembly to load the bundle from</param>
+         * <param name="name">The name of the asset bundle to load</param>
+         * <returns>The loaded asset bundle</returns>
+         */
+        public static AssetBundle LoadBundle(Assembly assembly, string name) {
+            byte[] bundleData = LoadBytes(assembly, name);
+            return AssetBundle.LoadFromMemory(bundleData);
+        }
+
+        /**
+         * <summary>
+         * UILib specific bundle loading.
          * </summary>
          * <param name="name">The name of the asset to load</param>
          * <returns>The loaded asset</returns>
          */
-        internal static T LoadFromBundle<T>(string name) where T : UnityEngine.Object {
+        private static T LoadAsset<T>(string name) where T : UnityEngine.Object {
             if (bundle == null) {
-                byte[] bundleData = LoadBytes(bundlePath);
-                bundle = AssetBundle.LoadFromMemory(bundleData);
+                bundle = LoadBundle(Assembly.GetExecutingAssembly(), bundlePath);
             }
 
             return bundle.LoadAsset<T>(name);

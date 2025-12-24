@@ -25,8 +25,8 @@ namespace UILib {
                 return;
             }
 
-            gameObject = new GameObject("UILib Audio");
-            GameObject.DontDestroyOnLoad(gameObject);
+            gameObject = new GameObject($"{typeof(Audio)}");
+            UIObject.SetParent(UIRoot.gameObject, gameObject);
 
             source = gameObject.AddComponent<AudioSource>();
             source.bypassReverbZones = true;

@@ -70,15 +70,15 @@ namespace UILib {
         internal const int tooltipOverlaySortingOrder = 10000;
 
         // UIRoot's GameObject
-        private static GameObject gameObject;
+        internal static GameObject gameObject { get; private set; }
 
         // The input overlay and notification area
-        internal static InputOverlay inputOverlay;
-        internal static NotificationArea notificationArea;
-        internal static TooltipOverlay tooltipOverlay;
+        internal static InputOverlay inputOverlay { get; private set; }
+        internal static NotificationArea notificationArea { get; private set; }
+        internal static TooltipOverlay tooltipOverlay { get; private set; }
 
         // The color picker window
-        internal static ColorPickerWindow colorPickerWindow;
+        internal static ColorPickerWindow colorPickerWindow { get; private set; }
 
         // Currently available overlays
         private static List<Overlay> overlays;
@@ -103,18 +103,18 @@ namespace UILib {
             onPreInit.Invoke();
 
             // Instantiate game object to attach all overlays to
-            gameObject = new GameObject("UILib Root");
+            gameObject = new GameObject($"{typeof(UIRoot)}");
             gameObject.layer = LayerMask.NameToLayer("UI");
             GameObject.DontDestroyOnLoad(gameObject);
 
             overlays = new List<Overlay>();
 
+            // Initialize audio
+            Audio.Init();
+
             // Initialize the notification area
             notificationArea = new NotificationArea();
             UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
-
-            // Initialize audio
-            Audio.Init();
 
             // Initialize input overlay
             inputOverlay = new InputOverlay();

@@ -119,26 +119,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Loads a file with the specified filename
-         * from a given `Assembly` into a byte array.
-         * </summary>
-         * <param name="assembly">The assembly to load from</param>
-         * <param name="name">The name of the file to load</param>
-         * <returns>The file's bytes</returns>
-         */
-        private static byte[] LoadBytes(Assembly assembly, string name) {
-            string assemblyName = assembly.GetName().Name;
-            using (Stream stream = assembly.GetManifestResourceStream(
-                $"{assemblyName}.{name}"
-            )) {
-            using (MemoryStream mem = new MemoryStream()) {
-                stream.CopyTo(mem);
-                return mem.ToArray();
-            }}
-        }
-
-        /**
-         * <summary>
          * Loads an `AssetBundle`.
          *
          * If your asset bundle is embedded under `res/`, for example,
@@ -149,8 +129,11 @@ namespace UILib {
          * <returns>The loaded asset bundle</returns>
          */
         public static AssetBundle LoadBundle(Assembly assembly, string name) {
-            byte[] bundleData = LoadBytes(assembly, name);
-            return AssetBundle.LoadFromMemory(bundleData);
+            using (Stream stream = assembly.GetManifestResourceStream(
+                $"{assembly.GetName().Name}.{name}"
+            )) {
+                return AssetBundle.LoadFromStream(stream);
+            }
         }
 
         /**

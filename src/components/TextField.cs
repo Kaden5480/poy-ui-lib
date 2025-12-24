@@ -355,6 +355,10 @@ namespace UILib.Components {
 
             // Set the theme
             SetThisTheme(theme);
+
+            // Remove mouse handlers
+            input.DestroyMouseHandler();
+            placeholder.DestroyMouseHandler();
         }
 
         /**

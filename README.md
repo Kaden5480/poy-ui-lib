@@ -50,9 +50,9 @@ or by selecting Build -> Build Solution.
 
 ## Build configuration
 The following can be configured:
-- The path Peaks of Yore is installed at
-- Whether the mod should automatically install on build
-- Whether integration with [Mod Menu](https://github.com/Kaden5480/poy-mod-menu) should be enabled
+- The path Peaks of Yore is installed at.
+- Whether the mod should automatically install on build.
+- Whether integration with [Mod Menu](https://github.com/Kaden5480/poy-mod-menu) should be enabled.
 
 Note that all of these properties are optional.
 

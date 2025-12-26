@@ -26,12 +26,12 @@ namespace UILib {
         /**
          * <summary>
          * The default Peaks of Yore font (Roman Antique).
-         * A scuffed variant which is used internally because input
-         * fields are a mess.
+         * An alternate variant which is used on input
+         * fields, as they process Roman Antique incorrectly.
          * </summary>
          */
-        internal static Font gameFontScuffed { get; private set; } = LoadAsset<Font>(
-            "RomanAntiqueScuffed"
+        public static Font gameFontAlt { get; private set; } = LoadAsset<Font>(
+            "RomanAntiqueAlt"
         );
 
         /**
@@ -39,7 +39,7 @@ namespace UILib {
          * The default Peaks of Yore menu click sound.
          * </summary>
          */
-        internal static AudioClip gameMenuClick { get; private set; } = LoadAsset<AudioClip>(
+        public static AudioClip gameMenuClick { get; private set; } = LoadAsset<AudioClip>(
             "MenuClick"
         );
 

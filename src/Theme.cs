@@ -507,7 +507,7 @@ namespace UILib {
          * can process some fonts incorrectly.
          * </summary>
          */
-        public Font fontAlt = Resources.gameFontScuffed;
+        public Font fontAlt = Resources.gameFontAlt;
 
         /**
          * <summary>

@@ -30,6 +30,7 @@ namespace UILib {
             image.SetSize(-6f, -6f);
 
             SetThisTheme(theme);
+            SetPlaySound(false);
         }
 
         /**

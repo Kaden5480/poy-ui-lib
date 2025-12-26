@@ -48,6 +48,13 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Whether this button will play the navigation sound when clicked.
+         * </summary>
+         */
+        public bool playSound { get; private set; } = true;
+
+        /**
+         * <summary>
          * Invokes listeners when this button is clicked.
          * </summary>
          */
@@ -69,7 +76,9 @@ namespace UILib.Components {
             button = gameObject.AddComponent<UEButton>();
             button.targetGraphic = background.image;
             button.onClick.AddListener(() => {
-                Audio.PlayNavigation(theme);
+                if (playSound == true) {
+                    Audio.PlayNavigation(theme);
+                }
                 EventSystem.current.SetSelectedGameObject(null);
             });
 
@@ -185,6 +194,16 @@ namespace UILib.Components {
             }
 
             label.SetText(text);
+        }
+
+        /**
+         * <summary>
+         * Sets whether this button should play the navigation sound.
+         * </summary>
+         * <param name="playSound">Whether this button should play a sound</param>
+         */
+        public void SetPlaySound(bool playSound) {
+            this.playSound = playSound;
         }
     }
 }

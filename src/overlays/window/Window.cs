@@ -204,6 +204,13 @@ namespace UILib {
         /**
          * <summary>
          * Allows setting the theme of this window.
+         *
+         * This handles setting the theme specifically for this object,
+         * not its children. It's protected to allow overriding if you
+         * were to create a subclass.
+         *
+         * In most cases, you'd probably want to use
+         * <see cref="UIObject.SetTheme"/> instead.
          * </summary>
          * <param name="theme">The theme to apply</param>
          */

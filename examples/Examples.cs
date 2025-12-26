@@ -17,24 +17,8 @@ namespace UILibExamples {
         private Overlay overlay;
         private Area area;
 
-        private BasicWindow basic;
-        private Chat chat;
-        private Inputs inputs;
-        private UILibExamples.Layouts layouts;
-        private Shortcuts shortcuts;
-        private Locks locks;
-        private Themes themes;
-
         public Examples() {
-            basic = new BasicWindow();
-            chat = new Chat();
-            inputs = new Inputs();
-            layouts = new UILibExamples.Layouts();
-            shortcuts = new Shortcuts();
-            locks = new Locks();
-            themes = new Themes();
-
-            overlay = new Overlay(300f, 450f);
+            overlay = new Overlay(300f, 500f);
             // Overlays don't have a background by default
             Image background = new Image(Theme.GetTheme().background);
             background.SetFill(FillType.All);
@@ -46,13 +30,14 @@ namespace UILibExamples {
             overlay.Add(area);
 
             // Add examples
-            AddExample(basic);
-            AddExample(chat);
-            AddExample(inputs);
-            AddExample(layouts);
-            AddExample(shortcuts);
-            AddExample(locks);
-            AddExample(themes);
+            AddExample(new BasicWindow());
+            AddExample(new Chat());
+            AddExample(new Inputs());
+            AddExample(new ProgressBars());
+            AddExample(new UILibExamples.Layouts());
+            AddExample(new Shortcuts());
+            AddExample(new Locks());
+            AddExample(new Themes());
 
             // Global shortcut for toggling UI
             Shortcut shortcut = new Shortcut(new[] { KeyCode.Tab });

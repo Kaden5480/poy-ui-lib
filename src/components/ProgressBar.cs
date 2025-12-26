@@ -19,6 +19,13 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Whether this progress bar is vertical.
+         * </summary>
+         */
+        public bool vertical { get; private set; } = false;
+
+        /**
+         * <summary>
          * The background for this progress bar.
          * </summary>
          */
@@ -35,8 +42,9 @@ namespace UILib.Components {
          * <summary>
          * Initializes the progress bar.
          * </summary>
+         * <param name="vertical">Whether this progress bar should be vertical</param>
          */
-        public ProgressBar() {
+        public ProgressBar(bool vertical = false) {
             background = new Image();
             background.SetFill(FillType.All);
 
@@ -50,6 +58,12 @@ namespace UILib.Components {
 
             // Set the theme
             SetThisTheme(theme);
+
+            // Set vertical
+            SetVertical(vertical);
+
+            // Set to 0 progress
+            SetProgress(0f);
         }
 
         /**
@@ -72,16 +86,40 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Sets whether this progress bar is vertical.
+         *
+         * Passing `true` means it will become vertical (bottom to top).
+         * Passing `false` means it will become horizontal (left to right).
+         *
+         * This will also immediately update the progress bar's visuals.
+         * </summary>
+         * <param name="vertical">Whether this progress bar is vertical</param>
+         */
+        public void SetVertical(bool vertical) {
+            this.vertical = vertical;
+            SetProgress(progress);
+        }
+
+        /**
+         * <summary>
          * Sets the progress of this progress bar.
          * This must be between 0 and 1.
          * </summary>
-         * <param name="value">The value to set the progress to</param>
+         * <param name="progress">The value to set the progress to</param>
          */
-        public void SetProgress(float value) {
-            progress = Mathf.Clamp(value, 0f, 1f);
-            fill.rectTransform.anchorMax = new Vector2(
-                progress, 1f
-            );
+        public void SetProgress(float progress) {
+            this.progress = Mathf.Clamp(progress, 0f, 1f);
+
+            if (vertical == true) {
+                fill.rectTransform.anchorMax = new Vector2(
+                    1f, this.progress
+                );
+            }
+            else {
+                fill.rectTransform.anchorMax = new Vector2(
+                    this.progress, 1f
+                );
+            }
         }
     }
 }

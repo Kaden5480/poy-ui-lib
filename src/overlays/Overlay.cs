@@ -298,6 +298,10 @@ namespace UILib {
          *
          * Local shortcuts are triggered whenever
          * all keys configured in the shortcut are pressed.
+         *
+         * Local shortcuts only trigger when
+         * the `Overlay` they're added to is
+         * currently in focus.
          * </summary>
          * <param name="shortcut">The shortcut to add</param>
          */

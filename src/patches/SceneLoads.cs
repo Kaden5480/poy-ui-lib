@@ -32,6 +32,14 @@ namespace UILib.Patches {
 
         /**
          * <summary>
+         * Loading/unloading from the scene which you can edit
+         * custom peaks from.
+         * </summary>
+         */
+        Editor = 1 << 2,
+
+        /**
+         * <summary>
          * Quick playtest in the editor.
          * </summary>
          */
@@ -207,13 +215,24 @@ namespace UILib.Patches {
         [HarmonyPostfix]
         [HarmonyPatch(typeof(LevelEditorManager), "SetPlaymodeObjects")]
         private static void OnQuickPlaytest(bool isPlaymode) {
-            Scene scene = SceneManager.GetActiveScene();
-
             if (isPlaymode == true) {
                 Invoke(loadListeners, SceneType.QuickPlaytest);
             }
             else {
                 Invoke(unloadListeners, SceneType.QuickPlaytest);
+            }
+        }
+
+        /**
+         * <summary>
+         * Editor loads.
+         * </summary>
+         */
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(LevelEditorManager), "Start")]
+        private static void OnEditorLoad() {
+            if (CustomLevelManager.control.LoadLevel_Play == false) {
+                Invoke(loadListeners, SceneType.Editor);
             }
         }
 
@@ -236,10 +255,13 @@ namespace UILib.Patches {
          */
         internal static void OnSceneUnloaded(Scene scene) {
             if (scene.buildIndex != 69) {
-                Invoke(loadListeners, SceneType.BuiltIn);
+                Invoke(unloadListeners, SceneType.BuiltIn);
+            }
+            else if (CustomLevelManager.control.LoadLevel_Play == true) {
+                Invoke(unloadListeners, SceneType.Custom);
             }
             else {
-                Invoke(loadListeners, SceneType.Custom);
+                Invoke(unloadListeners, SceneType.Editor);
             }
         }
     }

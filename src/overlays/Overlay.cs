@@ -340,12 +340,12 @@ namespace UILib {
 
         /**
          * <summary>
-         * Makes this overlay visible and
-         * creates a new <see cref="Patches.Lock"/>
-         * with the current <see cref="lockMode"/>.
+         * Another show method for force showing, which bypasses
+         * the configured fade duration.
          * </summary>
+         * <param name="force">Whether to bypass fading</param>
          */
-        public override void Show() {
+        internal void Show(bool force) {
             // Make sure the game object is enabled first
             canvas.Show();
             base.Show();
@@ -354,7 +354,7 @@ namespace UILib {
             BringToFront();
 
             // Start fading in
-            fade.FadeIn();
+            fade.FadeIn(force);
 
             // Acquire a lock
             if (@lock == null) {
@@ -367,12 +367,23 @@ namespace UILib {
 
         /**
          * <summary>
+         * Makes this overlay visible and
+         * creates a new <see cref="Patches.Lock"/>
+         * with the current <see cref="lockMode"/>.
+         * </summary>
+         */
+        public override void Show() {
+            Show(false);
+        }
+
+        /**
+         * <summary>
          * Another hide method for force hiding, which bypasses
          * the configured fade duration.
          * </summary>
          * <param name="force">Whether to bypass fading</param>
          */
-        private void Hide(bool force) {
+        internal void Hide(bool force) {
             if (isVisible == true) {
                 fade.FadeOut(force);
             }

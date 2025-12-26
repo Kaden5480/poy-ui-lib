@@ -112,6 +112,11 @@ namespace UILib {
          * wrapped in BepInEx `ConfigEntry` types.
          *
          * All `keys` must be down for the shortcut to trigger.
+         *
+         * As the provided `ConfigEntry` types are references, any updates
+         * to their `Value` are automatically/naturally picked up by this shortcut.
+         *
+         * There is no reason to call <see cref="SetShortcut"/> again in this case.
          * </summary>
          * <param name="keys">The keys for the shortcut</param>
          */
@@ -125,6 +130,11 @@ namespace UILib {
          *
          * All provided `keys` and `bepInKeys` must be down
          * for the shortcut to trigger.
+         *
+         * As the provided `ConfigEntry` types are references, any updates
+         * to their `Value` are automatically/naturally picked up by this shortcut.
+         *
+         * There is no reason to call <see cref="SetShortcut"/> again in this case.
          * </summary>
          * <param name="keys">The shortcut's plain keys</param>
          * <param name="bepInKeys">The shortcut's BepInEx `ConfigEntry` keys</param>

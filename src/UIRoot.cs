@@ -213,6 +213,9 @@ namespace UILib {
          *
          * This is the recommended way of handling global shortcuts
          * when working with UILib.
+         *
+         * Note:
+         * You can only add global shortcuts from <see cref="onInit"/> onwards.
          * </summary>
          * <param name="shortcut">The shortcut to add</param>
          */

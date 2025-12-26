@@ -63,6 +63,8 @@ namespace UILib {
         /**
          * <summary>
          * Plays the specified audio clip.
+         *
+         * This is only usable from <see cref="UIRoot.onInit"/> onwards.
          * </summary>
          * <param name="clip">The clip to play</param>
          * <param name="volume">The volume to play the clip with</param>
@@ -78,6 +80,8 @@ namespace UILib {
          * Plays the navigation sound from the provided theme.
          *
          * Passing `null` for the theme means the current theme will be used instead.
+         *
+         * This is only usable from <see cref="UIRoot.onInit"/> onwards.
          * </summary>
          */
         public static void PlayNavigation(Theme theme = null) {
@@ -96,6 +100,8 @@ namespace UILib {
          * Plays the notification sound from the provided theme.
          *
          * Passing `null` for the theme means the current theme will be used instead.
+         *
+         * This is only usable from <see cref="UIRoot.onInit"/> onwards.
          * </summary>
          */
         public static void PlayNormal(Theme theme = null) {
@@ -111,6 +117,8 @@ namespace UILib {
          * Plays the error notification sound from the provided theme.
          *
          * Passing `null` for the theme means the current theme will be used instead.
+         *
+         * This is only usable from <see cref="UIRoot.onInit"/> onwards.
          * </summary>
          */
         public static void PlayError(Theme theme = null) {

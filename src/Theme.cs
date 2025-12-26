@@ -34,9 +34,11 @@ namespace UILib {
          *
          * If you wish to register a new theme, its name must be unique.
          *
-         * You should also register themes in `Awake`. UILib doesn't need to
-         * be <see cref="UIRoot.onInit">initialized</see> for you to
-         * add themes.
+         * You should register themes in `Awake`.
+         *
+         * You shouldn't use event listeners for
+         * <see cref="UIRoot.onPreInit"/> or <see cref="UIRoot.onInit"/>
+         * just register directly in `Awake`.
          * </summary>
          * <param name="theme">The theme to add</param>
          */
@@ -60,6 +62,9 @@ namespace UILib {
          * <summary>
          * Gets all registered themes.
          *
+         * You can only rely on this being usable from
+         * <see cref="UIRoot.onPreInit"/> onwards.
+         *
          * Note:
          * These themes are not copies.
          * </summary>
@@ -72,6 +77,9 @@ namespace UILib {
         /**
          * <summary>
          * Gets a copy of the current theme.
+         *
+         * You can only rely on this being usable from
+         * <see cref="UIRoot.onPreInit"/> onwards.
          * </summary>
          * <returns>A copy of the current theme</returns>
          */
@@ -82,6 +90,9 @@ namespace UILib {
         /**
          * <summary>
          * Gets a <see cref="Register">registered</see> theme.
+         *
+         * You can only rely on this being usable from
+         * <see cref="UIRoot.onPreInit"/> onwards.
          * </summary>
          * <param name="theme">The theme to get</param>
          * <returns>The theme if found, null otherwise</returns>

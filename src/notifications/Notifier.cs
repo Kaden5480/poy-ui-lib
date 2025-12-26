@@ -15,7 +15,9 @@ namespace UILib.Notifications {
          * This will also play whichever notification sounds
          * are configured in the theme.
          *
-         * A `theme` of null just means to use UILib's default.
+         * A `theme` of `null` just means to use UILib's default.
+         *
+         * This can only be used from <see cref="UIRoot.onInit"/> onwards.
          * </summary>
          * <param name="title">The title (could just be the name of the mod)</param>
          * <param name="message">The message to display</param>

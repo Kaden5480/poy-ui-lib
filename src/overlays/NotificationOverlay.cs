@@ -3,6 +3,7 @@ using Image = UnityEngine.UI.Image;
 
 using UILib.Components;
 using UILib.Layouts;
+using UILib.Patches;
 
 namespace UILib {
     /**
@@ -22,6 +23,7 @@ namespace UILib {
             float margin = 20;
 
             SetSortingMode(Overlay.SortingMode.Static);
+            SetLockMode(LockMode.None);
 
             SetAnchor(AnchorType.TopRight);
             SetFill(FillType.Vertical);

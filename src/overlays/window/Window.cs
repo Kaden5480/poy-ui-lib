@@ -324,11 +324,10 @@ namespace UILib {
          * You shouldn't normally need to call this method
          * as it's automatically used internally.
          * </summary>
-         * <returns>Whether the fullscreen mode was even changed</returns>
          */
-        public bool EndFullscreen() {
+        public void EndFullscreen() {
             if (fullscreen == false) {
-                return false;
+                return;
             }
 
             if (state != null) {
@@ -338,7 +337,6 @@ namespace UILib {
 
             titleBar.fullscreenButton.label.text.text = "+";
             fullscreen = false;
-            return true;
         }
 
         /**
@@ -352,9 +350,11 @@ namespace UILib {
          * <param name="position">The world position to restore to</param>
          */
         public void EndFullscreen(Vector2 position) {
-            if (EndFullscreen() == false) {
+            if (fullscreen == false) {
                 return;
             }
+
+            EndFullscreen();
 
             // Fix local position
             Vector2 sizeDelta = rectTransform.sizeDelta;

@@ -78,9 +78,7 @@ namespace UILib.ColorPicker {
 
             UIButton doneButton = new UIButton("Done", 20);
             doneButton.SetSize(100f, 30f);
-            doneButton.onClick.AddListener(() => {
-                Unlink(updater.current);
-            });
+            doneButton.onClick.AddListener(Hide);
             Add(doneButton);
 
             updater.Init();
@@ -92,7 +90,7 @@ namespace UILib.ColorPicker {
                     OpenDetached();
                 }
                 else {
-                    Unlink(updater.current);
+                    Hide();
                 }
             });
             UIRoot.AddShortcut(toggleShortcut);
@@ -131,7 +129,7 @@ namespace UILib.ColorPicker {
          * </summary>
          */
         internal void OpenDetached() {
-            Unlink(updater.current);
+            Unlink();
             SetTheme(Theme.GetThemeUnsafe());
 
             updater.SetColor(Color.white);
@@ -146,6 +144,17 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
+         * Hides the color picker window and unlinks
+         * the currently linked field.
+         * </summary>
+         */
+        public override void Hide() {
+            base.Hide();
+            Unlink();
+        }
+
+        /**
+         * <summary>
          * Updates the currently selected color field to
          * be a different one.
          * </summary>
@@ -153,7 +162,7 @@ namespace UILib.ColorPicker {
          * <param name="theme">The theme to use</param>
          */
         internal void Link(ColorField field) {
-            Unlink(updater.current);
+            Unlink();
             updater.current = field;
             updater.SetColor(field.value);
             SetTheme(field.theme);
@@ -173,15 +182,10 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
-         * Unlinks a color field.
+         * Unlinks the currently linked field
          * </summary>
-         * <param name="field">The field to unlink</param>
          */
-        internal void Unlink(ColorField field) {
-            if (updater.current != field) {
-                return;
-            }
-
+        private void Unlink() {
             if (updater.current != null) {
                 Color color = Colors.RGBA(
                     updater.red, updater.green,
@@ -194,6 +198,20 @@ namespace UILib.ColorPicker {
 
             updater.current = null;
             updater.SetColor(Color.white);
+        }
+
+        /**
+         * <summary>
+         * Unlinks the provided color field.
+         * </summary>
+         * <param name="field">The color field to unlink from</param>
+         */
+        internal void Unlink(ColorField field) {
+            if (field == null || field != updater.current) {
+                return;
+            }
+
+            Unlink();
             Hide();
         }
 

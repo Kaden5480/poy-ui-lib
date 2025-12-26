@@ -28,6 +28,11 @@ namespace UILib.Notifications {
             NotificationType type = NotificationType.Normal,
             Theme theme = null
         ) {
+            if (UIRoot.notificationOverlay == null) {
+                logger.LogError("It's too early to send notifications, UIRoot hasn't initialized yet");
+                return;
+            }
+
             if (theme == null) {
                 theme = Theme.GetThemeUnsafe();
             }
@@ -50,7 +55,7 @@ namespace UILib.Notifications {
                     break;
             }
 
-            UIRoot.notificationArea.Add(notification, false);
+            UIRoot.notificationOverlay.Add(notification, false);
         }
     }
 }

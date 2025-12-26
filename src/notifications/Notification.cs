@@ -55,7 +55,7 @@ namespace UILib.Notifications {
             message = ClampString(message, maxMessage);
 
             // Building UI
-            SetSize(NotificationArea.size, 100f);
+            SetSize(UIRoot.notificationOverlay.width, 100f);
 
             Image background = new Image(theme.background);
             background.SetFill(FillType.All);

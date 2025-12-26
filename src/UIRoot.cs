@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using UILib.ColorPicker;
-using UILib.Notifications;
 
 namespace UILib {
     /**
@@ -74,7 +73,7 @@ namespace UILib {
 
         // The input overlay and notification area
         internal static InputOverlay inputOverlay { get; private set; }
-        internal static NotificationArea notificationArea { get; private set; }
+        internal static NotificationOverlay notificationOverlay { get; private set; }
         internal static TooltipOverlay tooltipOverlay { get; private set; }
 
         // The color picker window
@@ -112,9 +111,9 @@ namespace UILib {
             // Initialize audio
             Audio.Init();
 
-            // Initialize the notification area
-            notificationArea = new NotificationArea();
-            UIObject.SetParent(gameObject, notificationArea.canvas.gameObject);
+            // Initialize the notification overlay
+            notificationOverlay = new NotificationOverlay();
+            UIObject.SetParent(gameObject, notificationOverlay.canvas.gameObject);
 
             // Initialize input overlay
             inputOverlay = new InputOverlay();
@@ -154,7 +153,7 @@ namespace UILib {
             }
 
             inputOverlay.canvas.canvas.sortingOrder = inputOverlaySortingOrder;
-            notificationArea.canvas.canvas.sortingOrder = notificationSortingOrder;
+            notificationOverlay.canvas.canvas.sortingOrder = notificationSortingOrder;
             tooltipOverlay.canvas.canvas.sortingOrder = tooltipOverlaySortingOrder;
 
             isInitialized = true;
@@ -203,7 +202,7 @@ namespace UILib {
             }
 
             inputOverlay.canvas.Show();
-            notificationArea.canvas.Show();
+            notificationOverlay.canvas.Show();
             tooltipOverlay.canvas.Show();
         }
 

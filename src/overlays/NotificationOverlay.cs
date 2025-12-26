@@ -4,28 +4,24 @@ using Image = UnityEngine.UI.Image;
 using UILib.Components;
 using UILib.Layouts;
 
-namespace UILib.Notifications {
+namespace UILib {
     /**
      * <summary>
-     * The area which holds all notifications.
+     * The overlay which holds all notifications.
      * </summary>
      */
-    internal class NotificationArea : UIObject {
-        internal const float size = 400f;
-        internal Canvas canvas;
-
+    internal class NotificationOverlay : Overlay {
         private Area area;
 
         /**
          * <summary>
-         * Initializes an area to display notifications.
+         * Initializes an overlay to display notifications.
          * </summary>
          */
-        internal NotificationArea() {
+        internal NotificationOverlay() : base(400f, 0f) {
             float margin = 20;
 
-            canvas = new Canvas();
-            canvas.Add(this);
+            SetSortingMode(Overlay.SortingMode.Static);
 
             SetAnchor(AnchorType.TopRight);
             SetFill(FillType.Vertical);
@@ -35,18 +31,21 @@ namespace UILib.Notifications {
             area.SetContentLayout(LayoutType.Vertical);
             area.SetElementSpacing(margin);
 
-            Add(gameObject, area);
+            Add(area);
 
             SetOffset(-margin, 0f);
-            SetSize(size, -(2f * margin));
+            SetSize(width, -(2f * margin));
 
             // Use the area as the content instead
             SetContent(area);
+
+            // Show by default
+            Show(true);
         }
 
         /**
          * <summary>
-         * Allows setting the theme of this notification area.
+         * Allows setting the theme of the notification overlay.
          * Does nothing.
          * </summary>
          * <param name="theme">The theme to apply</param>

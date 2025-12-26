@@ -63,6 +63,13 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Whether this toggle will play the navigation sound when clicked.
+         * </summary>
+         */
+        public bool playSound { get; private set; } = true;
+
+        /**
+         * <summary>
          * Initializes this toggle.
          * </summary>
          * <param name="value">The default value</param>
@@ -92,7 +99,11 @@ namespace UILib.Components {
                 }
 
                 UpdateOffImage(val);
-                Audio.PlayNavigation(theme);
+
+                if (playSound == true) {
+                    Audio.PlayNavigation(theme);
+                }
+
                 onValueChanged.Invoke(val);
             });
 
@@ -166,6 +177,16 @@ namespace UILib.Components {
             offImage.DestroyMouseHandler();
 
             UpdateOffImage(value);
+        }
+
+        /**
+         * <summary>
+         * Sets whether this toggle should play the navigation sound.
+         * </summary>
+         * <param name="playSound">Whether this toggle should play a sound</param>
+         */
+        public void SetPlaySound(bool playSound) {
+            this.playSound = playSound;
         }
 
         /**

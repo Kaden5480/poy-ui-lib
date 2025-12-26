@@ -27,6 +27,7 @@ namespace UILib.Patches {
             LockHandler.Init();
 
             Patch(typeof(Audio));
+            Patch(typeof(EditorFixes));
             Patch(typeof(GameMenu));
             Patch(typeof(InteractFixes));
             Patch(typeof(FadeFix));

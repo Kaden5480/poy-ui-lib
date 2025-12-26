@@ -68,14 +68,14 @@ namespace UILib {
          * The currently configured width of this UIObject.
          * </summary>
          */
-        protected float width { get; private set; }
+        public float width { get; private set; }
 
         /**
          * <summary>
          * The currently configured height of this UIObject.
          * </summary>
          */
-        protected float height { get; private set; }
+        public float height { get; private set; }
 
         /**
          * <summary>

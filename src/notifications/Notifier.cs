@@ -53,7 +53,7 @@ namespace UILib.Notifications {
                     Audio.PlayError(theme);
                     break;
                 default:
-                    logger.LogDebug($"Unexpected notification type: {type}");
+                    logger.LogError($"Unexpected notification type: {type}");
                     break;
             }
 

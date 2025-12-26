@@ -830,7 +830,7 @@ namespace UILib {
                     break;
 
                 default:
-                    logger.LogDebug($"Unexpected anchor type: {anchorType}");
+                    logger.LogError($"Unexpected anchor type: {anchorType}");
                     return;
             }
 
@@ -864,7 +864,7 @@ namespace UILib {
                     SetSize(-1f, -1f);
                     break;
                 default:
-                    logger.LogDebug($"Unexpected fill type: {fillType}");
+                    logger.LogError($"Unexpected fill type: {fillType}");
                     break;
             }
         }
@@ -916,7 +916,7 @@ namespace UILib {
                     break;
 
                 default:
-                    logger.LogDebug($"Unexpected fill type: {fillType}");
+                    logger.LogError($"Unexpected fill type: {fillType}");
                     return;
             }
         }
@@ -1000,7 +1000,7 @@ namespace UILib {
             }
 
             if (layoutGroup == null) {
-                logger.LogDebug("No layout group, can't apply element alignment");
+                logger.LogError("No layout group, can't apply element alignment");
                 return;
             }
 
@@ -1024,7 +1024,7 @@ namespace UILib {
             }
 
             if (layoutGroup == null) {
-                logger.LogDebug("No layout group, can't apply element spacing");
+                logger.LogError("No layout group, can't apply element spacing");
                 return;
             }
 
@@ -1056,7 +1056,7 @@ namespace UILib {
             }
 
             if (layoutGroup == null) {
-                logger.LogDebug("No layout group, can't apply padding");
+                logger.LogError("No layout group, can't apply padding");
                 return;
             }
 

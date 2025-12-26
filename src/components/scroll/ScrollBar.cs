@@ -63,7 +63,7 @@ namespace UILib.Components {
                     SetOffset(-10f, 0f);
                     break;
                 default:
-                    logger.LogDebug($"Unexpected ScrollType: {scrollType}");
+                    logger.LogError($"Unexpected ScrollType: {scrollType}");
                     break;
             }
 

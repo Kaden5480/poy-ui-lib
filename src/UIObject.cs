@@ -17,7 +17,8 @@ namespace UILib {
      * inherit from.
      *
      * You'd rarely want to use this class directly though.
-     * Most of the time you'd want to use <see cref="UIComponent"/>.
+     * Most of the time you'd want to use <see cref="UIComponent"/>
+     * or something like an <see cref="Overlay"/> or <see cref="Window"/>.
      *
      * Provides most of the necessary functionality.
      * </summary>

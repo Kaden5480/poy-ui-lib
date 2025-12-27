@@ -7,13 +7,50 @@ namespace UILib {
     /**
      * <summary>
      * A class for interacting with UILib's audio.
+     *
+     * Note:
+     * If you intend to play multiple arbitrary sounds at once,
+     * you should not use this class.
+     *
+     * It's intended for most simple use cases, and has
+     * an `AudioSource` per `Play*` method, but it can't
+     * handle playing multiple sounds at once through the same
+     * `Play*` method.
      * </summary>
      */
     public static class Audio {
         private static Logger logger = new Logger(typeof(Audio));
 
+        // Root GameObject
         private static GameObject gameObject;
-        private static AudioSource source;
+
+        // Sources
+        private static AudioSource genericSource;
+        private static AudioSource notificationSource;
+        private static AudioSource notificationErrorSource;
+        private static AudioSource navigationSource;
+
+        /**
+         * <summary>
+         * Creates a new GameObject with an AudioSource attached to it.
+         * Also attaches this object to the Audio's root object.
+         * </summary>
+         * <returns>The AudioSource which was created</returns>
+         */
+        private static AudioSource MakeSource(string name) {
+            GameObject obj = new GameObject(name);
+            UIObject.SetParent(gameObject, obj);
+
+            AudioSource source = obj.AddComponent<AudioSource>();
+            source.bypassReverbZones = true;
+            source.bypassEffects = true;
+            source.bypassListenerEffects = true;
+            source.volume = 0.5f;
+
+            logger.LogDebug($"Made source: {name}");
+
+            return source;
+        }
 
         /**
          * <summary>
@@ -28,11 +65,10 @@ namespace UILib {
             gameObject = new GameObject($"{typeof(Audio)}");
             UIObject.SetParent(UIRoot.gameObject, gameObject);
 
-            source = gameObject.AddComponent<AudioSource>();
-            source.bypassReverbZones = true;
-            source.bypassEffects = true;
-            source.bypassListenerEffects = true;
-            source.volume = 0.5f;
+            genericSource = MakeSource("Generic");
+            notificationSource = MakeSource("Notification");
+            notificationErrorSource = MakeSource("NotificationError");
+            navigationSource = MakeSource("Navigation");
 
             logger.LogDebug("Initialized");
 
@@ -55,9 +91,33 @@ namespace UILib {
                     continue;
                 }
 
+                genericSource.outputAudioMixerGroup = mixerGroup;
+                navigationSource.outputAudioMixerGroup = mixerGroup;
+                notificationSource.outputAudioMixerGroup = mixerGroup;
+                notificationErrorSource.outputAudioMixerGroup = mixerGroup;
                 logger.LogDebug("Assigned to SFX mixer group");
-                source.outputAudioMixerGroup = mixerGroup;
             }
+        }
+
+        /**
+         * <summary>
+         * Plays the specified audio clip using a provided source.
+         *
+         * This is only usable from <see cref="UIRoot.onInit"/> onwards.
+         * </summary>
+         * <param name="source">The source to play from</param>
+         * <param name="clip">The clip to play</param>
+         * <param name="volume">The volume to play the clip with</param>
+         */
+        private static void Play(AudioSource source, AudioClip clip, float volume) {
+            if (source == null) {
+                logger.LogError("Unable to play audio, the AudioSource was null");
+                return;
+            }
+
+            source.clip = clip;
+            source.volume = volume;
+            source.Play();
         }
 
         /**
@@ -70,9 +130,7 @@ namespace UILib {
          * <param name="volume">The volume to play the clip with</param>
          */
         public static void Play(AudioClip clip, float volume) {
-            source.clip = clip;
-            source.volume = volume;
-            source.Play();
+            Play(genericSource, clip, volume);
         }
 
         /**
@@ -89,10 +147,11 @@ namespace UILib {
                 theme = Theme.GetThemeUnsafe();
             }
 
-            source.clip = theme.navigationSound;
-            source.volume = theme.navigationSoundVolume;
-
-            source.Play();
+            Play(
+                navigationSource,
+                theme.navigationSound,
+                theme.navigationSoundVolume
+            );
         }
 
         /**
@@ -109,7 +168,11 @@ namespace UILib {
                 theme = Theme.GetThemeUnsafe();
             }
 
-            Play(theme.notification, theme.notificationVolume);
+            Play(
+                notificationSource,
+                theme.notification,
+                theme.notificationVolume
+            );
         }
 
         /**
@@ -126,7 +189,11 @@ namespace UILib {
                 theme = Theme.GetThemeUnsafe();
             }
 
-            Play(theme.notificationError, theme.notificationErrorVolume);
+            Play(
+                notificationErrorSource,
+                theme.notificationError,
+                theme.notificationErrorVolume
+            );
         }
     }
 }

@@ -358,7 +358,7 @@ namespace UILib {
          * In general adding to the <see cref="Components.ScrollView"/> directly doesn't make much
          * sense, you usually want to add to the "Content" `GameObject` instead.
          * So, <see cref="Components.ScrollView">ScrollViews</see> configure their content
-         * to be the "Content", rather than "ScrollView".
+         * to be "Content", rather than "ScrollView".
          * </summary>
          * <param name="content">The component which should be the `content` instead</param>
          */
@@ -522,7 +522,7 @@ namespace UILib {
 
         /**
          * <summary>
-         * Destroy this UIObject and all children.
+         * Destroys this UIObject and all children.
          * </summary>
          */
         public virtual void Destroy() {

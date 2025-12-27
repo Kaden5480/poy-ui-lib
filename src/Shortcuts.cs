@@ -49,6 +49,11 @@ namespace UILib {
         /**
          * <summary>
          * A static property which indicates whether a shortcut can run.
+         *
+         * Shortcuts **can't** run in these cases:
+         * - UILib's `InputOverlay` waiting for an input
+         * - An input field being selected (to avoid triggering while typing/deselecting)
+         * - The player is editing keybinds in the `InGameMenu`
          * </summary>
          */
         public static bool canRun { get => CheckCanRun(); }

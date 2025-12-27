@@ -86,17 +86,16 @@ namespace UILib.Behaviours {
          * <summary>
          * Starts the timer.
          * If the timer is already running, this will restart it.
-         *
-         * Both the start and end time must be >= 0.
          * </summary>
          * <param name="startTime">What time the timer should start at</param>
          * <param name="endTime">What time the timer should end at</param>
          */
         public void StartTimer(float startTime, float endTime = 0f) {
-            this.startTime = Mathf.Max(0f, startTime);
-            this.endTime = Mathf.Max(0f, endTime);
-
             StopTimer();
+
+            this.startTime = startTime;
+            this.endTime = endTime;
+
             coroutine = RunTimer();
             running = true;
             StartCoroutine(coroutine);

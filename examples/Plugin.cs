@@ -2,6 +2,7 @@ using BepInEx;
 using UILib;
 
 namespace UILibExamples {
+    [BepInDependency("com.github.Kaden5480.poy-ui-lib")]
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib-examples", "UILib Examples", "0.1.0")]
     internal class Plugin : BaseUnityPlugin {
         private Examples examples;

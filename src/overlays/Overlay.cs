@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 using UILib.Behaviours;
 using UILib.Components;
+using UILib.Events;
 using UILib.Layouts;
 using UILib.Patches;
 
@@ -94,14 +95,18 @@ namespace UILib {
          * Invokes listeners when this overlay becomes focused.
          * </summary>
          */
-        public UnityEvent onFocus { get; } = new UnityEvent();
+        public UIEvent onFocus { get; } = new UIEvent(
+            typeof(Overlay), nameof(onFocus)
+        );
 
         /**
          * <summary>
          * Invokes listeners when this overlay loses focus.
          * </summary>
          */
-        public UnityEvent onLostFocus { get; } = new UnityEvent();
+        public UIEvent onLostFocus { get; } = new UIEvent(
+            typeof(Overlay), nameof(onLostFocus)
+        );
 
         /**
          * <summary>

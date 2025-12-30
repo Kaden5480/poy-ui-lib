@@ -227,8 +227,7 @@ namespace UILib {
             scrollView.background.color = bg;
 
             // Set fade times and opacities on decorations
-            decorationFade.SetFadeTime(theme.windowDecorationFadeTime);
-            decorationFade.SetOpacities(max: theme.windowDecorationOpacity);
+            decorationFade.SetLimits(0f, theme.windowDecorationOpacity);
             SetCanvasGroupOpacity(cgTitleBar, theme.windowDecorationOpacity);
             SetCanvasGroupOpacity(cgScrollBarH, theme.windowDecorationOpacity);
             SetCanvasGroupOpacity(cgScrollBarV, theme.windowDecorationOpacity);
@@ -262,7 +261,7 @@ namespace UILib {
          */
         public override void Enable() {
             base.Enable();
-            decorationFade.FadeIn();
+            decorationFade.EaseIn(theme.windowDecorationFadeTime);
         }
 
         /**
@@ -275,7 +274,7 @@ namespace UILib {
          */
         public override void Disable() {
             base.Disable();
-            decorationFade.FadeOut();
+            decorationFade.EaseOut(theme.windowDecorationFadeTime);
         }
 
 #endregion

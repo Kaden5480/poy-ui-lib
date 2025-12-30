@@ -154,7 +154,7 @@ namespace UILib {
             // Only disable once fading out has finished
             // Showing is handled in Show() as the gameObject
             // has to be enabled immediately
-            fade.onFadeOut.AddListener(() => {
+            fade.onEaseOut.AddListener(() => {
                 canvas.Hide();
                 base.Hide();
             });
@@ -207,10 +207,8 @@ namespace UILib {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
-            // Tell the fade to use a different opacity
-            // and fade time
-            fade.SetOpacities(max: theme.overlayOpacity);
-            fade.SetFadeTime(theme.overlayFadeTime);
+            // Update opacities
+            fade.SetLimits(0f, theme.overlayOpacity);
 
             // Update the canvas group
             canvasGroup.alpha = theme.overlayOpacity;
@@ -346,7 +344,7 @@ namespace UILib {
          * </summary>
          */
         public override void ToggleVisibility() {
-            if (isVisible == false || fade.fadingOut == true) {
+            if (isVisible == false || fade.easingOut == true) {
                 Show();
             }
             else {
@@ -370,7 +368,12 @@ namespace UILib {
             UIRoot.BringToFront(this, true);
 
             // Start fading in
-            fade.FadeIn(force);
+            if (force == true) {
+                fade.EaseIn(0f);
+            }
+            else {
+                fade.EaseIn(theme.overlayFadeTime);
+            }
 
             // Acquire a lock
             if (@lock == null) {
@@ -401,7 +404,12 @@ namespace UILib {
          */
         internal void Hide(bool force) {
             if (isVisible == true) {
-                fade.FadeOut(force);
+                if (force == true) {
+                    fade.EaseOut(0f);
+                }
+                else {
+                    fade.EaseOut(theme.overlayFadeTime);
+                }
             }
 
             // Clear the current lock

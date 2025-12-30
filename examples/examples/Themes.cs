@@ -79,7 +79,7 @@ namespace UILibExamples {
             // This will use the ease in/out times and functions set in
             // the theme
             Ease ease = window.AddEase();
-            ease.SetLimits(-400f, 50f);
+            ease.SetLimits(50f, -400f);
             ease.onEase.AddListener((float value) => {
                 window.SetOffset(value, 100f);
             });

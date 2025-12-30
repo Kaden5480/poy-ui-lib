@@ -133,7 +133,7 @@ namespace UILib {
             inputBackground.SetColor(theme.background);
 
             // Only apply opacity to background
-            fade.SetLimits(0f, 1f);
+            fade.SetLimits(1f, 0f);
             canvasGroup.alpha = 1f;
 
             Color bg = theme.background;

@@ -51,6 +51,20 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * How long it should take for this behaviour to finish easing in.
+         * </summary>
+         */
+        public float easeInTime = 0f;
+
+        /**
+         * <summary>
+         * How long it should take for this behaviour to finish easing out.
+         * </summary>
+         */
+        public float easeOutTime = 0f;
+
+        /**
+         * <summary>
          * Whether this behaviour is currently easing in.
          * </summary>
          */
@@ -149,14 +163,38 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Sets the ease-in and ease-out times.
+         * provided time.
+         * </summary>
+         * <param name="easeOutTime">The time to set for easing out</param>
+         * <param name="easeInTime">The time to set for easing in</param>
+         */
+        public virtual void SetTimes(float easeInTime, float easeOutTime) {
+            this.easeInTime = easeInTime;
+            this.easeOutTime = easeOutTime;
+        }
+
+        /**
+         * <summary>
+         * Sets both the ease-in and ease-out times to the
+         * provided time.
+         * </summary>
+         * <param name="time">The time to set</param>
+         */
+        public virtual void SetTimes(float time) {
+            SetTimes(time, time);
+        }
+
+        /**
+         * <summary>
          * Sets the values to ease between.
          * </summary>
-         * <param name="easeOutValue">The value to ease out to (minimum)</param>
          * <param name="easeInValue">The value to ease in to (maximum)</param>
+         * <param name="easeOutValue">The value to ease out to (minimum)</param>
          */
-        public virtual void SetLimits(float easeOutValue, float easeInValue) {
-            this.easeOutValue = easeOutValue;
+        public virtual void SetLimits(float easeInValue, float easeOutValue) {
             this.easeInValue = easeInValue;
+            this.easeOutValue = easeOutValue;
         }
 
         /**

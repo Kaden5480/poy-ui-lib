@@ -49,18 +49,17 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Sets the minimum and maximum opacities
-         * to fade between.
+         * Sets the opacities to fade between.
          *
-         * Both `min` and `max` must be between 0-1 inclusive.
+         * Both `fadeInOpacity` and `fadeOutOpacity` must be between 0-1 inclusive.
          * </summary>
-         * <param name="min">The minimum opacity</param>
-         * <param name="max">The maximum opacity</param>
+         * <param name="fadeInOpacity">The opacity to fade in to</param>
+         * <param name="fadeOutOpacity">The opacity to fade out to</param>
          */
-        public override void SetLimits(float min = 0f, float max = 1f) {
-            min = Mathf.Clamp(min, 0f, 1f);
-            max = Mathf.Clamp(max, 0f, 1f);
-            base.SetLimits(min, max);
+        public override void SetLimits(float fadeInOpacity = 1f, float fadeOutOpacity = 0f) {
+            fadeInOpacity = Mathf.Clamp(fadeInOpacity, 0f, 1f);
+            fadeOutOpacity = Mathf.Clamp(fadeOutOpacity, 0f, 1f);
+            base.SetLimits(fadeInOpacity, fadeOutOpacity);
         }
     }
 }

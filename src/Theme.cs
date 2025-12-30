@@ -488,12 +488,22 @@ namespace UILib {
         /**
          * <summary>
          * How long it should take for the
-         * <see cref="Window">Window's</see> decorations to fade in/out.
-         * This applies whenever <see cref="Window.Enable"/> or <see cref="Window.Disable"/>
+         * <see cref="Window">Window's</see> decorations to fade in.
+         * This applies whenever <see cref="Window.Enable"/>
          * is called.
          * </summary>
          */
-        public float windowDecorationFadeTime = 0.5f;
+        public float windowDecorationFadeInTime = 0.5f;
+
+        /**
+         * <summary>
+         * How long it should take for the
+         * <see cref="Window">Window's</see> decorations to fade out.
+         * This applies whenever <see cref="Window.Disable"/>
+         * is called.
+         * </summary>
+         */
+        public float windowDecorationFadeOutTime = 0.5f;
 
 #endregion
 

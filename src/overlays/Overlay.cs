@@ -204,9 +204,9 @@ namespace UILib {
         protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
 
-
-            // Update opacities
-            fade.SetLimits(0f, theme.overlayOpacity);
+            // Update opacities and times
+            fade.SetLimits(theme.overlayOpacity, 0f);
+            fade.SetTimes(theme.overlayFadeInTime, theme.overlayFadeOutTime);
 
             // Set custom easing functions
             fade.easeInFunction = theme.overlayFadeInFunction;

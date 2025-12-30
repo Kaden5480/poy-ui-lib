@@ -8,7 +8,7 @@ namespace UILib {
      * </summary>
      */
     internal class Logger {
-        private Type type;
+        private string name;
 
         /**
          * <summary>
@@ -17,7 +17,17 @@ namespace UILib {
          * <param name="type">The type this logger is for</param>
          */
         internal Logger(Type type) {
-            this.type = type;
+            name = $"{type}";
+        }
+
+        /**
+         * <summary>
+         * Initializes a Logger with a custom name.
+         * </summary>
+         * <param name="name">The name to assign to this logger</param>
+         */
+        internal Logger(string name) {
+            this.name = name;
         }
 
         /**
@@ -27,7 +37,7 @@ namespace UILib {
          * <param name="message">The message to log</param>
          */
         internal void LogDebug(string message) {
-            Plugin.LogDebug($"[{type}] {message}");
+            Plugin.LogDebug($"[{name}] {message}");
         }
 
         /**
@@ -37,7 +47,7 @@ namespace UILib {
          * <param name="message">The message to log</param>
          */
         internal void LogInfo(string message) {
-            Plugin.LogInfo($"[{type}] {message}");
+            Plugin.LogInfo($"[{name}] {message}");
         }
 
         /**
@@ -47,7 +57,7 @@ namespace UILib {
          * <param name="message">The message to log</param>
          */
         internal void LogError(string message) {
-            Plugin.LogError($"[{type}] {message}");
+            Plugin.LogError($"[{name}] {message}");
         }
     }
 }

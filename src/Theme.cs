@@ -358,6 +358,34 @@ namespace UILib {
 
 #endregion
 
+#region Animations
+
+        /**
+         * <summary>
+         * How long it should take for <see cref="UIObject">
+         * UIObjects</see> to ease in.
+         *
+         * This only affects `UIObjects` with animations on.
+         *
+         * This applies whenever a `UIObject` is shown.
+         * </summary>
+         */
+        public float easeInTime = 0f;
+
+        /**
+         * <summary>
+         * How long it should take for <see cref="UIObject">
+         * UIObjects</see> to ease out.
+         *
+         * This only affects `UIObjects` with animations on.
+         *
+         * This applies whenever a `UIObject` is hidden.
+         * </summary>
+         */
+        public float easeOutTime = 0f;
+
+#endregion
+
 #region Overlays and Windows
 
         /**
@@ -370,15 +398,6 @@ namespace UILib {
          * </summary>
          */
         public float overlayOpacity = 1f;
-
-        /**
-         * <summary>
-         * How long it should take for <see cref="Overlay">
-         * Overlays</see> to fade in/out.
-         * This applies whenever an overlay is shown/hidden.
-         * </summary>
-         */
-        public float overlayFadeTime = 0f;
 
         /**
          * <summary>
@@ -623,7 +642,6 @@ namespace UILib {
          */
         public float notificationFadeTime = 1f;
 
-#endregion
 
         /**
          * <summary>
@@ -638,5 +656,7 @@ namespace UILib {
          * </summary>
          */
         public float navigationSoundVolume = 0.20f;
+
+#endregion
     }
 }

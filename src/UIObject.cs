@@ -88,6 +88,14 @@ namespace UILib {
 
         /**
          * <summary>
+         * An <see cref="Behaviours.EaseGroup"/> which runs when this UIObject
+         * is shown/hidden.
+         * </summary>
+         */
+        internal EaseGroup easeGroup { get; private set; }
+
+        /**
+         * <summary>
          * The parent of this UIObject.
          * </summary>
          */
@@ -107,6 +115,32 @@ namespace UILib {
 #region Enable/Hover/Click/Drag Events
 
         internal MouseHandler mouseHandler { get; private set; }
+
+        /**
+         * <summary>
+         * Invokes listeners when this UIObject finishes showing.
+         *
+         * This runs after the <see cref="EaseGroup"/> finishes
+         * animating this UIObject in.
+         *
+         * If this UIObject has no animations, it will still run
+         * to indicate when showing is finished.
+         * </summary>
+         */
+        public virtual UnityEvent onShow { get; private set; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners when this UIObject finishes hiding.
+         *
+         * This runs after the <see cref="EaseGroup"/> finishes
+         * animating this UIObject in.
+         *
+         * If this UIObject has no animations, it will still run
+         * to indicate when hiding is finished.
+         * </summary>
+         */
+        public virtual UnityEvent onHide { get; private set; } = new UnityEvent();
 
         /**
          * <summary>
@@ -309,12 +343,57 @@ namespace UILib {
         public virtual void ToggleVisibility() {
             // Write in terms of Hide and Show
             // to make overriding a little easier
-            if (isVisible == true) {
-                Hide();
-            }
-            else {
+            if (isVisible == false
+                || (easeGroup != null && easeGroup.easingOut == true)
+            ) {
                 Show();
             }
+            else {
+                Hide();
+            }
+        }
+
+        /**
+         * <summary>
+         * Adds an <see cref="Behaviours.EaseGroup"/> to this UIObject.
+         * </summary>
+         */
+        protected virtual void AddEaseGroup() {
+            easeGroup = gameObject.AddComponent<EaseGroup>();
+            easeGroup.onEaseIn.AddListener(OnShow);
+            easeGroup.onEaseOut.AddListener(OnHide);
+        }
+
+        /**
+         * <summary>
+         * Adds a custom <see cref="Behaviours.Ease"/> behaviour to this UIObject.
+         *
+         * This provides a way of applying custom animations when this UIObject
+         * is being shown/hidden.
+         * </summary>
+         * <param name="ease">The ease to add</param>
+         */
+        public virtual void AddEase(Ease ease) {
+            if (easeGroup == null) {
+                AddEaseGroup();
+            }
+
+            easeGroup.Add(ease);
+        }
+
+        /**
+         * <summary>
+         * Adds an <see cref="Behaviours.Ease"/> behaviour to this UIObject.
+         *
+         * This provides a way of applying custom animations when this UIObject
+         * is being shown/hidden.
+         * </summary>
+         * <returns>The Ease which was created and added to this object</returns>
+         */
+        public virtual Ease AddEase() {
+            Ease ease = gameObject.AddComponent<Ease>();
+            AddEase(ease);
+            return ease;
         }
 
         /**
@@ -323,7 +402,36 @@ namespace UILib {
          * </summary>
          */
         public virtual void Show() {
+            Show(false);
+        }
+
+        /**
+         * <summary>
+         * Shows this UIObject.
+         *
+         * Provides a `force` argument which allows you to bypass the
+         * <see cref="Behaviours.EaseGroup"/> set on this UIObject,
+         * bypassing animations.
+         * </summary>
+         * <param name="force">Whether to force showing</param>
+         */
+        public virtual void Show(bool force = false) {
+            // Must be shown first, to allow behaviours to run
             gameObject.SetActive(true);
+
+            if (easeGroup != null) {
+                if (force == true) {
+                    easeGroup.EaseIn(0f);
+                }
+                else {
+                    easeGroup.EaseIn(theme.easeInTime);
+                }
+
+                // Ease group handles running OnShow
+                return;
+            }
+
+            OnShow();
         }
 
         /**
@@ -332,7 +440,53 @@ namespace UILib {
          * </summary>
          */
         public virtual void Hide() {
+            Hide(false);
+        }
+
+        /**
+         * <summary>
+         * Hides this UIObject.
+         *
+         * Provides a `force` argument which allows you to bypass the
+         * <see cref="Behaviours.EaseGroup"/> set on this UIObject,
+         * bypassing animations.
+         * </summary>
+         * <param name="force">Whether to force hiding</param>
+         */
+        public virtual void Hide(bool force = false) {
+            if (easeGroup != null) {
+                if (force == true) {
+                    easeGroup.EaseOut(0f);
+                }
+                else {
+                    easeGroup.EaseOut(theme.easeInTime);
+                }
+
+                // Ease group handles disabling this object
+                // once it's finished
+                return;
+            }
+
+            OnHide();
+        }
+
+        /**
+         * <summary>
+         * Runs when this UIObject finishes showing.
+         * </summary>
+         */
+        public virtual void OnShow() {
+            onShow.Invoke();
+        }
+
+        /**
+         * <summary>
+         * Runs when this UIObject finishes hiding.
+         * </summary>
+         */
+        public virtual void OnHide() {
             gameObject.SetActive(false);
+            onHide.Invoke();
         }
 
         /**

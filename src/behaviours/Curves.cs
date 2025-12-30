@@ -17,7 +17,7 @@ namespace UILib.Behaviours {
          * Applies a linear function.
          * </summary>
          * <param name="value">The value to apply the function to</param>
-         * <returns>The result of applying this function</param>
+         * <returns>The result of applying this function</returns>
          */
         public static float Linear(float value) {
             return Mathf.Clamp(value, 0f, 1f);
@@ -28,7 +28,7 @@ namespace UILib.Behaviours {
          * Applies an exponential easing curve which speeds up over time.
          * </summary>
          * <param name="value">The value to apply the function to</param>
-         * <returns>The result of applying this function</param>
+         * <returns>The result of applying this function</returns>
          */
         public static float EaseInExp(float value) {
             if (value <= 0f) {
@@ -44,7 +44,7 @@ namespace UILib.Behaviours {
          * Applies a exponential easing curve which slows down over time.
          * </summary>
          * <param name="value">The value to apply the function to</param>
-         * <returns>The result of applying this function</param>
+         * <returns>The result of applying this function</returns>
          */
         public static float EaseOutExp(float value) {
             if (value >= 1f) {
@@ -60,7 +60,7 @@ namespace UILib.Behaviours {
          * Applies a exponential easing curve which starts and ends slowly.
          * </summary>
          * <param name="value">The value to apply the function to</param>
-         * <returns>The result of applying this function</param>
+         * <returns>The result of applying this function</returns>
          */
         public static float EaseInOutExp(float value) {
             if (value <= 0f) {

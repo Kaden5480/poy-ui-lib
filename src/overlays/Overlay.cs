@@ -40,7 +40,7 @@ namespace UILib {
              * it can't be brought above another overlay when the user focuses it.
              *
              * It will still get brought to the front initially when opened through
-             * <see cref="Show"/> or <see cref="ToggleVisibility"/>, this only disables
+             * <see cref="Show"/> or <see cref="UIObject.ToggleVisibility"/>, this only disables
              * increasing the sorting order from user interactions.
              * </summary>
              */

@@ -311,6 +311,7 @@ namespace UILib {
             ValueEvent<bool, KeyCode> ev = new ValueEvent<bool, KeyCode>();
             ev.AddListener(delegate {
                 coroutine = null;
+                Audio.PlayNavigation(theme);
                 Hide();
             });
 

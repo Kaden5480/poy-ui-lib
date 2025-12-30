@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using UEImage = UnityEngine.UI.Image;
 using UESlider = UnityEngine.UI.Slider;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Layouts;
 using UILib.Patches.UI;
 

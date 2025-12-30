@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 using UEToggle = UnityEngine.UI.Toggle;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Layouts;
 
 namespace UILib.Components {

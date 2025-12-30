@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UIButton = UILib.Components.Button;
 
 namespace UILib.Components {

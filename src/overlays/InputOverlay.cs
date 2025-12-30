@@ -3,7 +3,7 @@ using System.Collections;
 
 using UnityEngine;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Components;
 using UILib.Layouts;
 using UILib.Patches;

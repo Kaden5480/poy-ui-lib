@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Layouts;
 using UIButton = UILib.Components.Button;
 

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UEImage = UnityEngine.UI.Image;
 using UEInputField = UnityEngine.UI.InputField;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Layouts;
 using UILib.Patches.UI;
 using UILib.Notifications;

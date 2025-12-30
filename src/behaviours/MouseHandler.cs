@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+using UILib.Events;
+
 namespace UILib.Behaviours {
     /**
      * <summary>

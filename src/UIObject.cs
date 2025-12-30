@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 using UILib.Behaviours;
+using UILib.Events;
 using UILib.Components;
 using UILib.Layouts;
 

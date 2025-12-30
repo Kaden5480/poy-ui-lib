@@ -1,6 +1,6 @@
 using System;
 
-using UILib.Behaviours;
+using UILib.Events;
 using UILib.Components;
 using UILib.Layouts;
 using UIButton = UILib.Components.Button;

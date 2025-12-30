@@ -234,8 +234,9 @@ namespace UILib {
          * Also handles setting the focus of an overlay.
          * </summary>
          * <param name="overlay">The overlay to bring to the front</param>
+         * <param name="force">Whether to force bringing to the front</param>
          */
-        internal static void BringToFront(Overlay overlay) {
+        internal static void BringToFront(Overlay overlay, bool force = false) {
             // Try finding the overlay
             int index = overlays.IndexOf(overlay);
 
@@ -252,7 +253,9 @@ namespace UILib {
             overlay.onFocus.Invoke();
 
             // Check for recede
-            if (overlay.sortingMode == Overlay.SortingMode.Recede || index < 0) {
+            if (index < 0 || (force == false
+                && overlay.sortingMode == Overlay.SortingMode.Recede)
+            ) {
                 return;
             }
 

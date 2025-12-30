@@ -366,8 +366,8 @@ namespace UILib {
             canvas.Show();
             base.Show();
 
-            // Bring to the front
-            BringToFront();
+            // Bring to the front forcefully
+            UIRoot.BringToFront(this, true);
 
             // Start fading in
             fade.FadeIn(force);

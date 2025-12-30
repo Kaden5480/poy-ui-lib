@@ -266,7 +266,7 @@ namespace UILib.Patches {
          */
         private static void InvokeEvents(
             bool oldValue, bool newValue,
-            UnityEvent onTrueEvent, UnityEvent onFalseEvent
+            UIEvent onTrueEvent, UIEvent onFalseEvent
         ) {
             if (oldValue == newValue) {
                 return;

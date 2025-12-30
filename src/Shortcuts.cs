@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -322,6 +323,8 @@ namespace UILib {
      * </summary>
      */
     internal class GlobalShortcuts : MonoBehaviour {
+        private Logger logger = new Logger(typeof(GlobalShortcuts));
+
         // The shortcuts assigned
         internal List<Shortcut> shortcuts { get; } = new List<Shortcut>();
 
@@ -364,7 +367,12 @@ namespace UILib {
 
             // Check if shortcuts should trigger
             foreach (Shortcut shortcut in shortcuts) {
-                shortcut.Check();
+                try {
+                    shortcut.Check();
+                }
+                catch (Exception e) {
+                    logger.LogError("Failed checking shortcut", e);
+                }
             }
         }
     }

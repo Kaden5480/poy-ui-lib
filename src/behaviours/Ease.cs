@@ -13,13 +13,17 @@ namespace UILib.Behaviours {
      * </summary>
      */
     public class Ease : MonoBehaviour {
-        private Logger logger;
-
-        // Normalised value currently at (used for easing)
-        private float normalised = 0f;
+        internal Logger logger { get; private set; }
 
         // The current ease coroutine
         private IEnumerator coroutine = null;
+
+        /**
+         * Normalised value used internally for easing.
+         *
+         * Make sure this is always between 0-1 inclusive.
+         */
+        internal float normalised = 0f;
 
         /**
          * <summary>

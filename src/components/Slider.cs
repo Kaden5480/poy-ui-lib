@@ -163,6 +163,7 @@ namespace UILib.Components {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
             slider.colors = theme.blockSelectLight;
             background.SetColor(theme.selectNormal);
             fill.SetColor(theme.selectHighlight);

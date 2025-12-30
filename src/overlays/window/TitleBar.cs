@@ -126,6 +126,7 @@ namespace UILib {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
             background.color = theme.accent;
             closeButton.button.colors = theme.blockImportant;
         }

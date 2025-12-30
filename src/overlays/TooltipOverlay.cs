@@ -85,6 +85,7 @@ namespace UILib {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
             background.SetColor(theme.accent);
             tooltipLabel.SetColor(theme.foreground);
         }

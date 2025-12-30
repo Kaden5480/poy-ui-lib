@@ -55,6 +55,7 @@ namespace UILib.Components {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
+            base.SetThisTheme(theme);
             text.color = theme.foreground;
             text.font = theme.font;
             text.fontSize = (int) (theme.fontScaler * fontSize);

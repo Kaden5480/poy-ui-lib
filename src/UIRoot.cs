@@ -118,23 +118,16 @@ namespace UILib {
             // Initialize audio
             Audio.Init();
 
-            // Initialize the notification overlay
+            // Initialize the notification and input overlay
             notificationOverlay = new NotificationOverlay();
-            UIObject.SetParent(gameObject, notificationOverlay.canvas.gameObject);
-
-            // Initialize input overlay
             inputOverlay = new InputOverlay();
-            UIObject.SetParent(gameObject, inputOverlay.canvas.gameObject);
 
             // Initialize global shortcuts
             globalShortcuts = gameObject.AddComponent<GlobalShortcuts>();
 
-            // Initialize the color picker
+            // Initialize the color picker and tooltip overlay
             colorPickerWindow = new ColorPickerWindow();
-
-            // Initialize tooltip overlay
             tooltipOverlay = new TooltipOverlay();
-            UIObject.SetParent(gameObject, tooltipOverlay.canvas.gameObject);
 
             onInit.Invoke();
         }

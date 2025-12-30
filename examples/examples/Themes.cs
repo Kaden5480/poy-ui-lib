@@ -1,6 +1,7 @@
 using UnityEngine;
 
 using UILib;
+using UILib.Behaviours;
 using UILib.Components;
 using UILib.Layouts;
 
@@ -34,6 +35,12 @@ namespace UILibExamples {
             theme.selectFadeTime     = 2f;
             theme.easeInTime         = 0.5f;
             theme.easeOutTime        = 0.5f;
+            //theme.easeInFunction = Curves.Linear;
+            //theme.easeOutFunction = Curves.Linear;
+            theme.easeInFunction     = Curves.EaseOutElastic;
+            theme.easeOutFunction    = Curves.EaseInOutExp;
+            theme.overlayFadeInFunction = Curves.Linear;
+            theme.overlayFadeOutFunction = Curves.Linear;
             theme.windowOpacity      = 0.9f;
 
             window = new Window("Themes", 800f, 600f);
@@ -66,6 +73,16 @@ namespace UILibExamples {
             // Similarly if you really want to change something
             // from earlier on, you can do so and ignore the theme
             label.SetColor(Color.red);
+
+            // You can add custom animations to any UIObject,
+            // here one is being applied to the window.
+            // This will use the ease in/out times and functions set in
+            // the theme
+            Ease ease = window.AddEase();
+            ease.SetLimits(-400f, 50f);
+            ease.onEase.AddListener((float value) => {
+                window.SetOffset(value, 100f);
+            });
         }
 
         public override void Toggle() {

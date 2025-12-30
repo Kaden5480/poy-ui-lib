@@ -40,14 +40,14 @@ namespace UILib.Behaviours {
          * The curve function this ease should use for easing in.
          * </summary>
          */
-        public Func<float, float> easeInFunction = Curves.EaseOutExp; //Curves.EaseInOutExp;
+        public Func<float, float> easeInFunction = null;
 
         /**
          * <summary>
          * The curve function this ease should use for easing out.
          * </summary>
          */
-        public Func<float, float> easeOutFunction = Curves.EaseOutExp; //Curves.EaseInOutExp;
+        public Func<float, float> easeOutFunction = null;
 
         /**
          * <summary>

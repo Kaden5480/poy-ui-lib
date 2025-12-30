@@ -32,10 +32,14 @@ namespace UILib.Behaviours {
 
                     Func<float, float> easeFunction = null;
                     if (easingIn == true) {
-                        easeFunction = ease.easeInFunction;
+                        easeFunction = (ease.easeInFunction == null)
+                            ? this.easeInFunction
+                            : ease.easeInFunction;
                     }
                     else if (easingOut == true) {
-                        easeFunction = ease.easeOutFunction;
+                        easeFunction = (ease.easeOutFunction == null)
+                            ? this.easeOutFunction
+                            : ease.easeOutFunction;
                     }
 
                     ease.onEase.Invoke(

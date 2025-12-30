@@ -204,8 +204,13 @@ namespace UILib {
         protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
 
+
             // Update opacities
             fade.SetLimits(0f, theme.overlayOpacity);
+
+            // Set custom easing functions
+            fade.easeInFunction = theme.overlayFadeInFunction;
+            fade.easeOutFunction = theme.overlayFadeOutFunction;
 
             // Update the canvas group
             canvasGroup.alpha = theme.overlayOpacity;

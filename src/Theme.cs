@@ -417,6 +417,38 @@ namespace UILib {
 
         /**
          * <summary>
+         * How long it should take for <see cref="Overlay">Overlays</see> to fade in.
+         * This applies whenever an overlay is shown.
+         * </summary>
+         */
+        public float overlayFadeInTime = 0f;
+
+        /**
+         * <summary>
+         * How long it should take for <see cref="Overlay">Overlays</see> to fade out.
+         * This applies whenever an overlay is hidden.
+         * </summary>
+         */
+        public float overlayFadeOutTime = 0f;
+
+        /**
+         * <summary>
+         * The curve to apply when fading
+         * <see cref="Overlay">Overlays</see> in.
+         * </summary>
+         */
+        public Func<float, float> overlayFadeInFunction = Curves.EaseInExp;
+
+        /**
+         * <summary>
+         * The curve to apply when fading
+         * <see cref="Overlay">Overlays</see> out.
+         * </summary
+         */
+        public Func<float, float> overlayFadeOutFunction = Curves.EaseOutExp;
+
+        /**
+         * <summary>
          * The default/maximum opacity to apply to
          * the <see cref="InputOverlay"/>.
          * This will only affect the background of the

@@ -363,6 +363,11 @@ namespace UILib.Patches {
          * <param name="allow">Whether the player should be able to move</param>
          */
         private static void AllowMovement(bool allow) {
+            // Can't do anything in the credits
+            if (Cache.inGameMenu != null && Cache.inGameMenu.isCredits == true) {
+                return;
+            }
+
             if (Cache.playerManager != null) {
                 Cache.playerManager.AllowPlayerControl(allow);
             }

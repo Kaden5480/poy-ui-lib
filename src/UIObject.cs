@@ -533,7 +533,14 @@ namespace UILib {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        protected abstract void SetThisTheme(Theme theme);
+        protected virtual void SetThisTheme(Theme theme) {
+            if (easeGroup == null) {
+                return;
+            }
+
+            easeGroup.easeInFunction = theme.easeInFunction;
+            easeGroup.easeOutFunction = theme.easeOutFunction;
+        }
 
         /**
          * <summary>

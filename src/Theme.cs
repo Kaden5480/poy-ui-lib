@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using UILib.Behaviours;
+
 namespace UILib {
     /**
      * <summary>
@@ -383,6 +385,20 @@ namespace UILib {
          * </summary>
          */
         public float easeOutTime = 0f;
+
+        /**
+         * <summary>
+         * The curve to apply when <see cref="easeInTime">easing in</see>.
+         * </summary>
+         */
+        public Func<float, float> easeInFunction = Curves.EaseInOutExp;
+
+        /**
+         * <summary>
+         * The curve to apply when <see cref="easeOutTime">easing out</see>.
+         * </summary>
+         */
+        public Func<float, float> easeOutFunction = Curves.EaseInOutExp;
 
 #endregion
 

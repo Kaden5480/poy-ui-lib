@@ -59,5 +59,22 @@ namespace UILib {
         internal void LogError(string message) {
             Plugin.LogError($"[{name}] {message}");
         }
+
+        /**
+         * <summary>
+         * Logs a more detailed error message from
+         * a provided exception.
+         * </summary>
+         * <param name="message">The message to display first</param>
+         * <param name="exception">The exception to log</param>
+         */
+        internal void LogError(string message, Exception exception) {
+            LogError(
+                $"{message}: {exception.GetType().Name}\n"
+                + $"Source: {exception.TargetSite.DeclaringType}.{exception.TargetSite.Name}\n"
+                + $"Reason: {exception.Message}\n"
+                + $"Stack Trace:\n{exception.StackTrace}"
+            );
+        }
     }
 }

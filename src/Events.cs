@@ -94,12 +94,7 @@ namespace UILib.Events {
                 listener();
             }
             catch (Exception e) {
-                logger.LogError(
-                    $"Failed invoking listener: {e.GetType().Name}\n"
-                    + $"Source: {e.TargetSite.DeclaringType}.{e.TargetSite.Name}\n"
-                    + $"Reason: {e.Message}\n"
-                    + $"Stack Trace:\n{e.StackTrace}"
-                );
+                logger.LogError("Failed invoking listener", e);
             }
         }
 

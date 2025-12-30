@@ -32,7 +32,8 @@ namespace UILibExamples {
             theme.selectNormal       = Colors.HSV(240f, 30f, 50f);
             theme.selectHighlight    = Colors.Hex(0xffaaee);
             theme.selectFadeTime     = 2f;
-            theme.overlayFadeTime    = 0.5f;
+            theme.easeInTime         = 0.5f;
+            theme.easeOutTime        = 0.5f;
             theme.windowOpacity      = 0.9f;
 
             window = new Window("Themes", 800f, 600f);

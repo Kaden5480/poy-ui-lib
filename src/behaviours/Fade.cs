@@ -21,7 +21,6 @@ namespace UILib.Behaviours {
          */
         private void Awake() {
             onEase.AddListener((float opacity) => {
-                Plugin.LogDebug($"Easing to opacity: {opacity}");
                 UpdateOpacity(opacity);
             });
         }

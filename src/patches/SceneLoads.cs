@@ -126,6 +126,8 @@ namespace UILib.Patches {
      * </summary>
      */
     public static class SceneLoads {
+        private static Logger logger = new Logger(typeof(SceneLoads));
+
         /**
          * <summary>
          * The listeners for scene loads.
@@ -192,7 +194,12 @@ namespace UILib.Patches {
             Scene scene = SceneManager.GetActiveScene();
 
             foreach (SceneListener listener in listeners) {
-                listener.Invoke(scene, sceneType);
+                try {
+                    listener.Invoke(scene, sceneType);
+                }
+                catch (Exception e) {
+                    logger.LogError("Failed invoking scene listener", e);
+                }
             }
         }
 

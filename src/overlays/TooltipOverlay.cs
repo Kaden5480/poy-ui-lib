@@ -214,7 +214,11 @@ namespace UILib {
          * </summary>
          */
         internal void HideTooltip(UIObject obj) {
-            if (current != null && obj != current) {
+            if (obj == null || current == null) {
+                return;
+            }
+
+            if (obj != current) {
                 return;
             }
 

@@ -128,6 +128,7 @@ namespace UILib {
             // Initialize the color picker and tooltip overlay
             colorPickerWindow = new ColorPickerWindow();
             tooltipOverlay = new TooltipOverlay();
+            UIObject.SetParent(gameObject, tooltipOverlay.canvas.gameObject);
 
             onInit.Invoke();
         }

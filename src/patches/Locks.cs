@@ -6,6 +6,8 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.Events;
 
+using UILib.Events;
+
 namespace UILib.Patches {
     /**
      * <summary>
@@ -150,14 +152,18 @@ namespace UILib.Patches {
          * Invokes listeners when the lock handler pauses the game.
          * </summary>
          */
-        public static UnityEvent onPause { get; } = new UnityEvent();
+        public static UIEvent onPause { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onPause)
+        );
 
         /**
          * <summary>
          * Invokes listeners when the lock handler unpauses the game.
          * </summary>
          */
-        public static UnityEvent onUnpause { get; } = new UnityEvent();
+        public static UIEvent onUnpause { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onUnpause)
+        );
 
         /**
          * <summary>
@@ -165,7 +171,9 @@ namespace UILib.Patches {
          * allowing the user to move it around.
          * </summary>
          */
-        public static UnityEvent onCursorFree { get; } = new UnityEvent();
+        public static UIEvent onCursorFree { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onCursorFree)
+        );
 
         /**
          * <summary>
@@ -173,21 +181,27 @@ namespace UILib.Patches {
          * freeing the cursor.
          * </summary>
          */
-        public static UnityEvent onCursorLock { get; } = new UnityEvent();
+        public static UIEvent onCursorLock { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onCursorLock)
+        );
 
         /**
          * <summary>
          * Invokes listeners when the lock handler is locking navigation inputs.
          * </summary>
          */
-        public static UnityEvent onNavigationLock { get; } = new UnityEvent();
+        public static UIEvent onNavigationLock { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onNavigationLock)
+        );
 
         /**
          * <summary>
          * Invokes listeners when the lock handler is no longer locking navigation inputs.
          * </summary>
          */
-        public static UnityEvent onNavigationUnlock { get; } = new UnityEvent();
+        public static UIEvent onNavigationUnlock { get; } = new UIEvent(
+            typeof(LockHandler), nameof(onNavigationUnlock)
+        );
 
         /**
          * <summary>

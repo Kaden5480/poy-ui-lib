@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UILib.Behaviours {
@@ -20,21 +21,32 @@ namespace UILib.Behaviours {
             // Forward all events down
             onEaseIn.AddListener(() => {
                 foreach (Ease ease in eases) {
-                    ease.normalised = normalised;
+                    ease.timer = timer;
                     ease.onEaseIn.Invoke();
                 }
             });
 
             onEase.AddListener(delegate {
                 foreach (Ease ease in eases) {
-                    ease.normalised = normalised;
-                    ease.onEase.Invoke(normalised);
+                    ease.timer = timer;
+
+                    Func<float, float> easeFunction = null;
+                    if (easingIn == true) {
+                        easeFunction = ease.easeInFunction;
+                    }
+                    else if (easingOut == true) {
+                        easeFunction = ease.easeOutFunction;
+                    }
+
+                    ease.onEase.Invoke(
+                        ease.GetValue(timer, easeFunction)
+                    );
                 }
             });
 
             onEaseOut.AddListener(() => {
                 foreach (Ease ease in eases) {
-                    ease.normalised = normalised;
+                    ease.timer = timer;
                     ease.onEaseOut.Invoke();
                 }
             });

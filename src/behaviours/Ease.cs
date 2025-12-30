@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 
 using UnityEngine;
@@ -19,11 +20,10 @@ namespace UILib.Behaviours {
         private IEnumerator coroutine = null;
 
         /**
-         * Normalised value used internally for easing.
-         *
+         * The normalised time which has passed.
          * Make sure this is always between 0-1 inclusive.
          */
-        internal float normalised = 0f;
+        internal float timer = 0f;
 
         /**
          * <summary>
@@ -32,12 +32,22 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public float current {
-            get => easeOutValue
-                + (normalised * Mathf.Abs(easeInValue - easeOutValue));
-            set {
-                normalised = (value - easeOutValue) / (Mathf.Abs(easeInValue - easeOutValue));
-            }
+            get => GetCurrent();
         }
+
+        /**
+         * <summary>
+         * The curve function this ease should use for easing in.
+         * </summary>
+         */
+        public Func<float, float> easeInFunction = Curves.EaseOutExp; //Curves.EaseInOutExp;
+
+        /**
+         * <summary>
+         * The curve function this ease should use for easing out.
+         * </summary>
+         */
+        public Func<float, float> easeOutFunction = Curves.EaseOutExp; //Curves.EaseInOutExp;
 
         /**
          * <summary>
@@ -101,6 +111,44 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Gets the value after applying a provided ease function.
+         *
+         * A `null` `easeFunction` means to leave the value as-is.
+         * </summary>
+         * <param name="value">The value to apply the ease function to</param>
+         * <param name="easeFunction">The ease function to apply</param>
+         * <returns>The current value (to send to listeners)</returns>
+         */
+        internal float GetValue(float value, Func<float, float> easeFunction = null) {
+            float result = value;
+
+            if (easeFunction != null) {
+                result = easeFunction(value);
+            }
+
+            return easeOutValue + (result * Mathf.Abs(easeInValue - easeOutValue));
+        }
+
+        /**
+         * <summary>
+         * Gets the value for the current easing status.
+         * </summary>
+         * <returns>The current value</returns>
+         */
+        private float GetCurrent() {
+            if (easingIn == true) {
+                return GetValue(timer, easeInFunction);
+            }
+
+            if (easingOut == true) {
+                return GetValue(timer, easeOutFunction);
+            }
+
+            return GetValue(timer, null);
+        }
+
+        /**
+         * <summary>
          * Sets the values to ease between.
          * </summary>
          * <param name="easeOutValue">The value to ease out to (minimum)</param>
@@ -113,36 +161,24 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Interpolates the current value based upon the provided delta.
-         * </summary>
-         * <param name="value">The value to interpolate</param>
-         * <param name="delta">The delta to interpolate with</param>
-         * <param name="min">The minimum possible value</param>
-         * <param name="max">The maximum possible value</param>
-         * <returns>The new, interpolated value</returns>
-         */
-        private float Interpolate(float value, float delta, float min = 0f, float max = 1f) {
-            value += delta;
-            return Mathf.Max(min, Mathf.Min(max, value));
-        }
-
-        /**
-         * <summary>
          * The coroutine which handles easing in.
          * </summary>
-         * <param name="time">The total time to take when easing</param>
+         * <param name="totalTime">The total time to take when easing</param>
          */
-        private IEnumerator EaseInRoutine(float time) {
-            if (time <= 0f) {
-                normalised = 1f;
-                onEase.Invoke(current);
+        private IEnumerator EaseInRoutine(float totalTime) {
+            if (totalTime <= 0f) {
+                timer = 1f;
             }
 
-            while (normalised < 1f) {
-                normalised = Interpolate(normalised, Time.deltaTime / time);
+            while (timer < 1f) {
+                timer = Mathf.MoveTowards(
+                    timer, 1f, Time.deltaTime / totalTime
+                );
                 onEase.Invoke(current);
                 yield return null;
             }
+
+            onEase.Invoke(current);
 
             coroutine = null;
             easingIn = false;
@@ -154,19 +190,22 @@ namespace UILib.Behaviours {
          * <summary>
          * The coroutine which handles easing out.
          * </summary>
-         * <param name="time">The total time to take when easing</param>
+         * <param name="totalTime">The total time to take when easing</param>
          */
-        private IEnumerator EaseOutRoutine(float time) {
-            if (time <= 0f) {
-                normalised = 0f;
-                onEase.Invoke(current);
+        private IEnumerator EaseOutRoutine(float totalTime) {
+            if (totalTime <= 0f) {
+                timer = 0f;
             }
 
-            while (normalised > 0f) {
-                normalised = Interpolate(normalised, -(Time.deltaTime / time));
+            while (timer > 0f) {
+                timer = Mathf.MoveTowards(
+                    timer, 0f, Time.deltaTime / totalTime
+                );
                 onEase.Invoke(current);
                 yield return null;
             }
+
+            onEase.Invoke(current);
 
             coroutine = null;
             easingOut = false;

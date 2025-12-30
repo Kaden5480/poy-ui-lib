@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using UILib.ColorPicker;
+using UILib.Events;
 
 namespace UILib {
     /**
@@ -28,7 +29,9 @@ namespace UILib {
          * listener is here for those cases.
          * </summary>
          */
-        public static UnityEvent onPreInit { get; } = new UnityEvent();
+        public static UIEvent onPreInit { get; } = new UIEvent(
+            typeof(UIRoot), nameof(onPreInit)
+        );
 
         /**
          * <summary>
@@ -39,7 +42,9 @@ namespace UILib {
          * usually in the `Awake` of your mod.
          * </summary>
          */
-        public static UnityEvent onInit { get; } = new UnityEvent();
+        public static UIEvent onInit { get; } = new UIEvent(
+            typeof(UIRoot), nameof(onInit)
+        );
 
         /**
          * <summary>
@@ -51,7 +56,9 @@ namespace UILib {
          * orders.
          * </summary>
          */
-        public static UnityEvent onWMInit { get; } = new UnityEvent();
+        public static UIEvent onWMInit { get; } = new UIEvent(
+            typeof(UIRoot), nameof(onWMInit)
+        );
 
         // The global shortcuts
         private static GlobalShortcuts globalShortcuts;

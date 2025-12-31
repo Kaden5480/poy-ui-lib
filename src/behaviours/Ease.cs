@@ -107,31 +107,10 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Gets the value after applying a provided ease function.
-         *
-         * A `null` `easeFunction` means to leave the value as-is.
-         * </summary>
-         * <param name="value">The value to apply the ease function to</param>
-         * <param name="easeFunction">The ease function to apply</param>
-         * <returns>The current value (to send to listeners)</returns>
-         */
-        internal float GetValue(float value, Func<float, float> easeFunction) {
-            float result = Mathf.Clamp(value, 0f, 1f);
-
-            if (easeFunction != null) {
-                result = easeFunction(value);
-            }
-
-            return easeOutValue + (result * Mathf.Abs(easeInValue - easeOutValue));
-        }
-
-        /**
-         * <summary>
          * Sets the ease-in and ease-out times.
-         * provided time.
          * </summary>
-         * <param name="easeOutTime">The time to set for easing out</param>
          * <param name="easeInTime">The time to set for easing in</param>
+         * <param name="easeOutTime">The time to set for easing out</param>
          */
         public virtual void SetTimes(float easeInTime, float easeOutTime) {
             if (easeInTime < 0f || easeOutTime < 0f) {
@@ -158,12 +137,41 @@ namespace UILib.Behaviours {
          * <summary>
          * Sets the values to ease between.
          * </summary>
-         * <param name="easeInValue">The value to ease in to (maximum)</param>
-         * <param name="easeOutValue">The value to ease out to (minimum)</param>
+         * <param name="easeInValue">The value to ease in to</param>
+         * <param name="easeOutValue">The value to ease out to</param>
          */
         public virtual void SetLimits(float easeInValue, float easeOutValue) {
             this.easeInValue = easeInValue;
             this.easeOutValue = easeOutValue;
+        }
+
+        /**
+         * <summary>
+         * Stops running the ease coroutine on disable.
+         * </summary>
+         */
+        private void OnDisable() {
+            Stop();
+        }
+
+        /**
+         * <summary>
+         * Gets the value after applying a provided ease function.
+         *
+         * A `null` `easeFunction` means to leave the value as-is.
+         * </summary>
+         * <param name="value">The value to apply the ease function to</param>
+         * <param name="easeFunction">The ease function to apply</param>
+         * <returns>The current value (to send to listeners)</returns>
+         */
+        internal float GetValue(float value, Func<float, float> easeFunction) {
+            float result = Mathf.Clamp(value, 0f, 1f);
+
+            if (easeFunction != null) {
+                result = easeFunction(value);
+            }
+
+            return easeOutValue + (result * Mathf.Abs(easeInValue - easeOutValue));
         }
 
         /**
@@ -175,13 +183,18 @@ namespace UILib.Behaviours {
          * <param name="easeFunction">The ease function to apply</param>
          */
         internal void Iterate(float delta, float maxTime, Func<float, float> easeFunction) {
+            // If max time is 0, immediately stop
+            // but pick an end point by the sign of the delta
             if (maxTime == 0f) {
                 timer = (delta < 0) ? 0f : 1f;
             }
+            // Otherwise, run apply the delta normally
             else {
                 timer = Mathf.Clamp(timer + delta / maxTime, 0f, 1f);
             }
 
+            // Invoke listeners, passing the result of
+            // applying the ease function to the current time
             onEase.Invoke(GetValue(timer, easeFunction));
         }
 
@@ -191,18 +204,18 @@ namespace UILib.Behaviours {
          * </summary>
          */
         private IEnumerator EaseInRoutine() {
-            // Fix the timer
-            timer = Mathf.Clamp(timer, 0f, 1f);
-
+            // Immediately ease in
             if (easeInTime <= 0f) {
                 timer = 1f;
             }
 
+            // Otherwise, iterate until finished
             while (timer < 1f) {
                 Iterate(Time.deltaTime, easeInTime, easeInFunction);
                 yield return null;
             }
 
+            // Signal easing in finished
             coroutine = null;
             easingIn = false;
             onEaseIn.Invoke();
@@ -215,18 +228,18 @@ namespace UILib.Behaviours {
          * </summary>
          */
         private IEnumerator EaseOutRoutine() {
-            // Fix the timer
-            timer = Mathf.Clamp(timer, 0f, 1f);
-
+            // Immediately ease out
             if (easeOutTime <= 0f) {
                 timer = 0f;
             }
 
+            // Otherwise, iterate until finished
             while (timer > 0f) {
                 Iterate(-Time.deltaTime, easeOutTime, easeOutFunction);
                 yield return null;
             }
 
+            // Signal easing out finished
             coroutine = null;
             easingOut = false;
             onEaseOut.Invoke();

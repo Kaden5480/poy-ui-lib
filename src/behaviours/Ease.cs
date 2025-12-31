@@ -54,14 +54,14 @@ namespace UILib.Behaviours {
          * How long it should take for this behaviour to finish easing in.
          * </summary>
          */
-        public float easeInTime = 0f;
+        public float easeInTime { get; private set; } = 0f;
 
         /**
          * <summary>
          * How long it should take for this behaviour to finish easing out.
          * </summary>
          */
-        public float easeOutTime = 0f;
+        public float easeOutTime { get; private set; } = 0f;
 
         /**
          * <summary>
@@ -170,6 +170,11 @@ namespace UILib.Behaviours {
          * <param name="easeInTime">The time to set for easing in</param>
          */
         public virtual void SetTimes(float easeInTime, float easeOutTime) {
+            if (easeInTime < 0f || easeOutTime < 0f) {
+                logger.LogError("Can't use a negative ease time");
+                return;
+            }
+
             this.easeInTime = easeInTime;
             this.easeOutTime = easeOutTime;
         }
@@ -199,19 +204,27 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Changes the timer by the provided time delta.
+         * The delta must be normalised.
+         * </summary>
+         * <param name="delta">The delta to change the timer by</param>
+         */
+        internal void ChangeTimer(float delta) {
+            timer = Mathf.Clamp(timer + delta, 0f, 1f);
+        }
+
+        /**
+         * <summary>
          * The coroutine which handles easing in.
          * </summary>
-         * <param name="totalTime">The total time to take when easing</param>
          */
-        private IEnumerator EaseInRoutine(float totalTime) {
-            if (totalTime <= 0f) {
+        private IEnumerator EaseInRoutine() {
+            if (easeInTime <= 0f) {
                 timer = 1f;
             }
 
             while (timer < 1f) {
-                timer = Mathf.MoveTowards(
-                    timer, 1f, Time.deltaTime / totalTime
-                );
+                ChangeTimer(Time.deltaTime / easeInTime);
                 onEase.Invoke(current);
                 yield return null;
             }
@@ -228,17 +241,14 @@ namespace UILib.Behaviours {
          * <summary>
          * The coroutine which handles easing out.
          * </summary>
-         * <param name="totalTime">The total time to take when easing</param>
          */
-        private IEnumerator EaseOutRoutine(float totalTime) {
-            if (totalTime <= 0f) {
+        private IEnumerator EaseOutRoutine() {
+            if (easeOutTime <= 0f) {
                 timer = 0f;
             }
 
             while (timer > 0f) {
-                timer = Mathf.MoveTowards(
-                    timer, 0f, Time.deltaTime / totalTime
-                );
+                ChangeTimer(-(Time.deltaTime / easeOutTime));
                 onEase.Invoke(current);
                 yield return null;
             }
@@ -253,34 +263,22 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Eases in using the provided time.
+         * Starts easing in.
          * </summary>
-         * <param name="time">How long easing in should take</param>
          */
-        public void EaseIn(float time) {
-            if (time < 0f) {
-                logger.LogError("Can't ease using a negative time");
-                return;
-            }
-
+        public void EaseIn() {
             Stop();
-            coroutine = EaseInRoutine(time);
+            coroutine = EaseInRoutine();
             easingIn = true;
             StartCoroutine(coroutine);
         }
 
         /**
          * <summary>
-         * Eases out using the provided time.
+         * Starts easing out.
          * </summary>
-         * <param name="time">How long easing out should take</param>
          */
-        public void EaseOut(float time) {
-            if (time < 0f) {
-                logger.LogError("Can't ease using a negative time");
-                return;
-            }
-
+        public void EaseOut() {
             Stop();
             coroutine = EaseOutRoutine(time);
             easingOut = true;

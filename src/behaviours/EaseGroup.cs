@@ -8,9 +8,25 @@ namespace UILib.Behaviours {
      * at once.
      * </summary>
      */
-    public class EaseGroup : Ease {
+    public class EaseGroup {
         // The ease behaviours to control
         private List<Ease> eases = new List<Ease>();
+
+        /**
+         * <summary>
+         * Invokes listeners once all <see cref="Ease"/> behaviours
+         * have finished easing in.
+         * </summary>
+         */
+        public UnityEvent onEaseIn { get; private set; } = new UnityEvent();
+
+        /**
+         * <summary>
+         * Invokes listeners once all <see cref="Ease"/> behaviours
+         * have finished easing out.
+         * </summary>
+         */
+        public UnityEvent onEaseOut { get; private set; } = new UnityEvent();
 
         /**
          * <summary>
@@ -18,11 +34,16 @@ namespace UILib.Behaviours {
          * </summary>
          */
         private void Awake() {
-            // Forward all events down
+            // Forward ease in and out
             onEaseIn.AddListener(() => {
                 foreach (Ease ease in eases) {
-                    ease.timer = timer;
                     ease.onEaseIn.Invoke();
+                }
+            });
+
+            onEaseOut.AddListener(() => {
+                foreach (Ease ease in eases) {
+                    ease.onEaseOut.Invoke();
                 }
             });
 
@@ -45,13 +66,6 @@ namespace UILib.Behaviours {
                     ease.onEase.Invoke(
                         ease.GetValue(timer, easeFunction)
                     );
-                }
-            });
-
-            onEaseOut.AddListener(() => {
-                foreach (Ease ease in eases) {
-                    ease.timer = timer;
-                    ease.onEaseOut.Invoke();
                 }
             });
         }

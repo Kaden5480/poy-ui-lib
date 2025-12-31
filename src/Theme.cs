@@ -391,14 +391,14 @@ namespace UILib {
          * The curve to apply when <see cref="easeInTime">easing in</see>.
          * </summary>
          */
-        public Func<float, float> easeInFunction = Curves.EaseInOutExp;
+        public Func<float, float> easeInFunction = Curves.Linear;
 
         /**
          * <summary>
          * The curve to apply when <see cref="easeOutTime">easing out</see>.
          * </summary>
          */
-        public Func<float, float> easeOutFunction = Curves.EaseInOutExp;
+        public Func<float, float> easeOutFunction = Curves.Linear;
 
 #endregion
 
@@ -437,7 +437,7 @@ namespace UILib {
          * <see cref="Overlay">Overlays</see> in.
          * </summary>
          */
-        public Func<float, float> overlayFadeInFunction = Curves.EaseInExp;
+        public Func<float, float> overlayFadeInFunction = Curves.Linear;
 
         /**
          * <summary>
@@ -445,7 +445,7 @@ namespace UILib {
          * <see cref="Overlay">Overlays</see> out.
          * </summary
          */
-        public Func<float, float> overlayFadeOutFunction = Curves.EaseOutExp;
+        public Func<float, float> overlayFadeOutFunction = Curves.Linear;
 
         /**
          * <summary>

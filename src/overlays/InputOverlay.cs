@@ -134,6 +134,10 @@ namespace UILib {
 
             // Only apply opacity to background
             fade.SetLimits(1f, 0f);
+            fade.SetTimes(
+                theme.inputOverlayFadeInTime,
+                theme.inputOverlayFadeOutTime
+            );
             canvasGroup.alpha = 1f;
 
             Color bg = theme.background;

@@ -461,11 +461,20 @@ namespace UILib {
         /**
          * <summary>
          * How long it should take for the
-         * <see cref="InputOverlay"/> to fade in/out.
-         * This applies whenever the overlay is shown/hidden.
+         * <see cref="InputOverlay"/> to fade in.
+         * This applies whenever the overlay is shown.
          * </summary>
          */
-        public float inputOverlayFadeTime = 0f;
+        public float inputOverlayFadeInTime = 0f;
+
+        /**
+         * <summary>
+         * How long it should take for the
+         * <see cref="InputOverlay"/> to fade out.
+         * This applies whenever the overlay is hidden.
+         * </summary>
+         */
+        public float inputOverlayFadeOutTime = 0f;
 
         /**
          * <summary>

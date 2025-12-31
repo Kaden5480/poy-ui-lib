@@ -14,26 +14,17 @@ namespace UILib.Behaviours {
      * </summary>
      */
     public class Ease : MonoBehaviour {
-        internal Logger logger { get; private set; }
+        internal Logger logger { get; private set; } = new Logger(typeof(Ease));
 
         // The current ease coroutine
         private IEnumerator coroutine = null;
 
         /**
-         * The normalised time which has passed.
-         * Make sure this is always between 0-1 inclusive.
-         */
-        internal float timer = 0f;
-
-        /**
          * <summary>
-         * The value easing is currently at (based upon
-         * <see cref="easeInValue"/> and <see cref="easeOutValue"/>.
+         * The time which has passed.
          * </summary>
          */
-        public float current {
-            get => GetCurrent();
-        }
+        internal float timer = 0f;
 
         /**
          * <summary>
@@ -65,20 +56,6 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Whether this behaviour is currently easing in.
-         * </summary>
-         */
-        public bool easingIn { get; private set; } = false;
-
-        /**
-         * <summary>
-         * Whether this behaviour is currently easing out.
-         * </summary>
-         */
-        public bool easingOut { get; private set;  } = false;
-
-        /**
-         * <summary>
          * The value to ease in to.
          * </summary>
          */
@@ -90,6 +67,20 @@ namespace UILib.Behaviours {
          * </summary>
          */
         public float easeOutValue { get; private set; } = 0f;
+
+        /**
+         * <summary>
+         * Whether this behaviour is currently easing in.
+         * </summary>
+         */
+        public bool easingIn { get; private set; } = false;
+
+        /**
+         * <summary>
+         * Whether this behaviour is currently easing out.
+         * </summary>
+         */
+        public bool easingOut { get; private set; } = false;
 
         /**
          * <summary>
@@ -116,15 +107,6 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Initializes this ease behaviour.
-         * </summary>
-         */
-        private void Awake() {
-            logger = new Logger($"{GetType()}.{gameObject.name}");
-        }
-
-        /**
-         * <summary>
          * Gets the value after applying a provided ease function.
          *
          * A `null` `easeFunction` means to leave the value as-is.
@@ -133,32 +115,14 @@ namespace UILib.Behaviours {
          * <param name="easeFunction">The ease function to apply</param>
          * <returns>The current value (to send to listeners)</returns>
          */
-        internal float GetValue(float value, Func<float, float> easeFunction = null) {
-            float result = value;
+        internal float GetValue(float value, Func<float, float> easeFunction) {
+            float result = Mathf.Clamp(value, 0f, 1f);
 
             if (easeFunction != null) {
                 result = easeFunction(value);
             }
 
             return easeOutValue + (result * Mathf.Abs(easeInValue - easeOutValue));
-        }
-
-        /**
-         * <summary>
-         * Gets the value for the current easing status.
-         * </summary>
-         * <returns>The current value</returns>
-         */
-        private float GetCurrent() {
-            if (easingIn == true) {
-                return GetValue(timer, easeInFunction);
-            }
-
-            if (easingOut == true) {
-                return GetValue(timer, easeOutFunction);
-            }
-
-            return GetValue(timer, null);
         }
 
         /**
@@ -204,13 +168,21 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Changes the timer by the provided time delta.
-         * The delta must be normalised.
+         * Performs one iteration of this ease behaviour.
          * </summary>
-         * <param name="delta">The delta to change the timer by</param>
+         * <param name="delta">The time delta</param>
+         * <param name="maxTime">The maximum time iterating should take</param>
+         * <param name="easeFunction">The ease function to apply</param>
          */
-        internal void ChangeTimer(float delta) {
-            timer = Mathf.Clamp(timer + delta, 0f, 1f);
+        internal void Iterate(float delta, float maxTime, Func<float, float> easeFunction) {
+            if (maxTime == 0f) {
+                timer = (delta < 0) ? 0f : 1f;
+            }
+            else {
+                timer = Mathf.Clamp(timer + delta / maxTime, 0f, 1f);
+            }
+
+            onEase.Invoke(GetValue(timer, easeFunction));
         }
 
         /**
@@ -219,17 +191,17 @@ namespace UILib.Behaviours {
          * </summary>
          */
         private IEnumerator EaseInRoutine() {
+            // Fix the timer
+            timer = Mathf.Clamp(timer, 0f, 1f);
+
             if (easeInTime <= 0f) {
                 timer = 1f;
             }
 
             while (timer < 1f) {
-                ChangeTimer(Time.deltaTime / easeInTime);
-                onEase.Invoke(current);
+                Iterate(Time.deltaTime, easeInTime, easeInFunction);
                 yield return null;
             }
-
-            onEase.Invoke(current);
 
             coroutine = null;
             easingIn = false;
@@ -243,17 +215,17 @@ namespace UILib.Behaviours {
          * </summary>
          */
         private IEnumerator EaseOutRoutine() {
+            // Fix the timer
+            timer = Mathf.Clamp(timer, 0f, 1f);
+
             if (easeOutTime <= 0f) {
                 timer = 0f;
             }
 
             while (timer > 0f) {
-                ChangeTimer(-(Time.deltaTime / easeOutTime));
-                onEase.Invoke(current);
+                Iterate(-Time.deltaTime, easeOutTime, easeOutFunction);
                 yield return null;
             }
-
-            onEase.Invoke(current);
 
             coroutine = null;
             easingOut = false;
@@ -265,11 +237,19 @@ namespace UILib.Behaviours {
          * <summary>
          * Starts easing in.
          * </summary>
+         * <param name="force">Whether to force easing in</param>
          */
-        public void EaseIn() {
+        public void EaseIn(bool force = false) {
             Stop();
-            coroutine = EaseInRoutine();
+
+            if (force == true) {
+                Iterate(1f, 0f, null);
+                onEaseIn.Invoke();
+                return;
+            }
+
             easingIn = true;
+            coroutine = EaseInRoutine();
             StartCoroutine(coroutine);
         }
 
@@ -277,11 +257,19 @@ namespace UILib.Behaviours {
          * <summary>
          * Starts easing out.
          * </summary>
+         * <param name="force">Whether to force easing out</param>
          */
-        public void EaseOut() {
+        public void EaseOut(bool force = false) {
             Stop();
-            coroutine = EaseOutRoutine(time);
+
+            if (force == true) {
+                Iterate(-1f, 0f, null);
+                onEaseOut.Invoke();
+                return;
+            }
+
             easingOut = true;
+            coroutine = EaseOutRoutine();
             StartCoroutine(coroutine);
         }
 

@@ -392,6 +392,9 @@ namespace UILib {
          */
         public virtual Ease AddEase() {
             Ease ease = gameObject.AddComponent<Ease>();
+            ease.easeInFunction = theme.easeInFunction;
+            ease.easeOutFunction = theme.easeOutFunction;
+            ease.SetTimes(theme.easeInTime, theme.easeOutTime);
             AddEase(ease);
             return ease;
         }
@@ -421,10 +424,10 @@ namespace UILib {
 
             if (easeGroup != null) {
                 if (force == true) {
-                    easeGroup.EaseIn(0f);
+                    easeGroup.EaseIn(true);
                 }
                 else {
-                    easeGroup.EaseIn(theme.easeInTime);
+                    easeGroup.EaseIn();
                 }
 
                 // Ease group handles running OnShow
@@ -456,10 +459,10 @@ namespace UILib {
         public virtual void Hide(bool force = false) {
             if (easeGroup != null) {
                 if (force == true) {
-                    easeGroup.EaseOut(0f);
+                    easeGroup.EaseOut(true);
                 }
                 else {
-                    easeGroup.EaseOut(theme.easeInTime);
+                    easeGroup.EaseOut();
                 }
 
                 // Ease group handles disabling this object
@@ -533,14 +536,7 @@ namespace UILib {
          * </summary>
          * <param name="theme">The theme to apply</param>
          */
-        protected virtual void SetThisTheme(Theme theme) {
-            if (easeGroup == null) {
-                return;
-            }
-
-            easeGroup.easeInFunction = theme.easeInFunction;
-            easeGroup.easeOutFunction = theme.easeOutFunction;
-        }
+        protected virtual void SetThisTheme(Theme theme) {}
 
         /**
          * <summary>

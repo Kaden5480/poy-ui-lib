@@ -380,5 +380,15 @@ namespace UILib {
                 @lock = null;
             }
         }
+
+        /**
+         * <summary>
+         * Runs when this overlay finishes hiding.
+         * </summary>
+         */
+        public override void OnHide() {
+            canvas.Hide();
+            base.OnHide();
+        }
     }
 }

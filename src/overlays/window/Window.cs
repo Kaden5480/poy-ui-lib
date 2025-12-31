@@ -265,7 +265,7 @@ namespace UILib {
          */
         public override void Enable() {
             base.Enable();
-            decorationFade.EaseIn(theme.windowDecorationFadeTime);
+            decorationFade.EaseIn();
         }
 
         /**
@@ -278,7 +278,7 @@ namespace UILib {
          */
         public override void Disable() {
             base.Disable();
-            decorationFade.EaseOut(theme.windowDecorationFadeTime);
+            decorationFade.EaseOut();
         }
 
 #endregion

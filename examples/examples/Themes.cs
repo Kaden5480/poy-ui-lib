@@ -28,20 +28,20 @@ namespace UILibExamples {
 
             // Override some of the theme
             // There are also some nice methods for making Colors
-            theme.background         = Colors.RGB(100f, 40f, 40f);
-            theme.foreground         = Colors.HSL(180f, 50f, 70f);
-            theme.selectNormal       = Colors.HSV(240f, 30f, 50f);
-            theme.selectHighlight    = Colors.Hex(0xffaaee);
-            theme.selectFadeTime     = 2f;
-            theme.easeInTime         = 0.5f;
-            theme.easeOutTime        = 0.5f;
-            //theme.easeInFunction = Curves.Linear;
-            //theme.easeOutFunction = Curves.Linear;
-            theme.easeInFunction     = Curves.EaseOutElastic;
-            theme.easeOutFunction    = Curves.EaseInOutExp;
-            theme.overlayFadeInFunction = Curves.Linear;
+            theme.background             = Colors.RGB(100f, 40f, 40f);
+            theme.foreground             = Colors.HSL(180f, 50f, 70f);
+            theme.selectNormal           = Colors.HSV(240f, 30f, 50f);
+            theme.selectHighlight        = Colors.Hex(0xffaaee);
+            theme.selectFadeTime         = 2f;
+            theme.easeInTime             = 2f;
+            theme.easeOutTime            = 2f;
+            theme.easeInFunction         = Curves.EaseOutElastic;
+            theme.easeOutFunction        = Curves.EaseInOutExp;
+            theme.overlayFadeInFunction  = Curves.Linear;
             theme.overlayFadeOutFunction = Curves.Linear;
-            theme.windowOpacity      = 0.9f;
+            theme.overlayFadeInTime      = 1f;
+            theme.overlayFadeOutTime     = 4f;
+            theme.windowOpacity          = 0.9f;
 
             window = new Window("Themes", 800f, 600f);
             window.SetContentLayout(LayoutType.Vertical);

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+using UILib.Animations;
 using UILib.Behaviours;
 using UILib.Events;
 using UILib.Components;
@@ -85,6 +86,14 @@ namespace UILib {
          * </summary>
          */
         public bool isVisible { get => gameObject.activeSelf; }
+
+        /**
+         * <summary>
+         * The ease group which will automatically run when
+         * this UIObject is showing/hiding.
+         * </summary>
+         */
+        public EaseGroup easeGroup { get; private set; } = null;
 
         /**
          * <summary>
@@ -301,39 +310,127 @@ namespace UILib {
             return local;
         }
 
+#region Showing/Hiding
+
+        /**
+         * <summary>
+         * Adds an ease group to this UIObject.
+         * This is handled implicitly and will be created
+         * as soon as you add a <see cref="Animations.BaseEase"/>.
+         * </summary>
+         */
+        private void AddEaseGroup() {
+            if (easeGroup != null) {
+                return;
+            }
+
+            easeGroup = gameObject.AddComponent<EaseGroup>();
+
+            // Need to add OnHide, since this allows the ease group
+            // to control when the object gets disabled
+            easeGroup.onEaseOut.AddListener(OnHide);
+        }
+
+        /**
+         * <summary>
+         * Adds a <see cref="Animations.BaseEase"/> of type `T` to this UIObject.
+         * The added ease behaviour will automatically run
+         * when this UIObject is being shown/hidden.
+         * </summary>
+         * <returns>The instance of the ease which was added</returns>
+         */
+        public T AddEase<T>() where T : BaseEase {
+            AddEaseGroup();
+
+            T ease = gameObject.AddComponent<T>();
+            easeGroup.Add(ease);
+
+            return ease;
+        }
+
         /**
          * <summary>
          * Toggles the visibility of this UIObject.
          * </summary>
          */
         public virtual void ToggleVisibility() {
-            // Write in terms of Hide and Show
-            // to make overriding a little easier
-            if (isVisible == true) {
-                Hide();
-            }
-            else {
+            // If already hidden, or the ease group is
+            // causing this object to hide, switch to showing
+            if (isVisible == false
+                || (easeGroup != null && easeGroup.easingOut == true)
+            ) {
                 Show();
+            }
+            // Otherwise, hide
+            else {
+                Hide();
             }
         }
 
         /**
          * <summary>
-         * Shows this UIObject.
+         * Runs just when this UIObject starts showing itself.
+         *
+         * Will also run just before the ease group starts easing in.
          * </summary>
          */
-        public virtual void Show() {
+        protected virtual void OnShow() {
             gameObject.SetActive(true);
         }
 
         /**
          * <summary>
-         * Hides this UIObject.
+         * Runs when this UIObject finishes hiding itself.
+         * This will run after the ease group finishes easing out.
          * </summary>
          */
-        public virtual void Hide() {
+        protected virtual void OnHide() {
             gameObject.SetActive(false);
         }
+
+        /**
+         * <summary>
+         * Shows this UIObject.
+         *
+         * If you force showing this UIObject, the attached ease group (if any)
+         * will be forced to ease all the way in immediately.
+         * </summary>
+         * <param name="force">Whether to force showing this UIObject</param>
+         */
+        public virtual void Show(bool force = false) {
+            // The object has to be enabled first, otherwise
+            // the ease group won't be able to run
+            OnShow();
+
+            // Start easing in
+            if (easeGroup != null) {
+                easeGroup.EaseIn(force);
+            }
+        }
+
+        /**
+         * <summary>
+         * Hides this UIObject.
+         *
+         * If you force hiding this UIObject, the attached ease group (if any)
+         * will be forced to ease all the way out immediately.
+         * </summary>
+         * <param name="force">Whether to force hiding this UIObject</param>
+         */
+        public virtual void Hide(bool force = false) {
+            // If there is no ease group, the object
+            // can safely be disabled immediately
+            if (easeGroup == null) {
+                OnHide();
+                return;
+            }
+
+            // Otherwise, the ease group has to control
+            // when this object is disabled
+            easeGroup.EaseOut(force);
+        }
+
+#endregion
 
         /**
          * <summary>

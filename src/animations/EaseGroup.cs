@@ -149,6 +149,9 @@ namespace UILib.Animations {
             // Iterate over all behaviours, telling them
             // to perform an iteration
             foreach (BaseEase ease in eases) {
+                // If the time extends beyond the duration
+                // the ease is configured to run in, that's fine
+                // because the value is clamped by BaseEase._SetValue
                 ease.ForceOnIter(time);
 
                 // The condition below assumes that the value

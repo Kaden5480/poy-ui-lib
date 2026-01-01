@@ -2,6 +2,7 @@ using UILib;
 using UILib.Animations;
 using UILib.Components;
 using UILib.Layouts;
+using UnityEngine;
 
 using UIButton = UILib.Components.Button;
 
@@ -15,7 +16,7 @@ namespace UILibExamples {
         private Overlay overlay;
         private EaseGroup easeGroup;
 
-        private const float minOffset = 20f;
+        private const float minOffset = 0f;
         private const float maxOffset = 300f;
 
         public Animate() {
@@ -54,21 +55,35 @@ namespace UILibExamples {
             easeGroup = overlay.gameObject.AddComponent<EaseGroup>();
 
             // Add an ease behaviour to change the offset
-            Ease ease = overlay.gameObject.AddComponent<Ease>();
+            Ease offsetEase = overlay.gameObject.AddComponent<Ease>();
 
             // Make the change take 1 second
-            ease.SetDuration(1f);
+            offsetEase.SetDuration(1f);
 
             // Ease between these two offsets
-            ease.SetValues(minOffset, maxOffset);
+            offsetEase.SetValues(minOffset, maxOffset);
 
             // On each iteration, apply an offset
-            ease.onEase.AddListener((float offset) => {
-                overlay.SetOffset(offset, 0f);
+            offsetEase.onEase.AddListener((float offset) => {
+                overlay.SetOffset(20f + offset, offset / 2);
             });
 
             // Add to the ease group
-            easeGroup.Add(ease);
+            easeGroup.Add(offsetEase);
+
+            // Add an ease for controlling rotation
+            Ease rotationEase = overlay.gameObject.AddComponent<Ease>();
+
+            // The duration could be shorter/longer, it would still work
+            // Ease groups only finish once all eases have finished
+            rotationEase.SetDuration(1f);
+            rotationEase.SetValues(0f, 360f);
+            rotationEase.onEase.AddListener((float rotation) => {
+                overlay.gameObject.transform.rotation = Quaternion.Euler(
+                    0f, 0f, rotation
+                );
+            });
+            easeGroup.Add(rotationEase);
 
             // Force the ease group to the start
             easeGroup.EaseOut(true);

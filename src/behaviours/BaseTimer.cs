@@ -96,12 +96,38 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Forces the timer to reach an end point.
+         *
+         * If the timer is set to be <see cref="increasing"/>, the end point will
+         * be the <see cref="duration"/>.
+         * If the timer is set to be decreasing, the end point will be `0`.
+         * </summary>
+         */
+        public virtual void ForceRun() {
+            // Stop any coroutine that may be running
+            Stop();
+
+            // If increasing, set to end
+            if (increasing == true) {
+                SetToEnd();
+            }
+            // Otherwise, set to start
+            else {
+                SetToStart();
+            }
+
+            // Run one iteration, and end immediately
+            OnIter(time);
+            OnEnd();
+        }
+
+        /**
+         * <summary>
          * Starts the timer.
          *
          * The timer will continue running from its current time.
          * If the timer routine is already running, this method does nothing.
          * </summary>
-         * <param name="force"></param>
          */
         public virtual void Start() {
             if (coroutine != null) {

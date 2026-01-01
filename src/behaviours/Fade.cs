@@ -118,13 +118,10 @@ namespace UILib.Behaviours {
         public void FadeIn(bool force = false) {
             SetIncreasing(true);
 
+            // ForceRun uses the increasing/decreasing state
+            // set on the timer to know where to end
             if (force == true) {
-                // Stop to prevent the coroutine
-                // potentially conflicting with this logic
-                Stop();
-
-                SetOpacity(maxOpacity);
-                onFadeIn.Invoke();
+                ForceRun();
                 return;
             }
 
@@ -140,13 +137,10 @@ namespace UILib.Behaviours {
         public void FadeOut(bool force = false) {
             SetIncreasing(false);
 
+            // ForceRun uses the increasing/decreasing state
+            // set on the timer to know where to end
             if (force == true) {
-                // Stop to prevent the coroutine
-                // potentially conflicting with this logic
-                Stop();
-
-                SetOpacity(minOpacity);
-                onFadeOut.Invoke();
+                ForceRun();
                 return;
             }
 

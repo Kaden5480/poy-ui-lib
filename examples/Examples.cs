@@ -9,25 +9,19 @@ using UIButton = UILib.Components.Button;
 namespace UILibExamples {
     /**
      * <summary>
-     * This is the main examples Overlay
+     * This is the main examples Window
      * which allows you to show/hide different examples.
      * </summary>
      */
     public class Examples {
-        private Overlay overlay;
-        private Area area;
+        private Window window;
 
         public Examples() {
-            overlay = new Overlay(300f, 500f);
-            // Overlays don't have a background by default
-            Image background = new Image(Theme.GetTheme().background);
-            background.SetFill(FillType.All);
-            overlay.Add(background);
-
-            area = new Area();
-            area.SetContentLayout(LayoutType.Vertical);
-            area.SetElementSpacing(20);
-            overlay.Add(area);
+            window = new Window("UILib Examples", 300f, 550f);
+            window.SetMinSize(300f, 200f);
+            window.SetContentLayout(LayoutType.Vertical);
+            window.SetContentPadding(10);
+            window.SetElementSpacing(10f);
 
             // Add examples
             AddExample(new BasicWindow());
@@ -38,11 +32,12 @@ namespace UILibExamples {
             AddExample(new Shortcuts());
             AddExample(new Locks());
             AddExample(new Themes());
+            AddExample(new Animate());
 
             // Global shortcut for toggling UI
             Shortcut shortcut = new Shortcut(new[] { KeyCode.Tab });
             shortcut.onTrigger.AddListener(() => {
-                overlay.ToggleVisibility();
+                window.ToggleVisibility();
             });
             UIRoot.AddShortcut(shortcut);
         }
@@ -58,7 +53,7 @@ namespace UILibExamples {
             button.onClick.AddListener(() => {
                 example.Toggle();
             });
-            area.Add(button);
+            window.Add(button);
         }
     }
 }

@@ -43,6 +43,14 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Initializes a label which displays an empty string.
+         * </summary>
+         * <param name="fontSize">The size of the font</param>
+         */
+        public Label(int fontSize) : this("", fontSize) {}
+
+        /**
+         * <summary>
          * Allows setting the theme of this label.
          *
          * This handles setting the theme specifically for this component,

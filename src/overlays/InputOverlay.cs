@@ -132,6 +132,11 @@ namespace UILib {
 
             inputBackground.SetColor(theme.background);
 
+            if (theme.inputOverlayFadeTime > 0f) {
+                AddCanvasGroup();
+                AddFade();
+            }
+
             if (fade != null) {
                 // Only apply opacity to background
                 fade.SetOpacities(0f, 1f);

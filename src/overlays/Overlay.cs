@@ -180,6 +180,33 @@ namespace UILib {
 
         /**
          * <summary>
+         * Creates a canvas group for customising opacity.
+         * </summary>
+         */
+        protected void AddCanvasGroup() {
+            if (canvasGroup != null) {
+                return;
+            }
+
+            canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        /**
+         * <summary>
+         * Creates a fade behaviour to fade in/out.
+         * </summary>
+         */
+        protected void AddFade() {
+            if (fade != null) {
+                return;
+            }
+
+            fade = AddEase<Fade>();
+            fade.Add(canvasGroup);
+        }
+
+        /**
+         * <summary>
          * Allows setting the theme of this overlay.
          *
          * This handles setting the theme specifically for this object,
@@ -194,9 +221,7 @@ namespace UILib {
         protected override void SetThisTheme(Theme theme) {
             // Only create a canvas group when necessary
             if (theme.overlayOpacity < 1f || theme.overlayFadeTime > 0f) {
-                if (canvasGroup == null) {
-                    canvasGroup = gameObject.AddComponent<CanvasGroup>();
-                }
+                AddCanvasGroup();
 
                 // Update the canvas group
                 canvasGroup.alpha = theme.overlayOpacity;
@@ -204,10 +229,7 @@ namespace UILib {
 
             // Similarly, only create a fade behaviour when necessary
             if (canvasGroup != null && theme.overlayFadeTime > 0f) {
-                if (fade == null) {
-                    fade = AddEase<Fade>();
-                    fade.Add(canvasGroup);
-                }
+                AddFade();
 
                 // Tell the fade to use a different opacity,
                 // fade duration, and easing function

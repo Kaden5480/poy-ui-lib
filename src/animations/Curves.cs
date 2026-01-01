@@ -82,7 +82,7 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Applies a exponential easing curve which slows down over time.
+         * Applies an exponential easing curve which slows down over time.
          * </summary>
          * <param name="value">The value to apply the function to</param>
          * <returns>The result of applying this function</returns>
@@ -96,7 +96,7 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Applies a exponential easing curve which starts and ends slowly.
+         * Applies an exponential easing curve which starts and ends slowly.
          * </summary>
          * <param name="value">The value to apply the function to</param>
          * <returns>The result of applying this function</returns>
@@ -210,7 +210,7 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Applies a elastic easing curve which slows down over time and
+         * Applies an elastic easing curve which slows down over time and
          * bounces at the end.
          * </summary>
          * <param name="value">The value to apply the function to</param>
@@ -223,6 +223,37 @@ namespace UILib.Animations {
             float c = (2f * Mathf.PI) / 3f;
             float result = Mathf.Pow(2f, -10f * value)
                 * Mathf.Sin((10f * value - 0.75f) * c) + 1f;
+
+            return Mathf.Clamp(result, 0f, 1f);
+        }
+
+        /**
+         * <summary>
+         * Applies a curve which speeds up and bounces at the end.
+         * </summary>
+         * <param name="value">The value to apply the function to</param>
+         * <returns>The result of applying this function</returns>
+         */
+        public static float EaseOutBounce(float value) {
+            const float n = 7.5625f;
+            const float d = 2.75f;
+            float result;
+
+            if (value < 1 / d) {
+                result = n * value * value;
+            }
+            else if (value < 2 / d) {
+                value -= 1.5f / d;
+                result = n * value * value + 0.75f;
+            }
+            else if (value < 2.5 / d) {
+                value -= 2.25f / d;
+                result = n * value * value + 0.9375f;
+            }
+            else {
+                value -= 2.625f / d;
+                result = n * value * value + 0.984375f;
+            }
 
             return Mathf.Clamp(result, 0f, 1f);
         }

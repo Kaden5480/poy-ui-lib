@@ -60,6 +60,9 @@ namespace UILibExamples {
             // Make the change take 1 second
             offsetEase.SetDuration(1f);
 
+            // Use a custom ease function
+            offsetEase.SetEaseFunction(Curves.EaseInSine);
+
             // Ease between these two offsets
             offsetEase.SetValues(minOffset, maxOffset);
 
@@ -78,6 +81,7 @@ namespace UILibExamples {
             // Ease groups only finish once all eases have finished
             rotationEase.SetDuration(1f);
             rotationEase.SetValues(0f, 360f);
+            rotationEase.SetEaseFunction(Curves.EaseInOutQuad);
             rotationEase.onEase.AddListener((float rotation) => {
                 overlay.gameObject.transform.rotation = Quaternion.Euler(
                     0f, 0f, rotation

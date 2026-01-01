@@ -125,7 +125,7 @@ namespace UILib.Animations {
          * </summary>
          * <param name="time">The time to use for this iteration</param>
          */
-        public void ForceOnIter(float time) {
+        internal void ForceOnIter(float time) {
             OnIter(time);
         }
 

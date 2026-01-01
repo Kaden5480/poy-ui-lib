@@ -136,12 +136,9 @@ namespace UILib.Behaviours {
 
             OnStart();
 
-            // If the duration is 0, run one iteration
-            // and stop immediately as there is no
-            // reason to create a coroutine
+            // If the duration is 0, just force run
             if (duration <= 0f) {
-                OnIter(0f);
-                OnEnd();
+                ForceRun();
                 return;
             }
 

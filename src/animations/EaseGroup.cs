@@ -57,6 +57,11 @@ namespace UILib.Animations {
          * <param name="ease">The ease behaviour to add</param>
          */
         public void Add(BaseEase ease) {
+            if (ease == null) {
+                logger.LogDebug("Not adding null ease");
+                return;
+            }
+
             if (eases.Contains(ease) == true) {
                 logger.LogDebug($"Ease already added: {ease}");
                 return;

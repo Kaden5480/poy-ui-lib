@@ -73,8 +73,13 @@ namespace UILib.Animations {
          * <param name="group">The canvas group to add</param>
          */
         public void Add(CanvasGroup group) {
+            if (group == null) {
+                logger.LogDebug("Not adding null canvas group");
+                return;
+            }
+
             if (groups.Contains(group) == true) {
-                logger.LogDebug($"Group was already added: {group}");
+                logger.LogDebug($"Canvas group was already added: {group}");
                 return;
             }
 

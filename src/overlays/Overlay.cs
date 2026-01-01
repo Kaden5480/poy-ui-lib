@@ -209,10 +209,11 @@ namespace UILib {
                     fade.Add(canvasGroup);
                 }
 
-                // Tell the fade to use a different opacity
-                // and fade time
+                // Tell the fade to use a different opacity,
+                // fade duration, and easing function
                 fade.SetOpacities(0f, theme.overlayOpacity);
                 fade.SetDuration(theme.overlayFadeTime);
+                fade.SetEaseFunction(theme.overlayFadeFunction);
             }
         }
 

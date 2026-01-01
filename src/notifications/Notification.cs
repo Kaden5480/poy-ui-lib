@@ -123,10 +123,15 @@ namespace UILib.Notifications {
                 }
 
                 // What proportion of fade time has passed
-                float fadeProportion = (fadeTime - value) / fadeTime;
+                float fadeProportion = 1 - ((fadeTime - value) / fadeTime);
+
+                // Apply an ease function if set
+                if (theme.notificationFadeFunction != null) {
+                    fadeProportion = theme.notificationFadeFunction(fadeProportion);
+                }
 
                 // Scale opacity
-                canvasGroup.alpha = theme.notificationOpacity * (1 - fadeProportion);
+                canvasGroup.alpha = fadeProportion * theme.notificationOpacity;
             });
 
             timer.onEnd.AddListener(() => {

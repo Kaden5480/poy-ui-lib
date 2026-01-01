@@ -138,20 +138,6 @@ namespace UILib {
             // The scroll view is the content
             SetContent(scrollView);
 
-            // The group for fading window decorations
-            decorationFade = gameObject.AddComponent<Fade>();
-
-            // The groups themselves
-            AddCanvasGroup(ref cgTitleBar, titleBar);
-            AddCanvasGroup(ref cgScrollBarH, scrollView.scrollBarH);
-            AddCanvasGroup(ref cgScrollBarV, scrollView.scrollBarV);
-            AddCanvasGroup(ref cgResizeButton, resizeButton);
-
-            decorationFade.Add(cgTitleBar);
-            decorationFade.Add(cgScrollBarH);
-            decorationFade.Add(cgScrollBarV);
-            decorationFade.Add(cgResizeButton);
-
             // Set the theme
             SetThisTheme(theme);
         }
@@ -188,7 +174,8 @@ namespace UILib {
          * <param name="uiObject">The object to add a group to</param>
          */
         private void AddCanvasGroup(ref CanvasGroup group, UIObject uiObject) {
-            if (group != null) {
+            // Do nothing if the group already exists or uiObject is null
+            if (group != null || uiObject == null) {
                 return;
             }
 
@@ -197,8 +184,6 @@ namespace UILib {
             if (group == null) {
                 group = uiObject.gameObject.AddComponent<CanvasGroup>();
             }
-
-            group.alpha = theme.windowDecorationOpacity;
         }
 
         /**
@@ -217,22 +202,51 @@ namespace UILib {
         protected override void SetThisTheme(Theme theme) {
             base.SetThisTheme(theme);
 
-            if (decorationFade == null) {
+            if (container == null) {
                 return;
             }
 
-            // Set the background opacity
-            Color bg = scrollView.background.color;
-            bg.a = theme.windowOpacity;
-            scrollView.background.color = bg;
+            if (scrollView != null) {
+                // Set the background opacity
+                Color bg = scrollView.background.color;
+                bg.a = theme.windowOpacity;
+                scrollView.background.color = bg;
+            }
 
-            // Set fade times and opacities on decorations
-            decorationFade.SetDuration(theme.windowDecorationFadeTime);
-            decorationFade.SetOpacities(0f, theme.windowDecorationOpacity);
-            SetCanvasGroupOpacity(cgTitleBar, theme.windowDecorationOpacity);
-            SetCanvasGroupOpacity(cgScrollBarH, theme.windowDecorationOpacity);
-            SetCanvasGroupOpacity(cgScrollBarV, theme.windowDecorationOpacity);
-            SetCanvasGroupOpacity(cgResizeButton, theme.windowDecorationOpacity);
+            // Only create canvas groups when necessary
+            if (theme.windowDecorationOpacity < 1f
+                || theme.windowDecorationFadeTime > 0f
+            ) {
+                AddCanvasGroup(ref cgTitleBar, titleBar);
+                AddCanvasGroup(ref cgScrollBarH, scrollView.scrollBarH);
+                AddCanvasGroup(ref cgScrollBarV, scrollView.scrollBarV);
+                AddCanvasGroup(ref cgResizeButton, resizeButton);
+
+                SetCanvasGroupOpacity(cgTitleBar, theme.windowDecorationOpacity);
+                SetCanvasGroupOpacity(cgScrollBarH, theme.windowDecorationOpacity);
+                SetCanvasGroupOpacity(cgScrollBarV, theme.windowDecorationOpacity);
+                SetCanvasGroupOpacity(cgResizeButton, theme.windowDecorationOpacity);
+            }
+
+            // Only create a decoration fade when necessary
+            if (decorationFade == null
+                && theme.windowDecorationFadeTime > 0f
+            ) {
+                // The group for fading window decorations
+                decorationFade = gameObject.AddComponent<Fade>();
+
+                decorationFade.Add(cgTitleBar);
+                decorationFade.Add(cgScrollBarH);
+                decorationFade.Add(cgScrollBarV);
+                decorationFade.Add(cgResizeButton);
+            }
+
+            // Set fade duration, opacities, and easing function
+            if (decorationFade != null) {
+                decorationFade.SetDuration(theme.windowDecorationFadeTime);
+                decorationFade.SetEaseFunction(theme.windowDecorationFadeFunction);
+                decorationFade.SetOpacities(0f, theme.windowDecorationOpacity);
+            }
         }
 
         /**

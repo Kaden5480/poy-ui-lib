@@ -137,8 +137,9 @@ namespace UILib {
                 fade.SetOpacities(0f, 1f);
                 fade.SetOpacity(1f);
 
-                // Use a different fade time
+                // Use a different fade time and function
                 fade.SetDuration(theme.inputOverlayFadeTime);
+                fade.SetEaseFunction(theme.inputOverlayFadeFunction);
             }
 
             Color bg = theme.background;

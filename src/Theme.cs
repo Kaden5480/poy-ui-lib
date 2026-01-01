@@ -382,6 +382,16 @@ namespace UILib {
 
         /**
          * <summary>
+         * The easing function which will be used to fade overlays.
+         * Setting this to `null` means to use a linear function.
+         *
+         * This function must accept and return values from 0 to 1 (inclusive).
+         * </summary>
+         */
+        public Func<float, float> overlayFadeFunction = null;
+
+        /**
+         * <summary>
          * The default/maximum opacity to apply to
          * the <see cref="InputOverlay"/>.
          * This will only affect the background of the
@@ -399,6 +409,16 @@ namespace UILib {
          * </summary>
          */
         public float inputOverlayFadeTime = 0f;
+
+        /**
+         * <summary>
+         * The easing function which will be used to fade the input overlay.
+         * Setting this to `null` means to use a linear function.
+         *
+         * This function must accept and return values from 0 to 1 (inclusive).
+         * </summary>
+         */
+        public Func<float, float> inputOverlayFadeFunction = null;
 
         /**
          * <summary>
@@ -427,6 +447,16 @@ namespace UILib {
          * </summary>
          */
         public float windowDecorationFadeTime = 0.5f;
+
+        /**
+         * <summary>
+         * The easing function which will be used to fade the window decorations.
+         * Setting this to `null` means to use a linear function.
+         *
+         * This function must accept and return values from 0 to 1 (inclusive).
+         * </summary>
+         */
+        public Func<float, float> windowDecorationFadeFunction = null;
 
 #endregion
 
@@ -622,6 +652,16 @@ namespace UILib {
          * </summary>
          */
         public float notificationFadeTime = 1f;
+
+        /**
+         * <summary>
+         * The easing function which will be used to fade notifications.
+         * Setting this to `null` means to use a linear function.
+         *
+         * This function must accept and return values from 0 to 1 (inclusive).
+         * </summary>
+         */
+        public Func<float, float> notificationFadeFunction = null;
 
 #endregion
 

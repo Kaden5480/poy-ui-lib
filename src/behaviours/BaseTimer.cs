@@ -40,6 +40,15 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Whether this timer is set to increase "infinitely".
+         * If the timer is decreasing, it will still only return to 0,
+         * it won't become negative.
+         * </summary>
+         */
+        public bool infinite { get; private set; } = false;
+
+        /**
+         * <summary>
          * This timer's current time scale.
          *
          * This determines how quickly the timer runs
@@ -74,15 +83,24 @@ namespace UILib.Behaviours {
                 float target = (increasing == true) ? duration : 0f;
 
                 // Update the timer
-                time = Mathf.MoveTowards(
-                    time, target, delta
-                );
+                if (infinite == true && increasing == true) {
+                    time += delta;
+                }
+                else {
+                    time = Mathf.MoveTowards(
+                        time, target, delta
+                    );
+                }
 
                 // Perform an iteration
                 OnIter(time);
 
+                // If the timer is decreasing, or is set to be
+                // finite, this can run
                 // If the timer has reached the end time, stop
-                if (time == target) {
+                if ((infinite == false || increasing == false)
+                    && time == target
+                ) {
                     break;
                 }
 
@@ -92,6 +110,24 @@ namespace UILib.Behaviours {
             OnEnd();
             coroutine = null;
             yield break;
+        }
+
+        /**
+         * <summary>
+         * Sets whether this timer is "infinite".
+         *
+         * This only applies when the timer is set to be <see cref="increasing"/>.
+         *
+         * If the timer is infinite, it will ignore the configured
+         * <see cref="duration"/> and continue ticking up until stopped.
+         *
+         * If the timer is ticking down, it will continue running until it
+         * reaches 0.
+         * </summary>
+         * <param name="infinite">Whether the timer should be infinite</param>
+         */
+        public void SetInfinite(bool infinite) {
+            this.infinite = infinite;
         }
 
         /**
@@ -177,6 +213,9 @@ namespace UILib.Behaviours {
          *
          * This stops the coroutine, but keeps the <see cref="time"/>
          * at its current value.
+         *
+         * Note:
+         * This doesn't run <see cref="OnEnd"/>.
          * </summary>
          */
         public virtual void StopTimer() {

@@ -23,6 +23,14 @@ namespace UILibExamples {
             window.SetContentPadding(10);
             window.SetElementSpacing(10f);
 
+            // See Plugin.cs
+            //
+            // The code below is pretty bad for optimisation
+            // as a lot of UIs are going to be created all at once
+            //
+            // It's better to try to delay the creation of UIs until
+            // the first time it's needed
+
             // Add examples
             AddExample(new BasicWindow());
             AddExample(new Chat());

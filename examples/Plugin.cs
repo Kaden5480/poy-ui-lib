@@ -22,6 +22,11 @@ namespace UILibExamples {
             // For register to work, the theme name must be unique
             Theme.Register(custom);
 
+            // Building all the examples at once here isn't exactly optimal
+            // It's generally a good idea to create the UIs as they're needed (where possible)
+            //
+            // For example, if you have a shortcut which opens a UI, make it on the
+            // first time that shortcut is triggered.
             UIRoot.onInit.AddListener(() => {
                 examples = new Examples();
             });

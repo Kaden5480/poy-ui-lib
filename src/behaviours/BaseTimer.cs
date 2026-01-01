@@ -8,7 +8,7 @@ namespace UILib.Behaviours {
      * A reversible timer which always goes between 0 and 1.
      * </summary>
      */
-    public class BaseTimer : MonoBehaviour {
+    public abstract class BaseTimer : MonoBehaviour {
         internal Logger logger = new Logger(typeof(BaseTimer));
 
         // The timer coroutine

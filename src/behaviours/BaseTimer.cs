@@ -105,7 +105,7 @@ namespace UILib.Behaviours {
          */
         public virtual void ForceRun() {
             // Stop any coroutine that may be running
-            Stop();
+            StopTimer();
 
             // If increasing, set to end
             if (increasing == true) {
@@ -129,7 +129,7 @@ namespace UILib.Behaviours {
          * If the timer routine is already running, this method does nothing.
          * </summary>
          */
-        public virtual void Start() {
+        public virtual void StartTimer() {
             if (coroutine != null) {
                 return;
             }
@@ -148,13 +148,38 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
+         * Restarts the timer.
+         *
+         * If the timer is set to be <see cref="increasing"/>, the timer
+         * will start from `0`.
+         * If the timer is seto to be <see cref="decreasing"/>, the timer
+         * will start from <see cref="duration"/>.
+         * </summary>
+         */
+        public virtual void RestartTimer() {
+            StopTimer();
+
+            // Figure out the end point
+            if (increasing == true) {
+                SetToStart();
+            }
+            else {
+                SetToEnd();
+            }
+
+            // Start the timer
+            StartTimer();
+        }
+
+        /**
+         * <summary>
          * Stops the timer immediately.
          *
          * This stops the coroutine, but keeps the <see cref="time"/>
          * at its current value.
          * </summary>
          */
-        public virtual void Stop() {
+        public virtual void StopTimer() {
             if (coroutine == null) {
                 return;
             }

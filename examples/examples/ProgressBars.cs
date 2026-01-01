@@ -66,6 +66,9 @@ namespace UILibExamples {
             // From UILib.Behaviours
             Timer timer = timerArea.gameObject.AddComponent<Timer>();
 
+            // Set the duration of the timer
+            timer.SetDuration(totalTime);
+
             // Update progress
             timer.onIter.AddListener((float value) => {
                 float normal = value / totalTime;
@@ -77,7 +80,9 @@ namespace UILibExamples {
             UIButton timerButton = new UIButton("Run", 20);
             timerButton.SetSize(160f, 40f);
             timerButton.onClick.AddListener(() => {
-                timer.StartTimer(0f, totalTime);
+                // Restart means the timer will always
+                // start over
+                timer.RestartTimer();
             });
             timerArea.Add(timerButton);
 

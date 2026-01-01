@@ -125,7 +125,7 @@ namespace UILib.Behaviours {
                 return;
             }
 
-            Start();
+            StartTimer();
         }
 
         /**
@@ -144,7 +144,7 @@ namespace UILib.Behaviours {
                 return;
             }
 
-            Start();
+            StartTimer();
         }
 
         /**

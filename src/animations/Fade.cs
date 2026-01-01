@@ -19,35 +19,35 @@ namespace UILib.Animations {
          * The minimum opacity (0-1 inclusive).
          * </summary>
          */
-        public float minOpacity { get => _minValue; }
+        public float minOpacity { get => minValue; }
 
         /**
          * <summary>
          * The maximum opacity (0-1 inclusive).
          * </summary>
          */
-        public float maxOpacity { get => _maxValue; }
+        public float maxOpacity { get => maxValue; }
 
         /**
          * <summary>
          * The current opacity the canvas groups are set to.
          * </summary>
          */
-        public float opacity { get => _value; }
+        public float opacity { get => value; }
 
         /**
          * <summary>
          * Whether this behaviour is currently fading in.
          * </summary>
          */
-        public bool fadingIn { get => _easingIn; }
+        public bool fadingIn { get => easingIn; }
 
         /**
          * <summary>
          * Whether this behaviour is currently fading out.
          * </summary>
          */
-        public bool fadingOut { get => _easingOut; }
+        public bool fadingOut { get => easingOut; }
 
         /**
          * <summary>
@@ -83,20 +83,6 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Sets the opacities to fade between.
-         * These opacities must be between 0-1.
-         * </summary>
-         * <param name="minOpacity">The minimum opacity</param>
-         * <param name="maxOpacity">The maximum opacity</param>
-         */
-        public void SetOpacities(float minOpacity, float maxOpacity) {
-            minOpacity = Mathf.Clamp(minOpacity, 0f, 1f);
-            maxOpacity = Mathf.Clamp(maxOpacity, 0f, 1f);
-            _SetValues(minOpacity, maxOpacity);
-        }
-
-        /**
-         * <summary>
          * Internally updates canvas opacity on each iteration.
          * </summary>
          * <param name="opacity">The opacity to set</param>
@@ -122,11 +108,25 @@ namespace UILib.Animations {
 
         /**
          * <summary>
+         * Sets the opacities to fade between.
+         * These opacities must be between 0-1.
+         * </summary>
+         * <param name="minOpacity">The minimum opacity</param>
+         * <param name="maxOpacity">The maximum opacity</param>
+         */
+        public void SetOpacities(float minOpacity, float maxOpacity) {
+            minOpacity = Mathf.Clamp(minOpacity, 0f, 1f);
+            maxOpacity = Mathf.Clamp(maxOpacity, 0f, 1f);
+            _SetValues(minOpacity, maxOpacity);
+        }
+
+        /**
+         * <summary>
          * Fades the attached canvas groups in.
          * </summary>
          * <param name="force">Whether to force fading in</param>
          */
-        public void FadeIn(bool force = false) { _EaseIn(force); }
+        public void FadeIn(bool force = false) { EaseIn(force); }
 
         /**
          * <summary>
@@ -134,23 +134,20 @@ namespace UILib.Animations {
          * </summary>
          * <param name="force">Whether to force fading out</param>
          */
-        public void FadeOut(bool force = false) { _EaseOut(force); }
+        public void FadeOut(bool force = false) { EaseOut(force); }
 
         /**
          * <summary>
-         * Runs when this behaviour finishes fading in/out.
+         * Runs when easing in has finished.
          * </summary>
          */
-        protected override void OnEnd() {
-            base.OnEnd();
+        protected override void OnEaseIn() { onFadeIn.Invoke(); }
 
-            // Increasing means fading in
-            if (increasing == true) {
-                onFadeIn.Invoke();
-            }
-            else {
-                onFadeOut.Invoke();
-            }
-        }
+        /**
+         * <summary>
+         * Runs when easing out has finished.
+         * </summary>
+         */
+        protected override void OnEaseOut() { onFadeOut.Invoke(); }
     }
 }

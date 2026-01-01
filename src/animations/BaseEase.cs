@@ -17,28 +17,28 @@ namespace UILib.Animations {
          * The minimum value.
          * </summary>
          */
-        protected float _minValue { get; private set; } = 0f;
+        public float minValue { get; private set; } = 0f;
 
         /**
          * <summary>
          * The maximum value.
          * </summary>
          */
-        protected float _maxValue { get; private set; } = 1f;
+        public float maxValue { get; private set; } = 1f;
 
         /**
          * <summary>
          * The current value.
          * </summary>
          */
-        protected float _value { get; private set; } = 0f;
+        public float value { get; private set; } = 0f;
 
         /**
          * <summary>
          * Whether this behaviour is currently easing in.
          * </summary>
          */
-        protected bool _easingIn {
+        public bool easingIn {
             get => running == true && increasing == true;
         }
 
@@ -47,7 +47,7 @@ namespace UILib.Animations {
          * Whether this behaviour is currently easing out.
          * </summary>
          */
-        protected bool _easingOut {
+        public bool easingOut {
             get => running == true && increasing == false;
         }
 
@@ -55,13 +55,16 @@ namespace UILib.Animations {
          * <summary>
          * Sets the current value.
          *
+         * This is clamped between <see cref="minValue"/>
+         * and <see cref="maxValue"/>.
+         *
          * This is called in <see cref="OnIter"/> to update
          * the current easing value.
          * </summary>
          * <param name="value">The value to set</param>
          */
         protected virtual void _SetValue(float value) {
-            this._value = value;
+            this.value = Mathf.Clamp(value, minValue, maxValue);
         }
 
         /**
@@ -72,17 +75,17 @@ namespace UILib.Animations {
          * <param name="maxValue">The maximum value to use</param>
          */
         protected void _SetValues(float minValue, float maxValue) {
-            this._minValue = minValue;
-            this._maxValue = maxValue;
+            this.minValue = minValue;
+            this.maxValue = maxValue;
         }
 
         /**
          * <summary>
-         * Eases in, heading towards the <see cref="_maxValue"/>.
+         * Eases in, heading towards the <see cref="maxValue"/>.
          * </summary>
          * <param name="force">Whether to force easing in</param>
          */
-        protected void _EaseIn(bool force = false) {
+        public void EaseIn(bool force = false) {
             SetIncreasing(true);
 
             // ForceRun uses the increasing/decreasing state
@@ -97,11 +100,11 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Eases out, heading towards the <see cref="_minValue"/>.
+         * Eases out, heading towards the <see cref="minValue"/>.
          * </summary>
          * <param name="force">Whether to force easing in</param>
          */
-        protected void _EaseOut(bool force = false) {
+        public void EaseOut(bool force = false) {
             SetIncreasing(false);
 
             // ForceRun uses the increasing/decreasing state
@@ -128,7 +131,7 @@ namespace UILib.Animations {
             if (duration <= 0f) {
                 // Increasing means easing in to max value
                 // Decreasing means easing out to min value
-                _SetValue((increasing == true) ? _maxValue : _minValue);
+                _SetValue((increasing == true) ? maxValue : minValue);
                 return;
             }
 
@@ -139,8 +142,39 @@ namespace UILib.Animations {
             float normal = time / duration;
 
             // Then, the normalised time has to be used to scale the value
-            float value = _minValue + (normal * Mathf.Abs(_maxValue - _minValue));
+            float value = minValue + (normal * Mathf.Abs(maxValue - minValue));
             _SetValue(value);
         }
+
+        /**
+         * <summary>
+         * Runs when this behaviour finishes easing in/out.
+         * </summary>
+         */
+        protected override void OnEnd() {
+            base.OnEnd();
+
+            // Increasing means easing in
+            if (increasing == true) {
+                OnEaseIn();
+            }
+            else {
+                OnEaseOut();
+            }
+        }
+
+        /**
+         * <summary>
+         * Runs when easing in has finished.
+         * </summary>
+         */
+        protected virtual void OnEaseIn() {}
+
+        /**
+         * <summary>
+         * Runs when easing out has finished.
+         * </summary>
+         */
+        protected virtual void OnEaseOut() {}
     }
 }

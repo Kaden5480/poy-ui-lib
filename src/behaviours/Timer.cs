@@ -1,171 +1,49 @@
-using System.Collections;
-
-using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 using UILib.Events;
 
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * Runs a timer.
+     * A reversible timer with a configurable duration
+     * and time scale (speed).
      * </summary>
      */
-    public class Timer : MonoBehaviour {
-        // The timer coroutine
-        private IEnumerator coroutine;
-
-        // The start and end times
-        private float startTime;
-        private float endTime;
-
+    public class Timer : BaseTimer {
         /**
          * <summary>
-         * The time scale. By default this is `1`.
-         * Scales how quickly the timer should run.
-         *
-         * The higher this value, the faster the timer runs.
-         * The lower this value, the slower the timer runs.
-         * </summary>
-         */
-        public float timeScale { get; private set; } = 1f;
-
-        /**
-         * <summary>
-         * The current value of the timer.
-         * </summary>
-         */
-        public float timer { get; private set; }
-
-        /**
-         * <summary>
-         * Whether the timer coroutine is currently running.
-         * </summary>
-         */
-        public bool running { get; private set; } = false;
-
-        /**
-         * <summary>
-         * Whether the timer should pause.
-         * </summary>
-         */
-        public bool paused { get; private set; } = false;
-
-        /**
-         * <summary>
-         * Invokes listeners whenever the timer is started.
-         * </summary>
-         */
-        public UnityEvent onStart { get; } = new UnityEvent();
-
-        /**
-         * <summary>
-         * Invokes listeners on each iteration of the timer.
-         * The value passed to listeners is the current value of the timer.
+         * Invokes listeners on each iteration of the timer,
+         * passing the current value the timer is at.
          * </summary>
          */
         public ValueEvent<float> onIter { get; } = new ValueEvent<float>();
 
         /**
          * <summary>
-         * Invokes listeners when the timer finishes.
+         * Invokes listeners when the timer finishes running.
          * </summary>
          */
         public UnityEvent onEnd { get; } = new UnityEvent();
 
         /**
          * <summary>
-         * Sets the <see cref="timeScale"/>.
+         * Runs on each iteration of the timer.
          * </summary>
-         * <param name="timeScaler">The new value for the time scaler</param>
+         * <param name="time">The current value of the timer</param>
          */
-        public void SetTimeScale(float timeScale) {
-            this.timeScale = timeScale;
+        protected override void OnIter(float time) {
+            base.OnIter(time);
+            onIter.Invoke(time);
         }
 
         /**
          * <summary>
-         * Starts the timer.
-         * If the timer is already running, this will restart it.
-         * </summary>
-         * <param name="startTime">What time the timer should start at</param>
-         * <param name="endTime">What time the timer should end at</param>
-         */
-        public void StartTimer(float startTime, float endTime = 0f) {
-            StopTimer();
-
-            this.startTime = startTime;
-            this.endTime = endTime;
-
-            coroutine = RunTimer();
-            running = true;
-            StartCoroutine(coroutine);
-        }
-
-        /**
-         * <summary>
-         * Pauses the timer.
-         *
-         * If the timer is paused, the internal timer will no longer
-         * decrease, and any <see cref="onIter"/> listeners will no longer be invoked.
-         * Passing `false` will allow the timer to continue
-         * normal execution.
-         * </summary>
-         * <param name="pause">Whether the timer should be paused</param>
-         */
-        public void PauseTimer(bool pause = true) {
-            paused = pause;
-        }
-
-        /**
-         * <summary>
-         * Sets the timer to go in reverse of its current direction.
+         * Runs when the timer finishes.
          * </summary>
          */
-        public void ReverseTimer() {
-            float oldStart = startTime;
-
-            startTime = endTime;
-            endTime = oldStart;
-        }
-
-        /**
-         * <summary>
-         * Stops the timer immediately.
-         * </summary>
-         */
-        public void StopTimer() {
-            running = false;
-        }
-
-        /**
-         * <summary>
-         * Runs the timer.
-         * </summary>
-         */
-        private IEnumerator RunTimer() {
-            timer = startTime;
-            onStart.Invoke();
-
-            while (running == true) {
-                float prevTimer = timer;
-
-                timer = Mathf.MoveTowards(
-                    timer, endTime, timeScale * Time.deltaTime
-                );
-
-                if (timer == prevTimer) {
-                    running = false;
-                }
-
-                onIter.Invoke(timer);
-                yield return null;
-            }
-
+        protected override void OnEnd() {
+            base.OnEnd();
             onEnd.Invoke();
-            coroutine = null;
-            yield break;
         }
     }
 }

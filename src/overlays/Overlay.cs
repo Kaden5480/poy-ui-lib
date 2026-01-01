@@ -4,7 +4,7 @@ using BepInEx.Configuration;
 using UnityEngine;
 using UnityEngine.Events;
 
-using UILib.Behaviours;
+using UILib.Animations;
 using UILib.Components;
 using UILib.Events;
 using UILib.Layouts;

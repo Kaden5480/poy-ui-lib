@@ -1,3 +1,5 @@
+using UnityEngine;
+
 using UILib.Behaviours;
 
 namespace UILib.Animations {
@@ -59,7 +61,7 @@ namespace UILib.Animations {
          * <param name="value">The value to set</param>
          */
         protected virtual void _SetValue(float value) {
-            this.value = value;
+            this._value = value;
         }
 
         /**
@@ -70,8 +72,8 @@ namespace UILib.Animations {
          * <param name="maxValue">The maximum value to use</param>
          */
         protected void _SetValues(float minValue, float maxValue) {
-            this.minValue = minValue;
-            this.maxValue = maxValue;
+            this._minValue = minValue;
+            this._maxValue = maxValue;
         }
 
         /**
@@ -119,7 +121,7 @@ namespace UILib.Animations {
          * <param name="time">The current value of the internal timer</param>
          */
         protected override void OnIter(float time) {
-            base.OnIter(timer);
+            base.OnIter(time);
 
             // If the duration is 0, this needs to be handled
             // in a very specific way

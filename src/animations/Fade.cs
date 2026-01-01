@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace UILib.Behaviours {
+namespace UILib.Animations {
     /**
      * <summary>
+     * A <see cref="BaseEase"/> behaviour which fades between two
+     * opacities.
      * </summary>
      */
-    public class Fade : BaseTimer {
+    public class Fade : BaseEase {
         // The canvas groups to fade in/out
         private List<CanvasGroup> groups = new List<CanvasGroup>();
 
@@ -17,39 +19,35 @@ namespace UILib.Behaviours {
          * The minimum opacity (0-1 inclusive).
          * </summary>
          */
-        public float minOpacity { get; private set; } = 0f;
+        public float minOpacity { get => _minValue; }
 
         /**
          * <summary>
          * The maximum opacity (0-1 inclusive).
          * </summary>
          */
-        public float maxOpacity { get; private set; } = 1f;
+        public float maxOpacity { get => _maxValue; }
 
         /**
          * <summary>
          * The current opacity the canvas groups are set to.
          * </summary>
          */
-        public float opacity { get; private set; } = 1f;
+        public float opacity { get => _value; }
 
         /**
          * <summary>
          * Whether this behaviour is currently fading in.
          * </summary>
          */
-        public bool fadingIn {
-            get => running == true && increasing == true;
-        }
+        public bool fadingIn { get => _easingIn; }
 
         /**
          * <summary>
          * Whether this behaviour is currently fading out.
          * </summary>
          */
-        public bool fadingOut {
-            get => running == true && increasing == false;
-        }
+        public bool fadingOut { get => _easingOut; }
 
         /**
          * <summary>
@@ -92,8 +90,24 @@ namespace UILib.Behaviours {
          * <param name="maxOpacity">The maximum opacity</param>
          */
         public void SetOpacities(float minOpacity, float maxOpacity) {
-            this.minOpacity = Mathf.Clamp(minOpacity, 0f, 1f);
-            this.maxOpacity = Mathf.Clamp(maxOpacity, 0f, 1f);
+            minOpacity = Mathf.Clamp(minOpacity, 0f, 1f);
+            maxOpacity = Mathf.Clamp(maxOpacity, 0f, 1f);
+            _SetValues(minOpacity, maxOpacity);
+        }
+
+        /**
+         * <summary>
+         * Internally updates canvas opacity on each iteration.
+         * </summary>
+         * <param name="opacity">The opacity to set</param>
+         */
+        protected override void _SetValue(float opacity) {
+            opacity = Mathf.Clamp(opacity, 0f, 1f);
+            base._SetValue(opacity);
+
+            foreach (CanvasGroup group in groups) {
+                group.alpha = opacity;
+            }
         }
 
         /**
@@ -103,10 +117,7 @@ namespace UILib.Behaviours {
          * <param name="opacity">The new opacity to use</param>
          */
         public void SetOpacity(float opacity) {
-            this.opacity = Mathf.Clamp(opacity, 0f, 1f);
-            foreach (CanvasGroup group in groups) {
-                group.alpha = this.opacity;
-            }
+            _SetValue(opacity);
         }
 
         /**
@@ -115,18 +126,7 @@ namespace UILib.Behaviours {
          * </summary>
          * <param name="force">Whether to force fading in</param>
          */
-        public void FadeIn(bool force = false) {
-            SetIncreasing(true);
-
-            // ForceRun uses the increasing/decreasing state
-            // set on the timer to know where to end
-            if (force == true) {
-                ForceRun();
-                return;
-            }
-
-            StartTimer();
-        }
+        public void FadeIn(bool force = false) { _EaseIn(force); }
 
         /**
          * <summary>
@@ -134,47 +134,7 @@ namespace UILib.Behaviours {
          * </summary>
          * <param name="force">Whether to force fading out</param>
          */
-        public void FadeOut(bool force = false) {
-            SetIncreasing(false);
-
-            // ForceRun uses the increasing/decreasing state
-            // set on the timer to know where to end
-            if (force == true) {
-                ForceRun();
-                return;
-            }
-
-            StartTimer();
-        }
-
-        /**
-         * <summary>
-         * Runs on each iteration of fading.
-         * </summary>
-         * <param name="time">The current value of the internal timer</param>
-         */
-        protected override void OnIter(float time) {
-            base.OnIter(time);
-
-            // If the duration is 0, this needs to be handled
-            // in a very specific way
-            if (duration <= 0f) {
-                // Increasing means fading in to max opacity
-                // Decreasing means fading out to min opacity
-                SetOpacity((increasing == true) ? maxOpacity : minOpacity);
-                return;
-            }
-
-            // Otherwise, the current time has to scale to be between
-            // the minimum and maximum configured opacities
-
-            // This first requires normalising the time
-            float normal = time / duration;
-
-            // Then, the normalised time has to be used to scale the opacity
-            float opacity = minOpacity + (normal * Mathf.Abs(maxOpacity - minOpacity));
-            SetOpacity(opacity);
-        }
+        public void FadeOut(bool force = false) { _EaseOut(force); }
 
         /**
          * <summary>

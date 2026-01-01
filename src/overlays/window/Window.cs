@@ -1,6 +1,6 @@
 using UnityEngine;
 
-using UILib.Behaviours;
+using UILib.Animations;
 using UILib.Components;
 using UILib.Layouts;
 

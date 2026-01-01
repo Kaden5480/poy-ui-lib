@@ -52,18 +52,6 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Normally, an ease group must run infinitely.
-         *
-         * Since it relies on all added ease behaviours
-         * reaching an end point.
-         * </summary>
-         */
-        private void Awake() {
-            SetInfinite(true);
-        }
-
-        /**
-         * <summary>
          * Adds an ease behaviour to be controlled by this group.
          * </summary>
          * <param name="ease">The ease behaviour to add</param>
@@ -79,21 +67,20 @@ namespace UILib.Animations {
 
         /**
          * <summary>
-         * Forces all ease behaviours to be at their min/max
-         * values.
-         * This uses the current "increasing" mode to determine
-         * where to end.
+         * Updates the total duration based upon the
+         * currently added ease behaviours.
          * </summary>
          */
-        private void ForceEase() {
+        private void UpdateDuration() {
+            float maxDuration = 0f;
+
             foreach (BaseEase ease in eases) {
-                if (increasing == true) {
-                    ease.EaseIn(true);
-                }
-                else {
-                    ease.EaseOut(true);
+                if (ease.duration > maxDuration) {
+                    maxDuration = ease.duration;
                 }
             }
+
+            SetDuration(maxDuration);
         }
 
         /**
@@ -105,10 +92,14 @@ namespace UILib.Animations {
         public void EaseIn(bool force = false) {
             SetIncreasing(true);
 
+            // Update the end time (duration)
+            UpdateDuration();
+
             // Force running needs to be handled in
             // a pretty specific way
             if (force == true) {
-                ForceEase();
+                ForceRun();
+                return;
             }
 
             StartTimer();
@@ -126,7 +117,8 @@ namespace UILib.Animations {
             // Force running needs to be handled in
             // a pretty specific way
             if (force == true) {
-                ForceEase();
+                ForceRun();
+                return;
             }
 
             StartTimer();
@@ -141,11 +133,6 @@ namespace UILib.Animations {
         protected override void OnIter(float time) {
             base.OnIter(time);
 
-            // Whether all ease behaviours have finished, there's only
-            // a need to care about this in "increasing" mode, otherwise
-            // this group will continue ticking off to "infinity"
-            bool finished = true;
-
             // Iterate over all behaviours, telling them
             // to perform an iteration
             foreach (BaseEase ease in eases) {
@@ -153,27 +140,7 @@ namespace UILib.Animations {
                 // the ease is configured to run in, that's fine
                 // because the value is clamped by BaseEase._SetValue
                 ease.ForceOnIter(time);
-
-                // The condition below assumes that the value
-                // is clamped between minValue and maxValue, which it should
-                // be if you refer to BaseEase._SetValue
-
-                // If increasing, the ease must reach its max value
-                if (increasing == true && ease.value != ease.maxValue) {
-                    finished = false;
-                }
             }
-
-            // If in increasing mode and finished, stop manually
-            if (increasing == true && finished == true) {
-                StopTimer();
-                OnEnd();
-            }
-
-            // Otherwise, the iterations are handled lower down by
-            // the BaseTimer
-            // This will cause this group to stop iterating
-            // once it returns to `0`
         }
 
         /**

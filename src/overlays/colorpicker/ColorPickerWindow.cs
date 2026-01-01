@@ -78,7 +78,9 @@ namespace UILib.ColorPicker {
 
             UIButton doneButton = new UIButton("Done", 20);
             doneButton.SetSize(100f, 30f);
-            doneButton.onClick.AddListener(Hide);
+            doneButton.onClick.AddListener(() => {
+                Hide();
+            });
             Add(doneButton);
 
             updater.Init();
@@ -151,12 +153,16 @@ namespace UILib.ColorPicker {
 
         /**
          * <summary>
-         * Hides the color picker window and unlinks
-         * the currently linked field.
+         * Hides the color picker window and unlinks the
+         * currently linked field.
+         *
+         * If you force hiding this window, the attached ease group
+         * will be forced to ease all the way out immediately.
          * </summary>
+         * <param name="force">Whether to force hiding this overlay</param>
          */
-        public override void Hide() {
-            base.Hide();
+        public override void Hide(bool force = false) {
+            base.Hide(force);
             Unlink();
         }
 

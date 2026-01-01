@@ -144,21 +144,6 @@ namespace UILib {
             canvas = new Canvas();
             canvas.Add(this);
 
-            // Add a canvas group for controlling opacity
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-
-            // Assign a Fade and give it the canvas group
-            fade = gameObject.AddComponent<Fade>();
-            fade.Add(canvasGroup);
-
-            // Only disable once fading out has finished
-            // Showing is handled in Show() as the gameObject
-            // has to be enabled immediately
-            fade.onFadeOut.AddListener(() => {
-                canvas.Hide();
-                base.Hide();
-            });
-
             // Register this overlay
             UIRoot.Register(this);
 
@@ -207,13 +192,28 @@ namespace UILib {
          * <param name="theme">The theme to apply</param>
          */
         protected override void SetThisTheme(Theme theme) {
-            // Tell the fade to use a different opacity
-            // and fade time
-            fade.SetOpacities(0f, theme.overlayOpacity);
-            fade.SetDuration(theme.overlayFadeTime);
+            // Only create a canvas group when necessary
+            if (theme.overlayOpacity < 1f) {
+                if (canvasGroup == null) {
+                    canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                }
 
-            // Update the canvas group
-            canvasGroup.alpha = theme.overlayOpacity;
+                // Update the canvas group
+                canvasGroup.alpha = theme.overlayOpacity;
+            }
+
+            // Similarly, only create a fade behaviour when necessary
+            if (canvasGroup != null && theme.overlayFadeTime > 0f) {
+                if (fade == null) {
+                    fade = AddEase<Fade>();
+                    fade.Add(canvasGroup);
+                }
+
+                // Tell the fade to use a different opacity
+                // and fade time
+                fade.SetOpacities(0f, theme.overlayOpacity);
+                fade.SetDuration(theme.overlayFadeTime);
+            }
         }
 
 #region Hovering/Focusing
@@ -342,35 +342,19 @@ namespace UILib {
 
         /**
          * <summary>
-         * Toggles the visibility of this overlay.
+         * Shows this overlay.
+         *
+         * If you force showing this overlay, the attached ease group
+         * will be forced to ease all the way in immediately.
          * </summary>
+         * <param name="force">Whether to force showing this overlay</param>
          */
-        public override void ToggleVisibility() {
-            if (isVisible == false || fade.fadingOut == true) {
-                Show();
-            }
-            else {
-                Hide();
-            }
-        }
-
-        /**
-         * <summary>
-         * Another show method for force showing, which bypasses
-         * the configured fade duration.
-         * </summary>
-         * <param name="force">Whether to bypass fading</param>
-         */
-        internal void Show(bool force) {
-            // Make sure the game object is enabled first
-            canvas.Show();
-            base.Show();
+        public override void Show(bool force = false) {
+            canvas.Show(true);
+            base.Show(force);
 
             // Bring to the front forcefully
             UIRoot.BringToFront(this, true);
-
-            // Start fading in
-            fade.FadeIn(force);
 
             // Acquire a lock
             if (@lock == null) {
@@ -383,26 +367,15 @@ namespace UILib {
 
         /**
          * <summary>
-         * Makes this overlay visible and
-         * creates a new <see cref="Patches.Lock"/>
-         * with the current <see cref="lockMode"/>.
+         * Hides this overlay.
+         *
+         * If you force hiding this overlay, the attached ease group
+         * will be forced to ease all the way out immediately.
          * </summary>
+         * <param name="force">Whether to force hiding this overlay</param>
          */
-        public override void Show() {
-            Show(false);
-        }
-
-        /**
-         * <summary>
-         * Another hide method for force hiding, which bypasses
-         * the configured fade duration.
-         * </summary>
-         * <param name="force">Whether to bypass fading</param>
-         */
-        internal void Hide(bool force) {
-            if (isVisible == true) {
-                fade.FadeOut(force);
-            }
+        public override void Hide(bool force = false) {
+            base.Hide(force);
 
             // Clear the current lock
             if (@lock != null) {
@@ -413,12 +386,13 @@ namespace UILib {
 
         /**
          * <summary>
-         * Hides this overlay and closes
-         * the internal <see cref="Patches.Lock"/>.
+         * Runs when this overlay finishes hiding itself.
+         * This will run after the ease group finishes easing out.
          * </summary>
          */
-        public override void Hide() {
-            Hide(false);
+        protected override void OnHide() {
+            base.OnHide();
+            canvas.Hide(true);
         }
     }
 }

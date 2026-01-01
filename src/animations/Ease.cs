@@ -59,7 +59,6 @@ namespace UILib.Animations {
             _SetValues(minValue, maxValue);
         }
 
-
         /**
          * <summary>
          * Runs on each iteration of easing.

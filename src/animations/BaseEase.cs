@@ -119,6 +119,18 @@ namespace UILib.Animations {
 
         /**
          * <summary>
+         * Forces the execution of <see cref="OnIter"/>.
+         * This is used by <see cref="EaseGroup"/>
+         * and usually should not be run directly.
+         * </summary>
+         * <param name="time">The time to use for this iteration</param>
+         */
+        public void ForceOnIter(float time) {
+            OnIter(time);
+        }
+
+        /**
+         * <summary>
          * Runs on each iteration of easing.
          * </summary>
          * <param name="time">The current value of the internal timer</param>

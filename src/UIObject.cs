@@ -369,17 +369,6 @@ namespace UILib {
 
         /**
          * <summary>
-         * Runs just when this UIObject starts showing itself.
-         *
-         * Will also run just before the ease group starts easing in.
-         * </summary>
-         */
-        protected virtual void OnShow() {
-            gameObject.SetActive(true);
-        }
-
-        /**
-         * <summary>
          * Runs when this UIObject finishes hiding itself.
          * This will run after the ease group finishes easing out.
          * </summary>
@@ -400,7 +389,7 @@ namespace UILib {
         public virtual void Show(bool force = false) {
             // The object has to be enabled first, otherwise
             // the ease group won't be able to run
-            OnShow();
+            gameObject.SetActive(true);
 
             // Start easing in
             if (easeGroup != null) {

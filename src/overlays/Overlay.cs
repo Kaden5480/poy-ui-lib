@@ -193,7 +193,7 @@ namespace UILib {
          */
         protected override void SetThisTheme(Theme theme) {
             // Only create a canvas group when necessary
-            if (theme.overlayOpacity < 1f) {
+            if (theme.overlayOpacity < 1f || theme.overlayFadeTime > 0f) {
                 if (canvasGroup == null) {
                     canvasGroup = gameObject.AddComponent<CanvasGroup>();
                 }

@@ -199,6 +199,10 @@ namespace UILib.ColorPicker {
          * </summary>
          */
         private void Unlink() {
+            if (updater == null) {
+                return;
+            }
+
             if (updater.current != null) {
                 Color color = Colors.RGBA(
                     updater.red, updater.green,

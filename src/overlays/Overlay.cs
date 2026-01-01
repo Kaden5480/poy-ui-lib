@@ -372,7 +372,7 @@ namespace UILib {
          * </summary>
          * <param name="force">Whether to force showing this overlay</param>
          */
-        public override void Show(bool force = false) {
+        public override void Show(bool force) {
             canvas.Show(true);
             base.Show(force);
 
@@ -397,7 +397,7 @@ namespace UILib {
          * </summary>
          * <param name="force">Whether to force hiding this overlay</param>
          */
-        public override void Hide(bool force = false) {
+        public override void Hide(bool force) {
             base.Hide(force);
 
             // Clear the current lock

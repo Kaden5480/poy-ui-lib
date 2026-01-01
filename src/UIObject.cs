@@ -380,13 +380,33 @@ namespace UILib {
         /**
          * <summary>
          * Shows this UIObject.
+         * Equivalent to calling <see cref="Show(bool)">Show</see>(false).
+         * </summary>
+         */
+        public void Show() {
+            Show(false);
+        }
+
+        /**
+         * <summary>
+         * Shows this UIObject.
+         * Equivalent to calling <see cref="Show(bool)">Show</see>(false).
+         * </summary>
+         */
+        public void Hide() {
+            Hide(false);
+        }
+
+        /**
+         * <summary>
+         * Shows this UIObject.
          *
          * If you force showing this UIObject, the attached ease group (if any)
          * will be forced to ease all the way in immediately.
          * </summary>
          * <param name="force">Whether to force showing this UIObject</param>
          */
-        public virtual void Show(bool force = false) {
+        public virtual void Show(bool force) {
             // The object has to be enabled first, otherwise
             // the ease group won't be able to run
             gameObject.SetActive(true);
@@ -406,7 +426,7 @@ namespace UILib {
          * </summary>
          * <param name="force">Whether to force hiding this UIObject</param>
          */
-        public virtual void Hide(bool force = false) {
+        public virtual void Hide(bool force) {
             // If there is no ease group, the object
             // can safely be disabled immediately
             if (easeGroup == null) {

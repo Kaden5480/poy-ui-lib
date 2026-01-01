@@ -1,3 +1,5 @@
+using System;
+
 using UnityEngine;
 
 using UILib.Behaviours;
@@ -53,6 +55,14 @@ namespace UILib.Animations {
 
         /**
          * <summary>
+         * The easing function this ease will use.
+         * This is unset by default and will be treated as a linear function.
+         * </summary>
+         */
+        public Func<float, float> easeFunction { get; private set; } = null;
+
+        /**
+         * <summary>
          * Sets the current value.
          *
          * This is clamped between <see cref="minValue"/>
@@ -77,6 +87,25 @@ namespace UILib.Animations {
         protected void _SetValues(float minValue, float maxValue) {
             this.minValue = minValue;
             this.maxValue = maxValue;
+        }
+
+        /**
+         * <summary>
+         * Sets the easing function this behaviour will use.
+         *
+         * The easing function must accept a <see cref="float"/> between
+         * 0 and 1 (inclusive).
+         *
+         * The function must also return a <see cref="float"/> between
+         * 0 and 1 (inclusive).
+         *
+         * Providing an `easeFunction` of `null` is equivalent to
+         * using a linear easing function.
+         * </summary>
+         * <param name="easeFunction">The ease function to use</param>
+         */
+        public void SetEaseFunction(Func<float, float> easeFunction) {
+            this.easeFunction = easeFunction;
         }
 
         /**
@@ -151,10 +180,16 @@ namespace UILib.Animations {
             // the minimum and maximum configured values
 
             // This first requires normalising the time
-            float normal = time / duration;
+            float normal = Mathf.Clamp(time / duration, 0f, 1f);
 
-            // Then, the normalised time has to be used to scale the value
-            float value = minValue + (normal * Mathf.Abs(maxValue - minValue));
+            // Then an easing function has to be applied
+            // If the easing function is null, just use
+            // the normalised value directly
+            // (this is equivalent to applying a linear ease)
+            float eased = (easeFunction == null) ? normal : easeFunction(normal);
+
+            // Then, the eased result has to be used to scale the value
+            float value = minValue + (eased * Mathf.Abs(maxValue - minValue));
             _SetValue(value);
         }
 

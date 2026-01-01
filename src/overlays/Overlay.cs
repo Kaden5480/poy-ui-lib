@@ -209,8 +209,8 @@ namespace UILib {
         protected override void SetThisTheme(Theme theme) {
             // Tell the fade to use a different opacity
             // and fade time
-            fade.SetOpacities(max: theme.overlayOpacity);
-            fade.SetFadeTime(theme.overlayFadeTime);
+            fade.SetOpacities(0f, theme.overlayOpacity);
+            fade.SetDuration(theme.overlayFadeTime);
 
             // Update the canvas group
             canvasGroup.alpha = theme.overlayOpacity;

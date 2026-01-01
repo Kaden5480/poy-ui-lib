@@ -133,7 +133,8 @@ namespace UILib.Notifications {
                 Destroy();
             });
 
-            timer.StartTimer(waitTime + fadeTime);
+            timer.SetDuration(waitTime + fadeTime);
+            timer.Start();
         }
 
         /**

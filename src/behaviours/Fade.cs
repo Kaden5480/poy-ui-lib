@@ -6,204 +6,196 @@ using UnityEngine.Events;
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * A behaviour which uses a <see cref="Timer"/> internally
-     * to manage fading in/out `CanvasGroups`.
      * </summary>
      */
-    public class Fade : Timer {
-        /**
-         * <summary>
-         * The currently set length of time fading should take.
-         * </summary>
-         */
-        public float fadeTime { get; private set; } = 0f;
+    public class Fade : BaseTimer {
+        // The canvas groups to fade in/out
+        private List<CanvasGroup> groups = new List<CanvasGroup>();
 
         /**
          * <summary>
-         * The currently set minimum opacity.
+         * The minimum opacity (0-1 inclusive).
          * </summary>
          */
         public float minOpacity { get; private set; } = 0f;
 
         /**
          * <summary>
-         * The currently set maximum opacity.
+         * The maximum opacity (0-1 inclusive).
          * </summary>
          */
         public float maxOpacity { get; private set; } = 1f;
 
         /**
          * <summary>
-         * The opacity the canvas groups are currently at.
+         * The current opacity the canvas groups are set to.
          * </summary>
          */
         public float opacity { get; private set; } = 1f;
 
         /**
          * <summary>
-         * Whether this fade is currently fading in.
+         * Whether this behaviour is currently fading in.
          * </summary>
          */
-        public bool fadingIn { get; private set; } = false;
+        public bool fadingIn {
+            get => running == true && increasing == true;
+        }
 
         /**
          * <summary>
-         * Whether this fade is currently fading out.
+         * Whether this behaviour is currently fading out.
          * </summary>
          */
-        public bool fadingOut { get; private set; } = false;
+        public bool fadingOut {
+            get => running == true && increasing == false;
+        }
 
         /**
          * <summary>
-         * An event which invokes listeners once
-         * fading in has completed entirely.
+         * Invokes listeners once fading in finishes.
          * </summary>
          */
         public UnityEvent onFadeIn { get; } = new UnityEvent();
 
         /**
          * <summary>
-         * An event which invokes listeners once
-         * fading out has completed entirely.
+         * Invokes listeners once fading out finishes.
          * </summary>
          */
         public UnityEvent onFadeOut { get; } = new UnityEvent();
 
-        // Canvas groups to fade in/out
-        private List<CanvasGroup> groups = new List<CanvasGroup>();
-
         /**
          * <summary>
-         * Sets the opacity of all canvas groups.
+         * Adds a canvas group to be managed by this behaviour.
+         *
+         * Adding the group to this behaviour will also immediately
+         * update its alpha value.
          * </summary>
-         * <param name="opacity">The opacity to set</param>
-         */
-        private void SetCurrentOpacity(float opacity) {
-            this.opacity = opacity;
-            foreach (CanvasGroup group in groups) {
-                group.alpha = opacity;
-            }
-        }
-
-        /**
-         * <summary>
-         * Sets up listeners to control opacity.
-         * </summary>
-         */
-        private void Awake() {
-            onIter.AddListener(SetCurrentOpacity);
-
-            onEnd.AddListener(() => {
-                if (fadingIn == true) {
-                    onFadeIn.Invoke();
-                }
-                if (fadingOut == true) {
-                    onFadeOut.Invoke();
-                }
-
-                fadingIn = false;
-                fadingOut = false;
-            });
-        }
-
-        /**
-         * <summary>
-         * Adds a `CanvasGroup` which should have
-         * its `alpha` controlled by this behaviour.
-         * </summary>
+         * <param name="group">The canvas group to add</param>
          */
         public void Add(CanvasGroup group) {
+            if (groups.Contains(group) == true) {
+                logger.LogDebug($"Group was already added: {group}");
+                return;
+            }
+
             groups.Add(group);
         }
 
         /**
          * <summary>
-         * Recalculates the appropriate time scale.
+         * Sets the opacities to fade between.
+         * These opacities must be between 0-1.
          * </summary>
+         * <param name="minOpacity">The minimum opacity</param>
+         * <param name="maxOpacity">The maximum opacity</param>
          */
-        private void CalcTimeScale() {
-            SetTimeScale((maxOpacity - minOpacity) / fadeTime);
+        public void SetOpacities(float minOpacity, float maxOpacity) {
+            this.minOpacity = Mathf.Clamp(minOpacity, 0f, 1f);
+            this.maxOpacity = Mathf.Clamp(maxOpacity, 0f, 1f);
         }
 
         /**
          * <summary>
-         * Sets the minimum and maximum opacities
-         * to fade between.
-         *
-         * Both `min` and `max` must be between 0-1 inclusive.
-         *
-         * If you enter a `min` > `max` they
-         * will be swapped around.
+         * Updates the opacity of all canvas groups.
          * </summary>
-         * <param name="min">The minimum opacity</param>
-         * <param name="max">The maximum opacity</param>
+         * <param name="opacity">The new opacity to use</param>
          */
-        public void SetOpacities(float min = 0f, float max = 1f) {
-            min = Mathf.Clamp(min, 0f, 1f);
-            max = Mathf.Clamp(max, 0f, 1f);
-
-            if (min <= max) {
-                this.minOpacity = min;
-                this.maxOpacity = max;
+        public void SetOpacity(float opacity) {
+            this.opacity = Mathf.Clamp(opacity, 0f, 1f);
+            foreach (CanvasGroup group in groups) {
+                group.alpha = this.opacity;
             }
-            else {
-                // Swap the order
-                this.minOpacity = max;
-                this.maxOpacity = min;
-            }
-
-            CalcTimeScale();
         }
 
         /**
          * <summary>
-         * Sets how long it should take to fade in/out the
-         * `alpha` of the `CanvasGroups`.
+         * Fades the attached canvas groups in.
          * </summary>
-         * <param name="time">The length of time the fade should last</param>
-         */
-        public void SetFadeTime(float time) {
-            this.fadeTime = time;
-            CalcTimeScale();
-        }
-
-        /**
-         * <summary>
-         * Fades the `CanvasGroups` in.
-         * </summary>
-         * <param name="force">Whether to force fading in instantly</param>
+         * <param name="force">Whether to force fading in</param>
          */
         public void FadeIn(bool force = false) {
-            fadingIn = true;
-            fadingOut = false;
+            SetIncreasing(true);
 
-            // Fade in from current opacity
             if (force == true) {
-                SetCurrentOpacity(maxOpacity);
-                onEnd.Invoke();
+                // Stop to prevent the coroutine
+                // potentially conflicting with this logic
+                Stop();
+
+                SetOpacity(maxOpacity);
+                onFadeIn.Invoke();
+                return;
             }
-            else {
-                StartTimer(opacity, maxOpacity);
-            }
+
+            Start();
         }
 
         /**
          * <summary>
-         * Fades the `CanvasGroups` out.
+         * Fades the attached canvas groups out.
          * </summary>
-         * <param name="force">Whether to force fading out instantly</param>
+         * <param name="force">Whether to force fading out</param>
          */
         public void FadeOut(bool force = false) {
-            fadingIn = false;
-            fadingOut = true;
+            SetIncreasing(false);
 
-            // Fade out from current opacity
             if (force == true) {
-                SetCurrentOpacity(minOpacity);
-                onEnd.Invoke();
+                // Stop to prevent the coroutine
+                // potentially conflicting with this logic
+                Stop();
+
+                SetOpacity(minOpacity);
+                onFadeOut.Invoke();
+                return;
+            }
+
+            Start();
+        }
+
+        /**
+         * <summary>
+         * Runs on each iteration of fading.
+         * </summary>
+         * <param name="time">The current value of the internal timer</param>
+         */
+        protected override void OnIter(float time) {
+            base.OnIter(time);
+
+            // If the duration is 0, this needs to be handled
+            // in a very specific way
+            if (duration <= 0f) {
+                // Increasing means fading in to max opacity
+                // Decreasing means fading out to min opacity
+                SetOpacity((increasing == true) ? maxOpacity : minOpacity);
+                return;
+            }
+
+            // Otherwise, the current time has to scale to be between
+            // the minimum and maximum configured opacities
+
+            // This first requires normalising the time
+            float normal = time / duration;
+
+            // Then, the normalised time has to be used to scale the opacity
+            float opacity = minOpacity + (normal * Mathf.Abs(maxOpacity - minOpacity));
+            SetOpacity(opacity);
+        }
+
+        /**
+         * <summary>
+         * Runs when this behaviour finishes fading in/out.
+         * </summary>
+         */
+        protected override void OnEnd() {
+            base.OnEnd();
+
+            // Increasing means fading in
+            if (increasing == true) {
+                onFadeIn.Invoke();
             }
             else {
-                StartTimer(opacity, minOpacity);
+                onFadeOut.Invoke();
             }
         }
     }

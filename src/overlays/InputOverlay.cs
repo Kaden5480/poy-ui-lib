@@ -133,11 +133,11 @@ namespace UILib {
             inputBackground.SetColor(theme.background);
 
             // Only apply opacity to background
-            fade.SetOpacities(max: 1f);
-            canvasGroup.alpha = 1f;
+            fade.SetOpacities(0f, 1f);
+            fade.SetOpacity(1f);
 
             // Use a different fade time
-            fade.SetFadeTime(theme.inputOverlayFadeTime);
+            fade.SetDuration(theme.inputOverlayFadeTime);
 
             Color bg = theme.background;
             bg.a = theme.inputOverlayOpacity;

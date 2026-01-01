@@ -233,7 +233,7 @@ namespace UILib.Behaviours {
          * </summary>
          * <param name="increasing">Whether this timer should be increasing</param>
          */
-        protected virtual void SetIncreasing(bool increasing) {
+        public virtual void SetIncreasing(bool increasing) {
             this.increasing = increasing;
         }
 

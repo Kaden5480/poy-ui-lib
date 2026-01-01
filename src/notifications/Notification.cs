@@ -134,6 +134,8 @@ namespace UILib.Notifications {
             });
 
             timer.SetDuration(waitTime + fadeTime);
+            timer.SetIncreasing(false);
+            timer.SetToEnd();
             timer.StartTimer();
         }
 

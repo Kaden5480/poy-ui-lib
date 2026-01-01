@@ -7,10 +7,10 @@ using UILib.Events;
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * A class which handles mouse input events.
+     * A class which handles events.
      * </summary>
      */
-    internal class MouseHandler: MonoBehaviour,
+    internal class EventHandler: MonoBehaviour,
         IPointerEnterHandler, IPointerExitHandler,
         IPointerDownHandler, IPointerUpHandler,
         IPointerClickHandler,

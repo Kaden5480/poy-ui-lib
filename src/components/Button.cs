@@ -70,7 +70,7 @@ namespace UILib.Components {
         public Button() {
             background = new Image();
             background.SetFill(FillType.All);
-            background.DestroyMouseHandler();
+            background.DestroyEventHandler();
             Add(background);
 
             button = gameObject.AddComponent<UEButton>();
@@ -116,7 +116,7 @@ namespace UILib.Components {
          */
         internal void AddLabel(string text, int fontSize) {
             label = new Label(text, fontSize);
-            label.DestroyMouseHandler();
+            label.DestroyEventHandler();
             label.SetFill(FillType.All);
             Add(label);
         }
@@ -130,7 +130,7 @@ namespace UILib.Components {
         internal void AddImage(Texture2D texture) {
             image = new Image(texture);
             image.SetFill(FillType.All);
-            image.DestroyMouseHandler();
+            image.DestroyEventHandler();
             Add(image);
         }
 

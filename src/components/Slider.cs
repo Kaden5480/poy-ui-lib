@@ -252,16 +252,16 @@ namespace UILib.Components {
 
         /**
          * <summary>
-         * Destroys some mouse handlers which would otherwise
+         * Destroys some event handlers which would otherwise
          * be problematic.
          * </summary>
          */
         private void DestroyHandlers() {
-            background.DestroyMouseHandler();
-            fillArea.DestroyMouseHandler();
-            fill.DestroyMouseHandler();
-            handleArea.DestroyMouseHandler();
-            handle.DestroyMouseHandler();
+            background.DestroyEventHandler();
+            fillArea.DestroyEventHandler();
+            fill.DestroyEventHandler();
+            handleArea.DestroyEventHandler();
+            handle.DestroyEventHandler();
         }
     }
 }

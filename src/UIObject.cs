@@ -115,42 +115,42 @@ namespace UILib {
 
 #region Enable/Hover/Click/Drag Events
 
-        internal MouseHandler mouseHandler { get; private set; }
+        internal Behaviours.EventHandler eventHandler { get; private set; }
 
         /**
          * <summary>
          * Invokes listeners when this UIObject is enabled (shown).
          * </summary>
          */
-        public virtual UnityEvent onEnable { get => mouseHandler.onEnable; }
+        public virtual UnityEvent onEnable { get => eventHandler.onEnable; }
 
         /**
          * <summary>
          * Invokes listeners when this UIObject is disabled (hidden).
          * </summary>
          */
-        public virtual UnityEvent onDisable { get => mouseHandler.onDisable; }
+        public virtual UnityEvent onDisable { get => eventHandler.onDisable; }
 
         /**
          * <summary>
          * Invokes listeners whenever this UIObject is hovered over.
          * </summary>
          */
-        public virtual UnityEvent onPointerEnter { get => mouseHandler.onPointerEnter; }
+        public virtual UnityEvent onPointerEnter { get => eventHandler.onPointerEnter; }
 
         /**
          * <summary>
          * Invokes listeners whenever this UIObject is no longer hovered over.
          * </summary>
          */
-        public virtual UnityEvent onPointerExit { get => mouseHandler.onPointerExit; }
+        public virtual UnityEvent onPointerExit { get => eventHandler.onPointerExit; }
 
         /**
          * <summary>
          * Invokes listeners when the pointer is held down on this UIObject.
          * </summary>
          */
-        public virtual UnityEvent onPointerDown { get => mouseHandler.onPointerDown; }
+        public virtual UnityEvent onPointerDown { get => eventHandler.onPointerDown; }
 
         /**
          * <summary>
@@ -158,21 +158,21 @@ namespace UILib {
          * held down on this UIObject.
          * </summary>
          */
-        public virtual UnityEvent onPointerUp { get => mouseHandler.onPointerUp; }
+        public virtual UnityEvent onPointerUp { get => eventHandler.onPointerUp; }
 
         /**
          * <summary>
          * Invokes listeners whenever this UIObject is clicked.
          * </summary>
          */
-        public virtual UnityEvent onClick { get => mouseHandler.onClick; }
+        public virtual UnityEvent onClick { get => eventHandler.onClick; }
 
         /**
          * <summary>
          * Invokes listeners whenever this UIObject is double clicked.
          * </summary>
          */
-        public virtual UnityEvent onDoubleClick { get => mouseHandler.onDoubleClick; }
+        public virtual UnityEvent onDoubleClick { get => eventHandler.onDoubleClick; }
 
         /**
          * <summary>
@@ -180,7 +180,7 @@ namespace UILib {
          * dragging on this UIObject.
          * </summary>
          */
-        public virtual MouseEvent onBeginDrag { get => mouseHandler.onBeginDrag; }
+        public virtual MouseEvent onBeginDrag { get => eventHandler.onBeginDrag; }
 
         /**
          * <summary>
@@ -188,7 +188,7 @@ namespace UILib {
          * dragging on this UIObject.
          * </summary>
          */
-        public virtual MouseEvent onDrag { get => mouseHandler.onDrag; }
+        public virtual MouseEvent onDrag { get => eventHandler.onDrag; }
 
         /**
          * <summary>
@@ -196,7 +196,7 @@ namespace UILib {
          * stopped dragging on this UIObject.
          * </summary>
          */
-        public virtual MouseEvent onEndDrag { get => mouseHandler.onEndDrag; }
+        public virtual MouseEvent onEndDrag { get => eventHandler.onEndDrag; }
 
 #endregion
 
@@ -268,7 +268,7 @@ namespace UILib {
 
             children = new List<UIObject>();
 
-            mouseHandler = gameObject.AddComponent<MouseHandler>();
+            eventHandler = gameObject.AddComponent<Behaviours.EventHandler>();
             onPointerEnter.AddListener(OnPointerEnter);
             onPointerExit.AddListener(OnPointerExit);
             onPointerDown.AddListener(OnPointerDown);
@@ -680,12 +680,12 @@ namespace UILib {
 
         /**
          * <summary>
-         * Destroys the <see cref="MouseHandler"/> on this object.
+         * Destroys the <see cref="Events.EventHandler"/> on this object.
          * </summary>
          */
-        internal void DestroyMouseHandler() {
-            GameObject.DestroyImmediate(mouseHandler);
-            mouseHandler = null;
+        internal void DestroyEventHandler() {
+            GameObject.DestroyImmediate(eventHandler);
+            eventHandler = null;
         }
 
         /**

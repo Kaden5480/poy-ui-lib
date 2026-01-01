@@ -67,7 +67,7 @@ namespace UILib.Components {
                 }
             });
 
-            preview.DestroyMouseHandler();
+            preview.DestroyEventHandler();
         }
 
         /**

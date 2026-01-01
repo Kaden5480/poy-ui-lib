@@ -97,7 +97,7 @@ namespace UILib.Components {
          * </summary>
          */
         public Picker() {
-            mouseHandler.onClickPos.AddListener(OnClickPos);
+            eventHandler.onClickPos.AddListener(OnClickPos);
 
             background = new Image();
             background.SetFill(FillType.All);
@@ -115,8 +115,8 @@ namespace UILib.Components {
             // Set the theme
             SetThisTheme(theme);
 
-            background.DestroyMouseHandler();
-            handle.DestroyMouseHandler();
+            background.DestroyEventHandler();
+            handle.DestroyEventHandler();
         }
 
         /**

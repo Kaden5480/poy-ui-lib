@@ -84,8 +84,8 @@ namespace UILib.Components {
 
             toggle.targetGraphic = background.image;
 
-            // Destroy mouse handlers
-            background.DestroyMouseHandler();
+            // Destroy event handlers
+            background.DestroyEventHandler();
 
             // Add listeners
             onClick.AddListener(() => {
@@ -159,7 +159,7 @@ namespace UILib.Components {
             this.onImage = onImage;
             Add(onImage);
 
-            onImage.DestroyMouseHandler();
+            onImage.DestroyEventHandler();
 
             toggle.graphic = onImage.image;
         }
@@ -174,7 +174,7 @@ namespace UILib.Components {
             this.offImage = offImage;
             Add(offImage);
 
-            offImage.DestroyMouseHandler();
+            offImage.DestroyEventHandler();
 
             UpdateOffImage(value);
         }

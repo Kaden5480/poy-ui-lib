@@ -103,8 +103,8 @@ namespace UILib.Behaviours {
                 yield return null;
             }
 
-            OnEnd();
             coroutine = null;
+            OnEnd();
             yield break;
         }
 

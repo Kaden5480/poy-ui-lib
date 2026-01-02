@@ -96,6 +96,7 @@ namespace UILib {
                 notificationSource.outputAudioMixerGroup = mixerGroup;
                 notificationErrorSource.outputAudioMixerGroup = mixerGroup;
                 logger.LogDebug("Assigned to SFX mixer group");
+                break;
             }
         }
 

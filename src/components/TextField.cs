@@ -473,6 +473,11 @@ namespace UILib.Components {
             if (text != inputField.text) {
                 internalChange = true;
             }
+
+            if (text == null) {
+                text = "";
+            }
+
             inputField.text = text;
             userInput = text;
         }

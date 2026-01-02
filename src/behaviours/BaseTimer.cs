@@ -93,8 +93,6 @@ namespace UILib.Behaviours {
                 // Perform an iteration
                 OnIter(time);
 
-                // If the timer is decreasing, or is set to be
-                // finite, this can run
                 // If the timer has reached the end time, stop
                 if (time == target) {
                     break;

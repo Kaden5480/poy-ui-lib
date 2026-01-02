@@ -14,21 +14,21 @@ namespace UILib.Animations {
         /**
          * <summary>
          * Invokes listeners on each iteration of easing.
-         * </summary
+         * </summary>
          */
         public ValueEvent<float> onEase { get; } = new ValueEvent<float>();
 
         /**
          * <summary>
          * Invokes listeners when easing in finishes.
-         * </summary
+         * </summary>
          */
         public UnityEvent onEaseIn { get; } = new UnityEvent();
 
         /**
          * <summary>
          * Invokes listeners when easing out finishes.
-         * </summary
+         * </summary>
          */
         public UnityEvent onEaseOut { get; } = new UnityEvent();
 

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace UILib.Behaviours {
     /**
      * <summary>
-     * A reversible timer which always goes between 0 and 1.
+     * A reversible timer which always goes between 0 and a set <see cref="duration"/>.
      * </summary>
      */
     public abstract class BaseTimer : MonoBehaviour {
@@ -139,7 +139,7 @@ namespace UILib.Behaviours {
          * <summary>
          * Starts the timer.
          *
-         * The timer will continue running from its current time.
+         * The timer will continue running from its current <see cref="time"/>.
          * If the timer routine is already running, this method does nothing.
          * </summary>
          */
@@ -166,8 +166,7 @@ namespace UILib.Behaviours {
          *
          * If the timer is set to be <see cref="increasing"/>, the timer
          * will start from `0`.
-         * If the timer is seto to be <see cref="decreasing"/>, the timer
-         * will start from <see cref="duration"/>.
+         * Otherwise, the timer will start from <see cref="duration"/>.
          * </summary>
          */
         public virtual void RestartTimer() {
@@ -258,7 +257,7 @@ namespace UILib.Behaviours {
          * <summary>
          * Sets the <see cref="time"/> to a specific value.
          *
-         * This must be between `0` and the configured <see cref="duration"/>
+         * This must be between `0` and the configured <see cref="duration"/>.
          * </summary>
          * <param name="time">The value to set the time to</param>
          */
@@ -268,7 +267,7 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Sets the time to `0`.
+         * Sets the <see cref="time"/> to `0`.
          * </summary>
          */
         public void SetToStart() {
@@ -277,7 +276,7 @@ namespace UILib.Behaviours {
 
         /**
          * <summary>
-         * Sets the time to the <see cref="duration"/>.
+         * Sets the <see cref="time"/> to the <see cref="duration"/>.
          * </summary>
          */
         public void SetToEnd() {

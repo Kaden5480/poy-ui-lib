@@ -119,6 +119,22 @@ namespace UILibExamples {
 
             // Force the ease group to the start
             easeGroup.EaseOut(true);
+
+            // Some things to note:
+            // You don't have to use `EaseGroups`, you also don't have to use
+            // `SetEaseFunction` or `SetValues` on `Ease` behaviours.
+            //
+            // If you wanted to, you could leave the `Ease` behaviours going
+            // between 0 and 1 linearly, and then within `onEase` apply some
+            // more advanced logic, or combine multiple `Ease` behaviours into
+            // one using this (removing the need for `EaseGroups`).
+            //
+            // You could still use `SetDuration` though, since that just determines
+            // how long interpolating from 0 to 1 will take.
+            //
+            // This example won't demonstrate how to do that, since it is a more
+            // specialised use case. The `Ease`/`EaseGroup` API is meant to
+            // exist for the purposes of simplicity.
         }
 
         public override void Toggle() {

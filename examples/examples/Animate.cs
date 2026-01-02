@@ -22,7 +22,8 @@ namespace UILibExamples {
         public Animate() {
             Theme theme = Theme.GetTheme();
             // Ignore the theme's fade settings
-            // for this example, use a custom fade time instead
+            // for this example, use a custom fade
+            // time and function instead
             theme.overlayFadeTime = 0.6f;
             theme.overlayFadeFunction = Curves.EaseInExp;
 

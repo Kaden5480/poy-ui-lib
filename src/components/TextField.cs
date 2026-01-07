@@ -363,6 +363,15 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Initializes an empty text field using the provided
+         * font size.
+         * </summary>
+         * <param name="fontSize">The font size to use</param>
+         */
+        public TextField(int fontSize) : this("", fontSize) {}
+
+        /**
+         * <summary>
          * Sets when this text field should clear the user input
          * and its value.
          *

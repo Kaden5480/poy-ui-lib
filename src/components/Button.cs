@@ -99,6 +99,17 @@ namespace UILib.Components {
 
         /**
          * <summary>
+         * Initializes a button with an empty label using
+         * the provided font size.
+         * </summary>
+         * <param name="fontSize">The font size for the text</param>
+         */
+        public Button(int fontSize) : this() {
+            AddLabel("", fontSize);
+        }
+
+        /**
+         * <summary>
          * Initializes a button with a texture.
          * </summary>
          * <param name="texture">The texture to add to this button</param>

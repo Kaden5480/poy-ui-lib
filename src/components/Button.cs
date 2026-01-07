@@ -104,9 +104,7 @@ namespace UILib.Components {
          * </summary>
          * <param name="fontSize">The font size for the text</param>
          */
-        public Button(int fontSize) : this() {
-            AddLabel("", fontSize);
-        }
+        public Button(int fontSize) : this("", fontSize) {}
 
         /**
          * <summary>

@@ -72,6 +72,18 @@ namespace UILib.Animations {
 
         /**
          * <summary>
+         * Adds an ease behaviour of type `T` to be controlled by this group.
+         * </summary>
+         * <returns>The ease behaviour which was added</returns>
+         */
+        public T Add<T>() where T : BaseEase {
+            T ease = gameObject.AddComponent<T>();
+            Add(ease);
+            return ease;
+        }
+
+        /**
+         * <summary>
          * Updates the total duration based upon the
          * currently added ease behaviours.
          * </summary>

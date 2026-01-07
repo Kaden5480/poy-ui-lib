@@ -70,7 +70,9 @@ namespace UILibExamples {
             easeGroup = overlay.gameObject.AddComponent<EaseGroup>();
 
             // Add an ease behaviour to change the offset
-            Ease offsetEase = overlay.gameObject.AddComponent<Ease>();
+            // This is a bit of a shorthand which adds to the same
+            // GameObject the ease group is on
+            Ease offsetEase = easeGroup.Add<Ease>();
             offsetEase.SetDuration(1f);
             offsetEase.SetEaseFunction(Curves.EaseInSine);
             offsetEase.SetValues(minOffset, maxOffset);
@@ -80,14 +82,16 @@ namespace UILibExamples {
                 overlay.SetOffset(20f + offset, offset / 2);
             });
 
-            // Add to the ease group
-            easeGroup.Add(offsetEase);
+
+            // You can also add ease behaviours to arbitrary GameObjects
+            // and then add them to the ease group manually afterwards
+            // like shown below
 
             // Add an ease for controlling rotation
             Ease rotationEase = overlay.gameObject.AddComponent<Ease>();
 
             // The duration could be shorter/longer, it would still work
-            // Ease groups only finish once all eases have finished
+            // Ease groups only finish once all added eases have finished
             rotationEase.SetDuration(1f);
             rotationEase.SetValues(0f, 360f);
             rotationEase.SetEaseFunction(Curves.EaseInOutQuad);
@@ -96,6 +100,8 @@ namespace UILibExamples {
                     0f, 0f, rotation
                 );
             });
+
+            // Add the ease to the group manually
             easeGroup.Add(rotationEase);
 
             // Force the ease group to the start

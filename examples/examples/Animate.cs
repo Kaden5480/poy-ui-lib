@@ -38,12 +38,14 @@ namespace UILibExamples {
             background.SetElementSpacing(10f);
             overlay.Add(background);
 
-            // If you only care about apply animations when a UIObject is shown/hidden,
+            // If you only care about applying animations when any UIObject
+            // (in this case an overlay) is shown/hidden,
             // you can add any `BaseEase` like so
             Ease showHideEase = overlay.AddEase<Ease>();
+
             // 1 second
             showHideEase.SetDuration(1f);
-            // Ease in/out exponentially
+            // Ease exponentially
             showHideEase.SetEaseFunction(Curves.EaseInOutExp);
             // Ease in from -200 up to 20
             showHideEase.SetValues(-200f, 20f);
@@ -54,7 +56,7 @@ namespace UILibExamples {
             });
 
             // There's no need to run `showHideEase` manually, as it's controlled
-            // when the UIObject is shown/hidden
+            // when the overlay is shown/hidden
 
             //
             // If you want to make custom animations that run whenever, see
@@ -67,31 +69,10 @@ namespace UILibExamples {
             // cases
             easeGroup = overlay.gameObject.AddComponent<EaseGroup>();
 
-            // Add buttons to control easing
-            UIButton easeInButton = new UIButton("Ease in", 20);
-            easeInButton.SetSize(160f, 30f);
-            easeInButton.onClick.AddListener(() => {
-                easeGroup.EaseIn();
-            });
-            background.Add(easeInButton);
-
-            UIButton easeOutButton = new UIButton("Ease out", 20);
-            easeOutButton.SetSize(160f, 30f);
-            easeOutButton.onClick.AddListener(() => {
-                easeGroup.EaseOut();
-            });
-            background.Add(easeOutButton);
-
             // Add an ease behaviour to change the offset
             Ease offsetEase = overlay.gameObject.AddComponent<Ease>();
-
-            // Make the change take 1 second
             offsetEase.SetDuration(1f);
-
-            // Use a custom ease function
             offsetEase.SetEaseFunction(Curves.EaseInSine);
-
-            // Ease between these two offsets
             offsetEase.SetValues(minOffset, maxOffset);
 
             // On each iteration, apply an offset
@@ -119,6 +100,21 @@ namespace UILibExamples {
 
             // Force the ease group to the start
             easeGroup.EaseOut(true);
+
+            // Add buttons to control easing
+            UIButton easeInButton = new UIButton("Ease in", 20);
+            easeInButton.SetSize(160f, 30f);
+            easeInButton.onClick.AddListener(() => {
+                easeGroup.EaseIn();
+            });
+            background.Add(easeInButton);
+
+            UIButton easeOutButton = new UIButton("Ease out", 20);
+            easeOutButton.SetSize(160f, 30f);
+            easeOutButton.onClick.AddListener(() => {
+                easeGroup.EaseOut();
+            });
+            background.Add(easeOutButton);
 
             // Some things to note:
             // You don't have to use `EaseGroups`, you also don't have to use

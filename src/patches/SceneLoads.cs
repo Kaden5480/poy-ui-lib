@@ -203,6 +203,9 @@ namespace UILib.Patches {
             }
         }
 
+#if GOG
+#else
+
         /**
          * <summary>
          * Custom level full playtest/normal play.
@@ -243,6 +246,8 @@ namespace UILib.Patches {
             }
         }
 
+#endif
+
         /**
          * <summary>
          * The normal Unity scene load.
@@ -264,12 +269,15 @@ namespace UILib.Patches {
             if (scene.buildIndex != 69) {
                 Invoke(unloadListeners, SceneType.BuiltIn);
             }
+#if GOG
+#else
             else if (CustomLevelManager.control.LoadLevel_Play == true) {
                 Invoke(unloadListeners, SceneType.Custom);
             }
             else {
                 Invoke(unloadListeners, SceneType.Editor);
             }
+#endif
         }
     }
 }

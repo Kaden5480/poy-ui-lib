@@ -26,6 +26,8 @@ namespace UILib.Patches {
             @lock = null;
         }
 
+#if GOG
+#else
         /**
          * <summary>
          * Patches the workbench in the workshop, making sure
@@ -54,6 +56,8 @@ namespace UILib.Patches {
         private static void EditBooksDisable() {
             CloseLock(ref editorBenchLock);
         }
+
+#endif
 
         /**
          * <summary>

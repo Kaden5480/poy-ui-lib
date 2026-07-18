@@ -15,11 +15,15 @@ namespace UILib.Patches {
         [HarmonyPatch(typeof(AdvancedJournal),                 "Update")]
         [HarmonyPatch(typeof(AdvancedPeakSelection),           "Update")]
         [HarmonyPatch(typeof(Category4Journal),                "Update")]
-        [HarmonyPatch(typeof(CustomPeakJournal_PeakSelection), "Update")]
         [HarmonyPatch(typeof(IntermediateJournal),             "Update")]
         [HarmonyPatch(typeof(IntermediatePeakSelection),       "Update")]
         [HarmonyPatch(typeof(PeakJournal),                     "Update")]
         [HarmonyPatch(typeof(PeakSelection),                   "Update")]
+
+#if GOG
+#else
+        [HarmonyPatch(typeof(CustomPeakJournal_PeakSelection), "Update")]
+#endif
 
         // Alps Ticket
         [HarmonyPatch(typeof(AlpsGateway), "Update")]

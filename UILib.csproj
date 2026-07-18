@@ -62,8 +62,10 @@
     </Reference>
   </ItemGroup>
 
-  <PropertyGroup Condition="$(ModMenu) != false">
-    <DefineConstants>MODMENU</DefineConstants>
+  <PropertyGroup>
+    <DefineConstants Condition="$(ModMenu) != false">$(DefineConstants);MODMENU</DefineConstants>
+    <DefineConstants Condition="$(GOG) == true">$(DefineConstants);GOG</DefineConstants>
+    <DefineConstants Condition="'$(ExtraConstants)' != ''">$(DefineConstants);$(ExtraConstants)</DefineConstants>
   </PropertyGroup>
 
   <Target

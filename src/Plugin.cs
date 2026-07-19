@@ -20,7 +20,11 @@ using UILib.Patches;
 using UIButton = UILib.Components.Button;
 
 namespace UILib {
+#if GOG
+    [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UILib (GOG)", PluginInfo.PLUGIN_VERSION)]
+#else
     [BepInPlugin("com.github.Kaden5480.poy-ui-lib", "UILib", PluginInfo.PLUGIN_VERSION)]
+#endif
     internal class Plugin : BaseUnityPlugin {
         internal static Plugin instance { get; private set; }
 

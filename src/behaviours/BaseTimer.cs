@@ -49,7 +49,7 @@ namespace UILib.Behaviours {
          * a lower time scale means a slower timer.
          * </summary>
          */
-        protected float timeScale { get; private set; } = 1f;
+        public float timeScale { get; private set; } = 1f;
 
         /**
          * <summary>
@@ -60,7 +60,7 @@ namespace UILib.Behaviours {
          * Decreasing means the timer is heading towards `0`.
          * </summary>
          */
-        protected bool increasing { get; private set; } = true;
+        public bool increasing { get; private set; } = true;
 
         /**
          * <summary>

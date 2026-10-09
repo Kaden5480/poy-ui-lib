@@ -10,14 +10,8 @@ VERSION="$(git describe --abbrev=0 | tr -d  "v")"
 BP_NAME="$MOD_NAME-$VERSION-BepInEx"
 BP_DIR="build/$BP_NAME"
 
-EXTRA_ARGS=""
 
-if [ "$1" = "gog" ]; then
-    BP_NAME="$BP_NAME-GOG"
-    EXTRA_ARGS="-p:ExtraConstants=GOG"
-fi
-
-dotnet build -c Release "$EXTRA_ARGS"
+dotnet build -c Release
 
 mkdir -p "$BP_DIR"/plugins
 

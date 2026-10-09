@@ -7,9 +7,6 @@ namespace UILib.Patches {
      * </summary>
      */
     internal static class EditorFixes {
-
-#if GOG
-#else
         /**
          * <summary>
          * Prevents using the majority of peak editor controls
@@ -42,8 +39,5 @@ namespace UILib.Patches {
 
             return true;
         }
-
-#endif
-
     }
 }

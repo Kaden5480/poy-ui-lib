@@ -69,10 +69,6 @@ The configuration file must be in the root of this repository and must be called
     <!-- Add this option if you want to disable mod menu integration
         This is useful for bootstrapping UILib -->
     <ModMenu>false</ModMenu>
-
-    <!-- Add this option if you're trying to build this mod against the
-        GOG version of Peaks of Yore -->
-    <GOG>true</GOG>
   </PropertyGroup>
 </Project>
 ```

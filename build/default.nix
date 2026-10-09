@@ -11,6 +11,5 @@ in
 
         shellHook = ''
         ./build.sh
-        ./build.sh gog
         '';
     }
